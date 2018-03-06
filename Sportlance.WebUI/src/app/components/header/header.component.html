@@ -1,0 +1,9 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <p-autoComplete [(ngModel)]="country" [suggestions]="filteredCountriesSingle" (completeMethod)="filterCountrySingle($event)" [size]="30"
+                    placeholder="Countries" [minLength]="1"></p-autoComplete>
+    <span class="example-spacer"></span>
+    <a href="" (click)="loginAsync()">Вход</a>
+    <a href="" (click)="registerAsync()">Регистрация</a>
+  </mat-toolbar-row>
+</mat-toolbar>
