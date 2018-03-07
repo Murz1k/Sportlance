@@ -1,0 +1,6 @@
+section:first-child {
+  height: 90vh;
+}
+section {
+  height: 100vh;
+}
