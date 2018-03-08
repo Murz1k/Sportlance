@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using Sportlance.DAL.Core;
 
 namespace Sportlance.DAL.Entities
 {
-    public class Sport: IEntityWithId
+    public class Trainer : IEntityWithId
     {
         public long Id { get; set; }
 
-        [Required]
-        public string Name { get; set; }
+        public long UserId { get; set; }
+
+        public User User { get; set; }
 
         public IReadOnlyCollection<TrainerSports> TrainerSports { get; set; }
     }

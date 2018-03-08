@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Sportlance.BLL.Interfaces;
 using Sportlance.BLL.Services;
@@ -27,13 +26,11 @@ namespace Sportlance.WebAPI
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            //services.Configure<SiteOptions>(Configuration);
+            
             services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
 
             ConfigureCorsPolicy(services);
@@ -45,13 +42,12 @@ namespace Sportlance.WebAPI
             services.AddTransient(x => AppDBContext.CreateEditable(dbOptions));
             services.AddTransient(x => AppDBContext.CreateReadOnly(dbOptions));
 
-            services.AddSingleton<ISportService, SportService>();
-
             services.AddTransient<ISportRepository, SportRepository>();
+            services.AddTransient<ITrainerRepository, TrainerRepository>();
+            services.AddTransient<ISportService, SportService>();
+            services.AddTransient<ITrainerService, TrainerService>();
         }
-
-
-
+        
         private void ConfigureCorsPolicy(IServiceCollection services)
         {
             var sp = services.BuildServiceProvider();
@@ -75,8 +71,7 @@ namespace Sportlance.WebAPI
 
             services.AddCors(options => { options.AddPolicy(CorsPolicyName, corsPolicyBuilder.Build()); });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -84,8 +79,9 @@ namespace Sportlance.WebAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
             app.UseCors(CorsPolicyName);
+
+            app.UseMvc();
         }
     }
 }

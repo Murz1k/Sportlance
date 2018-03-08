@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Entities;
@@ -16,7 +17,10 @@ namespace Sportlance.BLL.Services
             _repository = repository;
         }
 
-        public Task<IReadOnlyCollection<Sport>> GetAllAsync()
-            => _repository.GetAllAsync();
+        public async Task<IReadOnlyCollection<Sport>> GetAllAsync()
+        {
+            var sports = await _repository.GetAllAsync();
+            return sports.OrderBy(i => i.Name).ToArray();
+        }
     }
 }

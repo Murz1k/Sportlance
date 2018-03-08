@@ -1,20 +1,26 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SportService} from "../../services/sport.service";
 import {Sport} from "../../services/sport";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
-  country: string;
+  async ngOnInit() {
+    const response = await this.sportService.getSportsAsync();
+    this.sports = response.items;
+  }
 
-  countries: string[] = ['Russia', 'USA', 'France'];
+  sport: Sport;
 
-  filteredCountriesSingle: any[];
+  sports: Sport[];
+
+  filteredCountriesSingle: Sport[];
 
   constructor(private router: Router,
               private sportService: SportService) {
@@ -22,15 +28,12 @@ export class HeaderComponent {
 
   async filterCountrySingle(event) {
     let query = event.query;
-    // this.countryService.getCountries().then(countries => {
-    const sports = await this.sportService.getSportsAsync();
-    this.filteredCountriesSingle = this.filterCountry(query, sports);
-    // });
+    this.filteredCountriesSingle = this.filterCountry(query, this.sports);
   }
 
-  filterCountry(query, countries: Sport[]): any[] {
+  filterCountry(query, countries: Sport[]): Sport[] {
     //in a real application, make a request to a remote url with the query and return filtered results, for demo we filter at client side
-    let filtered: any[] = [];
+    let filtered: Sport[] = [];
     for (let i = 0; i < countries.length; i++) {
       let country = countries[i];
       if (country.name.toLowerCase().indexOf(query.toLowerCase()) >= 0) {
@@ -46,5 +49,12 @@ export class HeaderComponent {
 
   async registerAsync() {
     await this.router.navigate(['/register']);
+  }
+
+  async submitAsync(event){
+    if(event.keyCode == 13 && !isNullOrUndefined(this.sport.id)) {
+      debugger
+      await this.router.navigate(['/register']);
+    }
   }
 }

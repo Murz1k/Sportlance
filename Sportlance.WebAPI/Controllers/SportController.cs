@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Entities;
+using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
@@ -18,10 +18,13 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IReadOnlyCollection<Sport>> GetAll()
+        public async Task<CollectionResponse<Sport>> GetAll()
         {
-            return await _service.GetAllAsync();
+            var sports = await _service.GetAllAsync();
+            return new CollectionResponse<Sport>
+            {
+                Items = sports
+            };
         }
-
     }
 }

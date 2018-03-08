@@ -4,7 +4,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './components/header/header.component';
@@ -21,6 +22,7 @@ import {SportService} from './services/sport.service';
   ],
   imports: [
     BrowserModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot([{path: '', component: RootComponent}]),
     MatToolbarModule,
     FormsModule,

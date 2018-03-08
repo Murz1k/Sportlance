@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <p-autoComplete [(ngModel)]="country" [suggestions]="filteredCountriesSingle" field="name" (completeMethod)="filterCountrySingle($event)" [size]="30"
-                    placeholder="Countries" [minLength]="1"></p-autoComplete>
+    <p-autoComplete (keydown)="submitAsync($event)" [(ngModel)]="sport" [suggestions]="filteredCountriesSingle" field="name" (completeMethod)="filterCountrySingle($event)" [size]="30"
+                    placeholder="Найти вид спорта" [minLength]="1"></p-autoComplete>
     <span class="example-spacer"></span>
     <a href="" (click)="loginAsync()">Вход</a>
     <a href="" (click)="registerAsync()">Регистрация</a>

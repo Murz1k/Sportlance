@@ -9,6 +9,9 @@ namespace Sportlance.DAL.Core
     public interface IEditableDataContext : IDisposable
     {
         DbSet<User> Users { get; }
+        DbSet<Trainer> Trainers { get; }
+        DbSet<Sport> Sports { get; }
+        DbSet<TrainerSports> TrainerSports { get; }
 
         Task<int> SaveAsync();
         EntityEntry<T> Entity<T>(T x) where T : class;

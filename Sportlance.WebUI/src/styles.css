@@ -1,4 +1,5 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~bootstrap/dist/css/bootstrap.css";
 @import '../node_modules/primeng/resources/themes/omega/theme.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
 
@@ -16,4 +17,8 @@ header a{
   text-decoration: none;
   color: white;
   padding-right: 1em;
+}
+
+header mat-toolbar{
+  position: fixed;
 }

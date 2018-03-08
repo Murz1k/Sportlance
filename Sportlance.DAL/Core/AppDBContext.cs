@@ -13,10 +13,17 @@ namespace Sportlance.DAL.Core
             : base(options)
         {
         }
+        IQueryable<Trainer> IReadOnlyDataContext.Trainers => Trainers.AsNoTracking();
+
+        IQueryable<TrainerSports> IReadOnlyDataContext.TrainerSports => TrainerSports.AsNoTracking();
 
         IQueryable<User> IReadOnlyDataContext.Users => Users.AsNoTracking();
 
         IQueryable<Sport> IReadOnlyDataContext.Sports => Sports.AsNoTracking();
+
+        public DbSet<Trainer> Trainers { get; set; }
+
+        public DbSet<TrainerSports> TrainerSports { get; set; }
 
         public DbSet<User> Users { get; set; }
 
@@ -71,15 +78,15 @@ namespace Sportlance.DAL.Core
             //            .HasMany(s => s.AreaScorings)
             //            .WithOne(a => a.Scoring);
 
-            //modelBuilder.Entity<VotingProject>()
-            //            .HasKey(v => new { v.ProjectId, v.VotingId });
+            modelBuilder.Entity<TrainerSports>()
+                        .HasKey(v => new { v.SportId, v.TrainerId });
 
             //modelBuilder.Entity<VotingProject>()
             //            .HasIndex(v => new { v.ProjectId, v.VotingId });
 
-            //modelBuilder.Entity<User>()
-            //            .HasIndex(u => u.Email)
-            //            .IsUnique();
+            modelBuilder.Entity<User>()
+                        .HasIndex(u => u.Email)
+                        .IsUnique();
 
             //modelBuilder.Entity<User>()
             //            .HasIndex(u => u.Address)
@@ -112,15 +119,23 @@ namespace Sportlance.DAL.Core
             //modelBuilder.Entity<ExpertArea>()
             //            .HasKey(u => new { u.ExpertId, u.AreaId });
 
+            modelBuilder.Entity<Trainer>()
+                        .HasMany(c => c.TrainerSports)
+                        .WithOne(e => e.Trainer);
+            
+            modelBuilder.Entity<Sport>()
+                .HasMany(c => c.TrainerSports)
+                .WithOne(e => e.Sport);
+
             //modelBuilder.Entity<Expert>()
             //            .HasMany(c => c.ExpertAreas)
             //            .WithOne(e => e.Expert)
             //            .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<User>()
-            //            .HasOne(r => r.Expert)
-            //            .WithOne(r => r.User)
-            //            .HasForeignKey<Expert>(u => u.UserId);
+            modelBuilder.Entity<User>()
+                        .HasOne(r => r.Trainer)
+                        .WithOne(r => r.User)
+                        .HasForeignKey<Trainer>(u => u.UserId);
 
             //modelBuilder.Entity<AreaScoring>()
             //            .HasKey(e => new { e.ScoringId, e.AreaId });
