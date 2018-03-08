@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <p-autoComplete [(ngModel)]="country" [suggestions]="filteredCountriesSingle" (completeMethod)="filterCountrySingle($event)" [size]="30"
+    <p-autoComplete [(ngModel)]="country" [suggestions]="filteredCountriesSingle" field="name" (completeMethod)="filterCountrySingle($event)" [size]="30"
                     placeholder="Countries" [minLength]="1"></p-autoComplete>
     <span class="example-spacer"></span>
     <a href="" (click)="loginAsync()">Вход</a>

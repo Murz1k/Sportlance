@@ -9,3 +9,19 @@ D:\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebA
 D:\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.AssemblyInfo.cs
 D:\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.dll
 D:\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.pdb
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.WebAPI.deps.json
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.WebAPI.runtimeconfig.json
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.WebAPI.runtimeconfig.dev.json
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.WebAPI.dll
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.WebAPI.pdb
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.csprojResolveAssemblyReference.cache
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.csproj.CoreCompileInputs.cache
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.AssemblyInfoInputs.cache
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.AssemblyInfo.cs
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.dll
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.pdb
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.DAL.dll
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.DAL.pdb
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\obj\Debug\netcoreapp2.0\Sportlance.WebAPI.csproj.CopyComplete
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.BLL.dll
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\Sportlance\Sportlance.WebAPI\bin\Debug\netcoreapp2.0\Sportlance.BLL.pdb

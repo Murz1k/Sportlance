@@ -1,6 +1,8 @@
-﻿namespace Sportlance.DAL.Entities
+﻿using Sportlance.DAL.Core;
+
+namespace Sportlance.DAL.Entities
 {
-    public class User
+    public class User: IEntityWithId
     {
         public long Id { get; set; }
     }
