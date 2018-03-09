@@ -5,7 +5,11 @@
 
 
 body{
-  font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  font-family: Gotham SSm,Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  line-height: 1.42857;
+  color: #222;
+  background-color: #f2f2f2;
   margin: 0;
 }
 
@@ -13,10 +17,27 @@ body{
   flex: 1 1 auto;
 }
 
+.mat-toolbar.mat-primary {
+  font-family: Gotham SSm,Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  line-height: 1.42857;
+  color: #222;
+  background-color: #fff;
+  min-height: 55px;
+  box-shadow: 0 1px 6px rgba(57,73,76,.35);
+  z-index: 10;
+}
+
 header a{
   text-decoration: none;
-  color: white;
   padding-right: 1em;
+  font-size: 12px;
+  line-height: 12px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 header mat-toolbar{

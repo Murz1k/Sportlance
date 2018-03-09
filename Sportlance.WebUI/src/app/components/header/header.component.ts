@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {SportService} from "../../services/sport.service";
 import {Sport} from "../../services/sport";
 import {isNullOrUndefined} from "util";
+import {Paths} from '../../paths';
 
 @Component({
   selector: 'header',
@@ -12,7 +13,7 @@ import {isNullOrUndefined} from "util";
 export class HeaderComponent implements OnInit {
 
   async ngOnInit() {
-    const response = await this.sportService.getSportsAsync();
+    const response = await this.sportService.getAllAsync();
     this.sports = response.items;
   }
 
@@ -53,8 +54,7 @@ export class HeaderComponent implements OnInit {
 
   async submitAsync(event){
     if(event.keyCode == 13 && !isNullOrUndefined(this.sport.id)) {
-      debugger
-      await this.router.navigate(['/register']);
+      await this.router.navigate([Paths.Trainers + '/' + this.sport.id]);
     }
   }
 }

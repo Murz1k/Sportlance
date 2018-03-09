@@ -7,5 +7,6 @@ namespace Sportlance.DAL.Interfaces
     public interface ISportRepository
     {
         Task<IReadOnlyCollection<Sport>> GetAllAsync();
+        Task<Sport> GetByIdAsync(long sportId);
     }
 }

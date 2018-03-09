@@ -22,5 +22,10 @@ namespace Sportlance.BLL.Services
             var sports = await _repository.GetAllAsync();
             return sports.OrderBy(i => i.Name).ToArray();
         }
+
+        public Task<Sport> GetById(long sportId)
+        {
+            return _repository.GetByIdAsync(sportId);
+        }
     }
 }

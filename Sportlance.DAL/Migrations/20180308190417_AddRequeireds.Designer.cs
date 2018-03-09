@@ -12,9 +12,10 @@ using System;
 namespace Sportlance.DAL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180308190417_AddRequeireds")]
+    partial class AddRequeireds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,16 +39,6 @@ namespace Sportlance.DAL.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("PhotoUrl");
-
-                    b.Property<string>("SecondName");
 
                     b.Property<long>("UserId");
 

@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="oSearchHeader row m-lg-top">
+    <div class="col-xs-9">
+      <h1 class="ellipsis m-0-top-bottom" title="C# Freelancers">{{currentSport.name}} Тренеры</h1>
+    </div>
+    <div class="col-xs-3 text-right">
+      <a href="/signup/?dest=job-posting" class="btn btn-primary m-0 pull-right">Начни тренироваться сейчас!</a>
+    </div>
+  </div>
+  <div class="air-card">
+    <section *ngFor="let trainer of trainers">
+      <div>
+        <article class="row">
+          <div class="col-md-2">
+            <div class="row">
+              <div class="col-md-10">
+                <div style="position: relative;">
+                  <a href="/o/profiles/users/_~01f032e02bf502ada0" title="{{trainer.firstName}} {{trainer.secondName}}">
+                    <img
+                      src="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&amp;Expires=2147483647&amp;Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
+                      alt="Svetoslav V.'s avatar" class="avatar vertical-align-middle avatar-lg m-0">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 p-0-left">
+            <h4 class="m-0-top-bottom ellipsis">
+              <a href="/o/profiles/users/_~01f032e02bf502ada0" class="freelancer-tile-name" title="{{trainer.firstName}} {{trainer.secondName}}">
+                {{trainer.firstName}} {{trainer.secondName}}
+              </a>
+            </h4>
+            <!--Title-->
+            <div class="m-0-top-bottom">
+              <h4 class="m-0 freelancer-tile-title ellipsis">Senior Mobile Developer (Swift/ Unity/ React Native)</h4>
+            </div>
+            <div class="row m-sm-top m-0-bottom">
+              <div class="col-md-3 p-0-right">
+                <div><strong>$50.00</strong> <!----><span class="text-muted">/ hr</span><!---->
+                </div>
+              </div>
+              <div class="col-md-3 p-0-right">
+              </div>
+              <div class="col-md-3 p-0-right">
+                <div><!---->
+                  <div class="no-wrap freelancer-tile-location ellipsis"
+                  ><span
+                    class="glyphicon air-icon-location text-muted m-0-left m-xs-right"></span> <strong
+                    class="hidden-xs"
+                    title="Bulgaria">{{trainer.country}}, {{trainer.city}} </strong>
+                  </div>
+                  <!----></div>
+              </div>
+            </div>
+            <div class="row m-sm-top m-0-bottom">
+              <div class="col-md-12">
+                <div><!----><p class="p-0-left m-0 freelancer-tile-description">
+                  Hello EveryOne.
+                  I'm Full Stack C# Developer and my speciality is Xamarin/Swift/Unity.
+                  I give you the full development cycle from technical specification to appl ...</p><!----><!----></div>
+
+              </div>
+            </div>
+            <!--Skills-->
+            <span>
+                                <a class="o-tag-skill m-sm-top m-0-bottom" target="_self"
+                                   href="/hire/swift-freelancers/">
+                    <span>Swift</span>
+                                            <span aria-hidden="true"
+                                                  class="glyphicon air-icon-complete m-xs-left m-0-right"></span>
+                                    </a>
+                            </span>
+            <span>
+                                <a class="o-tag-skill m-sm-top m-0-bottom" target="_self"
+                                   href="/hire/objective-c-developers/">
+                    <span>Obje<em>c</em>tive-<em>C</em></span>
+                                            <span aria-hidden="true"
+                                                  class="glyphicon air-icon-complete m-xs-left m-0-right"></span>
+                                    </a>
+                            </span>
+            <span>
+                                <a class="o-tag-skill m-sm-top m-0-bottom" target="_self" href="/hire/php-developers/">
+                    <span>PHP</span>
+                                            <span aria-hidden="true"
+                                                  class="glyphicon air-icon-complete m-xs-left m-0-right"></span>
+                                    </a>
+                            </span>
+            <span>
+                                <a class="o-tag-skill m-sm-top m-0-bottom" target="_self"
+                                   href="/hire/cocoa-freelancers/">
+                    <span>Cocoa</span>
+                                            <span aria-hidden="true"
+                                                  class="glyphicon air-icon-complete m-xs-left m-0-right"></span>
+                                    </a>
+                            </span>
+            <a class="btn btn-link m-0 p-0" title="6 more" href="/o/profiles/users/_~01f032e02bf502ada0">6 more</a>
+            <div class="row m-sm-top m-0-bottom">
+              <!--Tests & Portfolio-->
+              <div class="col-md-10">
+                <div class="row">
+                  <small class="col-md-2 p-0-right" data-qa="tile_tests">
+                    <strong>Tests:</strong>
+                    <a href="/o/profiles/users/_~01f032e02bf502ada0">7</a>
+                  </small>
+                  <small class="col-md-3 p-0-right" data-qa="tile_portfolios">
+                    <strong>Portfolios:</strong>
+                    <a href="/o/profiles/users/_~01f032e02bf502ada0">6</a>
+                  </small>
+                </div>
+              </div>
+            </div>
+            <!--PTC clouds list-->
+            <div></div>
+          </div>
+          <!--Right Slot-->
+        </article>
+      </div>
+    </section>
+    <footer>
+      <section class="freelancer-search-pagination p-0-top-bottom clearfix">
+        <!----><div class="pull-right">
+        <ul class="pagination pagination-sm m-0-top m-xs-bottom pagination ng-pristine ng-untouched ng-valid ng-not-empty" class="pagination-prev disabled">
+          <li class="pagination-prev disabled"><!----> <!----><a href="" class="disabled"><span aria-hidden="true" class="glyphicon air-icon-arrow-prev m-0-left"></span>Previous</a><!----></li>
+                   <!----><!----><li class="pagination-page active"><a href="">1</a></li>
+          <!----><li class="pagination-page"><a href="">2</a></li>
+          <!----><li class="pagination-page"><a href="">3</a></li>
+          <!----><li class="pagination-page"><a href="">4</a></li>
+          <!----><li class="pagination-page"><a href="">5</a></li>
+          <!----><!----><li class="pagination-next"><!----><a href="">Next<span aria-hidden="true" class="glyphicon air-icon-arrow-next m-0-right"></span></a><!----> <!----></li>
+          <!----><!----></ul>
+      </div><!---->
+      </section>
+    </footer>
+  </div>
+</div>
