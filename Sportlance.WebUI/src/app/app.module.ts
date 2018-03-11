@@ -5,6 +5,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './components/header/header.component';
@@ -15,6 +16,8 @@ import {SportService} from './services/sport.service';
 import {TrainerService} from './services/trainer.service';
 import {AppRoutingModule} from "./app-routing.module";
 import {LandingComponent} from './components/landing/landing.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -23,7 +26,9 @@ import {LandingComponent} from './components/landing/landing.component';
     HeaderComponent,
     RootComponent,
     TrainersComponent,
-    LandingComponent
+    LandingComponent,
+    ProfileComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,8 @@ import {LandingComponent} from './components/landing/landing.component';
     AppRoutingModule,
     FormsModule,
     AutoCompleteModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     SportService,

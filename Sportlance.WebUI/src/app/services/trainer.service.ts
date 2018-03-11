@@ -13,4 +13,8 @@ export class TrainerService extends BaseApiClient {
   getTrainersBySportIdAsync(sportId: number): Promise<CollectionResponse<Trainer>> {
     return this.http.get<CollectionResponse<Trainer>>(`${this.baseApiUrl}/trainer/sport/${sportId}`).toPromise();
   }
+
+  getByIdAsync(trainerId: number): Promise<Trainer> {
+    return this.http.get<Trainer>(`${this.baseApiUrl}/trainer/${trainerId}`).toPromise();
+  }
 }

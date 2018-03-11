@@ -3,9 +3,8 @@
 @import '../node_modules/primeng/resources/themes/omega/theme.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
 
-
-body{
-  font-family: Gotham SSm,Helvetica,Arial,sans-serif;
+body {
+  font-family: Gotham SSm, Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 1.42857;
   color: #222;
@@ -18,17 +17,17 @@ body{
 }
 
 .mat-toolbar.mat-primary {
-  font-family: Gotham SSm,Helvetica,Arial,sans-serif;
+  font-family: Gotham SSm, Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 1.42857;
   color: #222;
   background-color: #fff;
   min-height: 55px;
-  box-shadow: 0 1px 6px rgba(57,73,76,.35);
+  box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
   z-index: 10;
 }
 
-header a{
+header a {
   text-decoration: none;
   padding-right: 1em;
   font-size: 12px;
@@ -40,6 +39,30 @@ header a{
   text-transform: uppercase;
 }
 
-header mat-toolbar{
+header mat-toolbar {
   position: fixed;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #49b73a;
+}
+
+.back-loading {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: -webkit-fill-available;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }

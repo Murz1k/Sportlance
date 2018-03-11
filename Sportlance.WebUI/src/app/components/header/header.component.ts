@@ -52,8 +52,8 @@ export class HeaderComponent implements OnInit {
     await this.router.navigate(['/register']);
   }
 
-  async submitAsync(event){
-    if(event.keyCode == 13 && !isNullOrUndefined(this.sport.id)) {
+  async submitAsync(){
+    if(!isNullOrUndefined(this.sport.id)) {
       await this.router.navigate([Paths.Trainers + '/' + this.sport.id]);
     }
   }

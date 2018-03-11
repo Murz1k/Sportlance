@@ -1,14 +1,14 @@
-<div class="container">
+<div *ngIf="isRendering; else loading" class="container">
   <div class="oSearchHeader row m-lg-top">
-    <div class="col-xs-9">
+    <div class="col-9" style="padding-left: 2em; padding-bottom: 2em;">
       <h1 class="ellipsis m-0-top-bottom" title="C# Freelancers">{{currentSport.name}} Тренеры</h1>
     </div>
-    <div class="col-xs-3 text-right">
+    <div class="col-3 text-right" style="padding-right: 2em; padding-bottom: 1em;">
       <a href="/signup/?dest=job-posting" class="btn btn-primary m-0 pull-right">Начни тренироваться сейчас!</a>
     </div>
   </div>
   <div class="air-card">
-    <section *ngFor="let trainer of trainers">
+    <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
       <div>
         <article class="row">
           <div class="col-md-2">
@@ -23,29 +23,52 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-10">
+                <div style="position: relative; padding-top: 1em;">
+                  <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
+                    {{scoreStar.isFull ? 'star' : ''}}
+                    {{scoreStar.isEmpty ? 'star_border' : ''}}
+                    {{scoreStar.isHalf ? 'star_half' : ''}}
+                  </i>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10">
+                <div style="position: relative; text-align: center;">
+                  <span class="text-muted">{{trainer.reviewTitle}}</span>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-8 p-0-left">
             <h4 class="m-0-top-bottom ellipsis">
-              <a href="/o/profiles/users/_~01f032e02bf502ada0" class="freelancer-tile-name" title="{{trainer.firstName}} {{trainer.secondName}}">
+              <a href="/o/profiles/users/_~01f032e02bf502ada0" class="freelancer-tile-name"
+                 title="{{trainer.firstName}} {{trainer.secondName}}">
                 {{trainer.firstName}} {{trainer.secondName}}
               </a>
             </h4>
             <!--Title-->
             <div class="m-0-top-bottom">
-              <h4 class="m-0 freelancer-tile-title ellipsis">Senior Mobile Developer (Swift/ Unity/ React Native)</h4>
+              <h4 class="m-0 freelancer-tile-title ellipsis">{{trainer.title}}</h4>
             </div>
             <div class="row m-sm-top m-0-bottom">
               <div class="col-md-3 p-0-right">
-                <div><strong>$50.00</strong> <!----><span class="text-muted">/ hr</span><!---->
+                <div><strong>{{trainer.price}}₽</strong> <!----><span class="text-muted">/ час</span><!---->
                 </div>
               </div>
-              <div class="col-md-3 p-0-right">
+              <div class="col-md-4 p-0-right">
+                <div>
+                  <i class="material-icons position-icon text-muted">access_time</i>
+                  <strong>{{trainer.trainingsCount}}</strong>
+                  <!----><span class="text-muted">{{trainer.trainingsTitle}}</span><!---->
+                </div>
               </div>
               <div class="col-md-3 p-0-right">
                 <div><!---->
                   <div class="no-wrap freelancer-tile-location ellipsis"
-                  ><span
-                    class="glyphicon air-icon-location text-muted m-0-left m-xs-right"></span> <strong
+                  ><i class="material-icons position-icon text-muted">place</i><strong
                     class="hidden-xs"
                     title="Bulgaria">{{trainer.country}}, {{trainer.city}} </strong>
                   </div>
@@ -55,10 +78,7 @@
             <div class="row m-sm-top m-0-bottom">
               <div class="col-md-12">
                 <div><!----><p class="p-0-left m-0 freelancer-tile-description">
-                  Hello EveryOne.
-                  I'm Full Stack C# Developer and my speciality is Xamarin/Swift/Unity.
-                  I give you the full development cycle from technical specification to appl ...</p><!----><!----></div>
-
+                  {{trainer.about}}</p><!----><!----></div>
               </div>
             </div>
             <!--Skills-->
@@ -94,23 +114,6 @@
                                     </a>
                             </span>
             <a class="btn btn-link m-0 p-0" title="6 more" href="/o/profiles/users/_~01f032e02bf502ada0">6 more</a>
-            <div class="row m-sm-top m-0-bottom">
-              <!--Tests & Portfolio-->
-              <div class="col-md-10">
-                <div class="row">
-                  <small class="col-md-2 p-0-right" data-qa="tile_tests">
-                    <strong>Tests:</strong>
-                    <a href="/o/profiles/users/_~01f032e02bf502ada0">7</a>
-                  </small>
-                  <small class="col-md-3 p-0-right" data-qa="tile_portfolios">
-                    <strong>Portfolios:</strong>
-                    <a href="/o/profiles/users/_~01f032e02bf502ada0">6</a>
-                  </small>
-                </div>
-              </div>
-            </div>
-            <!--PTC clouds list-->
-            <div></div>
           </div>
           <!--Right Slot-->
         </article>
@@ -118,18 +121,35 @@
     </section>
     <footer>
       <section class="freelancer-search-pagination p-0-top-bottom clearfix">
-        <!----><div class="pull-right">
-        <ul class="pagination pagination-sm m-0-top m-xs-bottom pagination ng-pristine ng-untouched ng-valid ng-not-empty" class="pagination-prev disabled">
-          <li class="pagination-prev disabled"><!----> <!----><a href="" class="disabled"><span aria-hidden="true" class="glyphicon air-icon-arrow-prev m-0-left"></span>Previous</a><!----></li>
-                   <!----><!----><li class="pagination-page active"><a href="">1</a></li>
-          <!----><li class="pagination-page"><a href="">2</a></li>
-          <!----><li class="pagination-page"><a href="">3</a></li>
-          <!----><li class="pagination-page"><a href="">4</a></li>
-          <!----><li class="pagination-page"><a href="">5</a></li>
-          <!----><!----><li class="pagination-next"><!----><a href="">Next<span aria-hidden="true" class="glyphicon air-icon-arrow-next m-0-right"></span></a><!----> <!----></li>
-          <!----><!----></ul>
-      </div><!---->
+        <!---->
+        <div class="pull-right">
+          <ul class="pagination pagination-sm m-0-top m-xs-bottom">
+            <li class="pagination-prev disabled">
+              <a href="" class="disabled">
+                <i class="material-icons m-0-left arrow">chevron_left</i>Previous</a>
+            </li>
+            <li class="pagination-page active"><a href="">1</a></li>
+            <!---->
+            <li class="pagination-page"><a href="">2</a></li>
+            <!---->
+            <li class="pagination-page"><a href="">3</a></li>
+            <!---->
+            <li class="pagination-page"><a href="">4</a></li>
+            <!---->
+            <li class="pagination-page"><a href="">5</a></li>
+            <li class="pagination-next">
+              <a href="">Next
+                <i class="material-icons m-0-right arrow">chevron_right</i>
+              </a>
+            </li>
+          </ul>
+        </div><!---->
       </section>
     </footer>
   </div>
 </div>
+<ng-template #loading>
+  <div class="back-loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

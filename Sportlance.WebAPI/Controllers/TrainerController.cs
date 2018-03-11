@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
-using Sportlance.DAL.Entities;
 using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
@@ -18,13 +18,19 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet, Route("sport/{sportId}")]
-        public async Task<CollectionResponse<Trainer>> GetAll(long sportId)
+        public async Task<CollectionResponse<TrainerInfo>> GetAll(long sportId)
         {
-            var trainers = await _service.GetTrainersBySportId(sportId);
-            return new CollectionResponse<Trainer>
+            var trainers = await _service.GetTrainersInfosBySportId(sportId);
+            return new CollectionResponse<TrainerInfo>
             {
                 Items = trainers
             };
+        }
+
+        [HttpGet, Route("{trainerId}")]
+        public async Task<TrainerInfo> GetById(long trainerId)
+        {
+            return await _service.GetTrainerInfoById(trainerId);
         }
     }
 }

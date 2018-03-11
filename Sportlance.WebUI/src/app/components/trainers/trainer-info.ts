@@ -1,13 +1,16 @@
-export interface Trainer {
+import {Star} from "./star";
+
+export interface TrainerInfo {
   id: number;
   firstName: string;
   secondName: string;
   city: string;
   country: string;
   price: number;
-  score: number;
+  stars: Array<Star>;
   about: string;
   title: string;
-  reviewCount: number;
+  reviewTitle: string;
   trainingsCount: number;
+  trainingsTitle: string;
 }

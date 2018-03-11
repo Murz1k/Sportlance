@@ -30,7 +30,7 @@ namespace Sportlance.WebAPI.Controllers
         [HttpGet, Route("{sportId}")]
         public async Task<Sport> GetAll(long sportId)
         {
-            var sport = await _service.GetById(sportId);
+                var sport = await _service.GetById(sportId);
             return sport;
         }
     }
