@@ -45,11 +45,11 @@ export class HeaderComponent implements OnInit {
   }
 
   async loginAsync() {
-    await this.router.navigate(['/login']);
+    await this.router.navigate([Paths.Login]);
   }
 
   async registerAsync() {
-    await this.router.navigate(['/register']);
+    await this.router.navigate([Paths.SignUp]);
   }
 
   async submitAsync(){

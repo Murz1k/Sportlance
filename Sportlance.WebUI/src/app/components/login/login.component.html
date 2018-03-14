@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="col-md-6 offset-3 air-card p-0-bottom m-sm-top">
+    <div *ngIf="isLoginPage; else enterPassword" class="text-center p-xs-top ng-animate-disabled">
+      <div class="m-xs-top hidden-xs"></div>
+      <div class="m-sm-top visible-xs"></div>
+      <div class="text-center m-0 lead lead-md light-bold hidden-xs">
+        Войди и начни заниматься
+      </div>
+      <div class="m-sm-bottom p-sm-bottom visible-xs"></div>
+      <div class="m-lg-bottom hidden-xs"></div>
+      <div class="col-md-10 offset-1">
+        <div class="form-group has-success has-feedback p-md-top m-0-bottom">
+          <input type="text"
+                 class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-inline-validator ng-touched"
+                 placeholder="Логин или Email">
+          <span class="glyphicon air-icon-user form-control-feedback" aria-hidden="true"></span>
+          <span class="sr-only" id="input-username">(user)</span>
+        </div>
+        <div class="m-lg-bottom">
+        </div>
+        <div class="form-group m-0-bottom">
+          <button (click)="showPasswordPage()" class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
+            Продолжить
+          </button>
+        </div>
+        <div class="m-lg-bottom p-lg-bottom p-sm-top hidden-xs"></div>
+        <div class="m-lg-bottom p-xs-bottom p-sm-top visible-xs"></div>
+      </div>
+    </div>
+    <ng-template #enterPassword>
+      <div class="text-center ng-animate-disabled ng-hide">
+        <div class="m-xs-top hidden-xs"></div>
+        <div class="m-sm-top visible-xs"></div>
+        <div class="text-center m-0 lead lead-md light-bold hidden-xs">
+          Добро пожаловать
+        </div>
+        <div class="col-md-10 offset-1">
+          <div class="small text-center m-sm-bottom p-xs-bottom ellipsis"></div>
+          <div class="form-group has-success has-feedback p-md-top m-xs-bottom">
+            <input
+              class="form-control ng-pristine ng-empty ng-valid-pattern ng-valid-inline-validator ng-valid ng-valid-required ng-touched"
+              placeholder="Пароль">
+            <span class="glyphicon air-icon-password form-control-feedback" aria-hidden="true"></span>
+            <span class="sr-only" id="input-password">(password)</span>
+          </div>
+          <div>
+          </div>
+          <div class="clearfix">
+            <div class="pull-left">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" class="form-control ng-pristine ng-untouched ng-valid ng-empty"><span
+                  class="checkbox-replacement-helper"><span aria-hidden="true"
+                                                            class="glyphicon air-icon-check"></span></span>
+                  Запомнить меня</label>
+              </div>
+            </div>
+            <div class="pull-right text-right p-xs-top hidden-xs hidden-sm">
+              <button (click)="forgotPassword()" class="btn-link">
+                Забыли пароль?
+              </button>
+            </div>
+          </div>
+          <div class="p-md-top m-xs-top"></div>
+          <div class="form-group m-0-bottom">
+            <button type="submit" class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
+              Войти
+            </button>
+          </div>
+          <div class="m-sm-top p-xs-top">
+            <button (click)="hidePasswordPage()" class="btn-link">
+              Это не ты?
+            </button>
+          </div>
+          <div class="m-md-bottom p-md-bottom"></div>
+        </div>
+      </div>
+    </ng-template>
+    <footer class="p-0-top-bottom text-center">
+      <div class="col-md-10 offset-1">
+        <p class="form-group m-lg-bottom m-md-top">
+        </p>
+        <div class="line-heading p-sm-bottom m-sm-top-bottom text-muted">Первый раз на Sportlance?</div>
+        <button class="btn btn-default m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
+          Регистрация
+        </button>
+        <p></p>
+      </div>
+    </footer>
+  </div>
+</div>
