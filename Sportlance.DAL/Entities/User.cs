@@ -10,6 +10,11 @@ namespace Sportlance.DAL.Entities
         [Required, DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
+        [Required]
+        public string PasswordHash { get; set; }
+
+        public bool IsEmailConfirm { get; set; }
+
         public Trainer Trainer { get; set; }
     }
 }

@@ -44,6 +44,8 @@ namespace Sportlance.WebAPI
 
             services.AddTransient<ISportRepository, SportRepository>();
             services.AddTransient<ITrainerRepository, TrainerRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+
             services.AddTransient<ISportService, SportService>();
             services.AddTransient<ITrainerService, TrainerService>();
         }
