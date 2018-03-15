@@ -1,4 +1,56 @@
 <div class="container">
-  <div class="air-card col-4">
+  <div class="row">
+    <div class="col-6 offset-3">
+      <div class="air-card">
+        <div class="container-fluid o-signup-page p-sm-top-bottom ng-scope">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-xs-offset-0">
+              <h1 class="text-center"><strong>Регистрация</strong></h1>
+              <form id="signupForm" name="signup.form" method="post"
+                    class="m-0-bottom clearfix">
+                <div data-ng-show="isFormFirstStep" class="">
+                  <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <label class="input-group-addon">
+                            <i class="material-icons">person</i>
+                          </label>
+                          <input type="text" class="form-control has-form-message" placeholder="Имя">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <label class="input-group-addon">
+                            <i class="material-icons">person</i>
+                          </label>
+                          <input type="text" placeholder="Фамилия" class="form-control has-form-message">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label class="input-group-addon">
+                        <i class="material-icons">email</i>
+                      </label>
+                      <input type="email" class="form-control has-form-message eo-email-ptc sessioncamexclude" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="button" class="btn btn-primary m-md-top m-0-bottom m-0-right ng-scope">
+                      <i class="glyphicon glyphicon-md air-icon-loading ng-hide" aria-hidden="true"></i>
+                      Get Started
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
