@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
-using Sportlance.DAL.Repositories;
+using Sportlance.WebAPI.Authentication;
+using Sportlance.WebAPI.Authentication.Responses;
+using Sportlance.WebAPI.Errors;
+using Sportlance.WebAPI.Exceptions;
+using Sportlance.WebAPI.Options;
+using Sportlance.WebAPI.Requests;
+using Sportlance.WebAPI.Responses;
+using Sportlance.WebAPI.Utilities;
+using Sportlance.WebAPI.Validation;
 
 namespace Sportlance.WebAPI.Controllers
 {
@@ -50,7 +55,7 @@ namespace Sportlance.WebAPI.Controllers
             {
                 Token = _authService.GenerateAccesToken(user),
                 Email = user.Email,
-                Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
+                //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
             };
         }
 
@@ -72,14 +77,18 @@ namespace Sportlance.WebAPI.Controllers
             {
                 Token = _authService.GenerateAccesToken(user),
                 Email = user.Email,
-                Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
+                //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
             };
         }
 
         [HttpPost(nameof(Registration))]
         public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest data)
         {
-            var user = await _userRepository.CreateUser(data);
+            var user = await _userRepository.CreateUser(new User
+            {
+                Email = data.Email,
+                PasswordHash = HashUtils.CreateHash(data.Password)
+            });
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
 
@@ -99,12 +108,12 @@ namespace Sportlance.WebAPI.Controllers
             if (user.IsEmailConfirm)
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
             user.IsEmailConfirm = true;
-            await _userRepository.Update(user, x => x.IsEmailConfirm);
+            await _userRepository.UpdateAsync(user, x => x.IsEmailConfirm);
             return new ConfirmRegistrationResponse
             {
                 Token = _authService.GenerateAccesToken(user),
                 Email = user.Email,
-                Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
+                //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
             };
         }
 
@@ -126,7 +135,7 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpPut(nameof(SendChangePassword))]
-        public async Task<SendChangePasswordResponse> SendChangePassword([FromBody] SendChangePasswordRequest data)
+        public async Task<EmptyResponse> SendChangePassword([FromBody] SendChangePasswordRequest data)
         {
             var user = await _userRepository.GetByEmailAsync(data.Email);
             if (user == null)
@@ -136,7 +145,7 @@ namespace Sportlance.WebAPI.Controllers
 
             await _mailService.SendChangePassword(user.Id, user.Email, user.PasswordHash);
 
-            return new SendChangePasswordResponse();
+            return new EmptyResponse();
         }
 
         [Authorize]
@@ -178,13 +187,13 @@ namespace Sportlance.WebAPI.Controllers
                 Email = _mailTokenService.Unprotect(token)
             };
 
-            await _userRepository.Update(user, x => x.Email);
+            await _userRepository.UpdateAsync(user, x => x.Email);
 
             return new EmptyResponse();
         }
 
         [HttpPut(nameof(UpdatePassword))]
-        public async Task<UpdatePasswordResponse> UpdatePassword([FromBody] UpdatePasswordRequest data)
+        public async Task<EmptyResponse> UpdatePassword([FromBody] UpdatePasswordRequest data)
         {
             var user = await _userRepository.GetByIdAsync(data.UserId);
             if (user == null || !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash, data.Token))
@@ -194,9 +203,9 @@ namespace Sportlance.WebAPI.Controllers
             user.PasswordHash = HashUtils.CreateHash(data.Password);
             user.IsEmailConfirm = true;
 
-            await _userRepository.UpdateWhole(user);
+            await _userRepository.UpdateWholeAsync(user);
 
-            return new UpdatePasswordResponse();
+            return new EmptyResponse();
         }
     }
 }

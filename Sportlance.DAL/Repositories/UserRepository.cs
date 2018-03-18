@@ -15,5 +15,13 @@ namespace Sportlance.DAL.Repositories
 
         public Task<User> GetByEmailAsync(string email) 
             => ReadContext.Users.FirstOrDefaultAsync(i => i.Email.Equals(email));
+
+        public Task<bool> IsEmailExists(string email) => ReadContext.Users.AnyAsync(x => x.Email == email);
+
+        public async Task<User> CreateUser(User user)
+        {
+            await AddAsync(user);
+            return user;
+        }
     }
 }

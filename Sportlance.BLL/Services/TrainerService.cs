@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Sportlance.BLL.Entities;
-using Sportlance.BLL.Interfaces;
+using Sportlance.WebAPI.Entities;
+using Sportlance.WebAPI.Interfaces;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
 
-namespace Sportlance.BLL.Services
+namespace Sportlance.WebAPI.Services
 {
     public class TrainerService : ITrainerService
     {

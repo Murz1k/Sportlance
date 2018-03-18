@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-signup',
@@ -7,7 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
+  public isEmailExist: boolean;
+
+  public email: string;
+  public password: string;
+  public firstName: string;
+  public secondName: string;
+
+  constructor() {
+    this.isEmailExist = false;
+  }
+
+  checkUserEmail(){
+    this.isEmailExist = true;
+  }
 
   ngOnInit() {
   }

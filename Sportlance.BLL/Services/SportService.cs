@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Sportlance.BLL.Interfaces;
+using Sportlance.WebAPI.Interfaces;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
 using Sportlance.DAL.Repositories;
 
-namespace Sportlance.BLL.Services
+namespace Sportlance.WebAPI.Services
 {
     public class SportService : ISportService
     {

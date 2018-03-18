@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sportlance.BLL.Entities;
+using Sportlance.WebAPI.Entities;
 using Sportlance.DAL.Entities;
 
-namespace Sportlance.BLL.Interfaces
+namespace Sportlance.WebAPI.Interfaces
 {
     public interface ITrainerService
     {

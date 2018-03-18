@@ -1,56 +1,166 @@
 <div class="container">
   <div class="row">
     <div class="col-6 offset-3">
-      <div class="air-card">
-        <div class="container-fluid o-signup-page p-sm-top-bottom ng-scope">
+      <div *ngIf="!isEmailExist; else emailNotExist" class="air-card">
+        <div class="container-fluid o-signup-page p-sm-top-bottom">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 col-xs-offset-0">
-              <h1 class="text-center"><strong>Регистрация</strong></h1>
-              <form id="signupForm" name="signup.form" method="post"
-                    class="m-0-bottom clearfix">
-                <div data-ng-show="isFormFirstStep" class="">
-                  <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <label class="input-group-addon">
-                            <i class="material-icons">person</i>
-                          </label>
-                          <input type="text" class="form-control has-form-message" placeholder="Имя">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <label class="input-group-addon">
-                            <i class="material-icons">person</i>
-                          </label>
-                          <input type="text" placeholder="Фамилия" class="form-control has-form-message">
-                        </div>
+              <h1 class="text-center">
+                <strong>Регистрация</strong></h1>
+              <div class="m-0-bottom clearfix">
+                <div class="row">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <label class="input-group-addon">
+                          <i class="material-icons">person</i>
+                        </label>
+                        <input type="text" (ngModel)="firstName" class="form-control has-form-message" placeholder="Имя">
                       </div>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <div class="input-group">
-                      <label class="input-group-addon">
-                        <i class="material-icons">email</i>
-                      </label>
-                      <input type="email" class="form-control has-form-message eo-email-ptc sessioncamexclude" placeholder="Email">
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <label class="input-group-addon">
+                          <i class="material-icons">person</i>
+                        </label>
+                        <input type="text" (ngModel)="secondName" placeholder="Фамилия" class="form-control has-form-message">
+                      </div>
                     </div>
-                  </div>
-                  <div class="text-center">
-                    <button type="button" class="btn btn-primary m-md-top m-0-bottom m-0-right ng-scope">
-                      <i class="glyphicon glyphicon-md air-icon-loading ng-hide" aria-hidden="true"></i>
-                      Get Started
-                    </button>
                   </div>
                 </div>
-              </form>
+                <div class="form-group">
+                  <div class="input-group">
+                    <label class="input-group-addon">
+                      <i class="material-icons">email</i>
+                    </label>
+                    <input type="email" (ngModel)="email" class="form-control has-form-message eo-email-ptc sessioncamexclude"
+                           placeholder="Email">
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary m-md-top m-0-bottom m-0-right" (click)="checkUserEmail()">
+                    <i class="glyphicon glyphicon-md air-icon-loading" aria-hidden="true"></i>
+                    Get Started
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <ng-template #emailNotExist>
+        <div class="air-card">
+          <div class="container-fluid o-signup-page p-sm-top-bottom">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12 col-xs-offset-0">
+                <h1 class="text-center hidden-xs m-sm-bottom">
+                  <strong>Complete your account</strong>
+                </h1>
+                <h3 class="text-center">
+                  {{email}}
+                </h3>
+                <div>
+                  <div class="form-group">
+                    <div
+                      class="has-form-message select-country has-globe-icon ui-select-container select2 select2-container"
+                      placeholder="Select a country...">
+                      <span class="select2-chosen">Select a country...</span>
+                      <span class="select2-chosen">
+                        <span class="">
+                          Russia
+                        </span>
+                      </span>
+                      <input class="ui-select-focusser ui-select-offscreen" type="text" aria-label="Select box focus"
+                             aria-haspopup="true"></div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label class="input-group-addon">
+                        <span class="glyphicon air-icon-password" aria-hidden="true"></span>
+                      </label>
+                      <input type="password" (ngModel)="password"
+                             class="form-control has-form-message sessioncamexclude"
+                             placeholder="Create a password"
+                             required="required">
+                    </div>
+                    <span class="o-signup-form-errors text-left">
+                        <label class="form-message form-error">
+                          Password is required
+                        </label>
+                    </span>
+                  </div>
+                  <div class="m-lg-top"></div>
+                  <div class="text-center m-md-bottom">
+                    <h4 class="text-center m-sm-bottom">I want to:</h4>
+                    <div class="btn-group">
+                      <button class="btn btn-default" type="button">
+                        <span class="hidden-xs">Hire for a Project</span>
+                        <span class="hidden-lg hidden-md hidden-sm">Hire</span>
+                      </button>
+                      <button class="btn btn-default" type="button">
+                        <span class="hidden-xs">Work as a Freelancer</span>
+                        <span class="hidden-lg hidden-md hidden-sm">Work</span>
+                      </button>
+                    </div>
+                    <span class="o-signup-form-errors  text-left">
+                        <label class="form-message form-error ">
+                          Please select what you want to do on Upwork
+                        </label>
+                    </span>
+                  </div>
+                  <div class="m-md-top"></div>
+                  <div>
+                    <div class="form-group m-0-bottom signup-checkbox-small">
+                      <div class="checkbox m-xs-bottom">
+                        <label>
+                          <input type="checkbox" name="promotionalEmailOptIn">
+                          <span class="checkbox-replacement-helper">
+                            <span aria-hidden="true" class="glyphicon air-icon-check"></span>
+                          </span>
+                          <small>
+                            Yes! Send me genuinely useful emails every now and then to help me get the most out of
+                            Upwork.
+                          </small>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-group m-0-bottom signup-checkbox-small">
+                      <div class="checkbox m-xs-bottom">
+                        <label>
+                          <input type="checkbox" class="">
+                          <span class="checkbox-replacement-helper">
+                              <span aria-hidden="true" class="glyphicon air-icon-check"></span>
+                            </span>
+                          <small>
+                            Yes, I understand and agree to the
+                            <a href="https://www.upwork.com/info/terms/" target="_blank">Upwork Terms of Service</a>,
+                            including the
+                            <a href="https://www.upwork.com/info/terms/" target="_blank">User Agreement</a> and
+                            <a href="https://www.upwork.com/info/terms/privacy/" target="_blank">Privacy Policy</a>.
+                          </small>
+                        </label>
+                      </div>
+                      <span class="o-signup-form-errors text-left">
+                          <label class="form-message form-error">
+                            Please accept the Upwork Terms of Service before continuing
+                          </label>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-md btn-primary o-signup-submit m-0-right">
+                      <i class="glyphicon air-icon-loading" aria-hidden="true"></i>
+                      <span class="">Next</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
