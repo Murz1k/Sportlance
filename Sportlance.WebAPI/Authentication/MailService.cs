@@ -1,11 +1,12 @@
 ﻿using System.IO;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
-using MimeKit;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
+using MailKit.Net.Smtp;
+using MimeKit;
+using Sportlance.WebAPI.Core;
 
 namespace Sportlance.WebAPI.Authentication
 {
@@ -18,7 +19,7 @@ namespace Sportlance.WebAPI.Authentication
 
         public MailService(
             IOptions<SmtpOptions> smtpOptions,
-            IOptions<FrontendOptions> frontendOptions,
+            IOptions<SiteOptions> frontendOptions,
             MailTokenService mailTokenService,
             IHostingEnvironment env)
         {
@@ -40,17 +41,17 @@ namespace Sportlance.WebAPI.Authentication
 
             using (var client = new SmtpClient())
             {
-                //client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                //client.Connect(_smtpOptions.Host, _smtpOptions.Port, _smtpOptions.UseSsl);
+                client.Connect(_smtpOptions.Host, _smtpOptions.Port, _smtpOptions.UseSsl);
 
-                //client.AuthenticationMechanisms.Remove("XOAUTH2");
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                //client.Authenticate(_smtpOptions.UserName, _smtpOptions.Password);
+                client.Authenticate(_smtpOptions.UserName, _smtpOptions.Password);
 
-                //await client.Send(message);
+                await client.SendAsync(message);
 
-                //client.Disconnect(true);
+                client.Disconnect(true);
             }
         }
 

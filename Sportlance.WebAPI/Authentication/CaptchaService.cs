@@ -15,9 +15,11 @@ namespace Sportlance.WebAPI.Authentication
         private readonly string _secretKey;
         private readonly HttpClient _client;
 
-        public CaptchaService(IOptions<FrontendOptions> config)
+        public CaptchaService(
+            //IOptions<FrontendOptions> config
+            )
         {
-            _secretKey = config.Value.CaptchaSecretKey;
+            //_secretKey = config.Value.CaptchaSecretKey;
             _client = new HttpClient();
         }
 

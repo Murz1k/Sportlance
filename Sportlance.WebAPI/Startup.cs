@@ -10,7 +10,9 @@ using Sportlance.WebAPI.Services;
 using Sportlance.DAL.Core;
 using Sportlance.DAL.Interfaces;
 using Sportlance.DAL.Repositories;
+using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Options;
 
 namespace Sportlance.WebAPI
 {
@@ -32,6 +34,8 @@ namespace Sportlance.WebAPI
             services.AddMvc();
             
             services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
+            services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
+            services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
 
             ConfigureCorsPolicy(services);
 
@@ -48,6 +52,9 @@ namespace Sportlance.WebAPI
 
             services.AddTransient<ISportService, SportService>();
             services.AddTransient<ITrainerService, TrainerService>();
+            services.AddTransient<AuthService, AuthService>();
+            services.AddTransient<MailService, MailService>();
+            services.AddTransient<MailTokenService, MailTokenService>();
         }
         
         private void ConfigureCorsPolicy(IServiceCollection services)

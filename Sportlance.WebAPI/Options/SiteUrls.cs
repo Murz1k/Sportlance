@@ -10,7 +10,7 @@
         }
 
         public string GetConfirmRegistration(long userId, string token) =>
-            $"{_root}/account/confirmregistration/{userId}/{token}";
+            $"{_root}/auth/confirm/{userId}/{token}";
 
         public string GetChangePassword(long userId, string token) =>
             $"{_root}/account/updatepassword/{userId}/{token}";

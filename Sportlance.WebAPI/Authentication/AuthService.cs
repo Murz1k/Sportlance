@@ -52,7 +52,7 @@ namespace Sportlance.WebAPI.Authentication
             var user = await _userRepository.GetByIdAsync(UserId);
 
             IEnumerable<string> roles = null;//EnumUtils.GetFlags(user.Roles).Select(s => s.ToString());
-            var token = GenerateAccesToken(user);
+            var token = GenerateAccessToken(user);
 
             return new RefreshTokenDto
             {
@@ -74,7 +74,7 @@ namespace Sportlance.WebAPI.Authentication
             return (_dateTime.UtcNow - issueDate).TotalMinutes >= _jwtOptions.AccessTokenRefreshInterval.TotalMinutes;
         }
 
-        public string GenerateAccesToken(User user)
+        public string GenerateAccessToken(User user)
         {
             var identity = CreateClaimsIdentity(user);
             var accessToken = new JwtSecurityToken(

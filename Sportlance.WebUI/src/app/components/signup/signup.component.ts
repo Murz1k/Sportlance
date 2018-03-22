@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthApiClient} from '../../services/auth-api-client';
+import {RegistrationRequest} from '../../services/registration-request';
 
 @Component({
   selector: 'app-signup',
@@ -14,14 +16,22 @@ export class SignupComponent implements OnInit {
   public firstName: string;
   public secondName: string;
 
-  constructor() {
+  constructor(private authClient: AuthApiClient) {
     this.isEmailExist = false;
   }
 
-  checkUserEmail(){
+  checkUserEmail() {
     this.isEmailExist = true;
   }
 
   ngOnInit() {
+  }
+
+  async signupAsync(): Promise<void> {
+    debugger
+    await this.authClient.registerAsync(<RegistrationRequest>{
+      email: this.email,
+      password: this.password
+    });
   }
 }

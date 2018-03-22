@@ -6,24 +6,18 @@ namespace Sportlance.WebAPI.Requests
 {
     public class RegistrationRequest
     {
-        [AppRequired]
-        [EmailAddress(ErrorMessage = nameof(ValidationErrorCode.IncorrectEmail))]
-        [StringLength(100, ErrorMessage = nameof(ValidationErrorCode.IncorrectLength))]
-        [UniqueEmail]
+        //[AppRequired]
+        //[EmailAddress(ErrorMessage = nameof(ValidationErrorCode.IncorrectEmail))]
+        //[StringLength(100, ErrorMessage = nameof(ValidationErrorCode.IncorrectLength))]
+        //[UniqueEmail]
         public string Email { get; set; }
 
-        [AppRequired]
-        [StringLength(100, ErrorMessage = nameof(ValidationErrorCode.IncorrectLength), MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        //[AppRequired]
+        //[StringLength(100, ErrorMessage = nameof(ValidationErrorCode.IncorrectLength), MinimumLength = 6)]
+        //[DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [AppRequired]
-        [DataType(DataType.Password)]
-        [Compare(nameof(Password), ErrorMessage = nameof(ValidationErrorCode.NotEqual))]
-
-        public string ConfirmPassword { get; set; }
-
-        [ValidateCaptcha]
+        //[ValidateCaptcha]
         public string CaptchaCode { get; set; }
     }
 }

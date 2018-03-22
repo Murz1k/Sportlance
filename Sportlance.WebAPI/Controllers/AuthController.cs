@@ -25,16 +25,16 @@ namespace Sportlance.WebAPI.Controllers
         private readonly AuthService _authService;
 
         public AuthController(
-            IOptions<JwtIssuerOptions> jwtOptions,
             IUserRepository userRepository,
             MailService mailService,
-            MailTokenService mailTokenService,
-            AuthService authService)
+            MailTokenService mailTokenService//,
+            //AuthService authService
+            )
         {
             _userRepository = userRepository;
             _mailService = mailService;
             _mailTokenService = mailTokenService;
-            _authService = authService;
+            //_authService = authService;
         }
 
         [HttpPost(nameof(CheckUser))]
@@ -53,7 +53,7 @@ namespace Sportlance.WebAPI.Controllers
             }
             return new LoginResponse
             {
-                Token = _authService.GenerateAccesToken(user),
+                Token = _authService.GenerateAccessToken(user),
                 Email = user.Email,
                 //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
             };
@@ -75,13 +75,13 @@ namespace Sportlance.WebAPI.Controllers
             }
             return new LoginResponse
             {
-                Token = _authService.GenerateAccesToken(user),
+                Token = _authService.GenerateAccessToken(user),
                 Email = user.Email,
                 //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
             };
         }
 
-        [HttpPost(nameof(Registration))]
+        [HttpPost, Route("register")]
         public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest data)
         {
             var user = await _userRepository.CreateUser(new User
@@ -98,7 +98,7 @@ namespace Sportlance.WebAPI.Controllers
             };
         }
 
-        [HttpPut(nameof(ConfirmRegistration))]
+        [HttpPut, Route("confirm")]
         public async Task<ConfirmRegistrationResponse> ConfirmRegistration([FromBody] ConfirmRegistrationRequest data)
         {
             var user = await _userRepository.GetByIdAsync(data.UserId);
@@ -111,7 +111,7 @@ namespace Sportlance.WebAPI.Controllers
             await _userRepository.UpdateAsync(user, x => x.IsEmailConfirm);
             return new ConfirmRegistrationResponse
             {
-                Token = _authService.GenerateAccesToken(user),
+                Token = _authService.GenerateAccessToken(user),
                 Email = user.Email,
                 //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
             };
