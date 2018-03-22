@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Sportlance.DAL.Entities;
+using Sportlance.DAL.Interfaces;
 using Sportlance.DAL.Repositories;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
@@ -21,9 +22,9 @@ namespace Sportlance.WebAPI.Authentication
         private readonly IDateTime _dateTime;
         private readonly JwtSecurityTokenHandler _tokenHandler;
         private readonly JwtIssuerOptions _jwtOptions;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public AuthService(IHttpContextAccessor httpContextAccessor, IDateTime dateTime, IOptions<JwtIssuerOptions> jwtOptions, UserRepository userRepository)
+        public AuthService(IHttpContextAccessor httpContextAccessor, IDateTime dateTime, IOptions<JwtIssuerOptions> jwtOptions, IUserRepository userRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _dateTime = dateTime;

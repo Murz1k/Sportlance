@@ -27,14 +27,14 @@ namespace Sportlance.WebAPI.Controllers
         public AuthController(
             IUserRepository userRepository,
             MailService mailService,
-            MailTokenService mailTokenService//,
-            //AuthService authService
+            MailTokenService mailTokenService,
+            AuthService authService
             )
         {
             _userRepository = userRepository;
             _mailService = mailService;
             _mailTokenService = mailTokenService;
-            //_authService = authService;
+            _authService = authService;
         }
 
         [HttpPost(nameof(CheckUser))]
@@ -59,7 +59,7 @@ namespace Sportlance.WebAPI.Controllers
             };
         }
 
-        [HttpPost(nameof(Login))]
+        [HttpPost]
         public async Task<LoginResponse> Login([FromBody] LoginRequest request)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);

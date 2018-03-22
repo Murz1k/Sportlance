@@ -28,7 +28,6 @@ export class SignupComponent implements OnInit {
   }
 
   async signupAsync(): Promise<void> {
-    debugger
     await this.authClient.registerAsync(<RegistrationRequest>{
       email: this.email,
       password: this.password

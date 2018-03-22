@@ -10,7 +10,7 @@ namespace Sportlance.WebAPI.Requests
         [AppRequired]
         public string Password { get; set; }
 
-        [ValidateCaptcha]
-        public string CaptchaCode { get; set; }
+        //[ValidateCaptcha]
+        //public string CaptchaCode { get; set; }
     }
 }

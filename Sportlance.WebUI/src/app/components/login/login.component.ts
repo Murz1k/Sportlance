@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthApiClient} from '../../services/auth-api-client';
+import {LoginRequest} from '../../services/login-request';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +10,10 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
 
   isLoginPage = true;
+  public email: string;
+  public password: string;
 
-  constructor() { }
+  constructor(private authClient: AuthApiClient) { }
 
   ngOnInit() {
   }
@@ -22,5 +26,12 @@ export class LoginComponent implements OnInit {
   }
   forgotPassword(){
 
+  }
+
+  async loginAsync(): Promise<void> {
+    await this.authClient.loginAsync(<LoginRequest>{
+      email: this.email,
+      password: this.password
+    });
   }
 }

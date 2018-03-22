@@ -10,7 +10,7 @@
       <div class="m-lg-bottom hidden-xs"></div>
       <div class="col-md-10 offset-1">
         <div class="form-group has-success has-feedback p-md-top m-0-bottom">
-          <input type="text"
+          <input [(ngModel)]="email" type="text"
                  class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-inline-validator ng-touched"
                  placeholder="Логин или Email">
           <span class="glyphicon air-icon-user form-control-feedback" aria-hidden="true"></span>
@@ -38,6 +38,8 @@
           <div class="small text-center m-sm-bottom p-xs-bottom ellipsis"></div>
           <div class="form-group has-success has-feedback p-md-top m-xs-bottom">
             <input
+              [(ngModel)]="password"
+              type="password"
               class="form-control ng-pristine ng-empty ng-valid-pattern ng-valid-inline-validator ng-valid ng-valid-required ng-touched"
               placeholder="Пароль">
             <span class="glyphicon air-icon-password form-control-feedback" aria-hidden="true"></span>
@@ -63,7 +65,7 @@
           </div>
           <div class="p-md-top m-xs-top"></div>
           <div class="form-group m-0-bottom">
-            <button type="submit" class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
+            <button (click)="loginAsync()" class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
               Войти
             </button>
           </div>

@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System;
+using System.Text;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Services;
 using Sportlance.DAL.Core;
@@ -13,6 +17,7 @@ using Sportlance.DAL.Repositories;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Options;
+using Sportlance.WebAPI.Utilities;
 
 namespace Sportlance.WebAPI
 {
@@ -37,6 +42,22 @@ namespace Sportlance.WebAPI
             services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
             services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
 
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+
+            var signingKey =
+                new SymmetricSecurityKey(
+                    Encoding.ASCII.GetBytes(jwtAppSettingOptions[nameof(JwtIssuerOptions.SecretKey)]));
+            services.Configure<JwtIssuerOptions>(options =>
+            {
+                options.AccessTokenExpiration =
+                    TimeSpan.Parse(jwtAppSettingOptions[nameof(JwtIssuerOptions.AccessTokenExpiration)]);
+                options.AccessTokenRefreshInterval =
+                    TimeSpan.Parse(jwtAppSettingOptions[nameof(JwtIssuerOptions.AccessTokenRefreshInterval)]);
+                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+            });
+
             ConfigureCorsPolicy(services);
 
             var builder = new DbContextOptionsBuilder<AppDBContext>();
@@ -49,6 +70,9 @@ namespace Sportlance.WebAPI
             services.AddTransient<ISportRepository, SportRepository>();
             services.AddTransient<ITrainerRepository, TrainerRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+
+            services.AddTransient<IDateTime, UtcDateTime>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<ISportService, SportService>();
             services.AddTransient<ITrainerService, TrainerService>();

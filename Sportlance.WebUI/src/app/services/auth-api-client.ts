@@ -1,5 +1,7 @@
 import {BaseApiClient} from './base-api-client';
 import {RegistrationRequest} from './registration-request';
+import {LoginRequest} from './login-request';
+import {LoginResponse} from './login-response';
 import {ConfirmRegistrationRequest} from './confirm-registration-request';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
@@ -9,10 +11,10 @@ export class AuthApiClient extends BaseApiClient {
   constructor(private http: HttpClient) {
     super();
   }
-  //
-  // public async authenticateAsync(request: AuthenticationRequest): Promise<AuthenticationResponse> {
-  //   return await this.http.post<AuthenticationResponse>(this.baseApiUrl + '/auth', request).toPromise();
-  // }
+
+  public async loginAsync(request: LoginRequest): Promise<LoginResponse> {
+    return await this.http.post<LoginResponse>(this.baseApiUrl + '/auth', request).toPromise();
+  }
 
   public async registerAsync(request: RegistrationRequest): Promise<void> {
     await this.http.post(this.baseApiUrl + '/auth/register', request).toPromise();
