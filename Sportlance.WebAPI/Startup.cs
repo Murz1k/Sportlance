@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +18,8 @@ using Sportlance.DAL.Interfaces;
 using Sportlance.DAL.Repositories;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.ExceptionHandler;
+using Sportlance.WebAPI.Filters;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
 
@@ -36,8 +40,20 @@ namespace Sportlance.WebAPI
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthenticationFilterFactory());
+                options.Filters.Add(new AppErrorsExceptionFilter());
+                options.Filters.Add(new ModelStateFilter());
+            });
+
+            JwtConfigure(services);
+
             services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
             services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
             services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
@@ -95,7 +111,7 @@ namespace Sportlance.WebAPI
             corsPolicyBuilder.WithOrigins(url);
             corsPolicyBuilder.AllowAnyHeader();
             corsPolicyBuilder.AllowAnyMethod();
-            //corsPolicyBuilder.WithExposedHeaders(Constants.Headers.XNewAuthToken,
+            corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
             //    Constants.Headers.XNewRoles,
             //    Constants.Headers.XEthereumAddress,
             //    Constants.Headers.XSignature,
@@ -115,6 +131,37 @@ namespace Sportlance.WebAPI
             app.UseCors(CorsPolicyName);
 
             app.UseMvc();
+        }
+
+        private void JwtConfigure(IServiceCollection services)
+        {
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+
+            var signingKey =
+                new SymmetricSecurityKey(
+                    Encoding.ASCII.GetBytes(jwtAppSettingOptions[nameof(JwtIssuerOptions.SecretKey)]));
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+
+                ValidateAudience = true,
+                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = tokenValidationParameters;
+                });
         }
     }
 }

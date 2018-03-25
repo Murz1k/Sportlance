@@ -13,6 +13,12 @@ namespace Sportlance.DAL.Entities
         [Required]
         public string PasswordHash { get; set; }
 
+        [Required, MaxLength(20)]
+        public string FirstName { get; set; }
+
+        [Required, MaxLength(30)]
+        public string LastName { get; set; }
+
         public bool IsEmailConfirm { get; set; }
 
         public Trainer Trainer { get; set; }

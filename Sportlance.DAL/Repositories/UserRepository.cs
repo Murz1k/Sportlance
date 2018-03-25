@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.DAL.Core;
 using Sportlance.DAL.Entities;
@@ -14,9 +15,10 @@ namespace Sportlance.DAL.Repositories
         }
 
         public Task<User> GetByEmailAsync(string email) 
-            => ReadContext.Users.FirstOrDefaultAsync(i => i.Email.Equals(email));
+            => ReadContext.Users.FirstOrDefaultAsync(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
 
-        public Task<bool> IsEmailExists(string email) => ReadContext.Users.AnyAsync(x => x.Email == email);
+        public Task<bool> IsEmailExists(string email) 
+            => ReadContext.Users.AnyAsync(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
 
         public async Task<User> CreateUser(User user)
         {

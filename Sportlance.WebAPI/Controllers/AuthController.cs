@@ -37,25 +37,23 @@ namespace Sportlance.WebAPI.Controllers
             _authService = authService;
         }
 
-        [HttpPost(nameof(CheckUser))]
-        public async Task<LoginResponse> CheckUser([FromBody] LoginRequest request)
+        [HttpPost, Route("check")]
+        public async Task<CheckUserResponse> CheckUser([FromBody] CheckUserRequest request)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
-            if (user == null || !HashUtils.CheckHash(user.PasswordHash, request.Password))
+            if (user == null)
             {
-                throw new AppErrorException(
-                    new AppError(ErrorCode.LoginPasswordError));
+                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
             }
 
             if (!user.IsEmailConfirm)
             {
                 throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
             }
-            return new LoginResponse
+
+            return new CheckUserResponse
             {
-                Token = _authService.GenerateAccessToken(user),
-                Email = user.Email,
-                //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
+                Email = user.Email
             };
         }
 
@@ -65,8 +63,7 @@ namespace Sportlance.WebAPI.Controllers
             var user = await _userRepository.GetByEmailAsync(request.Email);
             if (user == null || !HashUtils.CheckHash(user.PasswordHash, request.Password))
             {
-                throw new AppErrorException(
-                    new AppError(ErrorCode.LoginPasswordError));
+                throw new AppErrorException(new AppError(ErrorCode.IncorrectPassword));
             }
 
             if (!user.IsEmailConfirm)
@@ -124,7 +121,7 @@ namespace Sportlance.WebAPI.Controllers
 
             if (user == null)
             {
-                throw new AppErrorException(new AppError(ErrorCode.UserNotExists));
+                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
             }
             if (user.IsEmailConfirm)
             {
@@ -167,9 +164,7 @@ namespace Sportlance.WebAPI.Controllers
 
             if (!HashUtils.CheckHash(user.PasswordHash, data.Password))
             {
-                throw new AppErrorException(
-                    new AppError(ErrorCode.ValidatationError, Syntax.Dict((nameof(data.Password),
-                    Syntax.List(new FieldError(ValidationErrorCode.IncorrectPassword))))));
+                throw new AppErrorException(ErrorCode.IncorrectValidation);
             }
 
             await _mailService.SendUpdateEmail(user.Email, data.NewEmail);

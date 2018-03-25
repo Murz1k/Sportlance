@@ -1,5 +1,6 @@
+<header [isEmpty]="true"></header>
 <div class="container">
-  <div class="col-md-6 offset-3 air-card p-0-bottom m-sm-top">
+  <form (ngSubmit)="loginAsync()" class="col-md-6 offset-3 air-card p-0-bottom m-sm-top">
     <div *ngIf="isLoginPage; else enterPassword" class="text-center p-xs-top ng-animate-disabled">
       <div class="m-xs-top hidden-xs"></div>
       <div class="m-sm-top visible-xs"></div>
@@ -8,18 +9,24 @@
       </div>
       <div class="m-sm-bottom p-sm-bottom visible-xs"></div>
       <div class="m-lg-bottom hidden-xs"></div>
-      <div class="col-md-10 offset-1">
-        <div class="form-group has-success has-feedback p-md-top m-0-bottom">
-          <input [(ngModel)]="email" type="text"
-                 class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-valid-inline-validator ng-touched"
-                 placeholder="Логин или Email">
-          <span class="glyphicon air-icon-user form-control-feedback" aria-hidden="true"></span>
-          <span class="sr-only" id="input-username">(user)</span>
+      <div [ngClass]="showLoginError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
+        <div class="form-group p-md-top m-0-bottom" style="margin-bottom: 0.5rem !important; position: relative;">
+          <input id="Email" [(ngModel)]="user.email" name="email" type="text"
+                 class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
+                 (keydown)="ckechKeyDownLogin($event)">
+          <i class="material-icons input-icon">person</i>
+        </div>
+        <div class="error" *ngIf="showLoginError;">
+          <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+          <label class="error__message">
+            <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+            Ой! Неправильный email.</label>
         </div>
         <div class="m-lg-bottom">
         </div>
         <div class="form-group m-0-bottom">
-          <button (click)="showPasswordPage()" class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
+          <button (click)="checkLoginAsync()" [disabled]="isDisabled"
+                  class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
             Продолжить
           </button>
         </div>
@@ -28,22 +35,24 @@
       </div>
     </div>
     <ng-template #enterPassword>
-      <div class="text-center ng-animate-disabled ng-hide">
+      <div style="padding-bottom: 30px;" class="text-center ng-animate-disabled ng-hide">
         <div class="m-xs-top hidden-xs"></div>
         <div class="m-sm-top visible-xs"></div>
         <div class="text-center m-0 lead lead-md light-bold hidden-xs">
           Добро пожаловать
         </div>
-        <div class="col-md-10 offset-1">
-          <div class="small text-center m-sm-bottom p-xs-bottom ellipsis"></div>
-          <div class="form-group has-success has-feedback p-md-top m-xs-bottom">
-            <input
-              [(ngModel)]="password"
-              type="password"
-              class="form-control ng-pristine ng-empty ng-valid-pattern ng-valid-inline-validator ng-valid ng-valid-required ng-touched"
-              placeholder="Пароль">
-            <span class="glyphicon air-icon-password form-control-feedback" aria-hidden="true"></span>
-            <span class="sr-only" id="input-password">(password)</span>
+        <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
+          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">{{user.email}}</div>
+          <div class="form-group p-md-top m-xs-bottom" style="margin-bottom: 0.5rem !important; position: relative;">
+            <input id="Password" [(ngModel)]="user.password" name="password" type="password" class="password-input form-control" placeholder="Пароль"
+                   (ngModelChange)="hidePasswordError()" (keydown)="ckechKeyDownPassword($event)">
+            <i class="material-icons input-icon">lock</i>
+          </div>
+          <div class="error" *ngIf="showPasswordError;">
+            <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+            <label class="error__message">
+              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+              Ой! Неправильный пароль.</label>
           </div>
           <div>
           </div>
@@ -65,7 +74,8 @@
           </div>
           <div class="p-md-top m-xs-top"></div>
           <div class="form-group m-0-bottom">
-            <button (click)="loginAsync()" class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
+            <button type="submit" (click)="loginAsync()" [disabled]="isDisabled"
+                    class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
               Войти
             </button>
           </div>
@@ -83,11 +93,12 @@
         <p class="form-group m-lg-bottom m-md-top">
         </p>
         <div class="line-heading p-sm-bottom m-sm-top-bottom text-muted">Первый раз на Sportlance?</div>
-        <button class="btn btn-default m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
+        <button (click)="navigateToRegister()" class="btn btn-default m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
           Регистрация
         </button>
         <p></p>
       </div>
     </footer>
-  </div>
+  </form>
 </div>
+<app-footer [isEmpty]="true"></app-footer>

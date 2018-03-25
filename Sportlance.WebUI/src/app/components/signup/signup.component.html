@@ -1,3 +1,4 @@
+<header [isEmpty]="true"></header>
 <div class="container">
   <div class="row">
     <div class="col-6 offset-3">
@@ -10,37 +11,25 @@
               <div class="m-0-bottom clearfix">
                 <div class="row">
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <label class="input-group-addon">
-                          <i class="material-icons">person</i>
-                        </label>
-                        <input type="text" [(ngModel)]="firstName" class="form-control has-form-message" placeholder="Имя">
-                      </div>
+                    <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
+                      <input type="text" [(ngModel)]="firstName" class="form-input form-control" placeholder="Имя">
+                      <i class="material-icons input-icon">person</i>
                     </div>
                   </div>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <label class="input-group-addon">
-                          <i class="material-icons">person</i>
-                        </label>
-                        <input type="text" [(ngModel)]="secondName" placeholder="Фамилия" class="form-control has-form-message">
-                      </div>
+                    <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
+                      <input type="text" [(ngModel)]="secondName" placeholder="Фамилия" class="form-input form-control">
+                      <i class="material-icons input-icon">person</i>
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <label class="input-group-addon">
-                      <i class="material-icons">email</i>
-                    </label>
-                    <input type="email" [(ngModel)]="email" class="form-control has-form-message eo-email-ptc sessioncamexclude"
-                           placeholder="Email">
-                  </div>
+                <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
+                  <input type="email" [(ngModel)]="email" class="form-input form-control" placeholder="Email">
+                  <i class="material-icons input-icon">email</i>
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary m-md-top m-0-bottom m-0-right" (click)="checkUserEmail()">
+                  <button type="button" class="btn btn-primary m-md-top m-0-bottom m-0-right"
+                          (click)="checkUserEmail()">
                     <i class="glyphicon glyphicon-md air-icon-loading" aria-hidden="true"></i>
                     Get Started
                   </button>
@@ -146,3 +135,4 @@
     </div>
   </div>
 </div>
+<app-footer [isEmpty]="true"></app-footer>

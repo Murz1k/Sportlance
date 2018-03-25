@@ -14,12 +14,12 @@ const appRoutes: Routes = [
     path: Paths.Root, component: RootComponent, children: [
       {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
       {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
-      {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent},
-      {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},
-      {path: Paths.ConfirmRegistration, component: ConfirmRegisterComponent},
-      {path: Paths.Login, pathMatch: 'full', component: LoginComponent}
+      {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent}
     ]
   },
+  {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},
+  {path: Paths.ConfirmRegistration, component: ConfirmRegisterComponent},
+  {path: Paths.Login, pathMatch: 'full', component: LoginComponent},
   {path: '**', redirectTo: Paths.Root}
 ];
 

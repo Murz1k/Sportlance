@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AccountService} from "../../services/account-service";
 
 @Component({
   selector: 'root',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RootComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(public accountService: AccountService) {
+    this.accountService.initServicesAuthHeader();
+  }
 
   ngOnInit() {
   }

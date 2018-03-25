@@ -15,13 +15,16 @@ import {TrainersComponent} from './components/trainers/trainers.component';
 import {SportService} from './services/sport.service';
 import {AuthApiClient} from './services/auth-api-client';
 import {TrainerService} from './services/trainer.service';
+import {AccountService} from './services/account-service';
 import {AppRoutingModule} from './app-routing.module';
 import {LandingComponent} from './components/landing/landing.component';
 import {ProfileComponent} from './components/profile/profile.component';
 import {FooterComponent} from './components/footer/footer.component';
 import {SignupComponent} from './components/signup/signup.component';
 import {LoginComponent} from './components/login/login.component';
-import { ConfirmRegisterComponent } from './components/confirm-register/confirm-register.component';
+import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
+import {UserInfoStorage} from "./core/user-info-storage";
+import {ProfileApiClient} from "./api/profile/profile-api-client";
 
 
 @NgModule({
@@ -50,7 +53,10 @@ import { ConfirmRegisterComponent } from './components/confirm-register/confirm-
   providers: [
     SportService,
     TrainerService,
-    AuthApiClient
+    AccountService,
+    AuthApiClient,
+    ProfileApiClient,
+    UserInfoStorage
   ],
   bootstrap: [AppComponent]
 })

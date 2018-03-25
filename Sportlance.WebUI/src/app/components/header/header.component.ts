@@ -1,9 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {SportService} from "../../services/sport.service";
 import {Sport} from "../../services/sport";
 import {isNullOrUndefined} from "util";
 import {Paths} from '../../paths';
+import {ProfileApiClient} from "../../api/profile/profile-api-client";
+import {User} from "../../services/user";
+import {Profile} from "../../services/profile";
+import {AccountService} from "../../services/account-service";
 
 @Component({
   selector: 'header',
@@ -12,10 +16,7 @@ import {Paths} from '../../paths';
 })
 export class HeaderComponent implements OnInit {
 
-  async ngOnInit() {
-    const response = await this.sportService.getAllAsync();
-    this.sports = response.items;
-  }
+  @Input() public isEmpty: false;
 
   sport: Sport;
 
@@ -23,8 +24,25 @@ export class HeaderComponent implements OnInit {
 
   filteredCountriesSingle: Sport[];
 
+  public currentProfile: Profile;
+
   constructor(private router: Router,
-              private sportService: SportService) {
+              private sportService: SportService,
+              private profileApiClient: ProfileApiClient,
+              private accountService: AccountService) {
+    this.accountService.authStatusChanged.subscribe(async (isAuth) => {
+      if (isAuth) {
+        const profileResponse = await this.profileApiClient.getCurrentAsync();
+        this.currentProfile = <Profile> {firstName: profileResponse.firstName, lastName: profileResponse.lastName};
+      }
+    });
+  }
+
+  async ngOnInit() {
+    const response = await this.sportService.getAllAsync();
+    this.sports = response.items;
+    const profileResponse = await this.profileApiClient.getCurrentAsync();
+    this.currentProfile = <Profile> {firstName: profileResponse.firstName, lastName: profileResponse.lastName};
   }
 
   async filterCountrySingle(event) {
@@ -52,8 +70,8 @@ export class HeaderComponent implements OnInit {
     await this.router.navigate([Paths.SignUp]);
   }
 
-  async submitAsync(){
-    if(!isNullOrUndefined(this.sport.id)) {
+  async submitAsync() {
+    if (!isNullOrUndefined(this.sport.id)) {
       await this.router.navigate([Paths.Trainers + '/' + this.sport.id]);
     }
   }

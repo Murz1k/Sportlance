@@ -2,13 +2,14 @@
 {
     public enum ErrorCode
     {
-        LoginPasswordError,
+        AuthenticationError,
+        IncorrectPassword,
         EmailIsNotConfirmed,
         IncorrectData,
         RegistrationIsAlreadyConfirmed,
-        ValidatationError,
+        IncorrectValidation,
         ServerError,
-        UserNotExists,
+        UserNotFound,
         UpdateInProgress,
         TxIsInvalid
     }

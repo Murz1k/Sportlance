@@ -29,6 +29,20 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.3333;
 }
 
+.form-input{
+  border-color: #e0e0e0;
+  box-shadow: none;
+  padding-left: 44px;
+}
+
+.input-icon{
+  color: #008329;
+  position: absolute;
+  left: 9px;
+  top: 6px;
+  font-size: 24px;
+}
+
 .btn {
   padding: 11px 28px;
   font-size: 14px;

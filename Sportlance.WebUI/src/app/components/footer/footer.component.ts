@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {WeekDay} from "@angular/common";
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -12,11 +11,14 @@ export class FooterComponent implements OnInit {
 
   endDate: number;
 
+  @Input() public isEmpty: false;
+
   constructor() {
     this.endDate = (new Date()).getFullYear();
   }
 
   ngOnInit() {
+
   }
 
 }

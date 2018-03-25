@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
-using Sportlance.DAL.Repositories;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
 
@@ -84,9 +82,8 @@ namespace Sportlance.WebAPI.Authentication
                 claims: identity.Claims,
                 notBefore: _jwtOptions.NotBefore,
                 expires: _jwtOptions.Expiration,
-                signingCredentials: _jwtOptions.SigningCredentials);
+                signingCredentials: _jwtOptions.SigningCredentials) {Payload = {["TokenIssueDate"] = _dateTime.UtcNow}};
 
-            accessToken.Payload["TokenIssueDate"] = _dateTime.UtcNow;
 
             return _tokenHandler.WriteToken(accessToken);
         }
