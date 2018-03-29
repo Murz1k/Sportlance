@@ -21,7 +21,7 @@ namespace Sportlance.WebAPI.Filters
 
             await next();
 
-            if (string.IsNullOrEmpty(token))// || string.IsNullOrEmpty(context.HttpContext.User.Identity.Name))
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(context.HttpContext.User.Identity.Name))
                 return;
 
             if (_authenticationService.ShouldRefreshToken(token))

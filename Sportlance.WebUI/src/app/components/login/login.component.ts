@@ -5,7 +5,7 @@ import {ErrorCode} from '../../core/error-code';
 import {Router} from "@angular/router";
 import {Paths} from "../../paths";
 import {AccountService} from "../../services/account-service";
-import {User} from "../../services/user";
+import {LoginUser} from "../../services/login-user";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   public isDisabled = false;
 
-  public user: User = <User>{email: '', password: ''};
+  public user: LoginUser = <LoginUser>{email: '', password: ''};
 
   constructor(private router: Router,
               private authClient: AuthApiClient,

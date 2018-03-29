@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
@@ -25,6 +25,12 @@ import {LoginComponent} from './components/login/login.component';
 import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
 import {UserInfoStorage} from "./core/user-info-storage";
 import {ProfileApiClient} from "./api/profile/profile-api-client";
+import { InitializationComponent } from './components/initialization/initialization.component';
+import {InitializationGuard} from "./services/initialization/initialization.guard";
+import {InitializationService} from "./services/initialization/initialization.service";
+import {UserApiClient} from "./api/user/user-api.client";
+import {UserService} from "./services/user.service/user.service";
+import {JwtInterceptor} from "./api/jwt-Interceptor";
 
 
 @NgModule({
@@ -38,7 +44,8 @@ import {ProfileApiClient} from "./api/profile/profile-api-client";
     FooterComponent,
     SignupComponent,
     LoginComponent,
-    ConfirmRegisterComponent
+    ConfirmRegisterComponent,
+    InitializationComponent
   ],
   imports: [
     BrowserModule,
@@ -51,12 +58,21 @@ import {ProfileApiClient} from "./api/profile/profile-api-client";
     MatProgressSpinnerModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
     SportService,
     TrainerService,
     AccountService,
     AuthApiClient,
     ProfileApiClient,
-    UserInfoStorage
+    UserInfoStorage,
+    InitializationGuard,
+    UserService,
+    UserApiClient,
+    InitializationService
   ],
   bootstrap: [AppComponent]
 })

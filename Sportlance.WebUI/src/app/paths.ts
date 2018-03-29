@@ -4,5 +4,6 @@ export class Paths {
   public static readonly Profile = 'profile';
   public static readonly SignUp = 'signup';
   public static readonly Login = 'login';
+  public static readonly Initialization = 'initialization';
   public static readonly ConfirmRegistration = 'auth/confirm/:id/:token';
 }

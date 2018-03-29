@@ -6,8 +6,16 @@ import {BaseApiClient} from './base-api-client';
 
 @Injectable()
 export class SportService extends BaseApiClient {
+
+  public sports: Sport[] = [];
+
   constructor(private http: HttpClient) {
     super();
+  }
+
+  public async initializeAsync(): Promise<void> {
+    const response = await this.getAllAsync();
+    this.sports = response.items;
   }
 
   getAllAsync(): Promise<CollectionResponse<Sport>> {

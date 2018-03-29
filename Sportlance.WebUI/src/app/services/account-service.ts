@@ -37,6 +37,7 @@ export class AccountService {
     if (token) {
       this.profileApiClient.defaultHeaders = new HttpHeaders().set(this.Authorization, "Bearer " + token);
     }
+    this.authStatusChanged.emit(true);
   }
 
   public login(userInfo: LoginResponse) {

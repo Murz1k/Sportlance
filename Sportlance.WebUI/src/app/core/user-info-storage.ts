@@ -1,6 +1,7 @@
 import {Injectable, EventEmitter} from "@angular/core";
 import {LoginResponse} from "../services/login-response";
 import {StorageUtils} from "./storage-utils";
+import {User} from "../services/user.service/user";
 
 @Injectable()
 export class UserInfoStorage {
@@ -30,6 +31,12 @@ export class UserInfoStorage {
     const userInfo = this.userInfo;
     userInfo.token = token;
     this.userInfo = userInfo;
+  }
+
+  public saveCurrentUser(user: LoginResponse) {
+
+    localStorage.setItem(this.UserKey, JSON.stringify(user));
+    this.userInfoChanged.emit(user);
   }
 }
 

@@ -6,12 +6,18 @@
                         field="name" (completeMethod)="filterCountrySingle($event)" [size]="30"
                         placeholder="Найти вид спорта" [minLength]="1"></p-autoComplete>
         <span class="example-spacer"></span>
-        <button (click)="loginAsync()" class="btn-link">
-          Вход
-        </button>
-        <button (click)="registerAsync()" class="btn-link">
-          Регистрация
-        </button>
+        <div *ngIf="!isAuth; else userExistBlock;">
+          <button (click)="loginAsync()" class="btn-link">
+            Вход
+          </button>
+          <button (click)="registerAsync()" class="btn-link">
+            Регистрация
+          </button>
+        </div>
+        <ng-template #userExistBlock>
+          {{currentUser.firstName}}
+          {{currentUser.lastName}}
+        </ng-template>
       </div>
     </div>
   </mat-toolbar-row>

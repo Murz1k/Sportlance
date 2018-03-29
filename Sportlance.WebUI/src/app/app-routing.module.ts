@@ -8,10 +8,13 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {SignupComponent} from './components/signup/signup.component';
 import {LoginComponent} from './components/login/login.component';
 import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
+import {InitializationComponent} from "./components/initialization/initialization.component";
+import {InitializationGuard} from "./services/initialization/initialization.guard";
 
 const appRoutes: Routes = [
+  {path: Paths.Initialization, component: InitializationComponent},
   {
-    path: Paths.Root, component: RootComponent, children: [
+    path: Paths.Root, component: RootComponent, canActivate: [InitializationGuard], children: [
       {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
       {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
       {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent}

@@ -20,7 +20,7 @@ namespace Sportlance.WebAPI.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet, Route("current")]//, Authorize]
+        [HttpGet, Route("current"), Authorize]
         public async Task<CheckUserResponse> GetCurrentAsync()
         {
             var user = await _userRepository.GetByIdAsync(User.GetUserId());

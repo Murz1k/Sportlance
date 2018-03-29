@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Sportlance.BLL.Interfaces;
+using Sportlance.BLL.Services;
 using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Services;
 using Sportlance.DAL.Core;
@@ -90,6 +92,7 @@ namespace Sportlance.WebAPI
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
             services.AddTransient<ITrainerService, TrainerService>();
             services.AddTransient<AuthService, AuthService>();

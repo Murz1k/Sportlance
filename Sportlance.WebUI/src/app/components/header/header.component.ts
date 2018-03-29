@@ -1,12 +1,11 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {SportService} from "../../services/sport.service";
 import {Sport} from "../../services/sport";
 import {isNullOrUndefined} from "util";
 import {Paths} from '../../paths';
-import {ProfileApiClient} from "../../api/profile/profile-api-client";
-import {User} from "../../services/user";
-import {Profile} from "../../services/profile";
+import {UserService} from "../../services/user.service/user.service";
+import {User} from "../../services/user.service/user";
 import {AccountService} from "../../services/account-service";
 
 @Component({
@@ -19,35 +18,34 @@ export class HeaderComponent implements OnInit {
   @Input() public isEmpty: false;
 
   sport: Sport;
-
   sports: Sport[];
-
   filteredCountriesSingle: Sport[];
 
-  public currentProfile: Profile;
+  public currentUser: User;
+  public isAuth = false;
 
   constructor(private router: Router,
               private sportService: SportService,
-              private profileApiClient: ProfileApiClient,
+              private userService: UserService,
               private accountService: AccountService) {
-    this.accountService.authStatusChanged.subscribe(async (isAuth) => {
-      if (isAuth) {
-        const profileResponse = await this.profileApiClient.getCurrentAsync();
-        this.currentProfile = <Profile> {firstName: profileResponse.firstName, lastName: profileResponse.lastName};
-      }
-    });
   }
 
-  async ngOnInit() {
-    const response = await this.sportService.getAllAsync();
-    this.sports = response.items;
-    const profileResponse = await this.profileApiClient.getCurrentAsync();
-    this.currentProfile = <Profile> {firstName: profileResponse.firstName, lastName: profileResponse.lastName};
+  ngOnInit(): Promise<void> {
+    return this.updateUserAsync();
   }
 
   async filterCountrySingle(event) {
     let query = event.query;
     this.filteredCountriesSingle = this.filterCountry(query, this.sports);
+  }
+
+  public async updateUserAsync(): Promise<void> {
+    this.sports = this.sportService.sports;
+    if (this.accountService.isAuthorized) {
+      await this.userService.initializeAsync();
+      this.currentUser = this.userService.currentUser;
+      this.isAuth = true;
+    }
   }
 
   filterCountry(query, countries: Sport[]): Sport[] {
