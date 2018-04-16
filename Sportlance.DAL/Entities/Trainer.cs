@@ -33,5 +33,7 @@ namespace Sportlance.DAL.Entities
         public User User { get; set; }
 
         public IReadOnlyCollection<TrainerSports> TrainerSports { get; set; }
+
+        public IReadOnlyCollection<Training> Trainings { get; set; }
     }
 }

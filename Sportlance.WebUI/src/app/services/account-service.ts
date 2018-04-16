@@ -6,6 +6,7 @@ import {LoginResponse} from "./login-response";
 import {UserInfoStorage} from "../core/user-info-storage";
 import {isNullOrUndefined} from "util";
 import {ProfileApiClient} from "../api/profile/profile-api-client";
+import {UserService} from "./user.service/user.service";
 
 @Injectable()
 export class AccountService {
@@ -17,8 +18,9 @@ export class AccountService {
 
   constructor(private userInfoStorage: UserInfoStorage,
               private authApiClient: AuthApiClient,
-              private profileApiClient: ProfileApiClient) {
-    userInfoStorage.userInfoChanged.subscribe(() => this.initServicesAuthHeader())
+              private profileApiClient: ProfileApiClient,
+              private userService: UserService) {
+    userInfoStorage.userInfoChanged.subscribe(() => this.initServicesAuthHeader());
   }
 
 
@@ -27,8 +29,9 @@ export class AccountService {
   }
 
   public async initilizeAsync(): Promise<void> {
-    if(!isNullOrUndefined(this.userInfoStorage.email)){
-      //await this.authApiClient.loginAsync()
+    if (this.isAuthorized) {
+      await this.userService.initializeAsync();
+      this.authStatusChanged.emit(true);
     }
   }
 
@@ -42,7 +45,6 @@ export class AccountService {
 
   public login(userInfo: LoginResponse) {
     this.userInfoStorage.userInfo = userInfo;
-    debugger
     this.authStatusChanged.emit(true);
   }
 
@@ -50,7 +52,6 @@ export class AccountService {
     this.userInfoStorage.userInfo = null;
     this.authStatusChanged.emit(false);
   }
-
 }
 
 

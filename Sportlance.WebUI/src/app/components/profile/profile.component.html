@@ -91,7 +91,31 @@
       </div>
     </div>
     <section class="pull-left">
-      {{trainer.about}}
+      <ul style="list-style: none; padding: 0;">
+        <li *ngFor="let review of trainer.reviews">
+          <div class="row">
+            <div class="col">
+              <div style="position: relative; padding-top: 1em;">
+                <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
+                  {{scoreStar.isFull ? 'star' : ''}}
+                  {{scoreStar.isEmpty ? 'star_border' : ''}}
+                  {{scoreStar.isHalf ? 'star_half' : ''}}
+                </i>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              {{review.description}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              {{review.clientName}} {{review.createDate}}
+            </div>
+          </div>
+        </li>
+      </ul>
     </section>
   </div>
 </div>

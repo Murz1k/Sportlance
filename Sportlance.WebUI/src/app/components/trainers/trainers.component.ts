@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TrainerInfo} from "./trainer-info";
-import {Star} from "./star";
-import {TrainerService} from "../../services/trainer.service";
-import {SportService} from "../../services/sport.service";
-import {Sport} from "../../services/sport";
-import {isNullOrUndefined} from "util";
+import {TrainerInfo} from './trainer-info';
+import {Star} from './star';
+import {TrainerService} from '../../services/trainer.service';
+import {SportService} from '../../services/sport.service';
+import {Sport} from '../../services/sport';
+import {isNullOrUndefined} from 'util';
 import {Paths} from '../../paths';
 
 @Component({
@@ -40,7 +40,7 @@ export class TrainersComponent implements OnInit {
       stars: this.convertAverageScoreToStars(i.score),
       about: this.cutAbout(i.about),
       title: i.title,
-      reviewTitle: this.convertReviewsToReviewTitle(i.reviewCount),
+      reviewTitle: this.convertReviewsToReviewTitle(i.reviews.length),
       trainingsCount: i.trainingsCount,
       trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount)
     });
@@ -69,7 +69,7 @@ export class TrainersComponent implements OnInit {
     for (let i = 0; i < fillStars; i++) {
       allStars.push(<Star>{isFull: true});
     }
-    const halfStars = Number.isInteger(score) ? 0 : 1
+    const halfStars = Number.isInteger(score) ? 0 : 1;
     for (let i = 0; i < halfStars; i++) {
       allStars.push(<Star>{isHalf: true});
     }
@@ -84,9 +84,9 @@ export class TrainersComponent implements OnInit {
     let title = 'трениров';
     const lastOneNumber = +trainings.toString().slice(-1);
     const lastTwoNumbers = +trainings.toString().slice(-2);
-    if (lastOneNumber == 0 || lastTwoNumbers == 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
+    if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
       title = `${title}ок`;
-    } else if (lastOneNumber == 1) {
+    } else if (lastOneNumber === 1) {
       title = `${title}ка`;
     } else {
       title = `${title}ки`;
@@ -98,9 +98,9 @@ export class TrainersComponent implements OnInit {
     let title = 'отзыв';
     const lastOneNumber = +reviews.toString().slice(-1);
     const lastTwoNumbers = +reviews.toString().slice(-2);
-    if (lastOneNumber == 0 || lastTwoNumbers == 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
+    if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
       title = `${reviews} ${title}ов`;
-    } else if (lastOneNumber == 1) {
+    } else if (lastOneNumber === 1) {
       title = `${reviews} ${title}`;
     } else {
       title = `${reviews} ${title}а`;

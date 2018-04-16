@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Sportlance.DAL.Core;
 
 namespace Sportlance.DAL.Entities
@@ -22,5 +23,7 @@ namespace Sportlance.DAL.Entities
         public bool IsEmailConfirm { get; set; }
 
         public Trainer Trainer { get; set; }
+
+        public IReadOnlyCollection<Training> Trainings { get; set; }
     }
 }

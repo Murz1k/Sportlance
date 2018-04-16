@@ -2,10 +2,12 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {AutoCompleteModule} from 'primeng/autocomplete';
-import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatMenuModule} from '@angular/material/menu';
+import {DataListModule} from 'primeng/datalist';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './components/header/header.component';
@@ -23,14 +25,18 @@ import {FooterComponent} from './components/footer/footer.component';
 import {SignupComponent} from './components/signup/signup.component';
 import {LoginComponent} from './components/login/login.component';
 import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
-import {UserInfoStorage} from "./core/user-info-storage";
-import {ProfileApiClient} from "./api/profile/profile-api-client";
-import { InitializationComponent } from './components/initialization/initialization.component';
-import {InitializationGuard} from "./services/initialization/initialization.guard";
-import {InitializationService} from "./services/initialization/initialization.service";
-import {UserApiClient} from "./api/user/user-api.client";
-import {UserService} from "./services/user.service/user.service";
-import {JwtInterceptor} from "./api/jwt-Interceptor";
+import {UserInfoStorage} from './core/user-info-storage';
+import {ProfileApiClient} from './api/profile/profile-api-client';
+import {InitializationComponent} from './components/initialization/initialization.component';
+import {InitializationGuard} from './services/initialization/initialization.guard';
+import {InitializationService} from './services/initialization/initialization.service';
+import {UserApiClient} from './api/user/user-api.client';
+import {UserService} from './services/user.service/user.service';
+import {JwtInterceptor} from './api/jwt-Interceptor';
+import {MatIconModule} from '@angular/material/icon';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MenuComponent } from './components/header/menu/menu.component';
+import { AccountComponent } from './components/account/account.component';
 
 
 @NgModule({
@@ -45,17 +51,24 @@ import {JwtInterceptor} from "./api/jwt-Interceptor";
     SignupComponent,
     LoginComponent,
     ConfirmRegisterComponent,
-    InitializationComponent
+    InitializationComponent,
+    MenuComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
+    DataListModule,
     NgbModule.forRoot(),
     MatToolbarModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     AutoCompleteModule,
     HttpClientModule,
-    MatProgressSpinnerModule
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {

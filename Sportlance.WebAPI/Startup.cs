@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Sportlance.BLL.Interfaces;
 using Sportlance.BLL.Services;
+using Sportlance.DAL;
 using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Services;
 using Sportlance.DAL.Core;
@@ -85,9 +86,7 @@ namespace Sportlance.WebAPI
             services.AddTransient(x => AppDBContext.CreateEditable(dbOptions));
             services.AddTransient(x => AppDBContext.CreateReadOnly(dbOptions));
 
-            services.AddTransient<ISportRepository, SportRepository>();
-            services.AddTransient<ITrainerRepository, TrainerRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            DataLoader.LoadRepositories(services);
 
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

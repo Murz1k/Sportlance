@@ -1,3 +1,5 @@
+import {Review} from './review';
+
 export interface Trainer {
   id: number;
   firstName: string;
@@ -8,6 +10,6 @@ export interface Trainer {
   score: number;
   about: string;
   title: string;
-  reviewCount: number;
+  reviews: Array<Review>;
   trainingsCount: number;
 }

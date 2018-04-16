@@ -1,4 +1,7 @@
-﻿namespace Sportlance.WebAPI.Entities
+﻿using System.Collections.Generic;
+using Sportlance.BLL.Entities;
+
+namespace Sportlance.WebAPI.Entities
 {
     public class TrainerInfo
     {
@@ -14,15 +17,15 @@
 
         public double Price { get; set; }
 
-        public double Score { get; set; }
+        public double? Score { get; set; }
         
         public string About { get; set; }
 
         public string Title { get; set; }
 
-        public uint ReviewCount { get; set; }
+        public IReadOnlyCollection<ReviewInfo> Reviews { get; set; }
 
-        public uint TrainingsCount { get; set; }
+        public int TrainingsCount { get; set; }
 
         //TODO поменять на AzureBlobStorage
         public string PhotoUrl { get; set; }

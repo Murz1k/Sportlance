@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Sportlance.DAL.Entities;
@@ -18,5 +19,11 @@ namespace Sportlance.DAL.Interfaces
         Task<bool> IsEmailExists(string email);
 
         Task<User> CreateUser(User entity);
+
+        Task<int> RemoveRangeAsync(IEnumerable<User> entities);
+
+        Task<int> AddRangeAsync(IEnumerable<User> entities);
+
+        Task<IReadOnlyCollection<User>> GetAllAsync();
     }
 }

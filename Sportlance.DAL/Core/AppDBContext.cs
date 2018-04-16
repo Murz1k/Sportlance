@@ -17,9 +17,17 @@ namespace Sportlance.DAL.Core
 
         IQueryable<TrainerSports> IReadOnlyDataContext.TrainerSports => TrainerSports.AsNoTracking();
 
+        IQueryable<Review> IReadOnlyDataContext.Reviews => Reviews.AsNoTracking();
+
+        IQueryable<Training> IReadOnlyDataContext.Trainings => Trainings.AsNoTracking();
+
         IQueryable<User> IReadOnlyDataContext.Users => Users.AsNoTracking();
 
         IQueryable<Sport> IReadOnlyDataContext.Sports => Sports.AsNoTracking();
+
+        public DbSet<Training> Trainings { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Trainer> Trainers { get; set; }
 
@@ -118,6 +126,19 @@ namespace Sportlance.DAL.Core
 
             //modelBuilder.Entity<ExpertArea>()
             //            .HasKey(u => new { u.ExpertId, u.AreaId });
+
+            modelBuilder.Entity<User>()
+                .HasMany(r => r.Trainings)
+                .WithOne(r => r.Client);
+
+            modelBuilder.Entity<Training>()
+                .HasOne(r => r.Review)
+                .WithOne(r => r.Training)
+                .HasForeignKey<Review>(u => u.TrainingId);
+
+            modelBuilder.Entity<Trainer>()
+                .HasMany(c => c.Trainings)
+                .WithOne(e => e.Trainer);
 
             modelBuilder.Entity<Trainer>()
                         .HasMany(c => c.TrainerSports)

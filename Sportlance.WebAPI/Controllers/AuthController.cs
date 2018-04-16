@@ -84,7 +84,9 @@ namespace Sportlance.WebAPI.Controllers
             var user = await _userRepository.CreateUser(new User
             {
                 Email = data.Email,
-                PasswordHash = HashUtils.CreateHash(data.Password)
+                PasswordHash = HashUtils.CreateHash(data.Password),
+                FirstName = data.FirstName,
+                LastName = data.LastName
             });
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);

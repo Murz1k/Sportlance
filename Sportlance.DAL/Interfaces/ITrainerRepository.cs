@@ -11,5 +11,9 @@ namespace Sportlance.DAL.Interfaces
         Task<IReadOnlyCollection<TrainerSports>> GetTrainersSportsByIds(IEnumerable<long> trainersIds);
 
         Task<Trainer> GetByIdAsync(long sportId);
+
+        Task<int> AddRangeAsync(IEnumerable<Trainer> entities);
+
+        Task<IReadOnlyCollection<Trainer>> GetAllAsync();
     }
 }

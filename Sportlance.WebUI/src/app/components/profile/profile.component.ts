@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {Trainer} from '../../services/trainer';
-import {TrainerService} from "../../services/trainer.service";
+import {TrainerService} from '../../services/trainer.service';
+import {Star} from '../trainers/star';
+import {TrainerInfo} from '../trainers/trainer-info';
+import {ReviewInfo} from './review-info';
 
 @Component({
   selector: 'app-profile',
@@ -10,8 +12,9 @@ import {TrainerService} from "../../services/trainer.service";
 })
 export class ProfileComponent implements OnInit {
 
-  trainer: Trainer;
+  trainer: TrainerInfo;
   isRendering = false;
+  starsNumber = 5;
 
   constructor(private route: ActivatedRoute,
               private trainerService: TrainerService) {
@@ -25,7 +28,42 @@ export class ProfileComponent implements OnInit {
 
   async updateDataAsync(id: number) {
     this.isRendering = false;
-    this.trainer = await this.trainerService.getByIdAsync(id);
+    const response = await this.trainerService.getByIdAsync(id);
+    this.trainer = <TrainerInfo>{
+      reviews: response.reviews.map(i => <ReviewInfo>{
+        stars: this.convertAverageScoreToStars(i.score),
+        clientName: i.clientName,
+        createDate: i.createDate,
+        description: i.description,
+        photoUrl: i.photoUrl
+      }),
+      firstName: response.firstName,
+      secondName: response.secondName,
+      trainingsCount: response.trainingsCount,
+      price: response.price,
+      city: response.city,
+      about: response.about,
+      title: response.title,
+      country: response.country,
+      stars: this.convertAverageScoreToStars(response.score)
+    };
     this.isRendering = true;
+  }
+
+  private convertAverageScoreToStars(score: number): Array<Star> {
+    const allStars = [];
+    const fillStars = Math.trunc(score);
+    for (let i = 0; i < fillStars; i++) {
+      allStars.push(<Star>{isFull: true});
+    }
+    const halfStars = Number.isInteger(score) ? 0 : 1;
+    for (let i = 0; i < halfStars; i++) {
+      allStars.push(<Star>{isHalf: true});
+    }
+    const emptyStars = this.starsNumber - fillStars - halfStars;
+    for (let i = 0; i < emptyStars; i++) {
+      allStars.push(<Star>{isEmpty: true});
+    }
+    return allStars;
   }
 }

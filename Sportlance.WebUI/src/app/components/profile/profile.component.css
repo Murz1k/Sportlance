@@ -134,6 +134,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 -30px;
   padding: 30px;
   background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .pull-right {

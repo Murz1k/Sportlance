@@ -17,7 +17,11 @@ namespace Sportlance.WebAPI.Requests
         //[DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
         //[ValidateCaptcha]
-        public string CaptchaCode { get; set; }
+        //public string CaptchaCode { get; set; }
     }
 }
