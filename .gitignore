@@ -15,4 +15,6 @@ Sportlance\.WebAPI/bin/
 
 \.vs/
 
-*.sln
+Sportlance/Sportlance/obj/
+
+Sportlance\.DAL\.Test/obj/
