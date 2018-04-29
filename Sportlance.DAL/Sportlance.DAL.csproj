@@ -8,6 +8,8 @@
     <Compile Remove="Migrations\20180408133354_AddReviewAndTraining.cs" />
     <Compile Remove="Migrations\20180408133735_AddReviewAndTraining.cs" />
     <Compile Remove="Migrations\20180408140343_AddReviewAndTraining.cs" />
+    <Compile Remove="Migrations\20180421151526_UpdateTrainer.cs" />
+    <Compile Remove="Migrations\20180429125044_AddRoles.cs" />
   </ItemGroup>
 
   <ItemGroup>

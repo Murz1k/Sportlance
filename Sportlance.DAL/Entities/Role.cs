@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Sportlance.DAL.Core;
+﻿using Sportlance.DAL.Core;
 
 namespace Sportlance.DAL.Entities
 {
-    public class Sport: IEntityWithId
+    public class Role: IEntityWithId
     {
         public long Id { get; set; }
 
-        [Required]
         public string Name { get; set; }
     }
 }

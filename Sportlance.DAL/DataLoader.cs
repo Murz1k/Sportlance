@@ -13,6 +13,7 @@ namespace Sportlance.DAL
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IReviewRepository, ReviewRepository>();
             services.AddTransient<ITrainingRepository, TrainingRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
         }
     }
 }

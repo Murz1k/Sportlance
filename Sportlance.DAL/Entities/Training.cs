@@ -9,16 +9,14 @@ namespace Sportlance.DAL.Entities
 
         public long ClientId { get; set; }
 
-        public long TrainerId { get; set; }
+        public long TrainerSportId { get; set; }
 
         public DateTime StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
 
-        public User Client { get; set; }
+        public Client Client { get; set; }
 
-        public Trainer Trainer { get; set; }
-
-        public Review Review { get; set; }
+        public TrainerSports TrainerSport { get; set; }
     }
 }

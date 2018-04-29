@@ -12,6 +12,7 @@ import {ErrorCode} from "../../core/error-code";
 export class SignupComponent implements OnInit {
 
   public isEmailExist: boolean;
+  public emailAlreadyExist: boolean;
 
   public submitForm: FormGroup;
 
@@ -22,7 +23,7 @@ export class SignupComponent implements OnInit {
   }
 
   async checkUserEmailAsync(): Promise<void> {
-    console.log(this.submitForm.value);
+    if (!this.validateLogin()) return;
     try {
       const response = await this.authClient.checkUserAsync(this.submitForm.value.email);
       if (response.email.toUpperCase() === this.submitForm.value.email.toUpperCase()) {
@@ -32,8 +33,20 @@ export class SignupComponent implements OnInit {
       switch (e.error.errorCode) {
         case ErrorCode.UserNotFound:
           this.isEmailExist = true;
+          break;
+        case ErrorCode.EmailIsNotConfirmed:
+          this.emailAlreadyExist = true;
+          break;
       }
     }
+  }
+
+  private validateLogin(): boolean {
+    const form = this.submitForm;
+    form.controls.firstName.markAsDirty();
+    form.controls.lastName.markAsDirty();
+    form.controls.email.markAsDirty();
+    return form.controls.firstName.valid && form.controls.lastName.valid && form.controls.email.valid;
   }
 
   ngOnInit() {

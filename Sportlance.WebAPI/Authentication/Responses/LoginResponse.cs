@@ -9,5 +9,7 @@ namespace Sportlance.WebAPI.Authentication.Responses
         public IEnumerable<string> Roles { get; set; }
 
         public string Email { get; set; }
+
+        public bool IsConfirmed { get; set; }
     }
 }

@@ -66,3 +66,40 @@ header mat-toolbar {
   right: 0;
   z-index: 10;
 }
+
+.form-message {
+  margin-top: 10px;
+  font-size: 12px;
+  display: block;
+  padding-left: 24px;
+  margin-bottom: 10px !important;
+  font-weight: 700;
+  text-align: left !important;
+}
+
+.form-error.form-message {
+  color: #d50000;
+}
+
+.form-control.ng-dirty.ng-invalid {
+  border-color: #d50000 !important;
+}
+
+a:active, a:focus, a:hover {
+  color: #008329;
+  text-decoration: underline;
+}
+
+a:active, a:hover {
+  outline: 0;
+}
+
+a {
+  color: #37a000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a {
+  background: transparent;
+}

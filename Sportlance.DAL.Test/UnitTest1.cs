@@ -14,6 +14,7 @@ namespace Sportlance.DAL.Test
         private readonly TestEnviroment _env;
 
         private List<User> _users;
+        private List<Sport> _sports;
 
 
         public UnitTest1()
@@ -66,6 +67,23 @@ namespace Sportlance.DAL.Test
                 };
                 _users.Add(user);
             }
+
+            _sports = new List<Sport>
+            {
+                new Sport{Name="Плавание"},
+                new Sport{Name="Водное поло"},
+                new Sport{Name="Бокс"}
+            };
+        }
+
+        [Test]
+        public async Task LoadSports()
+        {
+            var sportRepository = _env.GetService<ISportRepository>();
+            var all = await sportRepository.GetAllAsync();
+            await sportRepository.RemoveRangeAsync(all);
+
+            await sportRepository.AddRangeAsync(_sports);
         }
 
         //[TearDown]
@@ -75,6 +93,7 @@ namespace Sportlance.DAL.Test
             var userRespoRepository = _env.GetService<IUserRepository>();
             var allUsers = await userRespoRepository.GetAllAsync();
             await userRespoRepository.RemoveRangeAsync(allUsers.Where(i => i.PasswordHash == "Test"));
+            await LoadSports();
         }
 
         //[SetUp]
@@ -95,10 +114,7 @@ namespace Sportlance.DAL.Test
 
             var allUsers = await userRespoRepository.GetAllAsync();
             var testUsers = allUsers.Where(i => i.PasswordHash == "Test");
-            var trainers = new List<Trainer>();
-            foreach (var user in testUsers)
-            {
-                var trainer = new Trainer
+            var trainers = testUsers.Select(user => new Trainer
                 {
                     UserId = user.Id,
                     About = "fsdfsd",
@@ -107,10 +123,8 @@ namespace Sportlance.DAL.Test
                     FirstName = user.FirstName,
                     SecondName = user.LastName,
                     Title = "Super Trainer",
-                    PhotoUrl ="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
-                };
-                trainers.Add(trainer);
-            }
+                    PhotoUrl = "https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
+                });
 
             await trainerRepository.AddRangeAsync(trainers);
         }
@@ -122,19 +136,15 @@ namespace Sportlance.DAL.Test
             var trainerRepository = _env.GetService<ITrainerRepository>();
             var sportRepository = _env.GetService<ISportRepository>();
             var allTrainers = await trainerRepository.GetAllAsync();
+            var firstSport = (await sportRepository.GetAllAsync()).First();
 
-            var trainerSports = new List<TrainerSports>();
-            foreach (var trainer in allTrainers)
-            {
-                var trainerSport = new TrainerSports
+            var trainerSports = allTrainers.Select(trainer => new TrainerSports
                 {
                     Price = new Random().Next(10, 40) * 100,
-                    SportId = 10017,
+                    SportId = firstSport.Id,
                     TaxType = TaxType.PerHour,
-                    TrainerId = trainer.Id
-                };
-                trainerSports.Add(trainerSport);
-            }
+                    TrainerId = trainer.UserId
+                });
 
             await sportRepository.AddTrainerSportsRangeAsync(trainerSports);
         }
@@ -147,22 +157,17 @@ namespace Sportlance.DAL.Test
             var trainingRepository = _env.GetService<ITrainingRepository>();
             var allTrainers = await trainerRepository.GetAllAsync();
 
-            var trainings = new List<Training>();
-            foreach (var trainer in allTrainers)
-            {
-                var rand = TimeSpan.FromDays(new Random().Next(10, 40));
-                var startDate = DateTime.Today - rand;
-                    var endDate = DateTime.Now - rand;
-
-                var training = new Training
+            var trainings = from trainer in allTrainers
+                let rand = TimeSpan.FromDays(new Random().Next(10, 40))
+                let startDate = DateTime.Today - rand
+                let endDate = DateTime.Now - rand
+                select new Training
                 {
                     ClientId = allTrainers.ElementAt(new Random().Next(0, allTrainers.Count)).UserId,
-                    TrainerId = trainer.Id,
+                    //TrainerId = trainer.UserId,
                     StartDate = startDate,
                     EndDate = endDate
                 };
-                trainings.Add(training);
-            }
 
             await trainingRepository.AddRangeAsync(trainings);
         }
@@ -175,22 +180,17 @@ namespace Sportlance.DAL.Test
             var trainingRepository = _env.GetService<ITrainingRepository>();
             var allTrainings = await trainingRepository.GetAllAsync();
 
-            var reviews = new List<Review>();
-            foreach (var training in allTrainings)
-            {
-                var rand = TimeSpan.FromDays(new Random().Next(10, 40));
-                var createDate = DateTime.Now - rand;
-                var score = Convert.ToByte(new Random().Next(0, 8));
-
-                var review = new Review
+            var reviews = from training in allTrainings
+                let rand = TimeSpan.FromDays(new Random().Next(10, 40))
+                let createDate = DateTime.Now - rand
+                let score = Convert.ToByte(new Random().Next(0, 8))
+                select new Review
                 {
                     TrainingId = training.Id,
                     CreateDate = createDate,
                     Score = score > 5 ? default(byte?) : score,
                     Description = "sdfsdfsdfasdgasdgasdgasg"
                 };
-                reviews.Add(review);
-            }
 
             await reviewRepository.AddRangeAsync(reviews);
         }

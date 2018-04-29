@@ -1,14 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
-using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 using Sportlance.WebAPI.Utilities;
@@ -23,15 +22,18 @@ namespace Sportlance.WebAPI.Controllers
         private readonly MailService _mailService;
         private readonly MailTokenService _mailTokenService;
         private readonly AuthService _authService;
+        private readonly IRoleRepository _roleRepository;
 
         public AuthController(
             IUserRepository userRepository,
             MailService mailService,
             MailTokenService mailTokenService,
-            AuthService authService
-            )
+            AuthService authService,
+            IRoleRepository roleRepository
+        )
         {
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
             _mailService = mailService;
             _mailTokenService = mailTokenService;
             _authService = authService;
@@ -46,14 +48,9 @@ namespace Sportlance.WebAPI.Controllers
                 throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
             }
 
-            if (!user.IsEmailConfirm)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
-            }
-
             return new CheckUserResponse
             {
-                Email = user.Email
+                Email = user.Email,
             };
         }
 
@@ -66,15 +63,16 @@ namespace Sportlance.WebAPI.Controllers
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectPassword));
             }
 
-            if (!user.IsEmailConfirm)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
-            }
+            var roles = await _roleRepository.GetRolesByUserId(user.Id);
+
             return new LoginResponse
             {
-                Token = _authService.GenerateAccessToken(user),
+                Token = user.IsEmailConfirm
+                    ? _authService.GenerateAccessToken(user)
+                    : _mailTokenService.EncryptToken(user.Email),
                 Email = user.Email,
-                //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
+                IsConfirmed = user.IsEmailConfirm,
+                Roles = roles.Select(i => i.Name)
             };
         }
 
@@ -98,28 +96,32 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpPut, Route("confirm")]
-        public async Task<ConfirmRegistrationResponse> ConfirmRegistration([FromBody] ConfirmRegistrationRequest data)
+        public async Task<LoginResponse> ConfirmRegistration([FromBody] ConfirmRegistrationRequest data)
         {
             var user = await _userRepository.GetByIdAsync(data.UserId);
-            if (user == null || !_mailTokenService.CheckEmailConfirmationToken(user.Id.ToString(), user.Email, data.Token))
+            if (user == null ||
+                !_mailTokenService.CheckEmailConfirmationToken(user.Id.ToString(), user.Email, data.Token))
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
 
-            if (user.IsEmailConfirm)
-                throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
             user.IsEmailConfirm = true;
             await _userRepository.UpdateAsync(user, x => x.IsEmailConfirm);
-            return new ConfirmRegistrationResponse
+
+            var roles = await _roleRepository.GetRolesByUserId(user.Id);
+
+            return new LoginResponse
             {
                 Token = _authService.GenerateAccessToken(user),
                 Email = user.Email,
-                //Roles = EnumUtils.GetFlags(user.Roles).Select(r => r.ToString())
+                IsConfirmed = user.IsEmailConfirm,
+                Roles = roles.Select(i => i.Name)
             };
         }
 
-        [HttpPost(nameof(ReSendEmail))]
+        [HttpPost, Route("re-send")]
         public async Task ReSendEmail([FromBody] ResendEmailRequest request)
         {
-            var user = await _userRepository.GetByEmailAsync(_mailTokenService.DecryptToken(request.Token));
+            var token = _mailTokenService.DecryptToken(request.Token);
+            var user = await _userRepository.GetByEmailAsync(token);
 
             if (user == null)
             {
@@ -160,7 +162,7 @@ namespace Sportlance.WebAPI.Controllers
 
         [Authorize]
         [HttpPut(nameof(SendUpdateEmailForUser))]
-        public async Task<EmptyResponse> SendUpdateEmailForUser([FromBody]UpdateEmailRequest data)
+        public async Task<EmptyResponse> SendUpdateEmailForUser([FromBody] UpdateEmailRequest data)
         {
             var user = await _userRepository.GetByIdAsync(_authService.UserId);
 
@@ -193,7 +195,9 @@ namespace Sportlance.WebAPI.Controllers
         public async Task<EmptyResponse> UpdatePassword([FromBody] UpdatePasswordRequest data)
         {
             var user = await _userRepository.GetByIdAsync(data.UserId);
-            if (user == null || !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash, data.Token))
+            if (user == null ||
+                !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash,
+                    data.Token))
             {
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
             }

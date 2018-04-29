@@ -37,7 +37,7 @@ namespace Sportlance.WebAPI.Services
         public async Task<IReadOnlyCollection<TrainerInfo>> GetTrainersInfosBySportId(long sportId)
         {
             var trainers = await _repository.GetTrainersBySportId(sportId);
-            var trainerSports = await _repository.GetTrainersSportsByIds(trainers.Select(i => i.Id));
+            var trainerSports = await _repository.GetTrainersSportsByIds(trainers.Select(i => i.UserId));
 
             var mockTrainingsCounts = new List<int>()
             {
@@ -59,13 +59,13 @@ namespace Sportlance.WebAPI.Services
 
             return trainers.Select(i => new TrainerInfo
             {
-                Id = i.Id,
+                Id = i.UserId,
                 FirstName = i.FirstName,
                 SecondName = i.SecondName,
                 City = i.City,
                 Country = i.Country,
                 PhotoUrl = i.PhotoUrl,
-                Price = trainerSports.First(j => j.SportId == sportId && j.TrainerId == i.Id).Price,
+                Price = trainerSports.First(j => j.SportId == sportId && j.TrainerId == i.UserId).Price,
                 Score = mockScores[new Random().Next(0, mockScores.Count)],
                 About = i.About,
                 Title = i.Title,
@@ -76,7 +76,7 @@ namespace Sportlance.WebAPI.Services
         public async Task<TrainerInfo> GetTrainerInfoById(long trainerId)
         {
             var trainer = await _repository.GetByIdAsync(trainerId);
-            var trainerSports = await _repository.GetTrainersSportsByIds(new[] { trainer.Id });
+            var trainerSports = await _repository.GetTrainersSportsByIds(new[] { trainer.UserId });
             var trainerTrainings = await _trainingRepository.GetByTrainerIdAsync(trainerId);
             var trainerReviews = await _reviewRepository.GetByTrainerIdAsync(trainerId);
             var allUsers = await _userRepository.GetAllAsync();
@@ -94,13 +94,13 @@ namespace Sportlance.WebAPI.Services
 
             return new TrainerInfo
             {
-                Id = trainer.Id,
+                Id = trainer.UserId,
                 FirstName = trainer.FirstName,
                 SecondName = trainer.SecondName,
                 City = trainer.City,
                 Country = trainer.Country,
                 PhotoUrl = trainer.PhotoUrl,
-                Price = trainerSports.First(j => j.TrainerId == trainer.Id).Price,
+                Price = trainerSports.First(j => j.TrainerId == trainer.UserId).Price,
                 Score = averageScore,
                 About = trainer.About,
                 Title = trainer.Title,

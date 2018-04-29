@@ -27,6 +27,10 @@ export class UserInfoStorage {
     return this.userInfo && this.userInfo.email || null;
   }
 
+  get isConfirmed(): boolean {
+    return this.userInfo && this.userInfo.isConfirmed || false;
+  }
+
   public updateAuth(token: string) {
     const userInfo = this.userInfo;
     userInfo.token = token;

@@ -12,20 +12,40 @@
                 <div class="row">
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
-                      <input type="text" formControlName="firstName" id="FirstName" name="FirstName" class="form-input form-control" placeholder="Имя">
+                      <input type="text" formControlName="firstName" id="FirstName" name="FirstName"
+                             class="form-input form-control" placeholder="Имя" required>
                       <i class="material-icons input-icon">person</i>
+                      <span *ngIf="submitForm.controls.firstName.invalid
+                      && (submitForm.controls.firstName.dirty || submitForm.controls.firstName.touched)"
+                            class="form-message form-error">
+                          FirstName is required
+                      </span>
                     </div>
                   </div>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
-                      <input type="text" formControlName="lastName" id="LastName" name="LastName" placeholder="Фамилия" class="form-input form-control">
+                      <input type="text" formControlName="lastName" id="LastName" name="LastName" placeholder="Фамилия"
+                             class="form-input form-control">
                       <i class="material-icons input-icon">person</i>
+                      <span *ngIf="submitForm.controls.lastName.invalid
+                      && (submitForm.controls.lastName.dirty || submitForm.controls.lastName.touched)"
+                            class="form-message form-error">
+                          LastName is required
+                      </span>
                     </div>
                   </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
                   <input type="email" formControlName="email" class="form-input form-control" placeholder="Email">
                   <i class="material-icons input-icon">email</i>
+                  <span *ngIf="submitForm.controls.email.invalid
+                      && (submitForm.controls.email.dirty || submitForm.controls.email.touched)"
+                        class="form-message form-error">
+                          Email is required
+                      </span>
+                  <label *ngIf="emailAlreadyExist" class="form-message form-error">
+                    This email is already in use. <a routerLink="/login">Want to log in?</a>
+                  </label>
                 </div>
                 <div class="text-center">
                   <button type="button" class="btn btn-primary m-md-top m-0-bottom m-0-right"
@@ -68,11 +88,9 @@
                     <div class="btn-group">
                       <button class="btn btn-default" type="button">
                         <span class="hidden-xs">Hire for a Project</span>
-                        <span class="hidden-lg hidden-md hidden-sm">Hire</span>
                       </button>
                       <button class="btn btn-default" type="button">
                         <span class="hidden-xs">Work as a Freelancer</span>
-                        <span class="hidden-lg hidden-md hidden-sm">Work</span>
                       </button>
                     </div>
                     <span class="o-signup-form-errors  text-left">

@@ -76,13 +76,13 @@ export class LoginComponent implements OnInit {
   }
 
   ckechKeyDownLogin(e): void {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       this.checkLoginAsync();
     }
   }
 
   ckechKeyDownPassword(e): void {
-    if (e.keyCode == 13) {
+    if (e.keyCode === 13) {
       this.loginAsync();
     }
   }

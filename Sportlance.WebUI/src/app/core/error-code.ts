@@ -1,5 +1,5 @@
 export enum ErrorCode {
-  EmailNotConfirmed = 'EmailNotConfirmed',
+  EmailIsNotConfirmed = 'EmailIsNotConfirmed',
   UserNotFound = 'UserNotFound',
   IncorrectPassword = "IncorrectPassword",
   IncorrectValidation = "IncorrectValidation"

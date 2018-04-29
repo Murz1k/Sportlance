@@ -11,6 +11,7 @@ import {ConfirmRegisterComponent} from './components/confirm-register/confirm-re
 import {InitializationComponent} from './components/initialization/initialization.component';
 import {InitializationGuard} from './services/initialization/initialization.guard';
 import {AccountComponent} from './components/account/account.component';
+import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 
 const appRoutes: Routes = [
   {path: Paths.Initialization, component: InitializationComponent},
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
     ]
   },
   {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},
+  {path: Paths.EmailVerify, pathMatch: 'full', component: EmailVerifyComponent},
   {path: Paths.Account, pathMatch: 'full', component: AccountComponent},
   {path: Paths.ConfirmRegistration, component: ConfirmRegisterComponent},
   {path: Paths.Login, pathMatch: 'full', component: LoginComponent},

@@ -42,9 +42,11 @@
           Добро пожаловать
         </div>
         <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
-          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">{{user.email}}</div>
+          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">{{user.email}}
+          </div>
           <div class="form-group p-md-top m-xs-bottom" style="margin-bottom: 0.5rem !important; position: relative;">
-            <input id="Password" [(ngModel)]="user.password" name="password" type="password" class="password-input form-control" placeholder="Пароль"
+            <input id="Password" [(ngModel)]="user.password" name="password" type="password"
+                   class="password-input form-control" placeholder="Пароль"
                    (ngModelChange)="hidePasswordError()" (keydown)="ckechKeyDownPassword($event)">
             <i class="material-icons input-icon">lock</i>
           </div>
@@ -93,7 +95,8 @@
         <p class="form-group m-lg-bottom m-md-top">
         </p>
         <div class="line-heading p-sm-bottom m-sm-top-bottom text-muted">Первый раз на Sportlance?</div>
-        <button (click)="navigateToRegister()" class="btn btn-default m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
+        <button (click)="navigateToRegister()"
+                class="btn btn-default m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
           Регистрация
         </button>
         <p></p>

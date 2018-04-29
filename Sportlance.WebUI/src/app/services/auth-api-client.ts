@@ -7,6 +7,7 @@ import {ConfirmRegistrationRequest} from './confirm-registration-request';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {CheckUserResponse} from "./check-user-response";
+import {ResendEmailRequest} from "../api/auth/resend-email-request";
 
 @Injectable()
 export class AuthApiClient extends BaseApiClient {
@@ -24,10 +25,10 @@ export class AuthApiClient extends BaseApiClient {
     await this.http.post(this.baseApiUrl + '/auth/register', request, {headers: this.defaultHeaders}).toPromise();
   }
 
-  // public async reSendEmailAsync(address: string): Promise<void> {
-  //   await this.http.post(this.baseApiUrl + '/auth/resend', <ReSendEmailRequest> {address: address}).toPromise();
-  // }
-  //
+  public async reSendEmailAsync(token: string): Promise<void> {
+    await this.http.post(this.baseApiUrl + '/auth/re-send', <ResendEmailRequest> {token: token}, {headers: this.defaultHeaders}).toPromise();
+  }
+
   public async confirmEmailAsync(request: ConfirmRegistrationRequest): Promise<LoginResponse> {
     return await this.http.put<LoginResponse>(this.baseApiUrl + '/auth/confirm', request, {headers: this.defaultHeaders}).toPromise();
   }

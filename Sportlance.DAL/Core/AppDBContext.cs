@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -13,6 +12,7 @@ namespace Sportlance.DAL.Core
             : base(options)
         {
         }
+
         IQueryable<Trainer> IReadOnlyDataContext.Trainers => Trainers.AsNoTracking();
 
         IQueryable<TrainerSports> IReadOnlyDataContext.TrainerSports => TrainerSports.AsNoTracking();
@@ -25,7 +25,19 @@ namespace Sportlance.DAL.Core
 
         IQueryable<Sport> IReadOnlyDataContext.Sports => Sports.AsNoTracking();
 
+        IQueryable<UserRole> IReadOnlyDataContext.UserRoles => UserRoles.AsNoTracking();
+
+        IQueryable<Role> IReadOnlyDataContext.Roles => Roles.AsNoTracking();
+
+        IQueryable<Client> IReadOnlyDataContext.Clients => Clients.AsNoTracking();
+
         public DbSet<Training> Trainings { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<UserRole> UserRoles { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
 
@@ -74,101 +86,51 @@ namespace Sportlance.DAL.Core
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Project>()
-            //            .HasIndex(p => new { p.ExternalId })
-            //            .IsUnique();
-
-            //modelBuilder.Entity<Scoring>()
-            //            .HasIndex(p => new { p.ProjectId })
-            //            .IsUnique();
-
-            //modelBuilder.Entity<Scoring>()
-            //            .HasMany(s => s.AreaScorings)
-            //            .WithOne(a => a.Scoring);
-
-            modelBuilder.Entity<TrainerSports>()
-                        .HasKey(v => new { v.SportId, v.TrainerId });
-
-            //modelBuilder.Entity<VotingProject>()
-            //            .HasIndex(v => new { v.ProjectId, v.VotingId });
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
 
             modelBuilder.Entity<User>()
-                        .HasIndex(u => u.Email)
-                        .IsUnique();
+                .HasIndex(u => u.Phone)
+                .IsUnique();
 
-            //modelBuilder.Entity<User>()
-            //            .HasIndex(u => u.Address)
-            //            .IsUnique();
+            modelBuilder.Entity<Client>()
+                .HasKey(r => r.UserId);
 
-            //modelBuilder.Entity<Role>()
-            //            .HasIndex(r => r.Name)
-            //            .IsUnique();
+            modelBuilder.Entity<Client>()
+                .HasOne(r => r.User);
 
-            //modelBuilder.Entity<UserRole>()
-            //            .HasKey(u => new { u.UserId, u.RoleId });
-
-            //modelBuilder.Entity<Area>()
-            //            .HasKey(r => r.Id);
-
-            //modelBuilder.Entity<Area>()
-            //            .Property(r => r.Id)
-            //            .ValueGeneratedNever();
-
-            //modelBuilder.Entity<Area>()
-            //            .HasIndex(r => r.Name)
-            //            .IsUnique();
-
-            //modelBuilder.Entity<ExpertApplicationArea>()
-            //            .HasKey(e => new { e.ExpertApplicationId, AreaType = e.AreaId });
-
-            //modelBuilder.Entity<Expert>()
-            //            .HasKey(r => r.UserId);
-
-            //modelBuilder.Entity<ExpertArea>()
-            //            .HasKey(u => new { u.ExpertId, u.AreaId });
-
-            modelBuilder.Entity<User>()
-                .HasMany(r => r.Trainings)
-                .WithOne(r => r.Client);
+            modelBuilder.Entity<Trainer>()
+                .HasKey(r => r.UserId);
 
             modelBuilder.Entity<Training>()
-                .HasOne(r => r.Review)
-                .WithOne(r => r.Training)
-                .HasForeignKey<Review>(u => u.TrainingId);
+                .HasOne(r => r.TrainerSport);
+
+            modelBuilder.Entity<Training>()
+                .HasOne(r => r.Client);
 
             modelBuilder.Entity<Trainer>()
-                .HasMany(c => c.Trainings)
-                .WithOne(e => e.Trainer);
+                .HasOne(u => u.User);
 
-            modelBuilder.Entity<Trainer>()
-                        .HasMany(c => c.TrainerSports)
-                        .WithOne(e => e.Trainer);
-            
-            modelBuilder.Entity<Sport>()
-                .HasMany(c => c.TrainerSports)
-                .WithOne(e => e.Sport);
+            modelBuilder.Entity<Review>()
+                .HasOne(c => c.Training);
+
+            modelBuilder.Entity<TrainerSports>()
+                .HasOne(c => c.Trainer);
+
+            modelBuilder.Entity<TrainerSports>()
+                .HasOne(c => c.Sport);
+
+            modelBuilder.Entity<UserRole>()
+                .HasOne(c => c.User);
+
+            modelBuilder.Entity<UserRole>()
+                .HasOne(c => c.Role);
 
             //modelBuilder.Entity<Expert>()
             //            .HasMany(c => c.ExpertAreas)
             //            .WithOne(e => e.Expert)
             //            .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<User>()
-                        .HasOne(r => r.Trainer)
-                        .WithOne(r => r.User)
-                        .HasForeignKey<Trainer>(u => u.UserId);
-
-            //modelBuilder.Entity<AreaScoring>()
-            //            .HasKey(e => new { e.ScoringId, e.AreaId });
-
-            //modelBuilder.Entity<AreaScoring>()
-            //            .HasIndex(e => new { e.ScoringId, e.AreaId });
-
-            //modelBuilder.Entity<ScoringOffer>()
-            //            .HasKey(e => new { e.ScoringId, e.AreaId, e.ExpertId });
-
-            //modelBuilder.Entity<ScoringOffer>()
-            //            .HasIndex(e => new { e.ScoringId, e.AreaId, e.ExpertId });
         }
     }
 }

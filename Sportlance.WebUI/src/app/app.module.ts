@@ -37,6 +37,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { MenuComponent } from './components/header/menu/menu.component';
 import { AccountComponent } from './components/account/account.component';
+import { EmailVerifyComponent } from './components/email-verify/email-verify.component';
+import {EmailConfirmationGuard} from "./guards/email-confirmation-guard";
 
 
 @NgModule({
@@ -53,7 +55,8 @@ import { AccountComponent } from './components/account/account.component';
     ConfirmRegisterComponent,
     InitializationComponent,
     MenuComponent,
-    AccountComponent
+    AccountComponent,
+    EmailVerifyComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +86,7 @@ import { AccountComponent } from './components/account/account.component';
     ProfileApiClient,
     UserInfoStorage,
     InitializationGuard,
+    EmailConfirmationGuard,
     UserService,
     UserApiClient,
     InitializationService

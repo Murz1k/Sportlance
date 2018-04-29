@@ -12,6 +12,11 @@ namespace Sportlance.DAL.Core
         IQueryable<TrainerSports> TrainerSports { get; }
         IQueryable<Review> Reviews { get; }
         IQueryable<Training> Trainings { get; }
+        IQueryable<Client> Clients { get; }
+
+        IQueryable<UserRole> UserRoles { get; }
+
+        IQueryable<Role> Roles { get; }
 
         IQueryable<T> GetAll<T>() where T : class;
     }

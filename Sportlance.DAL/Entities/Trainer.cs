@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Sportlance.DAL.Core;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sportlance.DAL.Entities
 {
-    public class Trainer : IEntityWithId
+    public class Trainer
     {
-        public long Id { get; set; }
-
         public long UserId { get; set; }
 
         [Required]
@@ -32,8 +28,6 @@ namespace Sportlance.DAL.Entities
 
         public User User { get; set; }
 
-        public IReadOnlyCollection<TrainerSports> TrainerSports { get; set; }
-
-        public IReadOnlyCollection<Training> Trainings { get; set; }
+        public TrainerStatus Status { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 {
     public class TrainerSports
     {
+        public long  Id { get; set; }
+
         public long TrainerId { get; set; }
 
         public long SportId { get; set; }

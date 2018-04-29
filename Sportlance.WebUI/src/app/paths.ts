@@ -1,5 +1,6 @@
 export class Paths {
   public static readonly Root = '';
+  public static readonly EmailVerify = 'please-verify';
   public static readonly Trainers = 'trainers';
   public static readonly Account = 'account';
   public static readonly Profile = 'profile';
