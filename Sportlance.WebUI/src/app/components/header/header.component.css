@@ -28,3 +28,7 @@
   border: none;
   outline: none;
 }
+
+p-autocomplete {
+  margin: auto;
+}

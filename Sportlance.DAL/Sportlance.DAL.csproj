@@ -10,6 +10,8 @@
     <Compile Remove="Migrations\20180408140343_AddReviewAndTraining.cs" />
     <Compile Remove="Migrations\20180421151526_UpdateTrainer.cs" />
     <Compile Remove="Migrations\20180429125044_AddRoles.cs" />
+    <Compile Remove="Migrations\20180429132105_AddRolesAndClients.cs" />
+    <Compile Remove="Migrations\20180505124907_ReviewToFeedback.cs" />
   </ItemGroup>
 
   <ItemGroup>

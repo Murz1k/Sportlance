@@ -11,7 +11,7 @@ namespace Sportlance.DAL
             services.AddTransient<ISportRepository, SportRepository>();
             services.AddTransient<ITrainerRepository, TrainerRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IReviewRepository, ReviewRepository>();
+            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
             services.AddTransient<ITrainingRepository, TrainingRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
         }

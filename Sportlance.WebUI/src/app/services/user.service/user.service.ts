@@ -5,7 +5,7 @@ import {User} from "./user";
 @Injectable()
 export class UserService {
 
-  public currentUser: User;
+  private currentUser: User;
 
   constructor(private userApiClient: UserApiClient) {
   }
@@ -13,5 +13,13 @@ export class UserService {
   public async initializeAsync(): Promise<void> {
     const response = await this.userApiClient.getCurrentAsync();
     this.currentUser = <User>{lastName: response.lastName, email: response.email, firstName: response.firstName};
+  }
+
+  public async getCurrentAsync(): Promise<User> {
+    if (this.currentUser) {
+      return this.currentUser;
+    }
+    const response = await this.userApiClient.getCurrentAsync();
+    return <User>{lastName: response.lastName, email: response.email, firstName: response.firstName};
   }
 }

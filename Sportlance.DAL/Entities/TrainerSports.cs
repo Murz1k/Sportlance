@@ -8,10 +8,6 @@
 
         public long SportId { get; set; }
 
-        public double Price { get; set; }
-
-        public TaxType TaxType { get; set; }
-
         public Trainer Trainer { get; set; }
 
         public Sport Sport { get; set; }

@@ -43,8 +43,11 @@ export class HeaderComponent implements OnInit {
 
   public async updateUserAsync(): Promise<void> {
     if (this.accountService.isAuthorized) {
-      this.currentUser = this.userService.currentUser;
+      this.currentUser = await this.userService.getCurrentAsync();
       this.isAuth = true;
+    } else {
+      this.currentUser = null;
+      this.isAuth = false;
     }
   }
 

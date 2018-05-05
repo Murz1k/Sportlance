@@ -4,9 +4,7 @@
     {
         Available = 0,
         NotAvailable = 1,
-        WaitingConfirmation = 2,
-        Rejected = 3,
-        Banned = 4,
-        Deleted = 5
+        Banned = 2,
+        Deleted = 3
     }
 }

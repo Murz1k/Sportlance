@@ -12,7 +12,7 @@ namespace Sportlance.DAL.Core
         DbSet<Trainer> Trainers { get; }
         DbSet<Sport> Sports { get; }
         DbSet<TrainerSports> TrainerSports { get; }
-        DbSet<Review> Reviews { get; }
+        DbSet<Feedback> Feedbacks { get; }
         DbSet<Training> Trainings { get; }
 
         Task<int> SaveAsync();

@@ -10,12 +10,6 @@ namespace Sportlance.DAL.Entities
         public string Title { get; set; }
 
         [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string SecondName { get; set; }
-
-        [Required]
         public string Country { get; set; }
 
         [Required]
@@ -25,6 +19,8 @@ namespace Sportlance.DAL.Entities
 
         //TODO поменять на AzureBlobStorage
         public string PhotoUrl { get; set; }
+
+        public double Price { get; set; }
 
         public User User { get; set; }
 

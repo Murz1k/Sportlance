@@ -12,9 +12,10 @@ using System;
 namespace Sportlance.DAL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20180503044726_AddRolesAndClients")]
+    partial class AddRolesAndClients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +33,10 @@ namespace Sportlance.DAL.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("Sportlance.DAL.Entities.Feedback", b =>
+            modelBuilder.Entity("Sportlance.DAL.Entities.Review", b =>
                 {
-                    b.Property<long>("TrainingId");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreateDate");
 
@@ -44,9 +46,13 @@ namespace Sportlance.DAL.Migrations
 
                     b.Property<byte?>("Score");
 
-                    b.HasKey("TrainingId");
+                    b.Property<long>("TrainingId");
 
-                    b.ToTable("Feedbacks");
+                    b.HasKey("Id");
+
+                    b.HasIndex("TrainingId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Role", b =>
@@ -54,8 +60,7 @@ namespace Sportlance.DAL.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -87,9 +92,13 @@ namespace Sportlance.DAL.Migrations
                     b.Property<string>("Country")
                         .IsRequired();
 
+                    b.Property<string>("FirstName")
+                        .IsRequired();
+
                     b.Property<string>("PhotoUrl");
 
-                    b.Property<double>("Price");
+                    b.Property<string>("SecondName")
+                        .IsRequired();
 
                     b.Property<int>("Status");
 
@@ -106,7 +115,11 @@ namespace Sportlance.DAL.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("Price");
+
                     b.Property<long>("SportId");
+
+                    b.Property<int>("TaxType");
 
                     b.Property<long>("TrainerId");
 
@@ -204,11 +217,11 @@ namespace Sportlance.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sportlance.DAL.Entities.Feedback", b =>
+            modelBuilder.Entity("Sportlance.DAL.Entities.Review", b =>
                 {
                     b.HasOne("Sportlance.DAL.Entities.Training", "Training")
-                        .WithOne()
-                        .HasForeignKey("Sportlance.DAL.Entities.Feedback", "TrainingId")
+                        .WithMany()
+                        .HasForeignKey("TrainingId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

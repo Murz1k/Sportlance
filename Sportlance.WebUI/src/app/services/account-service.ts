@@ -25,7 +25,7 @@ export class AccountService {
 
 
   get isAuthorized(): boolean {
-    return this.userInfoStorage.token != null;
+    return this.userInfoStorage.userInfo != null;
   }
 
   public async initilizeAsync(): Promise<void> {

@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {Paths} from "../../paths";
 import {AccountService} from "../../services/account-service";
 import {LoginUser} from "../../services/login-user";
+import {UserService} from "../../services/user.service/user.service";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
               private authClient: AuthApiClient,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private userService: UserService) {
   }
 
   ngOnInit() {

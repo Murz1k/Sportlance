@@ -7,7 +7,7 @@ namespace Sportlance.DAL.Entities
     {
         public long Id { get; set; }
 
-        [Required, DataType(DataType.EmailAddress)]
+        [Required, EmailAddress]
         public string Email { get; set; }
 
         [Required]

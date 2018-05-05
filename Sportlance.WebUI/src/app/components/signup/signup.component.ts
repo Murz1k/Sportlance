@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
     try {
       const response = await this.authClient.checkUserAsync(this.submitForm.value.email);
       if (response.email.toUpperCase() === this.submitForm.value.email.toUpperCase()) {
-        this.isEmailExist = true;
+        this.emailAlreadyExist = true;
       }
     } catch (e) {
       switch (e.error.errorCode) {

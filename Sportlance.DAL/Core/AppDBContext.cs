@@ -17,7 +17,7 @@ namespace Sportlance.DAL.Core
 
         IQueryable<TrainerSports> IReadOnlyDataContext.TrainerSports => TrainerSports.AsNoTracking();
 
-        IQueryable<Review> IReadOnlyDataContext.Reviews => Reviews.AsNoTracking();
+        IQueryable<Feedback> IReadOnlyDataContext.Feedbacks => Feedbacks.AsNoTracking();
 
         IQueryable<Training> IReadOnlyDataContext.Trainings => Trainings.AsNoTracking();
 
@@ -39,7 +39,7 @@ namespace Sportlance.DAL.Core
 
         public DbSet<UserRole> UserRoles { get; set; }
 
-        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         public DbSet<Trainer> Trainers { get; set; }
 
@@ -98,7 +98,9 @@ namespace Sportlance.DAL.Core
                 .HasKey(r => r.UserId);
 
             modelBuilder.Entity<Client>()
-                .HasOne(r => r.User);
+                .HasOne(r => r.User)
+                .WithOne()
+                .HasForeignKey<Client>(c => c.UserId);
 
             modelBuilder.Entity<Trainer>()
                 .HasKey(r => r.UserId);
@@ -110,10 +112,17 @@ namespace Sportlance.DAL.Core
                 .HasOne(r => r.Client);
 
             modelBuilder.Entity<Trainer>()
-                .HasOne(u => u.User);
+                .HasOne(u => u.User)
+                .WithOne()
+                .HasForeignKey<Trainer>(c => c.UserId);
 
-            modelBuilder.Entity<Review>()
-                .HasOne(c => c.Training);
+            modelBuilder.Entity<Feedback>()
+                .HasKey(r => r.TrainingId);
+
+            modelBuilder.Entity<Feedback>()
+                .HasOne(c => c.Training)
+                .WithOne()
+                .HasForeignKey<Feedback>(p => p.TrainingId);
 
             modelBuilder.Entity<TrainerSports>()
                 .HasOne(c => c.Trainer);

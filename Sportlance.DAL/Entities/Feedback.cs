@@ -1,13 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Sportlance.DAL.Core;
 
 namespace Sportlance.DAL.Entities
 {
-    public class Review : IEntityWithId
+    public class Feedback
     {
-        public long Id { get; set; }
-
         public long TrainingId { get; set; }
 
         [MinLength(20), MaxLength(500), Required]

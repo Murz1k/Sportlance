@@ -120,9 +120,8 @@ namespace Sportlance.DAL.Test
                     About = "fsdfsd",
                     City = "Moscow",
                     Country = "Russia",
-                    FirstName = user.FirstName,
-                    SecondName = user.LastName,
                     Title = "Super Trainer",
+                    Price = new Random().Next(10, 40) * 100,
                     PhotoUrl = "https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
                 });
 
@@ -140,9 +139,7 @@ namespace Sportlance.DAL.Test
 
             var trainerSports = allTrainers.Select(trainer => new TrainerSports
                 {
-                    Price = new Random().Next(10, 40) * 100,
                     SportId = firstSport.Id,
-                    TaxType = TaxType.PerHour,
                     TrainerId = trainer.UserId
                 });
 
@@ -176,7 +173,7 @@ namespace Sportlance.DAL.Test
         public async Task LoadReviews()
         {
             await LoadTrainings();
-            var reviewRepository = _env.GetService<IReviewRepository>();
+            var reviewRepository = _env.GetService<IFeedbackRepository>();
             var trainingRepository = _env.GetService<ITrainingRepository>();
             var allTrainings = await trainingRepository.GetAllAsync();
 
@@ -184,7 +181,7 @@ namespace Sportlance.DAL.Test
                 let rand = TimeSpan.FromDays(new Random().Next(10, 40))
                 let createDate = DateTime.Now - rand
                 let score = Convert.ToByte(new Random().Next(0, 8))
-                select new Review
+                select new Feedback
                 {
                     TrainingId = training.Id,
                     CreateDate = createDate,

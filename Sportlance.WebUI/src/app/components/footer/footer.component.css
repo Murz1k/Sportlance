@@ -3,8 +3,10 @@
 }
 
 .footer-navbar-wrapper {
-  flex: none;
-  margin-top: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #222;
 }
 

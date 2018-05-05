@@ -1,4 +1,5 @@
-﻿using Sportlance.DAL.Core;
+﻿using System.ComponentModel.DataAnnotations;
+using Sportlance.DAL.Core;
 
 namespace Sportlance.DAL.Entities
 {
@@ -6,6 +7,7 @@ namespace Sportlance.DAL.Entities
     {
         public long Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
     }
 }

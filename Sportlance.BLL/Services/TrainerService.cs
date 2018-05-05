@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.BLL.Entities;
-using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Interfaces;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
+using Sportlance.WebAPI.Entities;
+using Sportlance.WebAPI.Interfaces;
 
-namespace Sportlance.WebAPI.Services
+namespace Sportlance.BLL.Services
 {
     public class TrainerService : ITrainerService
     {
         private readonly ITrainerRepository _repository;
         private readonly ITrainingRepository _trainingRepository;
-        private readonly IReviewRepository _reviewRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
         private readonly IUserRepository _userRepository;
 
         public TrainerService(
             ITrainerRepository repository,
-            ITrainingRepository trainingRepository, 
-            IReviewRepository reviewRepository,
+            ITrainingRepository trainingRepository,
+            IFeedbackRepository feedbackRepository,
             IUserRepository userRepository)
         {
             _repository = repository;
             _trainingRepository = trainingRepository;
-            _reviewRepository = reviewRepository;
+            _feedbackRepository = feedbackRepository;
             _userRepository = userRepository;
         }
 
@@ -37,7 +37,6 @@ namespace Sportlance.WebAPI.Services
         public async Task<IReadOnlyCollection<TrainerInfo>> GetTrainersInfosBySportId(long sportId)
         {
             var trainers = await _repository.GetTrainersBySportId(sportId);
-            var trainerSports = await _repository.GetTrainersSportsByIds(trainers.Select(i => i.UserId));
 
             var mockTrainingsCounts = new List<int>()
             {
@@ -60,12 +59,12 @@ namespace Sportlance.WebAPI.Services
             return trainers.Select(i => new TrainerInfo
             {
                 Id = i.UserId,
-                FirstName = i.FirstName,
-                SecondName = i.SecondName,
+                FirstName = i.User.FirstName,
+                SecondName = i.User.LastName,
                 City = i.City,
                 Country = i.Country,
                 PhotoUrl = i.PhotoUrl,
-                Price = trainerSports.First(j => j.SportId == sportId && j.TrainerId == i.UserId).Price,
+                Price = i.Price,
                 Score = mockScores[new Random().Next(0, mockScores.Count)],
                 About = i.About,
                 Title = i.Title,
@@ -76,9 +75,8 @@ namespace Sportlance.WebAPI.Services
         public async Task<TrainerInfo> GetTrainerInfoById(long trainerId)
         {
             var trainer = await _repository.GetByIdAsync(trainerId);
-            var trainerSports = await _repository.GetTrainersSportsByIds(new[] { trainer.UserId });
             var trainerTrainings = await _trainingRepository.GetByTrainerIdAsync(trainerId);
-            var trainerReviews = await _reviewRepository.GetByTrainerIdAsync(trainerId);
+            var trainerReviews = await _feedbackRepository.GetByTrainerIdAsync(trainerId);
             var allUsers = await _userRepository.GetAllAsync();
             var trainingsWithReview = trainerTrainings.Where(i => trainerReviews.Any(j => j.TrainingId == i.Id));
 
@@ -95,12 +93,12 @@ namespace Sportlance.WebAPI.Services
             return new TrainerInfo
             {
                 Id = trainer.UserId,
-                FirstName = trainer.FirstName,
-                SecondName = trainer.SecondName,
+                FirstName = trainer.User.FirstName,
+                SecondName = trainer.User.LastName,
                 City = trainer.City,
                 Country = trainer.Country,
                 PhotoUrl = trainer.PhotoUrl,
-                Price = trainerSports.First(j => j.TrainerId == trainer.UserId).Price,
+                Price = trainer.Price,
                 Score = averageScore,
                 About = trainer.About,
                 Title = trainer.Title,
