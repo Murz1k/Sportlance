@@ -1,5 +1,13 @@
 export interface LoginResponse {
-  email: string;
+  firstName: string;
+
+  secondName: string;
+
   token: string;
+
+  roles: string[];
+
+  email: string;
+
   isConfirmed: boolean;
 }

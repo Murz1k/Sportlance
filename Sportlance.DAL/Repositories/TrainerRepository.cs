@@ -25,7 +25,7 @@ namespace Sportlance.DAL.Repositories
                 join trainerSport in _readContext.TrainerSports on trainer.UserId equals trainerSport.TrainerId
                 join sport in _readContext.Sports on trainerSport.SportId equals sport.Id
                 where sport.Id == sportId
-                select trainer).ToArrayAsync();
+                select trainer).Include(t=>t.User).ToArrayAsync();
         }
 
         public async Task<IReadOnlyCollection<TrainerSports>> GetTrainersSportsByIds(IEnumerable<long> trainersIds)
@@ -36,12 +36,22 @@ namespace Sportlance.DAL.Repositories
         }
 
         public Task<Trainer> GetByIdAsync(long sportId)
-            => _readContext.Trainers.FirstOrDefaultAsync(i => i.UserId == sportId);
+            => _readContext.Trainers.Include(i=>i.User).FirstOrDefaultAsync(i => i.UserId == sportId);
 
         public async Task<int> AddRangeAsync(IEnumerable<Trainer> entities)
         {
             await _editContext.Trainers.AddRangeAsync(entities);
             return await _editContext.SaveAsync();
+        }
+
+        public Task AddAsync(Trainer trainer)
+        {
+            return _editContext.Trainers.AddAsync(trainer);
+        }
+
+        public Task SaveChanges()
+        {
+            return _editContext.SaveAsync();
         }
 
 

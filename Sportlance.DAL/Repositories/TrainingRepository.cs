@@ -22,5 +22,14 @@ namespace Sportlance.DAL.Repositories
                 where trainingSport.TrainerId == trainerId
                 select training).ToArrayAsync();
         }
+        
+        public async Task<IDictionary<long, Training[]>> GetByTrainersIdsAsync(IEnumerable<long> trainerIds)
+        {
+            return await (from training in ReadContext.Trainings
+                join trainingSport in ReadContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
+                where trainerIds.Contains(trainingSport.TrainerId)
+                group training by trainingSport.TrainerId into ts
+                select ts).ToDictionaryAsync(k => k.Key, v => v.ToArray());
+        }
     }
 }

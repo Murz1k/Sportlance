@@ -1,20 +1,19 @@
-import {Injectable, EventEmitter} from "@angular/core";
-import {LoginResponse} from "../services/login-response";
-import {StorageUtils} from "./storage-utils";
-import {User} from "../services/user.service/user";
+import {Injectable, EventEmitter} from '@angular/core';
+import {StorageUtils} from './storage-utils';
+import {User} from '../services/user.service/user';
 
 @Injectable()
 export class UserInfoStorage {
 
   public userInfoChanged: EventEmitter<any> = new EventEmitter<any>();
 
-  readonly UserKey = "user";
+  readonly UserKey = 'user';
 
-  get userInfo(): LoginResponse {
+  get userInfo(): User {
     return StorageUtils.getItem(this.UserKey);
   }
 
-  set userInfo(v: LoginResponse) {
+  set userInfo(v: User) {
     StorageUtils.setItem(this.UserKey, v);
     this.userInfoChanged.emit(true);
   }
@@ -37,7 +36,7 @@ export class UserInfoStorage {
     this.userInfo = userInfo;
   }
 
-  public saveCurrentUser(user: LoginResponse) {
+  public saveCurrentUser(user: User) {
 
     localStorage.setItem(this.UserKey, JSON.stringify(user));
     this.userInfoChanged.emit(user);

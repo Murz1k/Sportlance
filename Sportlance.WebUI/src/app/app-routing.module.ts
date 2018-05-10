@@ -9,22 +9,23 @@ import {SignupComponent} from './components/signup/signup.component';
 import {LoginComponent} from './components/login/login.component';
 import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
 import {InitializationComponent} from './components/initialization/initialization.component';
-import {InitializationGuard} from './services/initialization/initialization.guard';
+import {InitializationGuard} from './guards/initialization.guard';
 import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
+import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
 
 const appRoutes: Routes = [
   {path: Paths.Initialization, component: InitializationComponent},
   {
     path: Paths.Root, component: RootComponent, canActivate: [InitializationGuard], children: [
-      {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
-      {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
-      {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent}
-    ]
+    {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
+    {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
+    {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent},
+    {path: Paths.Account, pathMatch: 'full', component: AccountComponent}
+  ]
   },
   {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},
-  {path: Paths.EmailVerify, pathMatch: 'full', component: EmailVerifyComponent},
-  {path: Paths.Account, pathMatch: 'full', component: AccountComponent},
+  {path: Paths.EmailVerify, pathMatch: 'full', component: EmailVerifyComponent, canActivate: [EmailConfirmationGuard]},
   {path: Paths.ConfirmRegistration, component: ConfirmRegisterComponent},
   {path: Paths.Login, pathMatch: 'full', component: LoginComponent},
   {path: '**', redirectTo: Paths.Root}

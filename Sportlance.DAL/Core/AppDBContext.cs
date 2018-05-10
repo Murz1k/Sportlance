@@ -135,11 +135,6 @@ namespace Sportlance.DAL.Core
 
             modelBuilder.Entity<UserRole>()
                 .HasOne(c => c.Role);
-
-            //modelBuilder.Entity<Expert>()
-            //            .HasMany(c => c.ExpertAreas)
-            //            .WithOne(e => e.Expert)
-            //            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

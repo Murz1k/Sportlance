@@ -21,6 +21,10 @@ namespace Sportlance.WebAPI.Requests
 
         public string LastName { get; set; }
 
+        public bool BeTrainer { get; set; }
+
+        public bool NeedTrainer { get; set; }
+
         //[ValidateCaptcha]
         //public string CaptchaCode { get; set; }
     }

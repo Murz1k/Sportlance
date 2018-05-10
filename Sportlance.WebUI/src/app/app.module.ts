@@ -8,6 +8,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu';
 import {DataListModule} from 'primeng/datalist';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './components/header/header.component';
@@ -28,17 +29,16 @@ import {ConfirmRegisterComponent} from './components/confirm-register/confirm-re
 import {UserInfoStorage} from './core/user-info-storage';
 import {ProfileApiClient} from './api/profile/profile-api-client';
 import {InitializationComponent} from './components/initialization/initialization.component';
-import {InitializationGuard} from './services/initialization/initialization.guard';
+import {InitializationGuard} from './guards/initialization.guard';
 import {InitializationService} from './services/initialization/initialization.service';
 import {UserApiClient} from './api/user/user-api.client';
 import {UserService} from './services/user.service/user.service';
 import {JwtInterceptor} from './api/jwt-Interceptor';
 import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MenuComponent } from './components/header/menu/menu.component';
-import { AccountComponent } from './components/account/account.component';
-import { EmailVerifyComponent } from './components/email-verify/email-verify.component';
-import {EmailConfirmationGuard} from "./guards/email-confirmation-guard";
+import {AccountComponent} from './components/account/account.component';
+import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
+import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
 
 
 @NgModule({
@@ -54,7 +54,6 @@ import {EmailConfirmationGuard} from "./guards/email-confirmation-guard";
     LoginComponent,
     ConfirmRegisterComponent,
     InitializationComponent,
-    MenuComponent,
     AccountComponent,
     EmailVerifyComponent
   ],
@@ -63,6 +62,7 @@ import {EmailConfirmationGuard} from "./guards/email-confirmation-guard";
     DataListModule,
     NgbModule.forRoot(),
     MatToolbarModule,
+    MatCheckboxModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,

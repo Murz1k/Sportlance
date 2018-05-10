@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../services/user.service/user';
-import {UserApiClient} from '../../api/user/user-api.client';
+import {UserService} from '../../services/user.service/user.service';
 
 @Component({
   selector: 'app-account',
@@ -11,10 +11,8 @@ export class AccountComponent implements OnInit {
 
   public account: User;
 
-  constructor(private userApiClient: UserApiClient) {
-    this.userApiClient.getCurrentAsync().then((user: User) => {
-      this.account = user;
-    });
+  constructor(private userService: UserService) {
+    this.account = this.userService.getCurrent();
   }
 
   ngOnInit() {

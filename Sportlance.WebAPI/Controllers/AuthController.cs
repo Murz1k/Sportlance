@@ -2,12 +2,14 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
+using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 using Sportlance.WebAPI.Utilities;
@@ -23,9 +25,11 @@ namespace Sportlance.WebAPI.Controllers
         private readonly MailTokenService _mailTokenService;
         private readonly AuthService _authService;
         private readonly IRoleRepository _roleRepository;
+        private readonly ITrainerService _trainerService;
 
         public AuthController(
             IUserRepository userRepository,
+            ITrainerService trainerService,
             MailService mailService,
             MailTokenService mailTokenService,
             AuthService authService,
@@ -37,6 +41,7 @@ namespace Sportlance.WebAPI.Controllers
             _mailService = mailService;
             _mailTokenService = mailTokenService;
             _authService = authService;
+            _trainerService = trainerService;
         }
 
         [HttpPost, Route("check")]
@@ -67,8 +72,10 @@ namespace Sportlance.WebAPI.Controllers
 
             return new LoginResponse
             {
+                FirstName = user.FirstName,
+                SecondName = user.LastName,
                 Token = user.IsEmailConfirm
-                    ? _authService.GenerateAccessToken(user)
+                    ? await _authService.GenerateAccessTokenAsync(user, request.RememberMe)
                     : _mailTokenService.EncryptToken(user.Email),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
@@ -77,15 +84,25 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpPost, Route("register")]
-        public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest data)
+        public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest request)
         {
             var user = await _userRepository.CreateUser(new User
             {
-                Email = data.Email,
-                PasswordHash = HashUtils.CreateHash(data.Password),
-                FirstName = data.FirstName,
-                LastName = data.LastName
+                Email = request.Email,
+                PasswordHash = HashUtils.CreateHash(request.Password),
+                FirstName = request.FirstName,
+                LastName = request.LastName
             });
+
+            if (request.BeTrainer)
+            {
+                await _trainerService.AddAsync(user.Id);
+            }
+
+            if (request.NeedTrainer)
+            {
+                
+            }
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
 
@@ -110,7 +127,9 @@ namespace Sportlance.WebAPI.Controllers
 
             return new LoginResponse
             {
-                Token = _authService.GenerateAccessToken(user),
+                FirstName = user.FirstName,
+                SecondName = user.LastName,
+                Token = await _authService.GenerateAccessTokenAsync(user),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
                 Roles = roles.Select(i => i.Name)

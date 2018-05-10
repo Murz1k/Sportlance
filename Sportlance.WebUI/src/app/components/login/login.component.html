@@ -1,6 +1,6 @@
 <header [isEmpty]="true"></header>
 <div class="container">
-  <form (ngSubmit)="loginAsync()" class="col-md-6 offset-3 air-card p-0-bottom m-sm-top">
+  <form [formGroup]="loginForm" class="col-md-6 offset-3 air-card p-0-bottom m-sm-top">
     <div *ngIf="isLoginPage; else enterPassword" class="text-center p-xs-top ng-animate-disabled">
       <div class="m-xs-top hidden-xs"></div>
       <div class="m-sm-top visible-xs"></div>
@@ -10,8 +10,8 @@
       <div class="m-sm-bottom p-sm-bottom visible-xs"></div>
       <div class="m-lg-bottom hidden-xs"></div>
       <div [ngClass]="showLoginError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
-        <div class="form-group p-md-top m-0-bottom" style="margin-bottom: 0.5rem !important; position: relative;">
-          <input id="Email" [(ngModel)]="user.email" name="email" type="text"
+        <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
+          <input id="Email" formControlName="email" name="email" type="text"
                  class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
                  (keydown)="ckechKeyDownLogin($event)">
           <i class="material-icons input-icon">person</i>
@@ -42,10 +42,10 @@
           Добро пожаловать
         </div>
         <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
-          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">{{user.email}}
+          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">{{loginForm.value.email}}
           </div>
-          <div class="form-group p-md-top m-xs-bottom" style="margin-bottom: 0.5rem !important; position: relative;">
-            <input id="Password" [(ngModel)]="user.password" name="password" type="password"
+          <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
+            <input id="Password" formControlName="password" name="password" type="password"
                    class="password-input form-control" placeholder="Пароль"
                    (ngModelChange)="hidePasswordError()" (keydown)="ckechKeyDownPassword($event)">
             <i class="material-icons input-icon">lock</i>
@@ -61,11 +61,7 @@
           <div class="clearfix">
             <div class="pull-left">
               <div class="checkbox">
-                <label>
-                  <input type="checkbox" class="form-control ng-pristine ng-untouched ng-valid ng-empty"><span
-                  class="checkbox-replacement-helper"><span aria-hidden="true"
-                                                            class="glyphicon air-icon-check"></span></span>
-                  Запомнить меня</label>
+                <mat-checkbox class="form-control no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
               </div>
             </div>
             <div class="pull-right text-right p-xs-top hidden-xs hidden-sm">
@@ -76,7 +72,7 @@
           </div>
           <div class="p-md-top m-xs-top"></div>
           <div class="form-group m-0-bottom">
-            <button type="submit" (click)="loginAsync()" [disabled]="isDisabled"
+            <button (click)="loginAsync()" [disabled]="isDisabled"
                     class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
               Войти
             </button>

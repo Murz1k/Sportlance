@@ -17,7 +17,8 @@
                 <div class="row">
                   <div class="col-md-10">
                     <div style="position: relative;">
-                      <a href="/o/profiles/users/_~01f032e02bf502ada0" title="{{trainer.firstName}} {{trainer.secondName}}">
+                      <a href="/o/profiles/users/_~01f032e02bf502ada0"
+                         title="{{trainer.firstName}} {{trainer.secondName}}">
                         <img
                           src="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&amp;Expires=2147483647&amp;Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
                           alt="Svetoslav V.'s avatar" class="avatar vertical-align-middle avatar-lg m-0">
@@ -180,14 +181,11 @@
                   <!----><span class="text-muted">{{trainer.trainingsTitle}}</span><!---->
                 </div>
               </div>
-              <div class="col-md-3 p-0-right">
-                <div><!---->
-                  <div class="no-wrap freelancer-tile-location ellipsis"
-                  ><i class="material-icons position-icon text-muted">place</i><strong
-                    class="hidden-xs"
-                    title="Bulgaria">{{trainer.country}}, {{trainer.city}} </strong>
-                  </div>
-                  <!----></div>
+              <div *ngIf="trainer.country && trainer.city" class="col-md-3 p-0-right">
+                <div class="no-wrap freelancer-tile-location ellipsis">
+                  <i class="material-icons position-icon text-muted">place</i>
+                  <strong>{{trainer.country}}, {{trainer.city}} </strong>
+                </div>
               </div>
             </div>
             <div class="row m-sm-top m-0-bottom">

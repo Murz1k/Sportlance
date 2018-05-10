@@ -84,18 +84,18 @@
                   </div>
                   <div class="m-lg-top"></div>
                   <div class="text-center m-md-bottom">
-                    <h4 class="text-center m-sm-bottom">I want to:</h4>
+                    <h4 class="text-center m-sm-bottom">Я хочу:</h4>
                     <div class="btn-group">
-                      <button class="btn btn-default" type="button">
-                        <span class="hidden-xs">Hire for a Project</span>
+                      <button (click)="changeNeed()" class="btn btn-default" [class.active]="needTrainer" type="button">
+                        <span class="hidden-xs">Найти тренера</span>
                       </button>
-                      <button class="btn btn-default" type="button">
-                        <span class="hidden-xs">Work as a Freelancer</span>
+                      <button (click)="changeBe()" class="btn btn-default" [class.active]="beTrainer" type="button">
+                        <span class="hidden-xs">Быть тренером</span>
                       </button>
                     </div>
-                    <span class="o-signup-form-errors  text-left">
+                    <span *ngIf="showChooseRoleError" class="o-signup-form-errors  text-left">
                         <label class="form-message form-error ">
-                          Please select what you want to do on Upwork
+                          Пожалуйста выберете что Вы хотите делать на Sportlance
                         </label>
                     </span>
                   </div>

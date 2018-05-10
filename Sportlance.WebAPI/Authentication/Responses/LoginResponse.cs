@@ -4,6 +4,10 @@ namespace Sportlance.WebAPI.Authentication.Responses
 {
     public class LoginResponse
     {
+        public string FirstName { get; set; }
+
+        public string SecondName { get; set; }
+
         public string Token { get; set; }
 
         public IEnumerable<string> Roles { get; set; }

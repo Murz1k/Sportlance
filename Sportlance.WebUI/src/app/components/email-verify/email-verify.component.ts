@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {AuthApiClient} from "../../services/auth-api-client";
-import {UserInfoStorage} from "../../core/user-info-storage";
+import {Component, OnInit} from '@angular/core';
+import {AuthApiClient} from '../../services/auth-api-client';
+import {UserInfoStorage} from '../../core/user-info-storage';
 
 @Component({
   selector: 'app-email-verify',
@@ -9,10 +9,14 @@ import {UserInfoStorage} from "../../core/user-info-storage";
 })
 export class EmailVerifyComponent implements OnInit {
 
+  public email: string;
+
   constructor(private authApiClient: AuthApiClient,
-              private userInfoStorage: UserInfoStorage) { }
+              private userInfoStorage: UserInfoStorage) {
+  }
 
   ngOnInit() {
+    this.email = this.userInfoStorage.email;
   }
 
   async resendEmailAsync(): Promise<void> {

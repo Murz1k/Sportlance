@@ -2,11 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {AuthApiClient} from '../../services/auth-api-client';
 import {LoginRequest} from '../../services/login-request';
 import {ErrorCode} from '../../core/error-code';
-import {Router} from "@angular/router";
-import {Paths} from "../../paths";
-import {AccountService} from "../../services/account-service";
-import {LoginUser} from "../../services/login-user";
-import {UserService} from "../../services/user.service/user.service";
+import {Router} from '@angular/router';
+import {Paths} from '../../paths';
+import {AccountService} from '../../services/account-service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -21,22 +20,31 @@ export class LoginComponent implements OnInit {
 
   public isDisabled = false;
 
-  public user: LoginUser = <LoginUser>{email: '', password: ''};
+  public loginForm: FormGroup;
 
-  constructor(private router: Router,
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
               private authClient: AuthApiClient,
-              private accountService: AccountService,
-              private userService: UserService) {
+              private accountService: AccountService) {
+    this.createForm();
   }
 
   ngOnInit() {
+  }
+
+  private createForm() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.maxLength(20)]],
+      password: ['', [Validators.required, Validators.email]],
+      rememberMe: [false, [Validators.required]]
+    });
   }
 
   hidePasswordPage(): void {
     this.showLoginError = false;
     this.showPasswordError = false;
     this.isDisabled = false;
-    this.user.email = '';
+    this.loginForm.value.email = '';
     this.isLoginPage = true;
   }
 
@@ -51,22 +59,25 @@ export class LoginComponent implements OnInit {
   async loginAsync(): Promise<void> {
     this.isDisabled = true;
     try {
+      const form = this.loginForm.value;
       const response = await this.authClient.loginAsync(<LoginRequest>{
-        email: this.user.email,
-        password: this.user.password
+        email: form.email,
+        password: form.password,
+        rememberMe: form.rememberMe
       });
       this.accountService.login(response);
-    }
-    catch (e) {
+      this.isDisabled = false;
+      await this.router.navigate([Paths.Root]);
+    } catch (e) {
       switch (e.error.errorCode) {
         case ErrorCode.IncorrectPassword:
           this.showPasswordError = true;
+          this.isDisabled = false;
         case ErrorCode.IncorrectValidation:
           this.showPasswordError = true;
+          this.isDisabled = false;
       }
     }
-    this.isDisabled = false;
-    await this.router.navigate([Paths.Root]);
   }
 
   hideLoginError(): void {
@@ -92,12 +103,12 @@ export class LoginComponent implements OnInit {
   async checkLoginAsync(): Promise<void> {
     this.isDisabled = true;
     try {
-      const response = await this.authClient.checkUserAsync(this.user.email);
-      if (response.email.toUpperCase() === this.user.email.toUpperCase()) {
+      const form = this.loginForm.value;
+      const response = await this.authClient.checkUserAsync(form.email);
+      if (response.email.toUpperCase() === form.email.toUpperCase()) {
         this.isLoginPage = false;
       }
-    }
-    catch (e) {
+    } catch (e) {
       switch (e.error.errorCode) {
         case ErrorCode.UserNotFound:
           this.showLoginError = true;

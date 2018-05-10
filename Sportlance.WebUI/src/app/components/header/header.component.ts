@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
 
   public currentUser: User;
   public isAuth = false;
+  public Paths = Paths;
 
   constructor(private router: Router,
               private sportService: SportService,
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit {
 
   public async updateUserAsync(): Promise<void> {
     if (this.accountService.isAuthorized) {
-      this.currentUser = await this.userService.getCurrentAsync();
+      this.currentUser = await this.userService.getCurrent();
       this.isAuth = true;
     } else {
       this.currentUser = null;
@@ -74,5 +75,14 @@ export class HeaderComponent implements OnInit {
     if (!isNullOrUndefined(this.sport.id)) {
       await this.router.navigate([Paths.Trainers + '/' + this.sport.id]);
     }
+  }
+
+  navigateToAccount() {
+    this.router.navigate([Paths.Account]);
+  }
+
+  logout() {
+    this.accountService.logout();
+    this.router.navigate([Paths.Root]);
   }
 }

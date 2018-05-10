@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.BLL.Entities;
+using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
 using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Interfaces;
 
 namespace Sportlance.BLL.Services
 {
@@ -38,25 +37,11 @@ namespace Sportlance.BLL.Services
         {
             var trainers = await _repository.GetTrainersBySportId(sportId);
 
-            var mockTrainingsCounts = new List<int>()
-            {
-                0,
-                10,
-                50,
-                100,
-                954
-            };
+            var trainersTrainings = await _trainingRepository.GetByTrainersIdsAsync(trainers.Select(i => i.UserId));
 
-            var mockScores = new List<double>()
-            {
-                5,
-                4.5,
-                4,
-                3.5,
-                0
-            };
+            var trainerReviews = await _feedbackRepository.GetByTrainersIdsAsync(trainers.Select(i => i.UserId));
 
-            return trainers.Select(i => new TrainerInfo
+            return trainers.Where(i => i.Status == TrainerStatus.Available).Select(i => new TrainerInfo
             {
                 Id = i.UserId,
                 FirstName = i.User.FirstName,
@@ -65,10 +50,10 @@ namespace Sportlance.BLL.Services
                 Country = i.Country,
                 PhotoUrl = i.PhotoUrl,
                 Price = i.Price,
-                Score = mockScores[new Random().Next(0, mockScores.Count)],
+                Score = trainerReviews.ContainsKey(i.UserId) ? trainerReviews[i.UserId].Average(s => s.Score) : null,
                 About = i.About,
                 Title = i.Title,
-                TrainingsCount = mockTrainingsCounts[new Random().Next(0, mockTrainingsCounts.Count)]
+                TrainingsCount = trainersTrainings.ContainsKey(i.UserId) ? trainersTrainings[i.UserId].Length : 0
             }).ToArray();
         }
 
@@ -105,6 +90,12 @@ namespace Sportlance.BLL.Services
                 Reviews = reviewInfos,
                 TrainingsCount = trainerTrainings.Count
             };
+        }
+
+        public async Task AddAsync(long userId)
+        {
+            await _repository.AddAsync(new Trainer {UserId = userId});
+            await _repository.SaveChanges();
         }
     }
 }

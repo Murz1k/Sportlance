@@ -7,6 +7,7 @@ import {SportService} from '../../services/sport.service';
 import {Sport} from '../../services/sport';
 import {isNullOrUndefined} from 'util';
 import {Paths} from '../../paths';
+import {Review} from "../../services/review";
 
 @Component({
   selector: 'app-trainers',
@@ -40,7 +41,7 @@ export class TrainersComponent implements OnInit {
       stars: this.convertAverageScoreToStars(i.score),
       about: this.cutAbout(i.about),
       title: i.title,
-      reviewTitle: this.convertReviewsToReviewTitle(i.reviews.length),
+      reviewTitle: this.convertReviewsToReviewTitle(i.reviews),
       trainingsCount: i.trainingsCount,
       trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount)
     });
@@ -60,6 +61,7 @@ export class TrainersComponent implements OnInit {
   }
 
   private cutAbout(about: string): string {
+    if (isNullOrUndefined(about)) return '';
     return about.substr(0, 160) + '...';
   }
 
@@ -94,16 +96,17 @@ export class TrainersComponent implements OnInit {
     return title;
   }
 
-  private convertReviewsToReviewTitle(reviews: number): string {
+  private convertReviewsToReviewTitle(reviews: Review[]): string {
     let title = 'отзыв';
-    const lastOneNumber = +reviews.toString().slice(-1);
-    const lastTwoNumbers = +reviews.toString().slice(-2);
+    const reviewCount = isNullOrUndefined(reviews) ? 0 : reviews.length;
+    const lastOneNumber = +reviewCount.toString().slice(-1);
+    const lastTwoNumbers = +reviewCount.toString().slice(-2);
     if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
-      title = `${reviews} ${title}ов`;
+      title = `${reviewCount} ${title}ов`;
     } else if (lastOneNumber === 1) {
-      title = `${reviews} ${title}`;
+      title = `${reviewCount} ${title}`;
     } else {
-      title = `${reviews} ${title}а`;
+      title = `${reviewCount} ${title}а`;
     }
     return title;
   }

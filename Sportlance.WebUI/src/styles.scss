@@ -3,6 +3,8 @@
 @import '../node_modules/primeng/resources/themes/omega/theme.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
 
+$primary-color: #37a000;
+
 body {
   font-family: Gotham SSm, Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -37,6 +39,10 @@ header a {
   align-items: center;
   font-weight: 500;
   text-transform: uppercase;
+}
+
+header a.active {
+  color: $primary-color;
 }
 
 header mat-toolbar {
@@ -94,12 +100,65 @@ a:active, a:hover {
   outline: 0;
 }
 
-a {
-  color: #37a000;
-  text-decoration: none;
+header a, .btn-link {
   font-weight: 500;
+}
+
+header a:active, header a:focus, header a:hover,
+.btn-link:active, .btn-link:focus, .btn-link:hover {
+  color: $primary-color !important;
+  text-decoration: none;
 }
 
 a {
   background: transparent;
 }
+
+.container {
+  padding: 5em 5%;
+}
+
+.no-border {
+  border: none !important;
+}
+
+.p-sm-bottom {
+  padding-bottom: 10px !important;
+}
+
+.m-sm-top-bottom {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.m-sm-top {
+  margin-top: 10px !important;
+}
+
+.mat-checkbox-layout {
+  float: left !important;
+}
+
+.mat-checkbox {
+  padding: 0;
+}
+
+.p-md-top {
+  padding-top: 15px !important;
+  @media (min-width: 768px) {
+    padding-top: 20px !important;
+  }
+}
+
+.m-xs-top {
+  margin-top: 5px !important;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: $primary-color;
+}
+
+.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  background-color: rgba(55, 160, 0, .26);
+}
+

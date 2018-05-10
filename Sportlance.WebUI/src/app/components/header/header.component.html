@@ -16,9 +16,10 @@
           </button>
         </div>
         <ng-template #userExistBlock>
-          {{currentUser.firstName}}
-          {{currentUser.lastName}}
-          <app-menu></app-menu>
+          <a routerLink="/{{Paths.Account}}" routerLinkActive="active">{{currentUser.firstName}} {{currentUser.secondName}}</a>
+          <button (click)="logout()" class="btn-link">
+            Выход
+          </button>
         </ng-template>
       </div>
     </div>

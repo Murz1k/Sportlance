@@ -15,8 +15,7 @@ export class EmailConfirmationGuard implements CanActivate {
       if (this.userInfoStorage.isConfirmed) {
         return Promise.resolve(true);
       } else {
-        this.router.navigate([Paths.EmailVerify]);
-        return Promise.resolve(false);
+        this.router.navigate([Paths.Root]);
       }
     }
     this.router.navigate([Paths.Initialization], {queryParams: {returnUrl: state.url}});

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.BLL.Interfaces;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Responses;

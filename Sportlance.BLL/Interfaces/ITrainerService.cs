@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Sportlance.WebAPI.Entities;
 using Sportlance.DAL.Entities;
+using Sportlance.WebAPI.Entities;
 
-namespace Sportlance.WebAPI.Interfaces
+namespace Sportlance.BLL.Interfaces
 {
     public interface ITrainerService
     {
@@ -12,5 +12,7 @@ namespace Sportlance.WebAPI.Interfaces
         Task<IReadOnlyCollection<TrainerInfo>> GetTrainersInfosBySportId(long sportId);
 
         Task<TrainerInfo> GetTrainerInfoById(long trainerId);
+
+        Task AddAsync(long userId);
     }
 }

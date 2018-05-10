@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.DAL.Entities;
 
@@ -10,5 +11,6 @@ namespace Sportlance.DAL.Interfaces
 
         Task<IReadOnlyCollection<Feedback>> GetAllAsync();
         Task<IReadOnlyCollection<Feedback>> GetByTrainerIdAsync(long trainerId);
+        Task<IDictionary<long, Feedback[]>> GetByTrainersIdsAsync(IEnumerable<long> trainerIds);
     }
 }

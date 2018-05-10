@@ -12,5 +12,6 @@ namespace Sportlance.DAL.Interfaces
 
         Task<IReadOnlyCollection<Training>> GetAllAsync();
         Task<IReadOnlyCollection<Training>> GetByTrainerIdAsync(long trainerId);
+        Task<IDictionary<long, Training[]>> GetByTrainersIdsAsync(IEnumerable<long> trainerIds);
     }
 }
