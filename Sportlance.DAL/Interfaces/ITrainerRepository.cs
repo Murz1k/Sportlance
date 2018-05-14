@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.DAL.Entities;
 
@@ -8,7 +9,7 @@ namespace Sportlance.DAL.Interfaces
     {
         Task<IReadOnlyCollection<Trainer>> GetTrainersBySportId(long sportId);
 
-        Task<IReadOnlyCollection<TrainerSports>> GetTrainersSportsByIds(IEnumerable<long> trainersIds);
+        Task<IReadOnlyCollection<TrainerSport>> GetTrainersSportsByIds(IEnumerable<long> trainersIds);
 
         Task<Trainer> GetByIdAsync(long sportId);
 
@@ -17,6 +18,8 @@ namespace Sportlance.DAL.Interfaces
         Task AddAsync(Trainer trainer);
 
         Task SaveChanges();
+
+        IQueryable<Trainer> Entities();
 
         Task<IReadOnlyCollection<Trainer>> GetAllAsync();
     }

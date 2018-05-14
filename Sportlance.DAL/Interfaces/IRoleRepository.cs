@@ -6,7 +6,7 @@ namespace Sportlance.DAL.Interfaces
 {
     public interface IRoleRepository
     {
-        Task<IReadOnlyCollection<Role>> GetAllAsync();
+        Task<IEnumerable<Role>> GetAllAsync();
 
         Task<IReadOnlyCollection<Role>> GetRolesByUserId(long userId);
     }

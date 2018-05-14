@@ -6,30 +6,12 @@ using Sportlance.DAL.Entities;
 
 namespace Sportlance.DAL.Core
 {
-    public sealed class AppDBContext : DbContext, IReadOnlyDataContext, IEditableDataContext
+    public sealed class AppDBContext : DbContext
     {
         public AppDBContext(DbContextOptions options)
             : base(options)
         {
         }
-
-        IQueryable<Trainer> IReadOnlyDataContext.Trainers => Trainers.AsNoTracking();
-
-        IQueryable<TrainerSports> IReadOnlyDataContext.TrainerSports => TrainerSports.AsNoTracking();
-
-        IQueryable<Feedback> IReadOnlyDataContext.Feedbacks => Feedbacks.AsNoTracking();
-
-        IQueryable<Training> IReadOnlyDataContext.Trainings => Trainings.AsNoTracking();
-
-        IQueryable<User> IReadOnlyDataContext.Users => Users.AsNoTracking();
-
-        IQueryable<Sport> IReadOnlyDataContext.Sports => Sports.AsNoTracking();
-
-        IQueryable<UserRole> IReadOnlyDataContext.UserRoles => UserRoles.AsNoTracking();
-
-        IQueryable<Role> IReadOnlyDataContext.Roles => Roles.AsNoTracking();
-
-        IQueryable<Client> IReadOnlyDataContext.Clients => Clients.AsNoTracking();
 
         public DbSet<Training> Trainings { get; set; }
 
@@ -43,16 +25,11 @@ namespace Sportlance.DAL.Core
 
         public DbSet<Trainer> Trainers { get; set; }
 
-        public DbSet<TrainerSports> TrainerSports { get; set; }
+        public DbSet<TrainerSport> TrainerSports { get; set; }
 
         public DbSet<User> Users { get; set; }
 
         public DbSet<Sport> Sports { get; set; }
-
-        public IQueryable<T> GetAll<T>() where T : class
-        {
-            return Set<T>().AsNoTracking();
-        }
 
         public Task<int> SaveAsync()
         {
@@ -69,19 +46,9 @@ namespace Sportlance.DAL.Core
             return Entry(x);
         }
 
-        public static IEditableDataContext CreateEditable(DbContextOptions<AppDBContext> options)
+        public bool IsDetached<T>(T entity) where T : class, new ()
         {
-            return new AppDBContext(options);
-        }
-
-        public static IReadOnlyDataContext CreateReadOnly(DbContextOptions<AppDBContext> options)
-        {
-            var context = new AppDBContext(options);
-            context.ChangeTracker.AutoDetectChangesEnabled = false;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-
-            context.Database.AutoTransactionsEnabled = false;
-            return context;
+            return Entry(entity).State == EntityState.Detached;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -124,10 +91,10 @@ namespace Sportlance.DAL.Core
                 .WithOne()
                 .HasForeignKey<Feedback>(p => p.TrainingId);
 
-            modelBuilder.Entity<TrainerSports>()
+            modelBuilder.Entity<TrainerSport>()
                 .HasOne(c => c.Trainer);
 
-            modelBuilder.Entity<TrainerSports>()
+            modelBuilder.Entity<TrainerSport>()
                 .HasOne(c => c.Sport);
 
             modelBuilder.Entity<UserRole>()

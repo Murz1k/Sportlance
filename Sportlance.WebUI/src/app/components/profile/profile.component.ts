@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
       reviews: response.reviews.map(i => <ReviewInfo>{
         stars: this.convertAverageScoreToStars(i.score),
         clientName: i.clientName,
-        createDate: i.createDate.toLocaleDateString(),
+        createDate: i.createDate,
         description: i.description,
         photoUrl: i.photoUrl
       }),

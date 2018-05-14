@@ -5,5 +5,5 @@ export interface ReviewInfo {
   clientName: string;
   stars: Array<Star>;
   description: string;
-  createDate: string;
+  createDate: Date;
 }

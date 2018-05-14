@@ -18,9 +18,12 @@
         </div>
         <div class="error" *ngIf="showLoginError;">
           <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-          <label class="error__message">
+          <label *ngIf="loginForm.value.email !== ''" class="error__message">
             <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
             Ой! Неправильный email.</label>
+          <label *ngIf="loginForm.value.email === ''" class="error__message">
+            <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+            Обязательное поле.</label>
         </div>
         <div class="m-lg-bottom">
         </div>
@@ -44,7 +47,7 @@
         <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
           <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">{{loginForm.value.email}}
           </div>
-          <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
+          <div class="form-group" style="margin-bottom: 5px; position: relative;">
             <input id="Password" formControlName="password" name="password" type="password"
                    class="password-input form-control" placeholder="Пароль"
                    (ngModelChange)="hidePasswordError()" (keydown)="ckechKeyDownPassword($event)">

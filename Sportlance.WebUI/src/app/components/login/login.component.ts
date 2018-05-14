@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {Paths} from '../../paths';
 import {AccountService} from '../../services/account-service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-login',
@@ -34,8 +35,8 @@ export class LoginComponent implements OnInit {
 
   private createForm() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.maxLength(20)]],
-      password: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(20)]],
+      password: ['', Validators.required],
       rememberMe: [false, [Validators.required]]
     });
   }
@@ -104,6 +105,12 @@ export class LoginComponent implements OnInit {
     this.isDisabled = true;
     try {
       const form = this.loginForm.value;
+      if (isNullOrUndefined(form.email) || form.email === '') {
+        form.email = '';
+        this.showLoginError = true;
+        this.isDisabled = false;
+        return;
+      }
       const response = await this.authClient.checkUserAsync(form.email);
       if (response.email.toUpperCase() === form.email.toUpperCase()) {
         this.isLoginPage = false;

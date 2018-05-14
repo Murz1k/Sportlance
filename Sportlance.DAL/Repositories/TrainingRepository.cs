@@ -10,26 +10,27 @@ namespace Sportlance.DAL.Repositories
 {
     public class TrainingRepository : EntityCrudRepository<Training>, ITrainingRepository
     {
-        public TrainingRepository(IReadOnlyDataContext readContext, IEditableDataContext editContext) : base(
-            readContext, editContext)
-        {
-        }
+        public IQueryable<Training> Entities() => AppContext.Trainings;
 
         public async Task<IReadOnlyCollection<Training>> GetByTrainerIdAsync(long trainerId)
         {
-            return await (from training in ReadContext.Trainings
-                join trainingSport in ReadContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
+            return await (from training in AppContext.Trainings
+                join trainingSport in AppContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
                 where trainingSport.TrainerId == trainerId
                 select training).ToArrayAsync();
         }
         
         public async Task<IDictionary<long, Training[]>> GetByTrainersIdsAsync(IEnumerable<long> trainerIds)
         {
-            return await (from training in ReadContext.Trainings
-                join trainingSport in ReadContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
+            return await (from training in AppContext.Trainings
+                join trainingSport in AppContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
                 where trainerIds.Contains(trainingSport.TrainerId)
                 group training by trainingSport.TrainerId into ts
                 select ts).ToDictionaryAsync(k => k.Key, v => v.ToArray());
+        }
+
+        public TrainingRepository(AppDBContext appContext) : base(appContext)
+        {
         }
     }
 }

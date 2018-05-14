@@ -10,54 +10,54 @@ namespace Sportlance.DAL.Repositories
 {
     public class TrainerRepository : ITrainerRepository
     {
-        private readonly IReadOnlyDataContext _readContext;
-        private readonly IEditableDataContext _editContext;
+        private readonly AppDBContext _appContext;
 
-        public TrainerRepository(IReadOnlyDataContext readContext, IEditableDataContext editContext)
+        public TrainerRepository(AppDBContext appContext)
         {
-            _readContext = readContext;
-            _editContext = editContext;
+            _appContext = appContext;
         }
+
+        public IQueryable<Trainer> Entities() => _appContext.Trainers;
 
         public async Task<IReadOnlyCollection<Trainer>> GetTrainersBySportId(long sportId)
         {
-            return await (from trainer in _readContext.Trainers
-                join trainerSport in _readContext.TrainerSports on trainer.UserId equals trainerSport.TrainerId
-                join sport in _readContext.Sports on trainerSport.SportId equals sport.Id
+            return await (from trainer in _appContext.Trainers
+                join trainerSport in _appContext.TrainerSports on trainer.UserId equals trainerSport.TrainerId
+                join sport in _appContext.Sports on trainerSport.SportId equals sport.Id
                 where sport.Id == sportId
                 select trainer).Include(t=>t.User).ToArrayAsync();
         }
 
-        public async Task<IReadOnlyCollection<TrainerSports>> GetTrainersSportsByIds(IEnumerable<long> trainersIds)
+        public async Task<IReadOnlyCollection<TrainerSport>> GetTrainersSportsByIds(IEnumerable<long> trainersIds)
         {
-            return await (from trainerSport in _readContext.TrainerSports
+            return await (from trainerSport in _appContext.TrainerSports
                 where trainersIds.Contains(trainerSport.TrainerId)
-                select trainerSport).ToArrayAsync();
+                select trainerSport).Include(i=>i.Sport).Include(i=>i.Trainer).ToArrayAsync();
         }
 
         public Task<Trainer> GetByIdAsync(long sportId)
-            => _readContext.Trainers.Include(i=>i.User).FirstOrDefaultAsync(i => i.UserId == sportId);
+            => _appContext.Trainers.Include(i=>i.User).FirstOrDefaultAsync(i => i.UserId == sportId);
 
         public async Task<int> AddRangeAsync(IEnumerable<Trainer> entities)
         {
-            await _editContext.Trainers.AddRangeAsync(entities);
-            return await _editContext.SaveAsync();
+            await _appContext.Trainers.AddRangeAsync(entities);
+            return await _appContext.SaveAsync();
         }
 
         public Task AddAsync(Trainer trainer)
         {
-            return _editContext.Trainers.AddAsync(trainer);
+            return _appContext.Trainers.AddAsync(trainer);
         }
 
         public Task SaveChanges()
         {
-            return _editContext.SaveAsync();
+            return _appContext.SaveAsync();
         }
 
 
         public async Task<IReadOnlyCollection<Trainer>> GetAllAsync()
         {
-            return await _readContext.Trainers.ToArrayAsync();
+            return await _appContext.Trainers.ToArrayAsync();
         }
     }
 }

@@ -2,23 +2,23 @@
   <mat-toolbar-row>
     <div *ngIf="!isEmpty" class="container">
       <div class="row">
-        <p-autoComplete (onSelect)="submitAsync()" [(ngModel)]="sport"
-                        [suggestions]="filteredCountriesSingle"
-                        field="name" (completeMethod)="filterCountrySingle($event)" [size]="30"
-                        placeholder="Найти вид спорта" [minLength]="1"></p-autoComplete>
+        <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
         <span class="example-spacer"></span>
-        <div *ngIf="!isAuth; else userExistBlock;" style="display: flex;">
-          <button (click)="loginAsync()" class="btn-link">
+        <div *ngIf="isAuthorized; else isNotBlock;" style="display: flex;">
+          <a routerLink="/{{Paths.Account}}" routerLinkActive="active">
+            {{currentUser.firstName}}
+            {{currentUser.secondName}}
+          </a>
+          <button (click)="logout()" class="btn-link">
+            Выход
+          </button>
+        </div>
+        <ng-template #isNotBlock style="display: flex;">
+          <button (click)="login()" class="btn-link">
             Вход
           </button>
           <button (click)="registerAsync()" class="btn-link">
             Регистрация
-          </button>
-        </div>
-        <ng-template #userExistBlock>
-          <a routerLink="/{{Paths.Account}}" routerLinkActive="active">{{currentUser.firstName}} {{currentUser.secondName}}</a>
-          <button (click)="logout()" class="btn-link">
-            Выход
           </button>
         </ng-template>
       </div>

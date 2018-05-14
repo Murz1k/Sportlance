@@ -17,6 +17,6 @@ namespace Sportlance.DAL.Entities
 
         public Client Client { get; set; }
 
-        public TrainerSports TrainerSport { get; set; }
+        public TrainerSport TrainerSport { get; set; }
     }
 }

@@ -14,6 +14,66 @@ body {
   margin: 0;
 }
 
+$checkbox-size: 15px !important;
+
+.mat-checkbox-layout {
+  margin-bottom: 0;
+}
+
+.mat-checkbox-layout:hover {
+  background-color: #F9F9F9;
+  -webkit-box-shadow: -5px 0 0 #F9F9F9;
+  box-shadow: -5px 0 0 #F9F9F9;
+}
+
+.mat-checkbox-inner-container {
+  width: $checkbox-size;
+  height: $checkbox-size;
+}
+
+.mat-checkbox-label {
+  font-size: 13px;
+  color: #222;
+  font-family: "Gotham SSm", Helvetica, Arial, sans-serif;
+  margin: 0 !important;
+  display: block;
+  font-weight: normal;
+  cursor: pointer;
+  padding: 4px 3px 4px 0;
+  border-radius: 0 !important;
+}
+
+.mat-checkbox-layout:hover .mat-checkbox-label {
+  color: #008329;
+}
+
+.mat-checkbox-frame {
+  display: inline-block;
+  width: $checkbox-size;
+  height: $checkbox-size;
+  line-height: $checkbox-size;
+  font-size: $checkbox-size;
+  position: relative;
+  top: 3px;
+  background-color: #fff;
+  border: 1px solid !important;
+  margin-right: 10px;
+  color: #a0a0a0;
+  border-color: #a0a0a0;
+  border-radius: 0 !important;
+}
+
+.mat-checkbox-layout:hover .mat-checkbox-frame {
+  color: #008329;
+  border-color: #008329;
+  -webkit-box-shadow: 0 0 0 1px #008329;
+  box-shadow: 0 0 0 1px #008329;
+  -webkit-transition: -webkit-transform .3s, -webkit-box-shadow .3s;
+  transition: -webkit-transform .3s, -webkit-box-shadow .3s;
+  transition: transform .3s, box-shadow .3s;
+  transition: transform .3s, box-shadow .3s, -webkit-transform .3s, -webkit-box-shadow .3s;
+}
+
 .example-spacer {
   flex: 1 1 auto;
 }
@@ -41,7 +101,7 @@ header a {
   text-transform: uppercase;
 }
 
-header a.active {
+header a.active, a {
   color: $primary-color;
 }
 
@@ -150,6 +210,28 @@ a {
   }
 }
 
+.d-md-block {
+  @media (min-width: 768px) {
+    display: block !important;
+  }
+}
+
+.d-none {
+  display: none !important;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.p-xs-top {
+  padding-top: 5px !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .m-xs-top {
   margin-top: 5px !important;
 }
@@ -160,5 +242,23 @@ a {
 
 .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
   background-color: rgba(55, 160, 0, .26);
+}
+
+input.form-control, textarea.form-control, .select2-search input {
+  display: block;
+  width: 100%;
+  min-height: 40px;
+  height: 40px;
+  padding: 10px 19px;
+  border: 1px solid #E0E0E0;
+  border-radius: 2px;
+  color: #656565;
+  background: #fff none;
+  font-size: 13px;
+  line-height: 18px;
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
 }
 

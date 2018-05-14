@@ -23,7 +23,7 @@ namespace Sportlance.WebAPI.Entities
 
         public string Title { get; set; }
 
-        public IReadOnlyCollection<ReviewInfo> Reviews { get; set; }
+        public IEnumerable<ReviewInfo> Reviews { get; set; }
 
         public int TrainingsCount { get; set; }
 

@@ -1,27 +1,34 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
 using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Interfaces;
+using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/trainer")]
-    public class TrainerController : Controller
+    [Route("api/trainers")]
+    public class TrainersController : Controller
     {
         private readonly ITrainerService _service;
 
-        public TrainerController(ITrainerService service)
+        public TrainersController(ITrainerService service)
         {
             _service = service;
         }
 
-        [HttpGet, Route("sport/{sportId}")]
-        public async Task<CollectionResponse<TrainerInfo>> GetAll(long sportId)
+        [HttpGet]
+        public async Task<CollectionResponse<TrainerInfo>> GetAll([FromQuery] GetTrainersQueryRequest request)
         {
-            var trainers = await _service.GetTrainersInfosBySportId(sportId);
+            var query = new TrainersQuery
+            {
+                Price = request.Price,
+                ReviewsCount = request.ReviewsCount
+            };
+
+            var trainers = await _service.GetTrainersInfos(query);
+
             return new CollectionResponse<TrainerInfo>
             {
                 Items = trainers

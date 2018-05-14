@@ -83,9 +83,7 @@ namespace Sportlance.WebAPI
             builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             var dbOptions = builder.Options;
             services.AddDbContext<AppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient(x => AppDBContext.CreateEditable(dbOptions));
-            services.AddTransient(x => AppDBContext.CreateReadOnly(dbOptions));
-
+            
             DataLoader.LoadRepositories(services);
 
             services.AddTransient<IDateTime, UtcDateTime>();

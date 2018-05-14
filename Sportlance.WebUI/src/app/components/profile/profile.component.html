@@ -69,11 +69,11 @@
       </div>
     </div>
     <section class="pull-left">
-      <ul style="list-style: none; padding: 0;">
+      <ul style="list-style: none; padding: 0; margin: 0;">
         <li *ngFor="let review of trainer.reviews">
-          <div class="row">
+          <div class="row" style="padding-bottom: 1em;">
             <div class="col">
-              <div style="position: relative; padding-top: 1em;">
+              <div style="position: relative;">
                 <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
                   {{scoreStar.isFull ? 'star' : ''}}
                   {{scoreStar.isEmpty ? 'star_border' : ''}}
@@ -82,13 +82,13 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" style="padding-bottom: 1em;">
             <div class="col">
               {{review.description}}
             </div>
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col text-muted">
               {{review.clientName}} {{review.createDate}}
             </div>
           </div>

@@ -15,8 +15,7 @@ namespace Sportlance.DAL.Test
         {
             var builder = new DbContextOptionsBuilder<AppDBContext>();
             builder.UseSqlServer("Data Source=(localdb)\\mssqllocaldb;Initial Catalog=SportlanceDB;Integrated Security=True;MultipleActiveResultSets=True");
-            var editableDataContext = AppDBContext.CreateEditable(builder.Options);
-            var readOnlyDataContext = AppDBContext.CreateReadOnly(builder.Options);
+            var abbDataContext = new AppDBContext(builder.Options);
 
             IServiceCollection services = new ServiceCollection();
             DataLoader.LoadRepositories(services);
@@ -24,7 +23,7 @@ namespace Sportlance.DAL.Test
             foreach (var service in services)
             {
                 if (!_instances.ContainsKey(service.ServiceType))
-                    _instances.Add(service.ServiceType, Activator.CreateInstance(service.ImplementationType, editableDataContext, readOnlyDataContext));
+                    _instances.Add(service.ServiceType, Activator.CreateInstance(service.ImplementationType, abbDataContext));
             }
         }
 

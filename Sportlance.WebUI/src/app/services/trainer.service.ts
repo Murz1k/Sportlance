@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Trainer} from './trainer';
 import {CollectionResponse} from './collection-response';
 import {BaseApiClient} from './base-api-client';
@@ -10,11 +10,14 @@ export class TrainerService extends BaseApiClient {
     super();
   }
 
-  getTrainersBySportIdAsync(sportId: number): Promise<CollectionResponse<Trainer>> {
-    return this.http.get<CollectionResponse<Trainer>>(`${this.baseApiUrl}/trainer/sport/${sportId}`).toPromise();
+  getTrainersAsync(): Promise<CollectionResponse<Trainer>> {
+    const parameters = new HttpParams()
+      .append('price', '')
+      .append('reviewsCount', '');
+    return this.http.get<CollectionResponse<Trainer>>(`${this.baseApiUrl}/trainers`, { params: parameters }).toPromise();
   }
 
   getByIdAsync(trainerId: number): Promise<Trainer> {
-    return this.http.get<Trainer>(`${this.baseApiUrl}/trainer/${trainerId}`).toPromise();
+    return this.http.get<Trainer>(`${this.baseApiUrl}/trainers/${trainerId}`).toPromise();
   }
 }

@@ -10,40 +10,40 @@ namespace Sportlance.DAL.Repositories
 {
     public class FeedbackRepository : IFeedbackRepository
     {
-        private readonly IReadOnlyDataContext _readContext;
-        private readonly IEditableDataContext _editContext;
+        private readonly AppDBContext _appContext;
 
-        public FeedbackRepository(IReadOnlyDataContext readContext, IEditableDataContext editContext)
+        public FeedbackRepository(AppDBContext appContext)
         {
-            _readContext = readContext;
-            _editContext = editContext;
+            _appContext = appContext;
         }
 
         public async Task AddRangeAsync(IEnumerable<Feedback> entities)
         {
-            await _editContext.Feedbacks.AddRangeAsync(entities);
-            await _editContext.SaveAsync();
+            await _appContext.Feedbacks.AddRangeAsync(entities);
+            await _appContext.SaveAsync();
         }
 
         public async Task<IReadOnlyCollection<Feedback>> GetAllAsync()
         {
-            return await _readContext.Feedbacks.ToArrayAsync();
+            return await _appContext.Feedbacks.ToArrayAsync();
         }
+
+        public IQueryable<Feedback> Entities() => _appContext.Feedbacks;
 
         public async Task<IReadOnlyCollection<Feedback>> GetByTrainerIdAsync(long trainerId)
         {
-            return await (from review in _readContext.Feedbacks
-                join training in _readContext.Trainings on review.TrainingId equals training.Id
-                join trainingSport in _readContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
+            return await (from review in _appContext.Feedbacks
+                join training in _appContext.Trainings on review.TrainingId equals training.Id
+                join trainingSport in _appContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
                 where trainingSport.TrainerId == trainerId
                 select review).ToArrayAsync();
         }
 
         public async Task<IDictionary<long, Feedback[]>> GetByTrainersIdsAsync(IEnumerable<long> trainerIds)
         {
-            return await (from review in _readContext.Feedbacks
-                join training in _readContext.Trainings on review.TrainingId equals training.Id
-                join trainingSport in _readContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
+            return await (from review in _appContext.Feedbacks
+                join training in _appContext.Trainings on review.TrainingId equals training.Id
+                join trainingSport in _appContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
                 where trainerIds.Contains(trainingSport.TrainerId)
                 group review by trainingSport.TrainerId into ts
                 select ts).ToDictionaryAsync(k=>k.Key, v=>v.ToArray());

@@ -9,21 +9,20 @@ namespace Sportlance.DAL.Repositories
 {
     public class UserRepository : EntityCrudRepository<User>, IUserRepository
     {
-        public UserRepository(IReadOnlyDataContext readContext, IEditableDataContext editContext)
-            : base(readContext, editContext)
-        {
-        }
-
         public Task<User> GetByEmailAsync(string email) 
-            => ReadContext.Users.FirstOrDefaultAsync(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+            => AppContext.Users.FirstOrDefaultAsync(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
 
         public Task<bool> IsEmailExists(string email) 
-            => ReadContext.Users.AnyAsync(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+            => AppContext.Users.AnyAsync(x => string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
 
         public async Task<User> CreateUser(User user)
         {
             await AddAsync(user);
             return user;
+        }
+
+        public UserRepository(AppDBContext appContext) : base(appContext)
+        {
         }
     }
 }

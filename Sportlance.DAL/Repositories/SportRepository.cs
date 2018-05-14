@@ -10,16 +10,15 @@ namespace Sportlance.DAL.Repositories
 {
     public class SportRepository : EntityCrudRepository<Sport>, ISportRepository
     {
-        public SportRepository(IReadOnlyDataContext readContext, IEditableDataContext editContext)
-            : base(readContext, editContext)
-        {
 
+        public async Task<int> AddTrainerSportsRangeAsync(IEnumerable<TrainerSport> entities)
+        {
+            await AppContext.TrainerSports.AddRangeAsync(entities);
+            return await AppContext.SaveAsync();
         }
 
-        public async Task<int> AddTrainerSportsRangeAsync(IEnumerable<TrainerSports> entities)
+        public SportRepository(AppDBContext appContext) : base(appContext)
         {
-            await EditContext.TrainerSports.AddRangeAsync(entities);
-            return await EditContext.SaveAsync();
         }
     }
 }

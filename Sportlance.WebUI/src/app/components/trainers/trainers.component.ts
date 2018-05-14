@@ -23,28 +23,28 @@ export class TrainersComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private trainerService: TrainerService,
-              private sportService: SportService) {
+              private trainerService: TrainerService) {
   }
 
   async updateDataAsync(id: number) {
     this.isRendering = false;
-    this.currentSport = await this.sportService.getByIdAsync(id);
-    const response = await this.trainerService.getTrainersBySportIdAsync(this.currentSport.id);
-    this.trainers = response.items.map(i => <TrainerInfo>{
-      id: i.id,
-      city: i.city,
-      country: i.country,
-      price: i.price,
-      secondName: i.secondName,
-      firstName: i.firstName,
-      stars: this.convertAverageScoreToStars(i.score),
-      about: this.cutAbout(i.about),
-      title: i.title,
-      reviewTitle: this.convertReviewsToReviewTitle(i.reviews),
-      trainingsCount: i.trainingsCount,
-      trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount)
-    });
+    const response = await this.trainerService.getTrainersAsync();
+    if (response.items) {
+      this.trainers = response.items.map(i => <TrainerInfo>{
+        id: i.id,
+        city: i.city,
+        country: i.country,
+        price: i.price,
+        secondName: i.secondName,
+        firstName: i.firstName,
+        stars: this.convertAverageScoreToStars(i.score),
+        about: this.cutAbout(i.about),
+        title: i.title,
+        reviewTitle: this.convertReviewsToReviewTitle(i.reviews),
+        trainingsCount: i.trainingsCount,
+        trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount)
+      });
+    }
     this.isRendering = true;
   }
 
@@ -58,6 +58,10 @@ export class TrainersComponent implements OnInit {
     if (!isNullOrUndefined(trainerId)) {
       await this.router.navigate([`${Paths.Profile}/${trainerId}`]);
     }
+  }
+
+  login() {
+    this.router.navigate([Paths.Login]);
   }
 
   private cutAbout(about: string): string {

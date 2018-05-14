@@ -9,44 +9,51 @@ namespace Sportlance.DAL.Core
 {
     public class EntityCrudRepository<T> where T : class, IEntityWithId, new()
     {
-        protected readonly IReadOnlyDataContext ReadContext;
-        protected readonly IEditableDataContext EditContext;
+        protected readonly AppDBContext AppContext;
 
         public EntityCrudRepository(
-            IReadOnlyDataContext readContext,
-            IEditableDataContext editContext)
+            AppDBContext appContext)
         {
-            ReadContext = readContext;
-            EditContext = editContext;
+            AppContext = appContext;
         }
 
-        public async Task<IReadOnlyCollection<T>> GetAllAsync() => await ReadContext.GetAll<T>().ToArrayAsync();
+        public async Task<IEnumerable<T>> GetAllAsync() => await AppContext.Set<T>().ToListAsync();
 
         public Task<T> GetByIdAsync(long id)
         {
-            return ReadContext.GetAll<T>().FirstOrDefaultAsync(x => x.Id == id);
+            return AppContext.Set<T>().FirstOrDefaultAsync(i=>i.Id == id);
         }
 
         private void AddEntity(T entity)
         {
-            EditContext.DbSet<T>().Add(entity);
+            AppContext.Add(entity);
         }
 
         private void Attach(T entity)
         {
-            EditContext.DbSet<T>().Attach(entity);
+            AppContext.Attach(entity);
         }
 
         private void RemoveEntity(T entity)
         {
-            Attach(entity);
-            EditContext.Entity(entity).State = EntityState.Deleted;
+            //if (AppContext.IsDetached(entity))
+            //{
+            //    if (AppContext.Entity(entity).IsKeySet)
+            //    {
+            //        Attach(entity);
+            //    }
+            //    else
+            //    {
+            //        AddEntity(entity);
+            //    }
+            //}
+            AppContext.Entity(entity).State = EntityState.Deleted;
         }
 
         public Task<int> UpdateWholeAsync(T entity)
         {
             Attach(entity);
-            EditContext.Entity(entity).State = EntityState.Modified;
+            AppContext.Entity(entity).State = EntityState.Modified;
             return SaveToDBAsync();
         }
 
@@ -59,7 +66,7 @@ namespace Sportlance.DAL.Core
             foreach (var entity in entities)
             {
                 Attach(entity);
-                var entityEntry = EditContext.Entity(entity);
+                var entityEntry = AppContext.Entity(entity);
                 foreach (var property in properties.Where(x => x != null))
                 {
                     entityEntry.Property(property).IsModified = true;
@@ -75,7 +82,7 @@ namespace Sportlance.DAL.Core
 
         private Task<int> SaveToDBAsync()
         {
-            return EditContext.SaveAsync();
+            return AppContext.SaveAsync();
         }
 
         public Task<int> AddRangeAsync(IEnumerable<T> entities)

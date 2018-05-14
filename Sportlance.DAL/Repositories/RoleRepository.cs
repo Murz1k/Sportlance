@@ -10,15 +10,14 @@ namespace Sportlance.DAL.Repositories
 {
     public class RoleRepository : EntityCrudRepository<Role>, IRoleRepository
     {
-        public RoleRepository(IReadOnlyDataContext readContext, IEditableDataContext editContext) : base(readContext,
-            editContext)
+        public RoleRepository(AppDBContext appContext) : base(appContext)
         {
         }
 
         public async Task<IReadOnlyCollection<Role>> GetRolesByUserId(long userId)
         {
-            return await (from role in ReadContext.Roles
-                join userRole in ReadContext.UserRoles on role.Id equals userRole.RoleId
+            return await (from role in AppContext.Roles
+                join userRole in AppContext.UserRoles on role.Id equals userRole.RoleId
                 where userRole.UserId == userId
                 select role).ToArrayAsync();
         }

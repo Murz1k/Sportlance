@@ -28,30 +28,80 @@ namespace Sportlance.DAL.Test
         {
             _users = new List<User>
             {
-                new User { Email = "fghfghfghfgh@asdasdsa.com", FirstName = "fdgdfgdfg", IsEmailConfirm = true, LastName = "fdgdfgdfgdfg", PasswordHash = "cxvxcvxcv"},
-                new User { Email = "zxczxczxc@asdasdsa.com", FirstName = "fdgdfgdfg", IsEmailConfirm = true, LastName = "fdgdfgdfgdfg", PasswordHash = "cxvxcvxcv"},
-                new User { Email = "cvbvcbvbvc@asdasdsa.com", FirstName = "fdgdfgdfg", IsEmailConfirm = true, LastName = "fdgdfgdfgdfg", PasswordHash = "cxvxcvxcv"},
-                new User { Email = "fghfghfghfgh@asdasdsa.com", FirstName = "fdgdfgdfg", IsEmailConfirm = true, LastName = "fdgdfgdfgdfg", PasswordHash = "cxvxcvxcv"},
-                new User { Email = "fghfghfghfgh@asdasdsa.com", FirstName = "fdgdfgdfg", IsEmailConfirm = true, LastName = "fdgdfgdfgdfg", PasswordHash = "cxvxcvxcv"},
-                new User { Email = "fghfghfghfgh@asdasdsa.com", FirstName = "fdgdfgdfg", IsEmailConfirm = true, LastName = "fdgdfgdfgdfg", PasswordHash = "cxvxcvxcv"},
-                new User { Email = "fghfghfghfgh@asdasdsa.com", FirstName = "fdgdfgdfg", IsEmailConfirm = true, LastName = "fdgdfgdfgdfg", PasswordHash = "cxvxcvxcv"},
+                new User
+                {
+                    Email = "fghfghfghfgh@asdasdsa.com",
+                    FirstName = "fdgdfgdfg",
+                    IsEmailConfirm = true,
+                    LastName = "fdgdfgdfgdfg",
+                    PasswordHash = "cxvxcvxcv"
+                },
+                new User
+                {
+                    Email = "zxczxczxc@asdasdsa.com",
+                    FirstName = "fdgdfgdfg",
+                    IsEmailConfirm = true,
+                    LastName = "fdgdfgdfgdfg",
+                    PasswordHash = "cxvxcvxcv"
+                },
+                new User
+                {
+                    Email = "cvbvcbvbvc@asdasdsa.com",
+                    FirstName = "fdgdfgdfg",
+                    IsEmailConfirm = true,
+                    LastName = "fdgdfgdfgdfg",
+                    PasswordHash = "cxvxcvxcv"
+                },
+                new User
+                {
+                    Email = "fghfghfghfgh@asdasdsa.com",
+                    FirstName = "fdgdfgdfg",
+                    IsEmailConfirm = true,
+                    LastName = "fdgdfgdfgdfg",
+                    PasswordHash = "cxvxcvxcv"
+                },
+                new User
+                {
+                    Email = "fghfghfghfgh@asdasdsa.com",
+                    FirstName = "fdgdfgdfg",
+                    IsEmailConfirm = true,
+                    LastName = "fdgdfgdfgdfg",
+                    PasswordHash = "cxvxcvxcv"
+                },
+                new User
+                {
+                    Email = "fghfghfghfgh@asdasdsa.com",
+                    FirstName = "fdgdfgdfg",
+                    IsEmailConfirm = true,
+                    LastName = "fdgdfgdfgdfg",
+                    PasswordHash = "cxvxcvxcv"
+                },
+                new User
+                {
+                    Email = "fghfghfghfgh@asdasdsa.com",
+                    FirstName = "fdgdfgdfg",
+                    IsEmailConfirm = true,
+                    LastName = "fdgdfgdfgdfg",
+                    PasswordHash = "cxvxcvxcv"
+                },
             };
         }
 
         public void RandomData()
         {
             var dict = new Dictionary<string, List<string>>();
-            dict.Add("FirstName", new List<string> { "Вася", "Петя", "Саня", "Маша", "Миша" });
-            dict.Add("LastName", new List<string> { "Васин", "Петров", "Александров", "Машин", "Мишин" });
-            dict.Add("Email1", new List<string> { "dfadfsafd", "dfgsdfgs", "fghdfghfgh", "xcvbxcvb", "vbnmvbnmvbn" });
-            dict.Add("Email2", new List<string> { "gmail.com", "mail.ru", "yandex.ru", "rambler.ru", "yahoo.com" });
+            dict.Add("FirstName", new List<string> {"Вася", "Петя", "Саня", "Маша", "Миша"});
+            dict.Add("LastName", new List<string> {"Васин", "Петров", "Александров", "Машин", "Мишин"});
+            dict.Add("Email1", new List<string> {"dfadfsafd", "dfgsdfgs", "fghdfghfgh", "xcvbxcvb", "vbnmvbnmvbn"});
+            dict.Add("Email2", new List<string> {"gmail.com", "mail.ru", "yandex.ru", "rambler.ru", "yahoo.com"});
 
             var userCount = dict["Email1"].Count * dict["Email2"].Count;
 
             _users = new List<User>();
             for (var i = 0; i < userCount; i++)
             {
-                var email = dict["Email1"][(int)Math.Floor(Convert.ToDecimal(i / dict["Email1"].Count))] + "@" + dict["Email2"][i % dict["Email2"].Count];
+                var email = dict["Email1"][(int) Math.Floor(Convert.ToDecimal(i / dict["Email1"].Count))] + "@" +
+                            dict["Email2"][i % dict["Email2"].Count];
                 if (_users.Any(j => j.Email == email))
                 {
                     i--;
@@ -70,9 +120,9 @@ namespace Sportlance.DAL.Test
 
             _sports = new List<Sport>
             {
-                new Sport{Name="Плавание"},
-                new Sport{Name="Водное поло"},
-                new Sport{Name="Бокс"}
+                new Sport {Name = "Плавание"},
+                new Sport {Name = "Водное поло"},
+                new Sport {Name = "Бокс"}
             };
         }
 
@@ -115,33 +165,71 @@ namespace Sportlance.DAL.Test
             var allUsers = await userRespoRepository.GetAllAsync();
             var testUsers = allUsers.Where(i => i.PasswordHash == "Test");
             var trainers = testUsers.Select(user => new Trainer
-                {
-                    UserId = user.Id,
-                    About = "fsdfsd",
-                    City = "Moscow",
-                    Country = "Russia",
-                    Title = "Super Trainer",
-                    Price = new Random().Next(10, 40) * 100,
-                    PhotoUrl = "https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
-                });
+            {
+                UserId = user.Id,
+                About =@"fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                            fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd",
+                City = "Moscow",
+                Country = "Russia",
+                Title = "Super Trainer",
+                Price = new Random().Next(10, 40) * 100,
+                PhotoUrl =
+                    "https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
+            });
 
             await trainerRepository.AddRangeAsync(trainers);
         }
 
         [Test]
-        public async Task LoadTrainerSports()
+        public async Task LoadClients()
         {
             await LoadTrainers();
+            var clientRepository = _env.GetService<IClientRepository>();
+            var userRespoRepository = _env.GetService<IUserRepository>();
+
+            var allUsers = await userRespoRepository.GetAllAsync();
+            var testUsers = allUsers.Where(i => i.PasswordHash == "Test");
+            var clients = testUsers.Select(user => new Client
+            {
+                UserId = user.Id,
+                Status = ClientStatus.Available
+            });
+
+            await clientRepository.AddRangeAsync(clients);
+        }
+
+        [Test]
+        public async Task LoadTrainerSports()
+        {
+            await LoadClients();
             var trainerRepository = _env.GetService<ITrainerRepository>();
             var sportRepository = _env.GetService<ISportRepository>();
             var allTrainers = await trainerRepository.GetAllAsync();
             var firstSport = (await sportRepository.GetAllAsync()).First();
 
-            var trainerSports = allTrainers.Select(trainer => new TrainerSports
-                {
-                    SportId = firstSport.Id,
-                    TrainerId = trainer.UserId
-                });
+            var trainerSports = allTrainers.Select(trainer => new TrainerSport
+            {
+                SportId = firstSport.Id,
+                TrainerId = trainer.UserId
+            });
 
             await sportRepository.AddTrainerSportsRangeAsync(trainerSports);
         }
@@ -151,17 +239,23 @@ namespace Sportlance.DAL.Test
         {
             await LoadTrainerSports();
             var trainerRepository = _env.GetService<ITrainerRepository>();
+            var clientRepository = _env.GetService<IClientRepository>();
             var trainingRepository = _env.GetService<ITrainingRepository>();
             var allTrainers = await trainerRepository.GetAllAsync();
+            var allClients = await clientRepository.GetAllAsync();
+            var trainerSports =
+                (await trainerRepository.GetTrainersSportsByIds(allTrainers.Select(i => i.UserId))).Where(i =>
+                    i.Sport.Name == "Бокс");
 
             var trainings = from trainer in allTrainers
                 let rand = TimeSpan.FromDays(new Random().Next(10, 40))
                 let startDate = DateTime.Today - rand
                 let endDate = DateTime.Now - rand
+                where trainerSports.Any(i => i.TrainerId == trainer.UserId)
                 select new Training
                 {
-                    ClientId = allTrainers.ElementAt(new Random().Next(0, allTrainers.Count)).UserId,
-                    //TrainerId = trainer.UserId,
+                    ClientId = allClients.ElementAt(new Random().Next(0, allClients.Count)).UserId,
+                    TrainerSportId = trainerSports.First(i => i.TrainerId == trainer.UserId).Id,
                     StartDate = startDate,
                     EndDate = endDate
                 };
@@ -186,7 +280,18 @@ namespace Sportlance.DAL.Test
                     TrainingId = training.Id,
                     CreateDate = createDate,
                     Score = score > 5 ? default(byte?) : score,
-                    Description = "sdfsdfsdfasdgasdgasdgasg"
+                    Description = @"sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg
+                                    sdfsdfsdfasdgasdgasdgasg"
                 };
 
             await reviewRepository.AddRangeAsync(reviews);

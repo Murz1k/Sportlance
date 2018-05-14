@@ -1,6 +1,6 @@
 ﻿namespace Sportlance.DAL.Entities
 {
-    public class TrainerSports
+    public class TrainerSport
     {
         public long  Id { get; set; }
 

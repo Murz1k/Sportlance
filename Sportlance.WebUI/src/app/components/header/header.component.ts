@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   filteredCountriesSingle: Sport[];
 
   public currentUser: User;
-  public isAuth = false;
+  public isAuthorized = false;
   public Paths = Paths;
 
   constructor(private router: Router,
@@ -45,10 +45,10 @@ export class HeaderComponent implements OnInit {
   public async updateUserAsync(): Promise<void> {
     if (this.accountService.isAuthorized) {
       this.currentUser = await this.userService.getCurrent();
-      this.isAuth = true;
+      this.isAuthorized = true;
     } else {
       this.currentUser = null;
-      this.isAuth = false;
+      this.isAuthorized = false;
     }
   }
 
@@ -63,8 +63,8 @@ export class HeaderComponent implements OnInit {
     return filtered;
   }
 
-  async loginAsync() {
-    await this.router.navigate([Paths.Login]);
+  login() {
+    this.router.navigate([Paths.Login]);
   }
 
   async registerAsync() {

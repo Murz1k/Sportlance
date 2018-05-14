@@ -24,6 +24,6 @@ namespace Sportlance.DAL.Interfaces
 
         Task<int> AddRangeAsync(IEnumerable<User> entities);
 
-        Task<IReadOnlyCollection<User>> GetAllAsync();
+        Task<IEnumerable<User>> GetAllAsync();
     }
 }

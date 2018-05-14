@@ -19,6 +19,7 @@ const appRoutes: Routes = [
   {
     path: Paths.Root, component: RootComponent, canActivate: [InitializationGuard], children: [
     {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
+    {path: Paths.Trainers, pathMatch: 'full', component: TrainersComponent},
     {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
     {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent},
     {path: Paths.Account, pathMatch: 'full', component: AccountComponent}
