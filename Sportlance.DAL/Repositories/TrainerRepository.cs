@@ -25,39 +25,28 @@ namespace Sportlance.DAL.Repositories
                 join trainerSport in _appContext.TrainerSports on trainer.UserId equals trainerSport.TrainerId
                 join sport in _appContext.Sports on trainerSport.SportId equals sport.Id
                 where sport.Id == sportId
-                select trainer).Include(t=>t.User).ToArrayAsync();
+                select trainer).Include(t => t.User).ToArrayAsync();
         }
 
         public async Task<IReadOnlyCollection<TrainerSport>> GetTrainersSportsByIds(IEnumerable<long> trainersIds)
         {
             return await (from trainerSport in _appContext.TrainerSports
                 where trainersIds.Contains(trainerSport.TrainerId)
-                select trainerSport).Include(i=>i.Sport).Include(i=>i.Trainer).ToArrayAsync();
+                select trainerSport).Include(i => i.Sport).Include(i => i.Trainer).ToArrayAsync();
         }
 
         public Task<Trainer> GetByIdAsync(long sportId)
-            => _appContext.Trainers.Include(i=>i.User).FirstOrDefaultAsync(i => i.UserId == sportId);
+            => _appContext.Trainers.Include(i => i.User).FirstOrDefaultAsync(i => i.UserId == sportId);
 
-        public async Task<int> AddRangeAsync(IEnumerable<Trainer> entities)
-        {
-            await _appContext.Trainers.AddRangeAsync(entities);
-            return await _appContext.SaveAsync();
-        }
+        public Task AddRangeAsync(IEnumerable<Trainer> entities)
+            => _appContext.Trainers.AddRangeAsync(entities);
 
         public Task AddAsync(Trainer trainer)
         {
             return _appContext.Trainers.AddAsync(trainer);
         }
 
-        public Task SaveChanges()
-        {
-            return _appContext.SaveAsync();
-        }
-
-
-        public async Task<IReadOnlyCollection<Trainer>> GetAllAsync()
-        {
-            return await _appContext.Trainers.ToArrayAsync();
-        }
+        public Task SaveChangesAsync()
+            => _appContext.SaveChangesAsync();
     }
 }

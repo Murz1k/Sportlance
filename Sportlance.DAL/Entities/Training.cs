@@ -1,9 +1,8 @@
 ﻿using System;
-using Sportlance.DAL.Core;
 
 namespace Sportlance.DAL.Entities
 {
-    public class Training : IEntityWithId
+    public class Training
     {
         public long Id { get; set; }
 

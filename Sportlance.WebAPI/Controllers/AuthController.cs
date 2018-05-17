@@ -86,13 +86,15 @@ namespace Sportlance.WebAPI.Controllers
         [HttpPost, Route("register")]
         public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest request)
         {
-            var user = await _userRepository.CreateUser(new User
+            var user = new User
             {
                 Email = request.Email,
                 PasswordHash = HashUtils.CreateHash(request.Password),
                 FirstName = request.FirstName,
                 LastName = request.LastName
-            });
+            };
+
+            await _userRepository.AddAsync(user);
 
             if (request.BeTrainer)
             {
@@ -121,7 +123,8 @@ namespace Sportlance.WebAPI.Controllers
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
 
             user.IsEmailConfirm = true;
-            await _userRepository.UpdateAsync(user, x => x.IsEmailConfirm);
+
+            await _userRepository.SaveChangesAsync();
 
             var roles = await _roleRepository.GetRolesByUserId(user.Id);
 
@@ -199,13 +202,11 @@ namespace Sportlance.WebAPI.Controllers
         [HttpPut(nameof(UpdateUserEmail))]
         public async Task<EmptyResponse> UpdateUserEmail(string token)
         {
-            var user = new User
-            {
-                Id = _authService.UserId,
-                Email = _mailTokenService.Unprotect(token)
-            };
+            var user = await _userRepository.GetByIdAsync(_authService.UserId);
 
-            await _userRepository.UpdateAsync(user, x => x.Email);
+            user.Email = _mailTokenService.Unprotect(token);
+
+            await _userRepository.SaveChangesAsync();
 
             return new EmptyResponse();
         }
@@ -223,7 +224,7 @@ namespace Sportlance.WebAPI.Controllers
             user.PasswordHash = HashUtils.CreateHash(data.Password);
             user.IsEmailConfirm = true;
 
-            await _userRepository.UpdateWholeAsync(user);
+            await _userRepository.SaveChangesAsync();
 
             return new EmptyResponse();
         }

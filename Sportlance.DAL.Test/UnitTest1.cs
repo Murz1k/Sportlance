@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
@@ -130,19 +131,21 @@ namespace Sportlance.DAL.Test
         public async Task LoadSports()
         {
             var sportRepository = _env.GetService<ISportRepository>();
-            var all = await sportRepository.GetAllAsync();
-            await sportRepository.RemoveRangeAsync(all);
+            var all = await sportRepository.Entities().ToArrayAsync();
+            sportRepository.RemoveRange(all);
 
             await sportRepository.AddRangeAsync(_sports);
+            await sportRepository.SaveChangesAsync();
         }
 
         //[TearDown]
         [Test]
         public async Task ClearData()
         {
-            var userRespoRepository = _env.GetService<IUserRepository>();
-            var allUsers = await userRespoRepository.GetAllAsync();
-            await userRespoRepository.RemoveRangeAsync(allUsers.Where(i => i.PasswordHash == "Test"));
+            var userRepository = _env.GetService<IUserRepository>();
+            var testUsers = await userRepository.Entities().Where(i => i.PasswordHash == "Test").ToArrayAsync();
+            userRepository.RemoveRange(testUsers);
+            await userRepository.SaveChangesAsync();
             await LoadSports();
         }
 
@@ -160,14 +163,14 @@ namespace Sportlance.DAL.Test
         {
             await LoadUsers();
             var trainerRepository = _env.GetService<ITrainerRepository>();
-            var userRespoRepository = _env.GetService<IUserRepository>();
-
-            var allUsers = await userRespoRepository.GetAllAsync();
-            var testUsers = allUsers.Where(i => i.PasswordHash == "Test");
+            var userRepository = _env.GetService<IUserRepository>();
+            
+            var testUsers = await userRepository.Entities().Where(i => i.PasswordHash == "Test").ToArrayAsync();
             var trainers = testUsers.Select(user => new Trainer
             {
                 UserId = user.Id,
-                About =@"fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
+                About =
+                    @"fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
                             fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
                             fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
                             fsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsd
@@ -196,6 +199,7 @@ namespace Sportlance.DAL.Test
             });
 
             await trainerRepository.AddRangeAsync(trainers);
+            await trainerRepository.SaveChangesAsync();
         }
 
         [Test]
@@ -203,10 +207,9 @@ namespace Sportlance.DAL.Test
         {
             await LoadTrainers();
             var clientRepository = _env.GetService<IClientRepository>();
-            var userRespoRepository = _env.GetService<IUserRepository>();
+            var userRepository = _env.GetService<IUserRepository>();
 
-            var allUsers = await userRespoRepository.GetAllAsync();
-            var testUsers = allUsers.Where(i => i.PasswordHash == "Test");
+            var testUsers = await userRepository.Entities().Where(i => i.PasswordHash == "Test").ToArrayAsync();
             var clients = testUsers.Select(user => new Client
             {
                 UserId = user.Id,
@@ -214,6 +217,7 @@ namespace Sportlance.DAL.Test
             });
 
             await clientRepository.AddRangeAsync(clients);
+            await clientRepository.SaveChangesAsync();
         }
 
         [Test]
@@ -222,14 +226,13 @@ namespace Sportlance.DAL.Test
             await LoadClients();
             var trainerRepository = _env.GetService<ITrainerRepository>();
             var sportRepository = _env.GetService<ISportRepository>();
-            var allTrainers = await trainerRepository.GetAllAsync();
-            var firstSport = (await sportRepository.GetAllAsync()).First();
+            var firstSport = await sportRepository.Entities().FirstAsync();
 
-            var trainerSports = allTrainers.Select(trainer => new TrainerSport
+            var trainerSports = await trainerRepository.Entities().Select(trainer => new TrainerSport
             {
                 SportId = firstSport.Id,
                 TrainerId = trainer.UserId
-            });
+            }).ToArrayAsync();
 
             await sportRepository.AddTrainerSportsRangeAsync(trainerSports);
         }
@@ -241,14 +244,13 @@ namespace Sportlance.DAL.Test
             var trainerRepository = _env.GetService<ITrainerRepository>();
             var clientRepository = _env.GetService<IClientRepository>();
             var trainingRepository = _env.GetService<ITrainingRepository>();
-            var allTrainers = await trainerRepository.GetAllAsync();
+            var allTrainersIds = await trainerRepository.Entities().Select(i => i.UserId).ToArrayAsync();
             var allClients = await clientRepository.GetAllAsync();
-            var trainerSports =
-                (await trainerRepository.GetTrainersSportsByIds(allTrainers.Select(i => i.UserId))).Where(i =>
+            var trainerSports =(await trainerRepository.GetTrainersSportsByIds(allTrainersIds)).Where(i =>
                     i.Sport.Name == "Бокс");
 
-            var trainings = from trainer in allTrainers
-                let rand = TimeSpan.FromDays(new Random().Next(10, 40))
+            var trainings = from trainer in trainerRepository.Entities()
+                            let rand = TimeSpan.FromDays(new Random().Next(10, 40))
                 let startDate = DateTime.Today - rand
                 let endDate = DateTime.Now - rand
                 where trainerSports.Any(i => i.TrainerId == trainer.UserId)
@@ -269,9 +271,8 @@ namespace Sportlance.DAL.Test
             await LoadTrainings();
             var reviewRepository = _env.GetService<IFeedbackRepository>();
             var trainingRepository = _env.GetService<ITrainingRepository>();
-            var allTrainings = await trainingRepository.GetAllAsync();
 
-            var reviews = from training in allTrainings
+            var reviews = from training in trainingRepository.Entities()
                 let rand = TimeSpan.FromDays(new Random().Next(10, 40))
                 let createDate = DateTime.Now - rand
                 let score = Convert.ToByte(new Random().Next(0, 8))

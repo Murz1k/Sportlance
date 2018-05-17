@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Sportlance.DAL.Core;
 
 namespace Sportlance.DAL.Entities
 {
-    public class Sport: IEntityWithId
+    public class Sport
     {
         public long Id { get; set; }
 

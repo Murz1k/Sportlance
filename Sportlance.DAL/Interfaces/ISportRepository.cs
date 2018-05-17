@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.DAL.Entities;
 
@@ -6,10 +7,13 @@ namespace Sportlance.DAL.Interfaces
 {
     public interface ISportRepository
     {
-        Task<IEnumerable<Sport>> GetAllAsync();
         Task<Sport> GetByIdAsync(long sportId);
-        Task<int> AddTrainerSportsRangeAsync(IEnumerable<TrainerSport> entities);
-        Task<int> AddRangeAsync(IEnumerable<Sport> entities);
-        Task<int> RemoveRangeAsync(IEnumerable<Sport> entities);
+        Task AddTrainerSportsRangeAsync(IEnumerable<TrainerSport> entities);
+        Task AddRangeAsync(IEnumerable<Sport> entities);
+        void RemoveRange(IEnumerable<Sport> entities);
+
+        IQueryable<Sport> Entities();
+
+        Task SaveChangesAsync();
     }
 }

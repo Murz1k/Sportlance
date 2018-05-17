@@ -8,29 +8,35 @@ using Sportlance.DAL.Interfaces;
 
 namespace Sportlance.DAL.Repositories
 {
-    public class TrainingRepository : EntityCrudRepository<Training>, ITrainingRepository
+    public class TrainingRepository : ITrainingRepository
     {
-        public IQueryable<Training> Entities() => AppContext.Trainings;
+        private readonly AppDBContext _appContext;
+
+        public TrainingRepository(AppDBContext appContext)
+        {
+            _appContext = appContext;
+        }
+
+        public Task AddRangeAsync(IEnumerable<Training> entities)
+        => _appContext.AddRangeAsync(entities);
+
+        public IQueryable<Training> Entities() => _appContext.Trainings;
 
         public async Task<IReadOnlyCollection<Training>> GetByTrainerIdAsync(long trainerId)
         {
-            return await (from training in AppContext.Trainings
-                join trainingSport in AppContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
+            return await (from training in _appContext.Trainings
+                join trainingSport in _appContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
                 where trainingSport.TrainerId == trainerId
                 select training).ToArrayAsync();
         }
         
         public async Task<IDictionary<long, Training[]>> GetByTrainersIdsAsync(IEnumerable<long> trainerIds)
         {
-            return await (from training in AppContext.Trainings
-                join trainingSport in AppContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
+            return await (from training in _appContext.Trainings
+                join trainingSport in _appContext.TrainerSports on training.TrainerSportId equals trainingSport.Id
                 where trainerIds.Contains(trainingSport.TrainerId)
                 group training by trainingSport.TrainerId into ts
                 select ts).ToDictionaryAsync(k => k.Key, v => v.ToArray());
-        }
-
-        public TrainingRepository(AppDBContext appContext) : base(appContext)
-        {
         }
     }
 }

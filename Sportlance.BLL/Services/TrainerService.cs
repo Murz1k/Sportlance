@@ -74,7 +74,7 @@ namespace Sportlance.BLL.Services
             var trainer = await _repository.GetByIdAsync(trainerId);
             var trainerTrainings = await _trainingRepository.GetByTrainerIdAsync(trainerId);
             var trainerReviews = await _feedbackRepository.GetByTrainerIdAsync(trainerId);
-            var allUsers = await _userRepository.GetAllAsync();
+            var allUsers = await _userRepository.Entities().ToArrayAsync();
             var trainingsWithReview = trainerTrainings.Where(i => trainerReviews.Any(j => j.TrainingId == i.Id));
 
             var averageScore = trainerReviews.Average(i => i.Score);
@@ -107,7 +107,7 @@ namespace Sportlance.BLL.Services
         public async Task AddAsync(long userId)
         {
             await _repository.AddAsync(new Trainer {UserId = userId});
-            await _repository.SaveChanges();
+            await _repository.SaveChangesAsync();
         }
     }
 }

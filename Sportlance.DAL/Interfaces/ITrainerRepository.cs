@@ -13,14 +13,12 @@ namespace Sportlance.DAL.Interfaces
 
         Task<Trainer> GetByIdAsync(long sportId);
 
-        Task<int> AddRangeAsync(IEnumerable<Trainer> entities);
+        Task AddRangeAsync(IEnumerable<Trainer> entities);
 
         Task AddAsync(Trainer trainer);
 
-        Task SaveChanges();
+        Task SaveChangesAsync();
 
         IQueryable<Trainer> Entities();
-
-        Task<IReadOnlyCollection<Trainer>> GetAllAsync();
     }
 }

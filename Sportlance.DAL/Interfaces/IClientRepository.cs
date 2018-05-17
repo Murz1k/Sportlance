@@ -7,10 +7,12 @@ namespace Sportlance.DAL.Interfaces
 {
     public interface IClientRepository
     {
-        Task<int> AddRangeAsync(IEnumerable<Client> entities);
+        Task AddRangeAsync(IEnumerable<Client> entities);
 
         Task<IReadOnlyCollection<Client>> GetAllAsync();
 
         IQueryable<Client> Entities();
+
+        Task SaveChangesAsync();
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Sportlance.WebAPI.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Sportlance.DAL.Entities;
 using Sportlance.DAL.Interfaces;
-using Sportlance.DAL.Repositories;
+using Sportlance.WebAPI.Interfaces;
 
-namespace Sportlance.WebAPI.Services
+namespace Sportlance.BLL.Services
 {
     public class SportService : ISportService
     {
@@ -19,8 +19,7 @@ namespace Sportlance.WebAPI.Services
 
         public async Task<IReadOnlyCollection<Sport>> GetAllAsync()
         {
-            var sports = await _repository.GetAllAsync();
-            return sports.OrderBy(i => i.Name).ToArray();
+            return await _repository.Entities().OrderBy(i => i.Name).ToArrayAsync();
         }
 
         public Task<Sport> GetById(long sportId)

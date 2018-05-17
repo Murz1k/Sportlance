@@ -31,21 +31,6 @@ namespace Sportlance.DAL.Core
 
         public DbSet<Sport> Sports { get; set; }
 
-        public Task<int> SaveAsync()
-        {
-            return SaveChangesAsync();
-        }
-
-        public DbSet<T> DbSet<T>() where T : class
-        {
-            return Set<T>();
-        }
-
-        public EntityEntry<T> Entity<T>(T x) where T : class
-        {
-            return Entry(x);
-        }
-
         public bool IsDetached<T>(T entity) where T : class, new ()
         {
             return Entry(entity).State == EntityState.Detached;

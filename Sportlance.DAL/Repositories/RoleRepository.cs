@@ -8,16 +8,19 @@ using Sportlance.DAL.Interfaces;
 
 namespace Sportlance.DAL.Repositories
 {
-    public class RoleRepository : EntityCrudRepository<Role>, IRoleRepository
+    public class RoleRepository: IRoleRepository
     {
-        public RoleRepository(AppDBContext appContext) : base(appContext)
+        private readonly AppDBContext _appContext;
+
+        public RoleRepository(AppDBContext appContext)
         {
+            _appContext = appContext;
         }
 
         public async Task<IReadOnlyCollection<Role>> GetRolesByUserId(long userId)
         {
-            return await (from role in AppContext.Roles
-                join userRole in AppContext.UserRoles on role.Id equals userRole.RoleId
+            return await (from role in _appContext.Roles
+                join userRole in _appContext.UserRoles on role.Id equals userRole.RoleId
                 where userRole.UserId == userId
                 select role).ToArrayAsync();
         }

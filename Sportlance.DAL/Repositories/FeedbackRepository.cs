@@ -17,16 +17,8 @@ namespace Sportlance.DAL.Repositories
             _appContext = appContext;
         }
 
-        public async Task AddRangeAsync(IEnumerable<Feedback> entities)
-        {
-            await _appContext.Feedbacks.AddRangeAsync(entities);
-            await _appContext.SaveAsync();
-        }
-
-        public async Task<IReadOnlyCollection<Feedback>> GetAllAsync()
-        {
-            return await _appContext.Feedbacks.ToArrayAsync();
-        }
+        public Task AddRangeAsync(IEnumerable<Feedback> entities)
+            => _appContext.Feedbacks.AddRangeAsync(entities);
 
         public IQueryable<Feedback> Entities() => _appContext.Feedbacks;
 

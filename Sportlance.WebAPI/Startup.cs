@@ -15,7 +15,6 @@ using Sportlance.BLL.Interfaces;
 using Sportlance.BLL.Services;
 using Sportlance.DAL;
 using Sportlance.WebAPI.Interfaces;
-using Sportlance.WebAPI.Services;
 using Sportlance.DAL.Core;
 using Sportlance.DAL.Interfaces;
 using Sportlance.DAL.Repositories;

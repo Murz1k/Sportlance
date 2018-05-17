@@ -8,17 +8,28 @@ using Sportlance.DAL.Interfaces;
 
 namespace Sportlance.DAL.Repositories
 {
-    public class SportRepository : EntityCrudRepository<Sport>, ISportRepository
+    public class SportRepository : ISportRepository
     {
+        private readonly AppDBContext _appContext;
 
-        public async Task<int> AddTrainerSportsRangeAsync(IEnumerable<TrainerSport> entities)
+        public SportRepository(AppDBContext appContext)
         {
-            await AppContext.TrainerSports.AddRangeAsync(entities);
-            return await AppContext.SaveAsync();
+            _appContext = appContext;
         }
 
-        public SportRepository(AppDBContext appContext) : base(appContext)
-        {
-        }
+        public IQueryable<Sport> Entities() => _appContext.Sports;
+        public Task SaveChangesAsync() => _appContext.SaveChangesAsync();
+
+        public Task<Sport> GetByIdAsync(long sportId)
+            => _appContext.Sports.FirstOrDefaultAsync(i => i.Id == sportId);
+
+        public Task AddTrainerSportsRangeAsync(IEnumerable<TrainerSport> entities)
+            => _appContext.TrainerSports.AddRangeAsync(entities);
+
+        public Task AddRangeAsync(IEnumerable<Sport> entities)
+            => _appContext.AddRangeAsync();
+
+        public void RemoveRange(IEnumerable<Sport> entities)
+            => _appContext.RemoveRange(entities);
     }
 }
