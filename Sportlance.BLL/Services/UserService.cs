@@ -1,21 +1,21 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Sportlance.BLL.Interfaces;
+using Sportlance.DAL.Core;
 using Sportlance.DAL.Entities;
-using Sportlance.DAL.Interfaces;
 
 namespace Sportlance.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _repository;
+        private readonly AppDBContext _context;
 
-        public UserService(IUserRepository repository)
+        public UserService(AppDBContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public Task<User> GetAsync(long id)
-            => _repository.GetByIdAsync(id);
+            => _context.Users.FirstOrDefaultAsync(i=>i.Id == id);
     }
 }

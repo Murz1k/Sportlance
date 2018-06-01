@@ -1,10 +1,12 @@
+
+import {tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HeadersConstants} from '../constants';
 import {isNullOrUndefined} from 'util';
 import {UserInfoStorage} from "../core/user-info-storage";
-import 'rxjs/add/operator/do';
+
 
 
 @Injectable()
@@ -22,7 +24,7 @@ export class JwtInterceptor implements HttpInterceptor {
     const headers = req.headers
       .append(HeadersConstants.Authorization, 'Bearer ' + user.token);
     const request = req.clone({headers: headers});
-    return next.handle(request).do((event: HttpEvent<any>) => {
+    return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         const newJwt = event.headers.get(HeadersConstants.XNewAuthToken);
         if (!isNullOrUndefined(newJwt)) {
@@ -31,6 +33,6 @@ export class JwtInterceptor implements HttpInterceptor {
           this.userContext.saveCurrentUser(user);
         }
       }
-    });
+    }));
   }
 }

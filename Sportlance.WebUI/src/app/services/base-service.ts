@@ -1,5 +1,5 @@
 import {environment} from '../../environments/environment';
 
-export class BaseApiClient {
+export class BaseService {
   protected baseApiUrl = environment.baseUrl + '/api';
 }

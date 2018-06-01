@@ -11,7 +11,7 @@ export class InitializationService {
 
   public async initializeAsync(): Promise<void> {
     await Promise.all([
-      this.sportService.initializeAsync()
+      //this.sportService.initializeAsync()
     ]);
     this.isAppInitialized = true;
   }

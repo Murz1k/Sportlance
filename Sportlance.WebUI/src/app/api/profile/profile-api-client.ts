@@ -1,10 +1,10 @@
-import {BaseApiClient} from '../../services/base-api-client';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ProfileResponse} from './profile-response';
+import {BaseService} from '../../services/base-service';
 
 @Injectable()
-export class ProfileApiClient extends BaseApiClient {
+export class ProfileApiClient extends BaseService {
   public defaultHeaders: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient) {

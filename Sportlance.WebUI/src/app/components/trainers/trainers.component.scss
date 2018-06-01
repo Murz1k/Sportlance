@@ -148,7 +148,7 @@ ol li, ul li {
 .btn {
   padding: 11px 28px;
   font-size: 14px;
-  line-height: 14px;
+  line-height: 0px;
   border-radius: 2px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -203,6 +203,10 @@ ol li, ul li {
   cursor: pointer;
 }
 
+.air-card > section:first-child:focus, .air-card > section:first-child:hover {
+  cursor: default;
+}
+
 .o-tag, .o-tag-certified, .o-tag-skill, .o-tag-tested, .tokenizer-wrapper > .tokenizer-token-list .tokenizer-token {
   background-color: #e0e0e0;
   border-radius: 4px;
@@ -224,4 +228,45 @@ section.air-card-hover:focus, section.air-card-hover:hover {
   background-color: #f9f9f9;
   outline: none;
   cursor: pointer;
+}
+
+.search-container {
+  display: inline-flex;
+}
+
+.search-input {
+  width: 400px;
+}
+
+.search-btn {
+  color: #fff;
+  background-color: #37A000;
+  margin-right: 0;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  -webkit-box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  padding: 5px 5px 0px;
+  height: 40px;
+}
+
+.filter-btn {
+  background-color: #fff;
+  padding: 5px 5px;
+  margin-left: 30px;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  span {
+    padding-left: 5px;
+  }
+}
+
+.filters-container {
+  height: 200px;
+  transition: height 0.3s ease-out;
+}
+
+.filters-container.hidden {
+  height: 0;
 }

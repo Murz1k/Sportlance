@@ -17,7 +17,7 @@ import {TrainersComponent} from './components/trainers/trainers.component';
 
 import {SportService} from './services/sport.service';
 import {AuthApiClient} from './services/auth-api-client';
-import {TrainerService} from './services/trainer.service';
+import {TrainersService} from './services/trainers.service/trainers.service';
 import {AccountService} from './services/account-service';
 import {AppRoutingModule} from './app-routing.module';
 import {LandingComponent} from './components/landing/landing.component';
@@ -80,7 +80,7 @@ import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
       multi: true
     },
     SportService,
-    TrainerService,
+    TrainersService,
     AccountService,
     AuthApiClient,
     ProfileApiClient,

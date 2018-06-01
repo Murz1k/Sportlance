@@ -1,34 +1,47 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
 import {TrainerInfo} from './trainer-info';
 import {Star} from './star';
-import {TrainerService} from '../../services/trainer.service';
-import {SportService} from '../../services/sport.service';
-import {Sport} from '../../services/sport';
 import {isNullOrUndefined} from 'util';
 import {Paths} from '../../paths';
-import {Review} from "../../services/review";
+import {TrainersService} from '../../services/trainers.service/trainers.service';
+import {AccountService} from '../../services/account-service';
+import {GetTrainersQuery} from '../../services/trainers.service/get-trainers-query';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-trainers',
   templateUrl: './trainers.component.html',
-  styleUrls: ['./trainers.component.css']
+  styleUrls: ['./trainers.component.scss']
 })
 export class TrainersComponent implements OnInit {
 
-  currentSport: Sport;
   starsNumber = 5;
   trainers: Array<TrainerInfo> = [];
   isRendering = false;
+  filtersIsHidden = true;
+  public isAuthorized = false;
+  public priceFilters = [];
+
+  public searchString: string;
 
   constructor(private router: Router,
-              private route: ActivatedRoute,
-              private trainerService: TrainerService) {
+              private accountService: AccountService,
+              private trainerService: TrainersService) {
+
+    this.priceFilters = [
+      {id: 0, costs: {min: 0, max: 500}},
+      {id: 1, costs: {min: 500, max: 1000}},
+      {id: 2, costs: {min: 1000, max: 5000}},
+      {id: 3, costs: {min: 5000, max: 10000}},
+      {id: 4, costs: {min: 10000, max: 9999999}}
+    ];
   }
 
-  async updateDataAsync(id: number) {
+  async updateDataAsync() {
     this.isRendering = false;
-    const response = await this.trainerService.getTrainersAsync();
+    const response = await this.trainerService.getAsync(<GetTrainersQuery>{
+      searchString: this.searchString
+    });
     if (response.items) {
       this.trainers = response.items.map(i => <TrainerInfo>{
         id: i.id,
@@ -38,20 +51,34 @@ export class TrainersComponent implements OnInit {
         secondName: i.secondName,
         firstName: i.firstName,
         stars: this.convertAverageScoreToStars(i.score),
-        about: this.cutAbout(i.about),
         title: i.title,
-        reviewTitle: this.convertReviewsToReviewTitle(i.reviews),
+        reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
         trainingsCount: i.trainingsCount,
         trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount)
       });
     }
+
+    this.isAuthorized = this.accountService.isAuthorized;
+
     this.isRendering = true;
   }
 
+  ckechKeyDownSearch(e): void {
+    if (e.keyCode === 13) {
+      this.searchAsync();
+    }
+  }
+
+  public showFilters(): void {
+    this.filtersIsHidden = !this.filtersIsHidden;
+  }
+
+  public async searchAsync(): Promise<void> {
+    await this.updateDataAsync();
+  }
+
   async ngOnInit() {
-    await this.route.params.forEach(async params => {
-      await this.updateDataAsync(params['id']);
-    });
+    await this.updateDataAsync();
   }
 
   async openProfileAsync(trainerId: number) {
@@ -62,11 +89,6 @@ export class TrainersComponent implements OnInit {
 
   login() {
     this.router.navigate([Paths.Login]);
-  }
-
-  private cutAbout(about: string): string {
-    if (isNullOrUndefined(about)) return '';
-    return about.substr(0, 160) + '...';
   }
 
   private convertAverageScoreToStars(score: number): Array<Star> {
@@ -90,19 +112,19 @@ export class TrainersComponent implements OnInit {
     let title = 'трениров';
     const lastOneNumber = +trainings.toString().slice(-1);
     const lastTwoNumbers = +trainings.toString().slice(-2);
-    if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
-      title = `${title}ок`;
-    } else if (lastOneNumber === 1) {
+    if (lastOneNumber === 1) {
       title = `${title}ка`;
+    } else if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
+      title = `${title}ок`;
     } else {
       title = `${title}ки`;
     }
     return title;
   }
 
-  private convertReviewsToReviewTitle(reviews: Review[]): string {
+  private convertReviewsToReviewTitle(feedbacksCount: number): string {
     let title = 'отзыв';
-    const reviewCount = isNullOrUndefined(reviews) ? 0 : reviews.length;
+    const reviewCount = isNullOrUndefined(feedbacksCount) ? 0 : feedbacksCount;
     const lastOneNumber = +reviewCount.toString().slice(-1);
     const lastTwoNumbers = +reviewCount.toString().slice(-2);
     if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {

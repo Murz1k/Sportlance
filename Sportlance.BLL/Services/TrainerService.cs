@@ -4,90 +4,95 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
+using Sportlance.DAL.Core;
 using Sportlance.DAL.Entities;
-using Sportlance.DAL.Interfaces;
-using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.BLL.Services
 {
     public class TrainerService : ITrainerService
     {
-        private readonly ITrainerRepository _repository;
-        private readonly ITrainingRepository _trainingRepository;
-        private readonly IFeedbackRepository _feedbackRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly IClientRepository _clientRepository;
-        private readonly ITrainerSportRepository _trainerSportRepository;
+        private readonly AppDBContext _appContext;
 
-        public TrainerService(
-            ITrainerRepository repository,
-            ITrainingRepository trainingRepository,
-            IFeedbackRepository feedbackRepository,
-            ITrainerSportRepository trainerSportRepository,
-            IClientRepository clientRepository,
-            IUserRepository userRepository)
+        public TrainerService(AppDBContext appContext)
         {
-            _trainerSportRepository = trainerSportRepository;
-            _repository = repository;
-            _trainingRepository = trainingRepository;
-            _feedbackRepository = feedbackRepository;
-            _userRepository = userRepository;
-            _clientRepository = clientRepository;
+            _appContext = appContext;
         }
 
-        public async Task<IReadOnlyCollection<Trainer>> GetTrainersBySportId(long sportId)
+        public async Task<IReadOnlyCollection<TrainerListItem>> GetAsync(TrainersQuery query)
         {
-            return await _repository.GetTrainersBySportId(sportId);
-        }
+            var trainingsCount = await (from trainerSport in _appContext.TrainerSports
+                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
+                group traning by trainerSport.TrainerId
+                into counts
+                select counts).ToDictionaryAsync(k => k.Key, v => v.Count());
 
-        public async Task<IReadOnlyCollection<TrainerInfo>> GetTrainersInfos(TrainersQuery query)
-        {
-            return await (from trainer in _repository.Entities().Include(t => t.User)
-                join trainerSport in _trainerSportRepository.Entities() on trainer.UserId equals trainerSport.TrainerId
-                join traning in _trainingRepository.Entities() on trainerSport.Id equals traning.TrainerSportId
-                join feedback in _feedbackRepository.Entities().DefaultIfEmpty() on traning.Id equals feedback
-                    .TrainingId
-                join client in _clientRepository.Entities().Include(t => t.User) on traning.ClientId equals client
-                    .UserId
+            var feedbacks = await (from trainerSport in _appContext.TrainerSports
+                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
+                join feedback in _appContext.Feedbacks.DefaultIfEmpty() on traning.Id equals feedback.TrainingId
+                join client in _appContext.Clients.Include(t => t.User) on traning.ClientId equals client.UserId
+                group feedback by trainerSport.TrainerId
+                into counts
+                select counts).ToDictionaryAsync(k => k.Key, v => v.Select(i => i).ToList());
+
+            var trainerItems = await (from trainer in _appContext.Trainers.Include(t => t.User)
                 where trainer.Status == TrainerStatus.Available
-                      && (query.Price == null || trainer.Price.Equals(query.Price.Value))
-                group new { feedback, traning} by trainer
-                into tranings
-                select new TrainerInfo
+                      && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
+                      && (query.MaxPrice == null || trainer.Price <= query.MaxPrice.Value)
+                      && (query.SearchString == null || trainer.Title.Contains(query.SearchString) ||
+                          query.SearchString.Contains(trainer.User.FirstName) ||
+                          query.SearchString.Contains(trainer.User.LastName))
+                select new TrainerListItem
                 {
-                    Id = tranings.Key.UserId,
-                    //FirstName = tranings.Key.User.FirstName,
-                    //SecondName = tranings.Key.User.LastName,
-                    City = tranings.Key.City,
-                    Country = tranings.Key.Country,
-                    PhotoUrl = tranings.Key.PhotoUrl,
-                    Price = tranings.Key.Price,
-                    Score = tranings.Where(i => i.feedback != null).Average(r => r.feedback.Score),
-                    About = tranings.Key.About,
-                    Title = tranings.Key.Title,
-                    TrainingsCount = tranings.Count()
+                    Id = trainer.UserId,
+                    FirstName = trainer.User.FirstName,
+                    SecondName = trainer.User.LastName,
+                    City = trainer.City,
+                    Country = trainer.Country,
+                    PhotoUrl = trainer.PhotoUrl,
+                    Price = trainer.Price,
+                    Title = trainer.Title
                 }).ToArrayAsync();
+
+            foreach (var trainer in trainerItems)
+            {
+                trainer.Score = feedbacks.ContainsKey(trainer.Id) ? feedbacks[trainer.Id].Average(f => f.Score) : null;
+                trainer.FeedbacksCount = feedbacks.ContainsKey(trainer.Id) ? feedbacks[trainer.Id].Count : 0;
+                trainer.TrainingsCount = trainingsCount.ContainsKey(trainer.Id) ? trainingsCount[trainer.Id] : 0;
+            }
+
+            return trainerItems
+                .Where(i => 
+                (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <= i.FeedbacksCount)
+                && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >= i.FeedbacksCount)
+                && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <= i.TrainingsCount)
+                && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >= i.TrainingsCount)
+                ).ToArray();
         }
 
-        public async Task<TrainerInfo> GetTrainerInfoById(long trainerId)
+        public async Task<TrainerProfile> GetById(long trainerId)
         {
-            var trainer = await _repository.GetByIdAsync(trainerId);
-            var trainerTrainings = await _trainingRepository.GetByTrainerIdAsync(trainerId);
-            var trainerReviews = await _feedbackRepository.GetByTrainerIdAsync(trainerId);
-            var allUsers = await _userRepository.Entities().ToArrayAsync();
-            var trainingsWithReview = trainerTrainings.Where(i => trainerReviews.Any(j => j.TrainingId == i.Id));
+            var trainer = await _appContext.Trainers.Include(i => i.User)
+                .FirstOrDefaultAsync(i => i.UserId == trainerId);
 
-            var averageScore = trainerReviews.Average(i => i.Score);
+            var trainingsCount = await (from trainerSport in _appContext.TrainerSports
+                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
+                where trainerSport.TrainerId == trainerId
+                select traning).CountAsync();
 
-            var reviewInfos = trainerReviews.Select(i => new ReviewInfo
-            {
-                CreateDate = i.CreateDate,
-                Description = i.Description,
-                Score = i.Score,
-                ClientName = allUsers.First(j => trainingsWithReview.Any(k => k.ClientId == j.Id)).FirstName
-            }).ToArray();
+            var feedbacks = await (from trainerSport in _appContext.TrainerSports
+                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
+                join feedback in _appContext.Feedbacks.DefaultIfEmpty() on traning.Id equals feedback.TrainingId
+                join client in _appContext.Clients.Include(t => t.User) on traning.ClientId equals client.UserId
+                where trainerSport.TrainerId == trainerId
+                select new ReviewInfo
+                {
+                    ClientName = client.User.FirstName,
+                    Score = feedback.Score,
+                    Description = feedback.Description,
+                    CreateDate = feedback.CreateDate
+                }).ToArrayAsync();
 
-            return new TrainerInfo
+            return new TrainerProfile
             {
                 Id = trainer.UserId,
                 FirstName = trainer.User.FirstName,
@@ -96,18 +101,18 @@ namespace Sportlance.BLL.Services
                 Country = trainer.Country,
                 PhotoUrl = trainer.PhotoUrl,
                 Price = trainer.Price,
-                Score = averageScore,
+                Score = feedbacks.Average(r => r.Score),
                 About = trainer.About,
                 Title = trainer.Title,
-                Reviews = reviewInfos,
-                TrainingsCount = trainerTrainings.Count
+                Reviews = feedbacks,
+                TrainingsCount = trainingsCount
             };
         }
 
         public async Task AddAsync(long userId)
         {
-            await _repository.AddAsync(new Trainer {UserId = userId});
-            await _repository.SaveChangesAsync();
+            await _appContext.AddAsync(new Trainer {UserId = userId});
+            await _appContext.SaveChangesAsync();
         }
     }
 }

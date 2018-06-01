@@ -2,29 +2,25 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sportlance.DAL.Core;
 using Sportlance.DAL.Entities;
-using Sportlance.DAL.Interfaces;
 using Sportlance.WebAPI.Interfaces;
 
 namespace Sportlance.BLL.Services
 {
     public class SportService : ISportService
     {
-        private readonly ISportRepository _repository;
+        private readonly AppDBContext _context;
 
-        public SportService(ISportRepository repository)
+        public SportService(AppDBContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public async Task<IReadOnlyCollection<Sport>> GetAllAsync()
-        {
-            return await _repository.Entities().OrderBy(i => i.Name).ToArrayAsync();
-        }
+        => await _context.Sports.OrderBy(i => i.Name).ToArrayAsync();
 
         public Task<Sport> GetById(long sportId)
-        {
-            return _repository.GetByIdAsync(sportId);
-        }
+        => _context.Sports.FirstOrDefaultAsync(i => i.Id == sportId);
     }
 }

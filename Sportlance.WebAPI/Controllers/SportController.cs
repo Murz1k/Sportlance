@@ -6,7 +6,6 @@ using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Produces("application/json")]
     [Route("api/sport")]
     public class SportController : Controller
     {
@@ -27,11 +26,10 @@ namespace Sportlance.WebAPI.Controllers
             };
         }
 
-        [HttpGet, Route("{sportId}")]
-        public async Task<Sport> GetAll(long sportId)
+        [HttpGet("{sportId}")]
+        public async Task<Sport> GetById(long sportId)
         {
-                var sport = await _service.GetById(sportId);
-            return sport;
+            return await _service.GetById(sportId);
         }
     }
 }

@@ -1,6 +1,6 @@
-import {Review} from './review';
+import {ReviewInfoResponse} from './review-info-response';
 
-export interface Trainer {
+export interface TrainerProfileResponse {
   id: number;
   firstName: string;
   secondName: string;
@@ -10,6 +10,6 @@ export interface Trainer {
   score: number;
   about: string;
   title: string;
-  reviews: Array<Review>;
+  reviews: Array<ReviewInfoResponse>;
   trainingsCount: number;
 }

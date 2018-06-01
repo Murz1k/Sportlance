@@ -17,7 +17,6 @@ namespace Sportlance.DAL.Test
         private List<User> _users;
         private List<Sport> _sports;
 
-
         public UnitTest1()
         {
             _env = new TestEnviroment();
@@ -130,22 +129,20 @@ namespace Sportlance.DAL.Test
         [Test]
         public async Task LoadSports()
         {
-            var sportRepository = _env.GetService<ISportRepository>();
-            var all = await sportRepository.Entities().ToArrayAsync();
-            sportRepository.RemoveRange(all);
+            var all = await _env.GetContext().Sports.ToArrayAsync();
+            _env.GetContext().Sports.RemoveRange(all);
 
-            await sportRepository.AddRangeAsync(_sports);
-            await sportRepository.SaveChangesAsync();
+            await _env.GetContext().Sports.AddRangeAsync(_sports);
+            await _env.GetContext().SaveChangesAsync();
         }
 
         //[TearDown]
         [Test]
         public async Task ClearData()
         {
-            var userRepository = _env.GetService<IUserRepository>();
-            var testUsers = await userRepository.Entities().Where(i => i.PasswordHash == "Test").ToArrayAsync();
-            userRepository.RemoveRange(testUsers);
-            await userRepository.SaveChangesAsync();
+            var testUsers = await _env.GetContext().Users.Where(i => i.PasswordHash == "Test").ToArrayAsync();
+            _env.GetContext().RemoveRange(testUsers);
+            await _env.GetContext().SaveChangesAsync();
             await LoadSports();
         }
 
@@ -154,18 +151,16 @@ namespace Sportlance.DAL.Test
         public async Task LoadUsers()
         {
             await ClearData();
-            var userRespoRepository = _env.GetService<IUserRepository>();
-            await userRespoRepository.AddRangeAsync(_users);
+            await _env.GetContext().AddRangeAsync(_users);
+            await _env.GetContext().SaveChangesAsync();
         }
 
         [Test]
         public async Task LoadTrainers()
         {
             await LoadUsers();
-            var trainerRepository = _env.GetService<ITrainerRepository>();
-            var userRepository = _env.GetService<IUserRepository>();
-            
-            var testUsers = await userRepository.Entities().Where(i => i.PasswordHash == "Test").ToArrayAsync();
+
+            var testUsers = await _env.GetContext().Users.Where(i => i.PasswordHash == "Test").ToArrayAsync();
             var trainers = testUsers.Select(user => new Trainer
             {
                 UserId = user.Id,
@@ -198,59 +193,55 @@ namespace Sportlance.DAL.Test
                     "https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
             });
 
-            await trainerRepository.AddRangeAsync(trainers);
-            await trainerRepository.SaveChangesAsync();
+            await _env.GetContext().AddRangeAsync(trainers);
+            await _env.GetContext().SaveChangesAsync();
         }
 
         [Test]
         public async Task LoadClients()
         {
             await LoadTrainers();
-            var clientRepository = _env.GetService<IClientRepository>();
-            var userRepository = _env.GetService<IUserRepository>();
 
-            var testUsers = await userRepository.Entities().Where(i => i.PasswordHash == "Test").ToArrayAsync();
+            var testUsers = await _env.GetContext().Users.Where(i => i.PasswordHash == "Test").ToArrayAsync();
             var clients = testUsers.Select(user => new Client
             {
                 UserId = user.Id,
                 Status = ClientStatus.Available
             });
 
-            await clientRepository.AddRangeAsync(clients);
-            await clientRepository.SaveChangesAsync();
+            await _env.GetContext().AddRangeAsync(clients);
+            await _env.GetContext().SaveChangesAsync();
         }
 
         [Test]
         public async Task LoadTrainerSports()
         {
             await LoadClients();
-            var trainerRepository = _env.GetService<ITrainerRepository>();
-            var sportRepository = _env.GetService<ISportRepository>();
-            var firstSport = await sportRepository.Entities().FirstAsync();
+            var firstSport = await _env.GetContext().Sports.FirstAsync();
 
-            var trainerSports = await trainerRepository.Entities().Select(trainer => new TrainerSport
+            var trainerSports = await _env.GetContext().Trainers.Select(trainer => new TrainerSport
             {
                 SportId = firstSport.Id,
                 TrainerId = trainer.UserId
             }).ToArrayAsync();
 
-            await sportRepository.AddTrainerSportsRangeAsync(trainerSports);
+            await _env.GetContext().AddRangeAsync(trainerSports);
+            await _env.GetContext().SaveChangesAsync();
         }
 
         [Test]
         public async Task LoadTrainings()
         {
             await LoadTrainerSports();
-            var trainerRepository = _env.GetService<ITrainerRepository>();
-            var clientRepository = _env.GetService<IClientRepository>();
-            var trainingRepository = _env.GetService<ITrainingRepository>();
-            var allTrainersIds = await trainerRepository.Entities().Select(i => i.UserId).ToArrayAsync();
-            var allClients = await clientRepository.GetAllAsync();
-            var trainerSports =(await trainerRepository.GetTrainersSportsByIds(allTrainersIds)).Where(i =>
-                    i.Sport.Name == "Бокс");
+            var allClients = await _env.GetContext().Clients.ToListAsync();
+            var trainerSports = await (from trainerSport in _env.GetContext().TrainerSports
+                join sport in _env.GetContext().Sports on trainerSport.SportId equals sport.Id
+                where sport.Name == "Бокс"
+                select trainerSport).ToArrayAsync();
 
-            var trainings = from trainer in trainerRepository.Entities()
-                            let rand = TimeSpan.FromDays(new Random().Next(10, 40))
+            var trainings = from trainer in _env.GetContext().Trainers
+                join trainerSport in _env.GetContext().TrainerSports on trainer.UserId equals trainerSport.TrainerId
+                let rand = TimeSpan.FromDays(new Random().Next(10, 40))
                 let startDate = DateTime.Today - rand
                 let endDate = DateTime.Now - rand
                 where trainerSports.Any(i => i.TrainerId == trainer.UserId)
@@ -262,17 +253,16 @@ namespace Sportlance.DAL.Test
                     EndDate = endDate
                 };
 
-            await trainingRepository.AddRangeAsync(trainings);
+            await _env.GetContext().AddRangeAsync(trainings);
+            await _env.GetContext().SaveChangesAsync();
         }
 
         [Test]
         public async Task LoadReviews()
         {
             await LoadTrainings();
-            var reviewRepository = _env.GetService<IFeedbackRepository>();
-            var trainingRepository = _env.GetService<ITrainingRepository>();
 
-            var reviews = from training in trainingRepository.Entities()
+            var reviews = from training in _env.GetContext().Trainings
                 let rand = TimeSpan.FromDays(new Random().Next(10, 40))
                 let createDate = DateTime.Now - rand
                 let score = Convert.ToByte(new Random().Next(0, 8))
@@ -281,21 +271,11 @@ namespace Sportlance.DAL.Test
                     TrainingId = training.Id,
                     CreateDate = createDate,
                     Score = score > 5 ? default(byte?) : score,
-                    Description = @"sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg
-                                    sdfsdfsdfasdgasdgasdgasg"
+                    Description = @"sdfsdfsdfasdgasdgasdgasg"
                 };
 
-            await reviewRepository.AddRangeAsync(reviews);
+            await _env.GetContext().AddRangeAsync(reviews);
+            await _env.GetContext().SaveChangesAsync();
         }
     }
 }

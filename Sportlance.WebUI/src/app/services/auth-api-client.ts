@@ -1,4 +1,3 @@
-import {BaseApiClient} from './base-api-client';
 import {RegistrationRequest} from './registration-request';
 import {LoginRequest} from './login-request';
 import {LoginResponse} from './login-response';
@@ -6,11 +5,12 @@ import {CheckUserRequest} from './check-user-request';
 import {ConfirmRegistrationRequest} from './confirm-registration-request';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {CheckUserResponse} from "./check-user-response";
-import {ResendEmailRequest} from "../api/auth/resend-email-request";
+import {CheckUserResponse} from './check-user-response';
+import {ResendEmailRequest} from '../api/auth/resend-email-request';
+import {BaseService} from './base-service';
 
 @Injectable()
-export class AuthApiClient extends BaseApiClient {
+export class AuthApiClient extends BaseService {
   public defaultHeaders: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient) {

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {TrainerService} from '../../services/trainer.service';
 import {Star} from '../trainers/star';
 import {TrainerInfo} from '../trainers/trainer-info';
+import {TrainersService} from '../../services/trainers.service/trainers.service';
 import {ReviewInfo} from './review-info';
 
 @Component({
@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   starsNumber = 5;
 
   constructor(private route: ActivatedRoute,
-              private trainerService: TrainerService) {
+              private trainerService: TrainersService) {
   }
 
   async ngOnInit() {

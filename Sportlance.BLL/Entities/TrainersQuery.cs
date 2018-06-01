@@ -1,13 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sportlance.BLL.Entities
+﻿namespace Sportlance.BLL.Entities
 {
     public class TrainersQuery
     {
-        public double? Price { get; set; }
+        public double? MinPrice { get; set; }
 
-        public ushort? ReviewsCount { get; set; }
+        public double? MaxPrice { get; set; }
+
+        public string SearchString { get; set; }
+
+        public ushort? TrainingsMinCount { get; set; }
+
+        public ushort? TrainingsMaxCount { get; set; }
+
+        public ushort? FeedbacksMinCount { get; set; }
+
+        public ushort? FeedbacksMaxCount { get; set; }
     }
 }

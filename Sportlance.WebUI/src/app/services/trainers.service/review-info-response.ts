@@ -1,4 +1,4 @@
-export interface Review {
+export interface ReviewInfoResponse {
   photoUrl: string;
   clientName: string;
   score: number;
