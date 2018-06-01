@@ -1,7 +1,6 @@
 .air-card {
   position: relative;
   background-color: #fff;
-  /*margin: 30px -30px;*/
   padding: 0 30px;
   box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
 }
@@ -9,6 +8,8 @@
 .air-card section {
   margin: 0 -30px;
   padding: 20px 20px;
+  position: relative;
+  background-color: white;
 }
 
 .air-card > section > div {
@@ -263,8 +264,19 @@ section.air-card-hover:focus, section.air-card-hover:hover {
 }
 
 .filters-container {
-  height: 200px;
+  //height: 200px;
   transition: height 0.3s ease-out;
+  .filter-column {
+    margin-top: 16px;
+    display: inline-block;
+    margin-right: 20px;
+    .mat-radio-group {
+      display: inline-grid;
+    }
+    h4 {
+      margin-bottom: 15px;
+    }
+  }
 }
 
 .filters-container.hidden {

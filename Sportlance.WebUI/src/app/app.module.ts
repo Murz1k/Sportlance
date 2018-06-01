@@ -39,6 +39,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
+import {MatRadioModule} from "@angular/material";
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
     MatMenuModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    MatRadioModule,
     BrowserAnimationsModule
   ],
   providers: [

@@ -7,6 +7,7 @@ import {TrainersService} from '../../services/trainers.service/trainers.service'
 import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../services/trainers.service/get-trainers-query';
 import {Router} from '@angular/router';
+import {MatRadioChange} from "@angular/material";
 
 @Component({
   selector: 'app-trainers',
@@ -21,26 +22,67 @@ export class TrainersComponent implements OnInit {
   filtersIsHidden = true;
   public isAuthorized = false;
   public priceFilters = [];
+  public feedbackFilters = [];
 
   public searchString: string;
+
+  public minPrice?: number;
+  public maxPrice?: number;
+
+  public minFeedbacksCount?: number;
+  public maxFeedbacksCount?: number;
 
   constructor(private router: Router,
               private accountService: AccountService,
               private trainerService: TrainersService) {
 
     this.priceFilters = [
-      {id: 0, costs: {min: 0, max: 500}},
-      {id: 1, costs: {min: 500, max: 1000}},
-      {id: 2, costs: {min: 1000, max: 5000}},
-      {id: 3, costs: {min: 5000, max: 10000}},
-      {id: 4, costs: {min: 10000, max: 9999999}}
+      {min: null, max: null},
+      {min: null, max: 500},
+      {min: 500, max: 1000},
+      {min: 1000, max: 5000},
+      {min: 5000, max: 10000},
+      {min: 10000, max: null}
     ];
+
+    this.feedbackFilters = [
+      {min: null, max: null},
+      {min: null, max: 10},
+      {min: 10, max: 50},
+      {min: 50, max: 100},
+      {min: 100, max: null}
+    ];
+  }
+
+  get haveProfiles(): boolean {
+    return this.trainers.length > 0;
+  }
+
+  changePriceFilter(event: MatRadioChange) {
+    if (isNullOrUndefined(event.value)) return;
+    this.minPrice = this.priceFilters[event.value].min;
+    this.maxPrice = this.priceFilters[event.value].max;
+  }
+
+  changeFeedbackFilter(event: MatRadioChange) {
+    if (isNullOrUndefined(event.value)) return;
+    this.minFeedbacksCount = this.feedbackFilters[event.value].min;
+    this.maxFeedbacksCount = this.feedbackFilters[event.value].max;
+  }
+
+  async submitFiltersAsync() {
+    await this.updateDataAsync();
+    this.filtersIsHidden = true;
   }
 
   async updateDataAsync() {
     this.isRendering = false;
     const response = await this.trainerService.getAsync(<GetTrainersQuery>{
-      searchString: this.searchString
+      searchString: this.searchString,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      feedbacksMinCount: this.minFeedbacksCount,
+      feedbacksMaxCount: this.maxFeedbacksCount
     });
     if (response.items) {
       this.trainers = response.items.map(i => <TrainerInfo>{

@@ -4,6 +4,8 @@
 @import '../node_modules/primeng/resources/primeng.min.css';
 
 $primary-color: #37a000;
+$primary-dark-color: #37a000;
+$ripple-color: rgba(55, 160, 0, .26);
 
 body {
   font-family: Gotham SSm, Helvetica, Arial, sans-serif;
@@ -41,6 +43,14 @@ $checkbox-size: 15px !important;
   cursor: pointer;
   padding: 4px 3px 4px 0;
   border-radius: 0 !important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: $primary-color;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: $primary-color;
 }
 
 .mat-checkbox-layout:hover .mat-checkbox-label {
@@ -240,8 +250,8 @@ a {
   background-color: $primary-color;
 }
 
-.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
-  background-color: rgba(55, 160, 0, .26);
+.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: $ripple-color;
 }
 
 input.form-control, textarea.form-control, .select2-search input {
