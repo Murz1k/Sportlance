@@ -1,21 +1,21 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
-using Sportlance.WebAPI.Options;
-using Sportlance.WebAPI.Utilities;
-using MailKit.Net.Smtp;
 using MimeKit;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Options;
+using Sportlance.WebAPI.Utilities;
 
 namespace Sportlance.WebAPI.Authentication
 {
     public class MailService
     {
-        private readonly SmtpOptions _smtpOptions;
-        private readonly SiteUrls _siteUrls;
-        private readonly MailTokenService _mailTokenService;
         private readonly IHostingEnvironment _env;
+        private readonly MailTokenService _mailTokenService;
+        private readonly SiteUrls _siteUrls;
+        private readonly SmtpOptions _smtpOptions;
 
         public MailService(
             IOptions<SmtpOptions> smtpOptions,
@@ -36,7 +36,7 @@ namespace Sportlance.WebAPI.Authentication
             message.To.Add(new MailboxAddress(to));
             message.Subject = subject;
 
-            var bodyBuilder = new BodyBuilder { HtmlBody = body };
+            var bodyBuilder = new BodyBuilder {HtmlBody = body};
             message.Body = bodyBuilder.ToMessageBody();
 
             using (var client = new SmtpClient())

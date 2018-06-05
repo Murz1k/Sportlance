@@ -18,9 +18,13 @@ namespace Sportlance.BLL.Services
         }
 
         public async Task<IReadOnlyCollection<Sport>> GetAllAsync()
-        => await _context.Sports.OrderBy(i => i.Name).ToArrayAsync();
+        {
+            return await _context.Sports.OrderBy(i => i.Name).ToArrayAsync();
+        }
 
         public Task<Sport> GetById(long sportId)
-        => _context.Sports.FirstOrDefaultAsync(i => i.Id == sportId);
+        {
+            return _context.Sports.FirstOrDefaultAsync(i => i.Id == sportId);
+        }
     }
 }

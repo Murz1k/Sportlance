@@ -7,13 +7,14 @@ namespace Sportlance.DAL.Entities
     {
         public long TrainingId { get; set; }
 
-        [MinLength(20), MaxLength(500), Required]
+        [MinLength(20)]
+        [MaxLength(500)]
+        [Required]
         public string Description { get; set; }
-        
+
         public byte? Score { get; set; }
 
-        [Required]
-        public DateTime CreateDate { get; set; }
+        [Required] public DateTime CreateDate { get; set; }
 
         public Training Training { get; set; }
     }

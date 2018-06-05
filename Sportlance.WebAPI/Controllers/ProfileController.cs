@@ -5,7 +5,6 @@ using Sportlance.DAL.Interfaces;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Extensions;
-using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
@@ -20,19 +19,15 @@ namespace Sportlance.WebAPI.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet, Route("current"), Authorize]
+        [HttpGet]
+        [Route("current")]
+        [Authorize]
         public async Task<CheckUserResponse> GetCurrentAsync()
         {
             var user = await _userRepository.GetByIdAsync(User.GetUserId());
-            if (user == null)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
-            }
+            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
-            if (!user.IsEmailConfirm)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
-            }
+            if (!user.IsEmailConfirm) throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
 
             return new CheckUserResponse
             {

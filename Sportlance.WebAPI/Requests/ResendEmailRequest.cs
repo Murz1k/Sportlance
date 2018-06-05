@@ -1,6 +1,4 @@
-﻿using Sportlance.WebAPI.Validation;
-
-namespace Sportlance.WebAPI.Requests
+﻿namespace Sportlance.WebAPI.Requests
 {
     public class ResendEmailRequest
     {

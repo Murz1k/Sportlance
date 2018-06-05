@@ -12,6 +12,11 @@
   background-color: white;
 }
 
+.air-card section:last-child {
+  margin: 0;
+  padding: 0 0 20px;
+}
+
 .air-card > section > div {
   padding: 0 20px;
 }
@@ -237,18 +242,18 @@ section.air-card-hover:focus, section.air-card-hover:hover {
 
 .search-input {
   width: 400px;
+  border-radius: 2px 0 0 2px;
 }
 
 .search-btn {
   color: #fff;
   background-color: #37A000;
   margin-right: 0;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
   -webkit-box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
   box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
   padding: 5px 5px 0px;
   height: 40px;
+  border-radius: 0 2px 2px 0;
 }
 
 .filter-btn {
@@ -263,22 +268,33 @@ section.air-card-hover:focus, section.air-card-hover:hover {
   }
 }
 
-.filters-container {
-  //height: 200px;
+.filters {
+  padding: 0 !important;
   transition: height 0.3s ease-out;
-  .filter-column {
-    margin-top: 16px;
-    display: inline-block;
-    margin-right: 20px;
-    .mat-radio-group {
-      display: inline-grid;
-    }
-    h4 {
-      margin-bottom: 15px;
+  height: 270px;
+  .btn {
+    margin: 30px 0 0;
+  }
+  .filters-container {
+    .filter-column {
+      margin-top: 16px;
+      display: inline-block;
+      margin-right: 20px;
+      label {
+        margin-bottom: 10px !important;
+        font-weight: 700;
+        display: block;
+      }
+      .mat-radio-group {
+        display: inline-grid;
+      }
+      h4 {
+        margin-bottom: 15px;
+      }
     }
   }
 }
 
-.filters-container.hidden {
+.filters.hidden {
   height: 0;
 }

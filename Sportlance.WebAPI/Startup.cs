@@ -14,14 +14,12 @@ using Microsoft.IdentityModel.Tokens;
 using Sportlance.BLL.Interfaces;
 using Sportlance.BLL.Services;
 using Sportlance.DAL;
-using Sportlance.WebAPI.Interfaces;
 using Sportlance.DAL.Core;
-using Sportlance.DAL.Interfaces;
-using Sportlance.DAL.Repositories;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.ExceptionHandler;
 using Sportlance.WebAPI.Filters;
+using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
 
@@ -39,12 +37,13 @@ namespace Sportlance.WebAPI
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build();
             });
 
             services.AddMvc(options =>
@@ -81,8 +80,9 @@ namespace Sportlance.WebAPI
             var builder = new DbContextOptionsBuilder<AppDBContext>();
             builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             var dbOptions = builder.Options;
-            services.AddDbContext<AppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+            services.AddDbContext<AppDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             DataLoader.LoadRepositories(services);
 
             services.AddTransient<IDateTime, UtcDateTime>();
@@ -95,16 +95,13 @@ namespace Sportlance.WebAPI
             services.AddTransient<MailService, MailService>();
             services.AddTransient<MailTokenService, MailTokenService>();
         }
-        
+
         private void ConfigureCorsPolicy(IServiceCollection services)
         {
             var sp = services.BuildServiceProvider();
             var siteOptions = sp.GetService<SiteOptions>();
             var url = siteOptions.Root;
-            if (!_currentEnvironment.IsProduction())
-            {
-                url = "*";
-            }
+            if (!_currentEnvironment.IsProduction()) url = "*";
 
             var corsPolicyBuilder = new CorsPolicyBuilder();
             corsPolicyBuilder.WithOrigins(url);
@@ -119,13 +116,10 @@ namespace Sportlance.WebAPI
 
             services.AddCors(options => { options.AddPolicy(CorsPolicyName, corsPolicyBuilder.Build()); });
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseCors(CorsPolicyName);
 
@@ -158,9 +152,7 @@ namespace Sportlance.WebAPI
             };
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => {
-                    options.TokenValidationParameters = tokenValidationParameters;
-                });
+                .AddJwtBearer(options => { options.TokenValidationParameters = tokenValidationParameters; });
         }
     }
 }

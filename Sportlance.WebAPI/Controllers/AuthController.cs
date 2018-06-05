@@ -9,7 +9,6 @@ using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
-using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 using Sportlance.WebAPI.Utilities;
@@ -20,12 +19,12 @@ namespace Sportlance.WebAPI.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly AuthService _authService;
         private readonly MailService _mailService;
         private readonly MailTokenService _mailTokenService;
-        private readonly AuthService _authService;
         private readonly IRoleRepository _roleRepository;
         private readonly ITrainerService _trainerService;
+        private readonly IUserRepository _userRepository;
 
         public AuthController(
             IUserRepository userRepository,
@@ -44,18 +43,16 @@ namespace Sportlance.WebAPI.Controllers
             _trainerService = trainerService;
         }
 
-        [HttpPost, Route("check")]
+        [HttpPost]
+        [Route("check")]
         public async Task<CheckUserResponse> CheckUser([FromBody] CheckUserRequest request)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
-            if (user == null)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
-            }
+            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             return new CheckUserResponse
             {
-                Email = user.Email,
+                Email = user.Email
             };
         }
 
@@ -64,9 +61,7 @@ namespace Sportlance.WebAPI.Controllers
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
             if (user == null || !HashUtils.CheckHash(user.PasswordHash, request.Password))
-            {
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectPassword));
-            }
 
             var roles = await _roleRepository.GetRolesByUserId(user.Id);
 
@@ -83,7 +78,8 @@ namespace Sportlance.WebAPI.Controllers
             };
         }
 
-        [HttpPost, Route("register")]
+        [HttpPost]
+        [Route("register")]
         public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest request)
         {
             var user = new User
@@ -96,14 +92,10 @@ namespace Sportlance.WebAPI.Controllers
 
             await _userRepository.AddAsync(user);
 
-            if (request.BeTrainer)
-            {
-                await _trainerService.AddAsync(user.Id);
-            }
+            if (request.BeTrainer) await _trainerService.AddAsync(user.Id);
 
             if (request.NeedTrainer)
             {
-                
             }
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
@@ -114,7 +106,8 @@ namespace Sportlance.WebAPI.Controllers
             };
         }
 
-        [HttpPut, Route("confirm")]
+        [HttpPut]
+        [Route("confirm")]
         public async Task<LoginResponse> ConfirmRegistration([FromBody] ConfirmRegistrationRequest data)
         {
             var user = await _userRepository.GetByIdAsync(data.UserId);
@@ -139,20 +132,16 @@ namespace Sportlance.WebAPI.Controllers
             };
         }
 
-        [HttpPost, Route("re-send")]
+        [HttpPost]
+        [Route("re-send")]
         public async Task ReSendEmail([FromBody] ResendEmailRequest request)
         {
             var token = _mailTokenService.DecryptToken(request.Token);
             var user = await _userRepository.GetByEmailAsync(token);
 
-            if (user == null)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
-            }
+            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
             if (user.IsEmailConfirm)
-            {
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
-            }
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
         }
@@ -161,10 +150,7 @@ namespace Sportlance.WebAPI.Controllers
         public async Task<EmptyResponse> SendChangePassword([FromBody] SendChangePasswordRequest data)
         {
             var user = await _userRepository.GetByEmailAsync(data.Email);
-            if (user == null)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
-            }
+            if (user == null) throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
 
             await _mailService.SendChangePassword(user.Id, user.Email, user.PasswordHash);
 
@@ -189,9 +175,7 @@ namespace Sportlance.WebAPI.Controllers
             var user = await _userRepository.GetByIdAsync(_authService.UserId);
 
             if (!HashUtils.CheckHash(user.PasswordHash, data.Password))
-            {
                 throw new AppErrorException(ErrorCode.IncorrectValidation);
-            }
 
             await _mailService.SendUpdateEmail(user.Email, data.NewEmail);
 
@@ -218,9 +202,7 @@ namespace Sportlance.WebAPI.Controllers
             if (user == null ||
                 !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash,
                     data.Token))
-            {
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
-            }
             user.PasswordHash = HashUtils.CreateHash(data.Password);
             user.IsEmailConfirm = true;
 

@@ -2,11 +2,11 @@
 {
     public class FieldError
     {
-        public string ErrorCode { get; }
-
         public FieldError(ValidationErrorCode errorCode)
         {
             ErrorCode = errorCode.ToString();
         }
+
+        public string ErrorCode { get; }
     }
 }

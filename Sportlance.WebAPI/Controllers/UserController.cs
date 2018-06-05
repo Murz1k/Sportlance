@@ -17,12 +17,13 @@ namespace Sportlance.WebAPI.Controllers
         {
             _userService = userService;
         }
-        
-        [HttpGet, Authorize]
+
+        [HttpGet]
+        [Authorize]
         public async Task<UserResponse> GetAsync()
         {
             var user = await _userService.GetAsync(User.GetUserId());
-            return new UserResponse { Email = user.Email, FirstName = user.FirstName, LastName = user.LastName };
+            return new UserResponse {Email = user.Email, FirstName = user.FirstName, LastName = user.LastName};
         }
     }
 }

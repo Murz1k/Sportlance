@@ -23,19 +23,13 @@ namespace Sportlance.WebAPI.Utilities
 
         public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> items)
         {
-            foreach (var item in items)
-            {
-                collection.Add(item);
-            }
+            foreach (var item in items) collection.Add(item);
         }
 
         public static Dictionary<K, T> Dict<K, T>(params ValueTuple<K, T>[] list)
         {
             var dict = new Dictionary<K, T>();
-            foreach (var x in list)
-            {
-                dict.Add(x.Item1, x.Item2);
-            }
+            foreach (var x in list) dict.Add(x.Item1, x.Item2);
             return dict;
         }
     }

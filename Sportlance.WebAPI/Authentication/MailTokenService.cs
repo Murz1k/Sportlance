@@ -12,26 +12,56 @@ namespace Sportlance.WebAPI.Authentication
             _dataProtector = dataProtectionProvider.CreateProtector(MailTokenProtectorPurpose);
         }
 
-        private static string EmailTokenString(string id, string email) => id + email;
-        private static string CreateChangePasswordTokenString(string id, string email, string hash) => id + email + hash;
+        private static string EmailTokenString(string id, string email)
+        {
+            return id + email;
+        }
 
-        public string ChangePasswordToken(string id, string email, string hash) => _dataProtector.Protect(
-            CreateChangePasswordTokenString(id, email, hash));
+        private static string CreateChangePasswordTokenString(string id, string email, string hash)
+        {
+            return id + email + hash;
+        }
 
-        public bool CheckChangePasswordToken(string id, string email, string hash, string token) =>
-            _dataProtector.Unprotect(token) == CreateChangePasswordTokenString(id, email, hash);
+        public string ChangePasswordToken(string id, string email, string hash)
+        {
+            return _dataProtector.Protect(
+                CreateChangePasswordTokenString(id, email, hash));
+        }
 
-        public string EncryptEmailConfirmationToken(string id, string email) => _dataProtector.Protect(
-            EmailTokenString(id, email));
+        public bool CheckChangePasswordToken(string id, string email, string hash, string token)
+        {
+            return _dataProtector.Unprotect(token) == CreateChangePasswordTokenString(id, email, hash);
+        }
 
-        public string Protect(string txt) => _dataProtector.Protect(txt);
-        public string Unprotect(string txt) => _dataProtector.Unprotect(txt);
+        public string EncryptEmailConfirmationToken(string id, string email)
+        {
+            return _dataProtector.Protect(
+                EmailTokenString(id, email));
+        }
 
-        public bool CheckEmailConfirmationToken(string id, string email, string token) =>
-            _dataProtector.Unprotect(token) == EmailTokenString(id, email);
+        public string Protect(string txt)
+        {
+            return _dataProtector.Protect(txt);
+        }
 
-        public string EncryptToken(string email) => _dataProtector.Protect(email);
+        public string Unprotect(string txt)
+        {
+            return _dataProtector.Unprotect(txt);
+        }
 
-        public string DecryptToken(string token) => _dataProtector.Unprotect(token);
+        public bool CheckEmailConfirmationToken(string id, string email, string token)
+        {
+            return _dataProtector.Unprotect(token) == EmailTokenString(id, email);
+        }
+
+        public string EncryptToken(string email)
+        {
+            return _dataProtector.Protect(email);
+        }
+
+        public string DecryptToken(string token)
+        {
+            return _dataProtector.Unprotect(token);
+        }
     }
 }

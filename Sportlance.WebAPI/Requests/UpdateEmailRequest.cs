@@ -12,7 +12,6 @@ namespace Sportlance.WebAPI.Requests
         [UniqueEmail]
         public string NewEmail { get; set; }
 
-        [AppRequired]
-        public string Password { get; set; }
+        [AppRequired] public string Password { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using Sportlance.DAL.Interfaces;
 
 namespace Sportlance.DAL.Repositories
 {
-    public class RoleRepository: IRoleRepository
+    public class RoleRepository : IRoleRepository
     {
         private readonly AppDBContext _appContext;
 

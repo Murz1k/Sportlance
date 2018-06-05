@@ -16,6 +16,8 @@ namespace Sportlance.BLL.Services
         }
 
         public Task<User> GetAsync(long id)
-            => _context.Users.FirstOrDefaultAsync(i=>i.Id == id);
+        {
+            return _context.Users.FirstOrDefaultAsync(i => i.Id == id);
+        }
     }
 }

@@ -23,30 +23,31 @@
           <span>Фильтры</span>
         </button>
       </article>
-      <div class="filters-container" [class.hidden]="filtersIsHidden">
-        <div class="filter-column">
-          <h4>Стоимость тренировки</h4>
-          <mat-radio-group (change)="changePriceFilter($event)">
-            <mat-radio-button value="0">Любая стоимость</mat-radio-button>
-            <mat-radio-button value="1">500Р и менее</mat-radio-button>
-            <mat-radio-button value="2">500Р - 1000р</mat-radio-button>
-            <mat-radio-button value="3">1000Р - 5000р</mat-radio-button>
-            <mat-radio-button value="4">5000Р - 10000р</mat-radio-button>
-            <mat-radio-button value="5">10000Р и более</mat-radio-button>
-          </mat-radio-group>
+      <div class="filters" [class.hidden]="filtersIsHidden">
+        <div class="filters-container">
+          <div class="filter-column">
+            <label>Стоимость тренировки</label>
+            <mat-radio-group (change)="changePriceFilter($event)">
+              <mat-radio-button value="0">Любая стоимость</mat-radio-button>
+              <mat-radio-button value="1">500Р и менее</mat-radio-button>
+              <mat-radio-button value="2">500Р - 1000р</mat-radio-button>
+              <mat-radio-button value="3">1000Р - 5000р</mat-radio-button>
+              <mat-radio-button value="4">5000Р - 10000р</mat-radio-button>
+              <mat-radio-button value="5">10000Р и более</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="filter-column">
+            <label>Количество отзывов</label>
+            <mat-radio-group (change)="changeFeedbackFilter($event)">
+              <mat-radio-button value="0">Любое количество отзывов</mat-radio-button>
+              <mat-radio-button value="1">0 - 10</mat-radio-button>
+              <mat-radio-button value="2">10 - 50</mat-radio-button>
+              <mat-radio-button value="3">50 - 100</mat-radio-button>
+              <mat-radio-button value="4">100 и более</mat-radio-button>
+            </mat-radio-group>
+          </div>
         </div>
-        <div class="filter-column">
-          <h4>Количество отзывов</h4>
-          <mat-radio-group (change)="changeFeedbackFilter($event)">
-            <mat-radio-button value="0">Любое количество отзывов</mat-radio-button>
-            <mat-radio-button value="1">0 - 10</mat-radio-button>
-            <mat-radio-button value="2">10 - 50</mat-radio-button>
-            <mat-radio-button value="3">50 - 100</mat-radio-button>
-            <mat-radio-button value="4">100 и более</mat-radio-button>
-          </mat-radio-group>
-        </div>
-
-        <button class="btn pull-right" (click)="submitFiltersAsync()">
+        <button class="btn" (click)="submitFiltersAsync()">
           Применить
         </button>
       </div>

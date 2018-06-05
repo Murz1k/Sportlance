@@ -9,6 +9,7 @@ namespace Sportlance.WebAPI.Exceptions
         {
             Error = new AppError(code);
         }
+
         public AppErrorException(AppError error)
         {
             Error = error;

@@ -61,11 +61,11 @@ namespace Sportlance.BLL.Services
             }
 
             return trainerItems
-                .Where(i => 
-                (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <= i.FeedbacksCount)
-                && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >= i.FeedbacksCount)
-                && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <= i.TrainingsCount)
-                && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >= i.TrainingsCount)
+                .Where(i =>
+                    (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <= i.FeedbacksCount)
+                    && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >= i.FeedbacksCount)
+                    && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <= i.TrainingsCount)
+                    && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >= i.TrainingsCount)
                 ).ToArray();
         }
 

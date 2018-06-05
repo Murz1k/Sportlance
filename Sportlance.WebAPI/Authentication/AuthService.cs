@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -14,17 +13,17 @@ using Sportlance.WebAPI.Utilities;
 
 namespace Sportlance.WebAPI.Authentication
 {
-
     public class AuthService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IDateTime _dateTime;
-        private readonly JwtSecurityTokenHandler _tokenHandler;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly JwtIssuerOptions _jwtOptions;
-        private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly JwtSecurityTokenHandler _tokenHandler;
+        private readonly IUserRepository _userRepository;
 
-        public AuthService(IHttpContextAccessor httpContextAccessor, IDateTime dateTime, IOptions<JwtIssuerOptions> jwtOptions, IUserRepository userRepository, IRoleRepository roleRepository)
+        public AuthService(IHttpContextAccessor httpContextAccessor, IDateTime dateTime,
+            IOptions<JwtIssuerOptions> jwtOptions, IUserRepository userRepository, IRoleRepository roleRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _dateTime = dateTime;
@@ -35,7 +34,7 @@ namespace Sportlance.WebAPI.Authentication
         }
 
         public long UserId => long.Parse(_httpContextAccessor.HttpContext
-                                                           .User.FindFirstValue(ClaimTypes.NameIdentifier));
+            .User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public async Task<ClaimsIdentity> CreateClaimsIdentityAsync(User user)
         {
@@ -44,23 +43,20 @@ namespace Sportlance.WebAPI.Authentication
 
             var roles = await _roleRepository.GetRolesByUserId(user.Id);
 
-            foreach (var role in roles)
-            {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
-            }
+            foreach (var role in roles) claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
             return claimsIdentity;
         }
 
         public async Task<RefreshTokenDto> RefreshAccessToken()
-        {   
+        {
             var user = await _userRepository.GetByIdAsync(UserId);
             var roles = await _roleRepository.GetRolesByUserId(UserId);
-            
+
             var token = await GenerateAccessTokenAsync(user);
 
             return new RefreshTokenDto
             {
-                Roles = roles.Select(i=>i.Name),
+                Roles = roles.Select(i => i.Name),
                 Token = token
             };
         }
@@ -69,11 +65,8 @@ namespace Sportlance.WebAPI.Authentication
         {
             encodedToken = encodedToken.Replace("Bearer ", "");
             var token = _tokenHandler.ReadJwtToken(encodedToken);
-            if (!token.Payload.ContainsKey("TokenIssueDate"))
-            {
-                return true;
-            }
-            var issueDate = (DateTime)token.Payload["TokenIssueDate"];
+            if (!token.Payload.ContainsKey("TokenIssueDate")) return true;
+            var issueDate = (DateTime) token.Payload["TokenIssueDate"];
 
             return (_dateTime.UtcNow - issueDate).TotalMinutes >= _jwtOptions.AccessTokenRefreshInterval.TotalMinutes;
         }
@@ -82,12 +75,12 @@ namespace Sportlance.WebAPI.Authentication
         {
             var identity = await CreateClaimsIdentityAsync(user);
             var accessToken = new JwtSecurityToken(
-                issuer: _jwtOptions.Issuer,
-                audience: _jwtOptions.Audience,
-                claims: identity.Claims,
-                notBefore: _jwtOptions.NotBefore,
-                expires: rememberMe ? DateTime.UtcNow.AddDays(30) : _jwtOptions.Expiration,
-                signingCredentials: _jwtOptions.SigningCredentials) {Payload = {["TokenIssueDate"] = _dateTime.UtcNow}};
+                _jwtOptions.Issuer,
+                _jwtOptions.Audience,
+                identity.Claims,
+                _jwtOptions.NotBefore,
+                rememberMe ? DateTime.UtcNow.AddDays(30) : _jwtOptions.Expiration,
+                _jwtOptions.SigningCredentials) {Payload = {["TokenIssueDate"] = _dateTime.UtcNow}};
 
 
             return _tokenHandler.WriteToken(accessToken);

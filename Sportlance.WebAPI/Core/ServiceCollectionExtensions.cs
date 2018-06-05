@@ -7,7 +7,8 @@ namespace Sportlance.WebAPI.Core
 {
     public static class ServiceCollectionExtensions
     {
-        public static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration, params Type[] optionsTypes)
+        public static void ConfigureOptions(this IServiceCollection services, IConfiguration configuration,
+            params Type[] optionsTypes)
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));

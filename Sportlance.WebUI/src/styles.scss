@@ -45,6 +45,10 @@ $checkbox-size: 15px !important;
   border-radius: 0 !important;
 }
 
+.mat-radio-outer-circle {
+  border-width: 1px;
+}
+
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
   border-color: $primary-color;
 }

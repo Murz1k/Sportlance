@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Sportlance.DAL.Entities;
-using Sportlance.DAL.Interfaces;
 
 namespace Sportlance.DAL.Test
 {
@@ -83,7 +82,7 @@ namespace Sportlance.DAL.Test
                     IsEmailConfirm = true,
                     LastName = "fdgdfgdfgdfg",
                     PasswordHash = "cxvxcvxcv"
-                },
+                }
             };
         }
 
@@ -107,6 +106,7 @@ namespace Sportlance.DAL.Test
                     i--;
                     continue;
                 }
+
                 var user = new User
                 {
                     FirstName = dict["FirstName"][new Random().Next(0, 5)],
@@ -126,16 +126,6 @@ namespace Sportlance.DAL.Test
             };
         }
 
-        [Test]
-        public async Task LoadSports()
-        {
-            var all = await _env.GetContext().Sports.ToArrayAsync();
-            _env.GetContext().Sports.RemoveRange(all);
-
-            await _env.GetContext().Sports.AddRangeAsync(_sports);
-            await _env.GetContext().SaveChangesAsync();
-        }
-
         //[TearDown]
         [Test]
         public async Task ClearData()
@@ -146,12 +136,50 @@ namespace Sportlance.DAL.Test
             await LoadSports();
         }
 
-        //[SetUp]
         [Test]
-        public async Task LoadUsers()
+        public async Task LoadClients()
         {
-            await ClearData();
-            await _env.GetContext().AddRangeAsync(_users);
+            await LoadTrainers();
+
+            var testUsers = await _env.GetContext().Users.Where(i => i.PasswordHash == "Test").ToArrayAsync();
+            var clients = testUsers.Select(user => new Client
+            {
+                UserId = user.Id,
+                Status = ClientStatus.Available
+            });
+
+            await _env.GetContext().AddRangeAsync(clients);
+            await _env.GetContext().SaveChangesAsync();
+        }
+
+        [Test]
+        public async Task LoadReviews()
+        {
+            await LoadTrainings();
+
+            var reviews = from training in _env.GetContext().Trainings
+                let rand = TimeSpan.FromDays(new Random().Next(10, 40))
+                let createDate = DateTime.Now - rand
+                let score = Convert.ToByte(new Random().Next(0, 8))
+                select new Feedback
+                {
+                    TrainingId = training.Id,
+                    CreateDate = createDate,
+                    Score = score > 5 ? default(byte?) : score,
+                    Description = @"sdfsdfsdfasdgasdgasdgasg"
+                };
+
+            await _env.GetContext().AddRangeAsync(reviews);
+            await _env.GetContext().SaveChangesAsync();
+        }
+
+        [Test]
+        public async Task LoadSports()
+        {
+            var all = await _env.GetContext().Sports.ToArrayAsync();
+            _env.GetContext().Sports.RemoveRange(all);
+
+            await _env.GetContext().Sports.AddRangeAsync(_sports);
             await _env.GetContext().SaveChangesAsync();
         }
 
@@ -194,22 +222,6 @@ namespace Sportlance.DAL.Test
             });
 
             await _env.GetContext().AddRangeAsync(trainers);
-            await _env.GetContext().SaveChangesAsync();
-        }
-
-        [Test]
-        public async Task LoadClients()
-        {
-            await LoadTrainers();
-
-            var testUsers = await _env.GetContext().Users.Where(i => i.PasswordHash == "Test").ToArrayAsync();
-            var clients = testUsers.Select(user => new Client
-            {
-                UserId = user.Id,
-                Status = ClientStatus.Available
-            });
-
-            await _env.GetContext().AddRangeAsync(clients);
             await _env.GetContext().SaveChangesAsync();
         }
 
@@ -257,24 +269,12 @@ namespace Sportlance.DAL.Test
             await _env.GetContext().SaveChangesAsync();
         }
 
+        //[SetUp]
         [Test]
-        public async Task LoadReviews()
+        public async Task LoadUsers()
         {
-            await LoadTrainings();
-
-            var reviews = from training in _env.GetContext().Trainings
-                let rand = TimeSpan.FromDays(new Random().Next(10, 40))
-                let createDate = DateTime.Now - rand
-                let score = Convert.ToByte(new Random().Next(0, 8))
-                select new Feedback
-                {
-                    TrainingId = training.Id,
-                    CreateDate = createDate,
-                    Score = score > 5 ? default(byte?) : score,
-                    Description = @"sdfsdfsdfasdgasdgasdgasg"
-                };
-
-            await _env.GetContext().AddRangeAsync(reviews);
+            await ClearData();
+            await _env.GetContext().AddRangeAsync(_users);
             await _env.GetContext().SaveChangesAsync();
         }
     }

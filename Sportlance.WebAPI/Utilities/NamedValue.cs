@@ -14,6 +14,9 @@
 
     public static class NamedValue
     {
-        public static NamedValue<T> Create<T>(string name, T value) => new NamedValue<T>(name, value);
+        public static NamedValue<T> Create<T>(string name, T value)
+        {
+            return new NamedValue<T>(name, value);
+        }
     }
 }

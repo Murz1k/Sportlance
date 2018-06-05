@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.WebAPI.Interfaces;
 using Sportlance.DAL.Entities;
+using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers

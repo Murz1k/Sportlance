@@ -11,7 +11,7 @@ namespace Sportlance.DAL.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private AppDBContext _appContext;
+        private readonly AppDBContext _appContext;
 
         public UserRepository(AppDBContext appContext)
         {
@@ -19,29 +19,50 @@ namespace Sportlance.DAL.Repositories
         }
 
         public Task<User> GetByIdAsync(long id)
-            => _appContext.Users.FirstOrDefaultAsync(i=>i.Id == id);
+        {
+            return _appContext.Users.FirstOrDefaultAsync(i => i.Id == id);
+        }
 
         public Task<User> GetByEmailAsync(string email)
-            => _appContext.Users.FirstOrDefaultAsync(x =>
+        {
+            return _appContext.Users.FirstOrDefaultAsync(x =>
                 string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+        }
 
         public Task<bool> IsEmailExistsAsync(string email)
-            => _appContext.Users.AnyAsync(i => i.Email == email);
-
-        public Task<bool> IsEmailExists(string email)
-            => _appContext.Users.AnyAsync(x =>
-                string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+        {
+            return _appContext.Users.AnyAsync(i => i.Email == email);
+        }
 
         public Task AddAsync(User user)
-            => _appContext.AddAsync(user);
+        {
+            return _appContext.AddAsync(user);
+        }
 
-        public IQueryable<User> Entities() => _appContext.Users;
-        public Task SaveChangesAsync() => _appContext.SaveChangesAsync();
+        public IQueryable<User> Entities()
+        {
+            return _appContext.Users;
+        }
+
+        public Task SaveChangesAsync()
+        {
+            return _appContext.SaveChangesAsync();
+        }
 
         public void RemoveRange(IEnumerable<User> entities)
-            => _appContext.RemoveRange(entities);
+        {
+            _appContext.RemoveRange(entities);
+        }
 
         public Task AddRangeAsync(IEnumerable<User> entities)
-            => _appContext.AddRangeAsync(entities);
+        {
+            return _appContext.AddRangeAsync(entities);
+        }
+
+        public Task<bool> IsEmailExists(string email)
+        {
+            return _appContext.Users.AnyAsync(x =>
+                string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+        }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
 using Sportlance.DAL.Entities;
 
 namespace Sportlance.DAL.Core
@@ -31,7 +28,7 @@ namespace Sportlance.DAL.Core
 
         public DbSet<Sport> Sports { get; set; }
 
-        public bool IsDetached<T>(T entity) where T : class, new ()
+        public bool IsDetached<T>(T entity) where T : class, new()
         {
             return Entry(entity).State == EntityState.Detached;
         }

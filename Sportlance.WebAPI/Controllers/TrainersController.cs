@@ -28,7 +28,8 @@ namespace Sportlance.WebAPI.Controllers
             };
         }
 
-        [HttpGet, Route("{trainerId}")]
+        [HttpGet]
+        [Route("{trainerId}")]
         public async Task<TrainerProfile> GetById(long trainerId)
         {
             return await _service.GetById(trainerId);

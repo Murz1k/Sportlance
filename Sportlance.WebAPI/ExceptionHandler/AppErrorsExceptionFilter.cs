@@ -11,19 +11,16 @@ namespace Sportlance.WebAPI.ExceptionHandler
         public override void OnException(ExceptionContext context)
         {
             if (context.Exception is AppErrorException appErrorsException)
-            {
                 context.Result = new ObjectResult(appErrorsException.Error)
                 {
-                    StatusCode = (int)HttpStatusCode.BadRequest
+                    StatusCode = (int) HttpStatusCode.BadRequest
                 };
-            }
             else
-            {
-                context.Result = new ObjectResult(new AppError(ErrorCode.ServerError, message: context.Exception.ToString()))
-                {
-                    StatusCode = (int)HttpStatusCode.InternalServerError
-                };
-            }
+                context.Result =
+                    new ObjectResult(new AppError(ErrorCode.ServerError, message: context.Exception.ToString()))
+                    {
+                        StatusCode = (int) HttpStatusCode.InternalServerError
+                    };
         }
     }
 }
