@@ -1,11 +1,12 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "~bootstrap/dist/css/bootstrap.css";
-@import '../node_modules/primeng/resources/themes/omega/theme.css';
-@import '../node_modules/primeng/resources/primeng.min.css';
 
 $primary-color: #37a000;
+$default-color: #fff;
 $primary-dark-color: #37a000;
 $ripple-color: rgba(55, 160, 0, .26);
+
+$checkbox-size: 15px !important;
 
 body {
   font-family: Gotham SSm, Helvetica, Arial, sans-serif;
@@ -16,7 +17,47 @@ body {
   margin: 0;
 }
 
-$checkbox-size: 15px !important;
+.btn {
+  padding: 11px 28px;
+  font-size: 14px;
+  line-height: 14px;
+  border-radius: 2px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
+  border: 2px solid transparent;
+  -webkit-font-smoothing: antialiased;
+  margin: 0 20px 30px 0;
+  font-weight: 500;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  white-space: nowrap;
+  background-image: none;
+  transition: all .15s;
+  box-shadow: 0 1px 6px rgba(57, 73, 76, .35)
+}
+
+.btn-primary {
+  color: $default-color;
+  background-color: $primary-color;
+  border-color: transparent
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+  color: $default-color;
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.air-card {
+  position: relative;
+  background-color: $default-color;
+  padding: 0 30px;
+  box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
+}
 
 .mat-checkbox-layout {
   margin-bottom: 0;
@@ -69,7 +110,7 @@ $checkbox-size: 15px !important;
   font-size: $checkbox-size;
   position: relative;
   top: 3px;
-  background-color: #fff;
+  background-color: $default-color;
   border: 1px solid !important;
   margin-right: 10px;
   color: #a0a0a0;
@@ -97,7 +138,7 @@ $checkbox-size: 15px !important;
   font-size: 13px;
   line-height: 1.42857;
   color: #222;
-  background-color: #fff;
+  background-color: $default-color;
   min-height: 55px;
   box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
   z-index: 10;
@@ -267,7 +308,7 @@ input.form-control, textarea.form-control, .select2-search input {
   border: 1px solid #E0E0E0;
   border-radius: 2px;
   color: #656565;
-  background: #fff none;
+  background: $default-color none;
   font-size: 13px;
   line-height: 18px;
   -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
@@ -289,7 +330,7 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
 
 .btn:hover {
   background-color: #008329 !important;
-  color: #fff;
+  color: $default-color;
   -webkit-box-shadow: none;
   box-shadow: none;
 }

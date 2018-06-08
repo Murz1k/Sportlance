@@ -1,12 +1,10 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {AutoCompleteModule} from 'primeng/autocomplete';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu';
-import {DataListModule} from 'primeng/datalist';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
@@ -39,7 +37,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
-import {MatRadioModule} from "@angular/material";
+import {MatRadioModule} from '@angular/material';
 
 
 @NgModule({
@@ -60,14 +58,12 @@ import {MatRadioModule} from "@angular/material";
   ],
   imports: [
     BrowserModule,
-    DataListModule,
     NgbModule.forRoot(),
     MatToolbarModule,
     MatCheckboxModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AutoCompleteModule,
     HttpClientModule,
     MatMenuModule,
     MatProgressSpinnerModule,
