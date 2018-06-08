@@ -11,7 +11,7 @@ import {AccountService} from '../../services/account-service';
 @Component({
   selector: 'header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
 

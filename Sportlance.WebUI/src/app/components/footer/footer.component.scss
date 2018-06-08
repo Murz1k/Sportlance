@@ -1,3 +1,5 @@
+@import "../../../styles";
+
 .footer-visitor {
   background-color: #666;
 }
@@ -66,7 +68,7 @@ ol, ul {
   color: #656565;
 }
 a {
-  color: #37a000;
+  color: $primary-color;
   text-decoration: none;
   font-weight: 500;
 }

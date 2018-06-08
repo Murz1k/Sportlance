@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 @Component({
   selector: 'app-initialization',
   templateUrl: './initialization.component.html',
-  styleUrls: ['./initialization.component.css']
+  styleUrls: ['./initialization.component.scss']
 })
 export class InitializationComponent implements OnInit {
 
