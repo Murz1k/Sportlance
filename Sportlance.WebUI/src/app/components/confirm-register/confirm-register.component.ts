@@ -30,7 +30,7 @@ export class ConfirmRegisterComponent {
       //data => {
       //this.notifyService.success(this.txt.registrationConfirmation.success)
       //this.accountService.login(data);
-      this.router.navigate([Paths.Root])
+      this.router.navigate([Paths.Root]);
       //},
       //err => {
       //this.notifyService.success(this.txt.registrationConfirmation.fail)

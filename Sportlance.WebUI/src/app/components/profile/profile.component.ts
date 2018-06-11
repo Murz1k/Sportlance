@@ -52,6 +52,18 @@ export class ProfileComponent implements OnInit {
 
   private convertAverageScoreToStars(score: number): Array<Star> {
     const allStars = [];
+    if (score > 4.5) {
+      for (let i = 0; i < 5; i++) {
+        allStars.push(<Star>{isFull: true});
+      }
+      return allStars;
+    }
+    if (score < 0.5) {
+      for (let i = 0; i < 5; i++) {
+        allStars.push(<Star>{isEmpty: true});
+      }
+      return allStars;
+    }
     const fillStars = Math.trunc(score);
     for (let i = 0; i < fillStars; i++) {
       allStars.push(<Star>{isFull: true});

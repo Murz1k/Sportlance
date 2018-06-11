@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Sportlance.BLL.Entities;
+using Sportlance.DAL.Core;
 
 namespace Sportlance.BLL.Interfaces
 {
     public interface ITrainerService
     {
-        Task<IReadOnlyCollection<TrainerListItem>> GetAsync(TrainersQuery query);
+        Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query);
 
         Task<TrainerProfile> GetById(long trainerId);
 

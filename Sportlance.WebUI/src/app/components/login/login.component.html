@@ -1,14 +1,10 @@
 <header [isEmpty]="true"></header>
 <div class="container">
   <form [formGroup]="loginForm" class="col-md-6 offset-3 air-card p-0-bottom m-sm-top">
-    <div *ngIf="isLoginPage; else enterPassword" class="text-center p-xs-top ng-animate-disabled">
-      <div class="m-xs-top hidden-xs"></div>
-      <div class="m-sm-top visible-xs"></div>
-      <div class="text-center m-0 lead lead-md light-bold hidden-xs">
+    <div *ngIf="isLoginPage; else enterPassword" class="text-center" style="padding-top: 30px;">
+      <div class="m-0 lead lead-md light-bold" style="margin-bottom: 30px !important;">
         Войди и начни заниматься
       </div>
-      <div class="m-sm-bottom p-sm-bottom visible-xs"></div>
-      <div class="m-lg-bottom hidden-xs"></div>
       <div [ngClass]="showLoginError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
         <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
           <input id="Email" formControlName="email" name="email" type="text"
@@ -38,14 +34,13 @@
       </div>
     </div>
     <ng-template #enterPassword>
-      <div style="padding-bottom: 30px;" class="text-center ng-animate-disabled ng-hide">
-        <div class="m-xs-top hidden-xs"></div>
-        <div class="m-sm-top visible-xs"></div>
-        <div class="text-center m-0 lead lead-md light-bold hidden-xs">
+      <div style="padding-bottom: 30px;" class="text-center">
+        <div class="text-center m-0 lead lead-md light-bold hidden-xs" style="padding-top: 30px;">
           Добро пожаловать
         </div>
         <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
-          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">{{loginForm.value.email}}
+          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">
+            {{loginForm.value.email}}
           </div>
           <div class="form-group" style="margin-bottom: 5px; position: relative;">
             <input id="Password" formControlName="password" name="password" type="password"
@@ -68,7 +63,7 @@
               </div>
             </div>
             <div class="pull-right text-right p-xs-top hidden-xs hidden-sm">
-              <button (click)="forgotPassword()" class="btn-link">
+              <button (click)="forgotPassword()" class="btn-link" style="padding-right: 0;">
                 Забыли пароль?
               </button>
             </div>
@@ -95,7 +90,7 @@
         </p>
         <div class="line-heading p-sm-bottom m-sm-top-bottom text-muted">Первый раз на Sportlance?</div>
         <button (click)="navigateToRegister()"
-                class="btn btn-primary m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
+                class="btn btn-default m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
           Регистрация
         </button>
         <p></p>

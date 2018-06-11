@@ -54,11 +54,17 @@ namespace Sportlance.DAL.Core
             modelBuilder.Entity<Trainer>()
                 .HasKey(r => r.UserId);
 
-            modelBuilder.Entity<Training>()
-                .HasOne(r => r.TrainerSport);
+            modelBuilder.Entity<Trainer>()
+                .HasMany(r => r.TrainerSports);
+
+            modelBuilder.Entity<TrainerSport>()
+                .HasMany(r => r.Trainings);
 
             modelBuilder.Entity<Training>()
                 .HasOne(r => r.Client);
+
+            modelBuilder.Entity<Training>()
+                .HasOne(r => r.Feedback);
 
             modelBuilder.Entity<Trainer>()
                 .HasOne(u => u.User)
@@ -67,14 +73,6 @@ namespace Sportlance.DAL.Core
 
             modelBuilder.Entity<Feedback>()
                 .HasKey(r => r.TrainingId);
-
-            modelBuilder.Entity<Feedback>()
-                .HasOne(c => c.Training)
-                .WithOne()
-                .HasForeignKey<Feedback>(p => p.TrainingId);
-
-            modelBuilder.Entity<TrainerSport>()
-                .HasOne(c => c.Trainer);
 
             modelBuilder.Entity<TrainerSport>()
                 .HasOne(c => c.Sport);

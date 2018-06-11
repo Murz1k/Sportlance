@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Core;
@@ -18,29 +19,29 @@ namespace Sportlance.BLL.Services
             _appContext = appContext;
         }
 
-        public async Task<IReadOnlyCollection<TrainerListItem>> GetAsync(TrainersQuery query)
+        public async Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query)
         {
-            var trainingsCount = await (from trainerSport in _appContext.TrainerSports
-                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
-                group traning by trainerSport.TrainerId
-                into counts
-                select counts).ToDictionaryAsync(k => k.Key, v => v.Count());
-
-            var feedbacks = await (from trainerSport in _appContext.TrainerSports
-                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
-                join feedback in _appContext.Feedbacks.DefaultIfEmpty() on traning.Id equals feedback.TrainingId
-                join client in _appContext.Clients.Include(t => t.User) on traning.ClientId equals client.UserId
-                group feedback by trainerSport.TrainerId
-                into counts
-                select counts).ToDictionaryAsync(k => k.Key, v => v.Select(i => i).ToList());
-
-            var trainerItems = await (from trainer in _appContext.Trainers.Include(t => t.User)
+            var trainerQuery = from trainer in _appContext.Trainers
+                    .Include(t => t.User)
+                    .Include(i => i.TrainerSports)
+                    .ThenInclude(i => i.Trainings)
                 where trainer.Status == TrainerStatus.Available
                       && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
                       && (query.MaxPrice == null || trainer.Price <= query.MaxPrice.Value)
                       && (query.SearchString == null || trainer.Title.Contains(query.SearchString) ||
                           query.SearchString.Contains(trainer.User.FirstName) ||
                           query.SearchString.Contains(trainer.User.LastName))
+                      && (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <= trainer.TrainerSports
+                              .SelectMany(i => i.Trainings).Where(i => i.Feedback != null).Count())
+                      && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >= trainer.TrainerSports
+                              .SelectMany(i => i.Trainings).Where(i => i.Feedback != null).Count())
+                      && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <=
+                          trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
+                      && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >=
+                          trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
+                select trainer;
+
+            return await (from trainer in trainerQuery
                 select new TrainerListItem
                 {
                     Id = trainer.UserId,
@@ -50,47 +51,21 @@ namespace Sportlance.BLL.Services
                     Country = trainer.Country,
                     PhotoUrl = trainer.PhotoUrl,
                     Price = trainer.Price,
-                    Title = trainer.Title
-                }).ToArrayAsync();
-
-            foreach (var trainer in trainerItems)
-            {
-                trainer.Score = feedbacks.ContainsKey(trainer.Id) ? feedbacks[trainer.Id].Average(f => f.Score) : null;
-                trainer.FeedbacksCount = feedbacks.ContainsKey(trainer.Id) ? feedbacks[trainer.Id].Count : 0;
-                trainer.TrainingsCount = trainingsCount.ContainsKey(trainer.Id) ? trainingsCount[trainer.Id] : 0;
-            }
-
-            return trainerItems
-                .Where(i =>
-                    (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <= i.FeedbacksCount)
-                    && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >= i.FeedbacksCount)
-                    && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <= i.TrainingsCount)
-                    && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >= i.TrainingsCount)
-                ).ToArray();
+                    Title = trainer.Title,
+                    Score = trainer.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback.Score),
+                    FeedbacksCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
+                        .Count(),
+                    TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
+                }).GetPageAsync(query.Offset, query.Count);
         }
 
         public async Task<TrainerProfile> GetById(long trainerId)
         {
-            var trainer = await _appContext.Trainers.Include(i => i.User)
+            var trainer = await _appContext.Trainers
+                .Include(t => t.User)
+                .Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i=>i.Feedback)
+                .Include(i=>i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i=>i.Client).ThenInclude(i=>i.User)
                 .FirstOrDefaultAsync(i => i.UserId == trainerId);
-
-            var trainingsCount = await (from trainerSport in _appContext.TrainerSports
-                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
-                where trainerSport.TrainerId == trainerId
-                select traning).CountAsync();
-
-            var feedbacks = await (from trainerSport in _appContext.TrainerSports
-                join traning in _appContext.Trainings on trainerSport.Id equals traning.TrainerSportId
-                join feedback in _appContext.Feedbacks.DefaultIfEmpty() on traning.Id equals feedback.TrainingId
-                join client in _appContext.Clients.Include(t => t.User) on traning.ClientId equals client.UserId
-                where trainerSport.TrainerId == trainerId
-                select new ReviewInfo
-                {
-                    ClientName = client.User.FirstName,
-                    Score = feedback.Score,
-                    Description = feedback.Description,
-                    CreateDate = feedback.CreateDate
-                }).ToArrayAsync();
 
             return new TrainerProfile
             {
@@ -101,11 +76,17 @@ namespace Sportlance.BLL.Services
                 Country = trainer.Country,
                 PhotoUrl = trainer.PhotoUrl,
                 Price = trainer.Price,
-                Score = feedbacks.Average(r => r.Score),
                 About = trainer.About,
                 Title = trainer.Title,
-                Reviews = feedbacks,
-                TrainingsCount = trainingsCount
+                Score = trainer.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback.Score),
+                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Select(i => new ReviewInfo
+                {
+                    ClientName = i.Client.User.FirstName,
+                    Score = i.Feedback.Score,
+                    Description = i.Feedback.Description,
+                    CreateDate = i.Feedback.CreateDate
+                }).ToArray(),
+                TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
             };
         }
 

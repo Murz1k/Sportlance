@@ -7,7 +7,7 @@
   background-color: white;
 }
 
-.air-card section:last-child {
+.air-card footer section {
   margin: 0;
   padding: 0 0 20px;
 }
@@ -112,7 +112,11 @@ ol li, ul li {
   margin-bottom: 10px;
 }
 
-.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+button:focus {
+  outline: 1px dotted !important;
+}
+
+.pagination > .active > button, .pagination > .active > button:focus, .pagination > .active > button:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   z-index: 2;
   padding-bottom: 4px;
   border-bottom: 4px solid $primary-color;
@@ -121,7 +125,7 @@ ol li, ul li {
   text-decoration: none;
 }
 
-.pagination > li > a, .pagination > li > span {
+.pagination > li > a, .pagination > li > span, .pagination > li > button {
   position: relative;
   float: left;
   min-width: 30px;
@@ -132,6 +136,23 @@ ol li, ul li {
   font-size: 14px;
   text-decoration: none;
   text-align: center;
+  background: transparent;
+  height: 30px;
+  border: 0;
+}
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > button, .pagination > .disabled > button:hover, .pagination > .disabled > button:focus {
+  color: #A0A0A0;
+  border-color: transparent;
+  cursor: not-allowed;
+  text-decoration: none;
+  text-shadow: none;
+}
+
+.pagination > li > button:hover, .pagination > li > button:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+  color: $primary-dark-color;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .position-icon {
@@ -195,8 +216,8 @@ section.air-card-hover:focus, section.air-card-hover:hover {
 }
 
 .search-input {
-  width: 400px;
-  border-radius: 2px 0 0 2px;
+  width: 400px !important;
+  border-radius: 2px 0 0 2px !important;
 }
 
 .search-btn {
@@ -224,8 +245,9 @@ section.air-card-hover:focus, section.air-card-hover:hover {
 
 .filters {
   padding: 0 !important;
-  transition: height 0.3s ease-out;
+  transition: height 0.3s ease-out, opacity 0.3s ease-out;
   height: 270px;
+  opacity: 1;
   .btn {
     margin: 20px 0 0;
   }
@@ -251,4 +273,5 @@ section.air-card-hover:focus, section.air-card-hover:hover {
 
 .filters.hidden {
   height: 0;
+  opacity: 0;
 }

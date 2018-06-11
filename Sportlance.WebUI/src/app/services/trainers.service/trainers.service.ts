@@ -21,6 +21,8 @@ export class TrainersService extends BaseService {
       .append('minPrice', checkParam(query.minPrice))
       .append('trainingsMaxCount', checkParam(query.trainingsMaxCount))
       .append('searchString', checkParam(query.searchString))
+      .append('offset', checkParam(query.offset))
+      .append('count', checkParam(query.count))
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
     return this.http.get<CollectionResponse<TrainerInfoResponse>>(`${this.baseApiUrl}/trainers`, {params: parameters}).toPromise();

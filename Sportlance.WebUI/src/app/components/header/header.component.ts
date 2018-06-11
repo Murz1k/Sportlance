@@ -83,6 +83,6 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
-    this.router.navigate([Paths.Root]);
+    this.router.navigate([Paths.Login]);
   }
 }

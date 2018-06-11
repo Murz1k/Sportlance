@@ -15,7 +15,5 @@ namespace Sportlance.DAL.Entities
         public byte? Score { get; set; }
 
         [Required] public DateTime CreateDate { get; set; }
-
-        public Training Training { get; set; }
     }
 }

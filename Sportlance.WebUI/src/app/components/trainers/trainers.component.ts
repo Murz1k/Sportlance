@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
 import {TrainerInfo} from './trainer-info';
 import {Star} from './star';
 import {isNullOrUndefined} from 'util';
@@ -6,8 +7,8 @@ import {Paths} from '../../paths';
 import {TrainersService} from '../../services/trainers.service/trainers.service';
 import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../services/trainers.service/get-trainers-query';
-import {Router} from '@angular/router';
-import {MatRadioChange} from "@angular/material";
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {MatRadioChange} from '@angular/material';
 
 @Component({
   selector: 'app-trainers',
@@ -29,12 +30,32 @@ export class TrainersComponent implements OnInit {
   public minPrice?: number;
   public maxPrice?: number;
 
+  public offset = 0;
+  public count = 10;
+  public totalCount = 100;
+  public pagesCount = 0;
+  public currentPage = 0;
+
   public minFeedbacksCount?: number;
   public maxFeedbacksCount?: number;
 
   constructor(private router: Router,
               private accountService: AccountService,
-              private trainerService: TrainersService) {
+              private activatedRoute: ActivatedRoute,
+              private trainerService: TrainersService,
+              private location: Location) {
+
+    this.isAuthorized = this.accountService.isAuthorized;
+    // subscribe to router event
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.searchString = params['q'];
+      this.minPrice = params['minPrice'];
+      this.maxPrice = params['maxPrice'];
+      this.currentPage = isNullOrUndefined(params['page']) ? 0 : +params['page'];
+      this.offset = this.count * this.currentPage;
+      this.minFeedbacksCount = params['minFeedbacksCount'];
+      this.maxFeedbacksCount = params['maxFeedbacksCount'];
+    });
 
     this.priceFilters = [
       {min: null, max: null},
@@ -54,8 +75,10 @@ export class TrainersComponent implements OnInit {
     ];
   }
 
-  get haveProfiles(): boolean {
-    return this.trainers.length > 0;
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.offset = this.count * page;
+    this.updateDataAsync();
   }
 
   changePriceFilter(event: MatRadioChange) {
@@ -71,6 +94,8 @@ export class TrainersComponent implements OnInit {
   }
 
   async submitFiltersAsync() {
+    this.offset = 0;
+    console.log(this.location);
     await this.updateDataAsync();
     this.filtersIsHidden = true;
   }
@@ -81,6 +106,8 @@ export class TrainersComponent implements OnInit {
       searchString: this.searchString,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
+      offset: this.offset,
+      count: this.count,
       feedbacksMinCount: this.minFeedbacksCount,
       feedbacksMaxCount: this.maxFeedbacksCount
     });
@@ -98,9 +125,21 @@ export class TrainersComponent implements OnInit {
         trainingsCount: i.trainingsCount,
         trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount)
       });
-    }
+      this.offset = response.offset;
+      this.totalCount = response.totalCount;
+      this.pagesCount = this.count === 0 ? 0 : Math.round(this.totalCount / this.count);
 
-    this.isAuthorized = this.accountService.isAuthorized;
+      this.router.navigate([Paths.Trainers], {
+        queryParams: {
+          q: this.searchString,
+          minPrice: this.minPrice,
+          maxPrice: this.maxPrice,
+          page: this.currentPage,
+          feedbacksMinCount: this.minFeedbacksCount,
+          feedbacksMaxCount: this.maxFeedbacksCount
+        }
+      });
+    }
 
     this.isRendering = true;
   }
@@ -116,6 +155,7 @@ export class TrainersComponent implements OnInit {
   }
 
   public async searchAsync(): Promise<void> {
+    this.offset = 0;
     await this.updateDataAsync();
   }
 
@@ -135,6 +175,18 @@ export class TrainersComponent implements OnInit {
 
   private convertAverageScoreToStars(score: number): Array<Star> {
     const allStars = [];
+    if (score > 4.5) {
+      for (let i = 0; i < 5; i++) {
+        allStars.push(<Star>{isFull: true});
+      }
+      return allStars;
+    }
+    if (score < 0.5) {
+      for (let i = 0; i < 5; i++) {
+        allStars.push(<Star>{isEmpty: true});
+      }
+      return allStars;
+    }
     const fillStars = Math.trunc(score);
     for (let i = 0; i < fillStars; i++) {
       allStars.push(<Star>{isFull: true});
@@ -150,13 +202,13 @@ export class TrainersComponent implements OnInit {
     return allStars;
   }
 
-  private convertTrainingsToTrainingTitle(trainings: number): string {
+  private convertTrainingsToTrainingTitle(trainingsCount: number): string {
     let title = 'трениров';
-    const lastOneNumber = +trainings.toString().slice(-1);
-    const lastTwoNumbers = +trainings.toString().slice(-2);
+    const lastOneNumber = +trainingsCount.toString().slice(-1);
+    const lastTwoNumbers = +trainingsCount.toString().slice(-2);
     if (lastOneNumber === 1) {
       title = `${title}ка`;
-    } else if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
+    } else if (lastOneNumber === 0 || lastTwoNumbers === 0 || (lastOneNumber >= 5 && lastTwoNumbers <= 20)) {
       title = `${title}ок`;
     } else {
       title = `${title}ки`;
@@ -166,15 +218,14 @@ export class TrainersComponent implements OnInit {
 
   private convertReviewsToReviewTitle(feedbacksCount: number): string {
     let title = 'отзыв';
-    const reviewCount = isNullOrUndefined(feedbacksCount) ? 0 : feedbacksCount;
-    const lastOneNumber = +reviewCount.toString().slice(-1);
-    const lastTwoNumbers = +reviewCount.toString().slice(-2);
-    if (lastOneNumber === 0 || lastTwoNumbers === 0 || lastOneNumber >= 5 || lastTwoNumbers <= 20) {
-      title = `${reviewCount} ${title}ов`;
+    const lastOneNumber = +feedbacksCount.toString().slice(-1);
+    const lastTwoNumbers = +feedbacksCount.toString().slice(-2);
+    if (lastOneNumber === 0 || lastTwoNumbers === 0 || (lastOneNumber >= 5 && lastTwoNumbers <= 20)) {
+      title = `${feedbacksCount} ${title}ов`;
     } else if (lastOneNumber === 1) {
-      title = `${reviewCount} ${title}`;
+      title = `${feedbacksCount} ${title}`;
     } else {
-      title = `${reviewCount} ${title}а`;
+      title = `${feedbacksCount} ${title}а`;
     }
     return title;
   }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
+using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 
@@ -18,14 +19,11 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<CollectionResponse<TrainerListItem>> GetAll([FromQuery] GetTrainersQueryRequest request)
+        public async Task<PartialCollectionResponse<TrainerListItem>> GetAll([FromQuery] GetTrainersQueryRequest request)
         {
             var trainers = await _service.GetAsync(request.ToBLE());
 
-            return new CollectionResponse<TrainerListItem>
-            {
-                Items = trainers
-            };
+            return trainers.ToPartialCollectionResponse();
         }
 
         [HttpGet]

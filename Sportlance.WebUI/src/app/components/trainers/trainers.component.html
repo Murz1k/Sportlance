@@ -28,8 +28,8 @@
           <div class="filter-column">
             <label>Стоимость тренировки</label>
             <mat-radio-group (change)="changePriceFilter($event)">
-              <mat-radio-button value="0">Любая стоимость</mat-radio-button>
-              <mat-radio-button value="1">500Р и менее</mat-radio-button>
+              <mat-radio-button [checked]="!minPrice || !maxPrice" value="0">Любая стоимость</mat-radio-button>
+              <mat-radio-button [checked]="!minPrice && maxPrice === 500" value="1">500Р и менее</mat-radio-button>
               <mat-radio-button value="2">500Р - 1000р</mat-radio-button>
               <mat-radio-button value="3">1000Р - 5000р</mat-radio-button>
               <mat-radio-button value="4">5000Р - 10000р</mat-radio-button>
@@ -39,7 +39,7 @@
           <div class="filter-column">
             <label>Количество отзывов</label>
             <mat-radio-group (change)="changeFeedbackFilter($event)">
-              <mat-radio-button value="0">Любое количество отзывов</mat-radio-button>
+              <mat-radio-button [checked]="!minFeedbacksCount || !maxFeedbacksCount" value="0">Любое количество отзывов</mat-radio-button>
               <mat-radio-button value="1">0 - 10</mat-radio-button>
               <mat-radio-button value="2">10 - 50</mat-radio-button>
               <mat-radio-button value="3">50 - 100</mat-radio-button>
@@ -47,9 +47,15 @@
             </mat-radio-group>
           </div>
         </div>
-        <button class="btn" (click)="submitFiltersAsync()">
+        <button class="btn btn-default" (click)="submitFiltersAsync()">
           Применить
         </button>
+      </div>
+    </section>
+    <section *ngIf="trainers.length === 0">
+      <div class="text-center" role="alert">
+        <img src="/o/profiles/browse/bundles/odeskprofilesearch/images/no-results.svg">
+        <h2 class="m-lg-top m-md-bottom text-muted">Please try modifying your search to get more results.</h2>
       </div>
     </section>
     <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
@@ -98,14 +104,14 @@
           </div>
           <div class="row m-sm-top m-0-bottom">
             <div class="col-md-3 p-0-right">
-              <div><strong>{{trainer.price}}₽</strong> <!----><span class="text-muted">/ час</span><!---->
+              <div><strong>{{trainer.price}}₽</strong><span class="text-muted">/ час</span>
               </div>
             </div>
             <div class="col-md-4 p-0-right">
               <div>
                 <i class="material-icons position-icon text-muted">access_time</i>
                 <strong>{{trainer.trainingsCount}}</strong>
-                <!----><span class="text-muted">{{trainer.trainingsTitle}}</span><!---->
+                <span class="text-muted"> {{trainer.trainingsTitle}}</span>
               </div>
             </div>
             <div *ngIf="trainer.country && trainer.city" class="col-md-3 p-0-right">
@@ -117,8 +123,8 @@
           </div>
           <div class="row m-sm-top m-0-bottom">
             <div class="col-md-12">
-              <div><!----><p class="p-0-left m-0 freelancer-tile-description">
-                {{trainer.about}}</p><!----><!----></div>
+              <div><p class="p-0-left m-0 freelancer-tile-description">
+                {{trainer.about}}</p></div>
             </div>
           </div>
           <!--Skills-->
@@ -157,31 +163,37 @@
         </div>
       </article>
     </section>
-    <footer>
+    <footer *ngIf="pagesCount > 1">
       <section class="freelancer-search-pagination p-0-top-bottom clearfix">
-        <!---->
         <div class="pull-right">
           <ul class="pagination pagination-sm m-0-top m-xs-bottom">
-            <li class="pagination-prev disabled">
-              <a href="" class="disabled">
-                <i class="material-icons m-0-left arrow">chevron_left</i>Previous</a>
+            <li [class.disabled]="offset === 0" class="pagination-prev">
+              <button [disabled]="offset === 0" (click)="goToPage(currentPage - 1)">
+                <i class="material-icons m-0-left arrow">chevron_left</i>Previous
+              </button>
             </li>
-            <li class="pagination-page active"><a href="">1</a></li>
-            <!---->
-            <li class="pagination-page"><a href="">2</a></li>
-            <!---->
-            <li class="pagination-page"><a href="">3</a></li>
-            <!---->
-            <li class="pagination-page"><a href="">4</a></li>
-            <!---->
-            <li class="pagination-page"><a href="">5</a></li>
-            <li class="pagination-next">
-              <a href="">Next
-                <i class="material-icons m-0-right arrow">chevron_right</i>
-              </a>
+            <li class="pagination-page" [class.active]="currentPage=== 0">
+              <button (click)="goToPage(0)">1</button>
+            </li>
+            <li class="pagination-page" [class.active]="currentPage=== 1">
+              <button (click)="goToPage(1)">2</button>
+            </li>
+            <li class="pagination-page" [class.active]="currentPage=== 2">
+              <button (click)="goToPage(2)">3</button>
+            </li>
+            <li class="pagination-page" [class.active]="currentPage=== 3">
+              <button (click)="goToPage(3)">4</button>
+            </li>
+            <li class="pagination-page" [class.active]="currentPage=== 4">
+              <button (click)="goToPage(4)">5</button>
+            </li>
+            <li [class.disabled]="totalCount < offset + count" class="pagination-next">
+              <button [disabled]="totalCount < offset + count" (click)="goToPage(currentPage + 1)">Next
+                <i class="material-icons m-0-left arrow">chevron_right</i>
+              </button>
             </li>
           </ul>
-        </div><!---->
+        </div>
       </section>
     </footer>
   </div>

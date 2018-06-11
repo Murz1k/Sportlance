@@ -6,4 +6,6 @@ export interface GetTrainersQuery {
   trainingsMaxCount?: number;
   feedbacksMinCount?: number;
   feedbacksMaxCount?: number;
+  offset?: number;
+  count?: number;
 }
