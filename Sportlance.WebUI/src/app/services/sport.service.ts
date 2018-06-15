@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Sport} from './sport';
-import {CollectionResponse} from './collection-response';
-import {BaseService} from './base-service';
+import {CollectionResponse} from './common/collection-response';
+import {BaseService} from './common/base-service';
 
 @Injectable()
 export class SportService extends BaseService {

@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {TrainerInfoResponse} from './trainer-info-response';
-import {BaseService} from '../base-service';
-import {TrainerProfileResponse} from './trainer-profile-response';
-import {CollectionResponse} from '../collection-response';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {TrainerInfoResponse} from './responses/trainer-info-response';
+import {BaseService} from '../common/base-service';
+import {TrainerProfileResponse} from './responses/trainer-profile-response';
+import {CollectionResponse} from '../common/collection-response';
 import {GetTrainersQuery} from './get-trainers-query';
 import {isNullOrUndefined} from 'util';
 
 @Injectable()
 export class TrainersService extends BaseService {
+  public defaultHeaders: HttpHeaders = new HttpHeaders();
   constructor(private http: HttpClient) {
     super();
   }
@@ -30,5 +31,9 @@ export class TrainersService extends BaseService {
 
   getByIdAsync(trainerId: number): Promise<TrainerProfileResponse> {
     return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/${trainerId}`).toPromise();
+  }
+
+  getSelfAsync(): Promise<TrainerProfileResponse> {
+    return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/self`, {headers: this.defaultHeaders}).toPromise();
   }
 }

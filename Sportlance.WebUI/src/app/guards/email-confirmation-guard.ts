@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import {UserInfoStorage} from '../core/user-info-storage';
-import {Paths} from "../paths";
+import {Paths} from '../core/paths';
 
 @Injectable()
 export class EmailConfirmationGuard implements CanActivate {

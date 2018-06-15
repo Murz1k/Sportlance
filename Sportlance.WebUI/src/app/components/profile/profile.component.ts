@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Star} from '../trainers/star';
 import {TrainerInfo} from '../trainers/trainer-info';
-import {TrainersService} from '../../services/trainers.service/trainers.service';
+import {TrainersService} from '../../services/trainers/trainers.service';
 import {ReviewInfo} from './review-info';
 
 @Component({

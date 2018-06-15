@@ -28,18 +28,19 @@
           <div class="filter-column">
             <label>Стоимость тренировки</label>
             <mat-radio-group (change)="changePriceFilter($event)">
-              <mat-radio-button [checked]="!minPrice || !maxPrice" value="0">Любая стоимость</mat-radio-button>
-              <mat-radio-button [checked]="!minPrice && maxPrice === 500" value="1">500Р и менее</mat-radio-button>
-              <mat-radio-button value="2">500Р - 1000р</mat-radio-button>
-              <mat-radio-button value="3">1000Р - 5000р</mat-radio-button>
-              <mat-radio-button value="4">5000Р - 10000р</mat-radio-button>
-              <mat-radio-button value="5">10000Р и более</mat-radio-button>
+              <mat-radio-button
+                [checked]="minPrice === price.min && minPrice === price.max"
+                *ngFor="let price of priceFilters; let i = index">
+                {{price.label}}
+              </mat-radio-button>
             </mat-radio-group>
           </div>
           <div class="filter-column">
             <label>Количество отзывов</label>
             <mat-radio-group (change)="changeFeedbackFilter($event)">
-              <mat-radio-button [checked]="!minFeedbacksCount || !maxFeedbacksCount" value="0">Любое количество отзывов</mat-radio-button>
+              <mat-radio-button [checked]="!minFeedbacksCount || !maxFeedbacksCount" value="0">Любое количество
+                отзывов
+              </mat-radio-button>
               <mat-radio-button value="1">0 - 10</mat-radio-button>
               <mat-radio-button value="2">10 - 50</mat-radio-button>
               <mat-radio-button value="3">50 - 100</mat-radio-button>
@@ -172,20 +173,8 @@
                 <i class="material-icons m-0-left arrow">chevron_left</i>Previous
               </button>
             </li>
-            <li class="pagination-page" [class.active]="currentPage=== 0">
-              <button (click)="goToPage(0)">1</button>
-            </li>
-            <li class="pagination-page" [class.active]="currentPage=== 1">
-              <button (click)="goToPage(1)">2</button>
-            </li>
-            <li class="pagination-page" [class.active]="currentPage=== 2">
-              <button (click)="goToPage(2)">3</button>
-            </li>
-            <li class="pagination-page" [class.active]="currentPage=== 3">
-              <button (click)="goToPage(3)">4</button>
-            </li>
-            <li class="pagination-page" [class.active]="currentPage=== 4">
-              <button (click)="goToPage(4)">5</button>
+            <li class="pagination-page" [class.active]="currentPage=== page" *ngFor="let page of pages">
+              <button (click)="goToPage(page)">{{page + 1}}</button>
             </li>
             <li [class.disabled]="totalCount < offset + count" class="pagination-next">
               <button [disabled]="totalCount < offset + count" (click)="goToPage(currentPage + 1)">Next

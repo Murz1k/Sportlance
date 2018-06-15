@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthApiClient} from '../../services/auth-api-client';
-import {LoginRequest} from '../../services/login-request';
+import {AuthApiClient} from '../../services/auth/auth-api-client';
+import {LoginRequest} from '../../services/auth/requests/login-request';
 import {ErrorCode} from '../../core/error-code';
 import {Router} from '@angular/router';
-import {Paths} from '../../paths';
+import {Paths} from '../../core/paths';
 import {AccountService} from '../../services/account-service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {isNullOrUndefined} from "util";

@@ -1,4 +1,4 @@
-import {Paths} from './paths';
+import {Paths} from './core/paths';
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {RootComponent} from './components/root/root.component';

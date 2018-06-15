@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
@@ -19,7 +20,8 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<PartialCollectionResponse<TrainerListItem>> GetAll([FromQuery] GetTrainersQueryRequest request)
+        public async Task<PartialCollectionResponse<TrainerListItem>> GetAll(
+            [FromQuery] GetTrainersQueryRequest request)
         {
             var trainers = await _service.GetAsync(request.ToBLE());
 
@@ -31,6 +33,14 @@ namespace Sportlance.WebAPI.Controllers
         public async Task<TrainerProfile> GetById(long trainerId)
         {
             return await _service.GetById(trainerId);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("self")]
+        public async Task<TrainerProfile> GetSelf()
+        {
+            return await _service.GetById(User.GetUserId());
         }
     }
 }

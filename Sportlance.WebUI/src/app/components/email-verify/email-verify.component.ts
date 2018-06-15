@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthApiClient} from '../../services/auth-api-client';
+import {AuthApiClient} from '../../services/auth/auth-api-client';
 import {UserInfoStorage} from '../../core/user-info-storage';
 
 @Component({

@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {SportService} from '../../services/sport.service';
 import {Sport} from '../../services/sport';
 import {isNullOrUndefined} from 'util';
-import {Paths} from '../../paths';
+import {Paths} from '../../core/paths';
 import {UserService} from '../../services/user.service/user.service';
 import {User} from '../../services/user.service/user';
 import {AccountService} from '../../services/account-service';

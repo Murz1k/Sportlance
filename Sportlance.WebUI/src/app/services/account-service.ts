@@ -1,9 +1,10 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
-import {LoginResponse} from './login-response';
+import {LoginResponse} from './auth/responses/login-response';
 import {UserInfoStorage} from '../core/user-info-storage';
-import {ProfileApiClient} from '../api/profile/profile-api-client';
+import {ProfileApiClient} from './profile/profile-api-client';
 import {User} from './user.service/user';
+import {TrainersService} from './trainers/trainers.service';
 
 @Injectable()
 export class AccountService {
@@ -14,7 +15,8 @@ export class AccountService {
   public authStatusChanged: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private userInfoStorage: UserInfoStorage,
-              private profileApiClient: ProfileApiClient) {
+              private profileApiClient: ProfileApiClient,
+              private trainersService: TrainersService) {
     userInfoStorage.userInfoChanged.subscribe(() => this.initServicesAuthHeader());
   }
 
@@ -27,6 +29,7 @@ export class AccountService {
     const token = this.userInfoStorage.token;
     if (token) {
       this.profileApiClient.defaultHeaders = new HttpHeaders().set(this.Authorization, 'Bearer ' + token);
+      this.trainersService.defaultHeaders = new HttpHeaders().set(this.Authorization, 'Bearer ' + token);
     }
     this.authStatusChanged.emit(true);
   }

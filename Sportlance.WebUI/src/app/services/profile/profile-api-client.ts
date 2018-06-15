@@ -1,7 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ProfileResponse} from './profile-response';
-import {BaseService} from '../../services/base-service';
+import {BaseService} from '../common/base-service';
 
 @Injectable()
 export class ProfileApiClient extends BaseService {
@@ -12,6 +12,6 @@ export class ProfileApiClient extends BaseService {
   }
 
   public async getCurrentAsync(): Promise<ProfileResponse> {
-    return await this.http.get<ProfileResponse>(this.baseApiUrl + '/profile/current', {headers: this.defaultHeaders}).toPromise();
+    return this.http.get<ProfileResponse>(this.baseApiUrl + '/profile/current', {headers: this.defaultHeaders}).toPromise();
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {InitializationService} from '../../services/initialization/initialization.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
   selector: 'app-initialization',
@@ -18,8 +18,8 @@ export class InitializationComponent implements OnInit {
 
   async ngOnInit() {
     this.route.queryParams
-      .subscribe(params => {
-        this.returnUrl = params.returnUrl || '/';
+      .subscribe((params: Params) => {
+        this.returnUrl = params['returnUrl'] || '/';
       });
 
     await this.initializationService.initializeAsync();

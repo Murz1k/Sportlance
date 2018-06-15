@@ -1,7 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {UserResponse} from './user-response';
-import {BaseService} from "../../services/base-service";
+import {BaseService} from '../common/base-service';
 
 @Injectable()
 export class UserApiClient extends BaseService {
@@ -12,6 +12,6 @@ export class UserApiClient extends BaseService {
   }
 
   public async getCurrentAsync(): Promise<UserResponse> {
-    return await this.http.get<UserResponse>(this.baseApiUrl + '/user', {headers: this.defaultHeaders}).toPromise();
+    return this.http.get<UserResponse>(this.baseApiUrl + '/user', {headers: this.defaultHeaders}).toPromise();
   }
 }

@@ -3,10 +3,10 @@ import {Location} from '@angular/common';
 import {TrainerInfo} from './trainer-info';
 import {Star} from './star';
 import {isNullOrUndefined} from 'util';
-import {Paths} from '../../paths';
-import {TrainersService} from '../../services/trainers.service/trainers.service';
+import {Paths} from '../../core/paths';
+import {TrainersService} from '../../services/trainers/trainers.service';
 import {AccountService} from '../../services/account-service';
-import {GetTrainersQuery} from '../../services/trainers.service/get-trainers-query';
+import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatRadioChange} from '@angular/material';
 
@@ -36,6 +36,8 @@ export class TrainersComponent implements OnInit {
   public pagesCount = 0;
   public currentPage = 0;
 
+  public pages: number[] = [];
+
   public minFeedbacksCount?: number;
   public maxFeedbacksCount?: number;
 
@@ -58,12 +60,12 @@ export class TrainersComponent implements OnInit {
     });
 
     this.priceFilters = [
-      {min: null, max: null},
-      {min: null, max: 500},
-      {min: 500, max: 1000},
-      {min: 1000, max: 5000},
-      {min: 5000, max: 10000},
-      {min: 10000, max: null}
+      {min: null, max: null, label: 'Любая стоимость'},
+      {min: null, max: 500, label: '500Р и менее'},
+      {min: 500, max: 1000, label: '500Р - 1000р'},
+      {min: 1000, max: 5000, label: '1000Р - 5000р'},
+      {min: 5000, max: 10000, label: '5000Р - 10000р'},
+      {min: 10000, max: null, label: '10000Р и более'}
     ];
 
     this.feedbackFilters = [
@@ -128,6 +130,8 @@ export class TrainersComponent implements OnInit {
       this.offset = response.offset;
       this.totalCount = response.totalCount;
       this.pagesCount = this.count === 0 ? 0 : Math.round(this.totalCount / this.count);
+
+      this.pages = this.pagesCount < 6 ? Array(this.pagesCount).fill(0).map((x, i) => i) : [];
 
       this.router.navigate([Paths.Trainers], {
         queryParams: {

@@ -1,13 +1,10 @@
-
 import {tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {HeadersConstants} from '../constants';
+import {HeadersConstants} from '../../core/constants';
 import {isNullOrUndefined} from 'util';
-import {UserInfoStorage} from "../core/user-info-storage";
-
-
+import {UserInfoStorage} from '../../core/user-info-storage';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -29,7 +26,7 @@ export class JwtInterceptor implements HttpInterceptor {
         const newJwt = event.headers.get(HeadersConstants.XNewAuthToken);
         if (!isNullOrUndefined(newJwt)) {
           user.token = newJwt;
-          //user.roles = event.headers.get(HeadersConstants.XNewRoles).split(',');
+          user.roles = event.headers.get(HeadersConstants.XNewRoles).split(',');
           this.userContext.saveCurrentUser(user);
         }
       }

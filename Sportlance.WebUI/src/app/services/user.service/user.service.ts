@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
-import {UserApiClient} from "../../api/user/user-api.client";
-import {User} from "./user";
-import {UserInfoStorage} from "../../core/user-info-storage";
-import {LoginResponse} from "../login-response";
+import {User} from './user';
+import {UserInfoStorage} from '../../core/user-info-storage';
 
 @Injectable()
 export class UserService {

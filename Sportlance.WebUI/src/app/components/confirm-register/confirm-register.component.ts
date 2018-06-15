@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute, Params} from '@angular/router';
-import {Paths} from '../../paths';
-import {AuthApiClient} from '../../services/auth-api-client';
-import {ConfirmRegistrationRequest} from '../../services/confirm-registration-request';
+import {Paths} from '../../core/paths';
+import {AuthApiClient} from '../../services/auth/auth-api-client';
+import {ConfirmRegistrationRequest} from '../../services/auth/requests/confirm-registration-request';
 import {AccountService} from "../../services/account-service";
 
 @Component({

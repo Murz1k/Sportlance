@@ -1,5 +1,5 @@
 import {Star} from './star';
-import {ReviewInfoResponse} from '../../services/trainers.service/review-info-response';
+import {ReviewInfoResponse} from '../../services/trainers/responses/review-info-response';
 
 export interface TrainerProfile {
   id: number;
