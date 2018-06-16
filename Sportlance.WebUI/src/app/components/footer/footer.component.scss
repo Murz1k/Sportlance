@@ -32,15 +32,18 @@ article, aside, footer, header, hgroup, main, nav, section {
 }
 
 .m-lg-bottom {
-  margin-bottom: 30px!important;
+  margin-bottom: 30px !important;
 }
+
 .list-inline, .list-unstyled {
   padding-left: 0;
   list-style: none;
 }
+
 ul {
   padding-left: 20px;
 }
+
 ol, ul {
   margin-top: 0;
   margin-bottom: 9px;
@@ -49,6 +52,7 @@ ol, ul {
 .footer-navbar-wrapper .links-section li, .footer-navbar-wrapper .links-section p {
   margin: 0;
 }
+
 .footer-visitor a, .footer-visitor h2, .footer-visitor li, .footer-visitor p {
   color: #a0a0a0;
 }
@@ -56,26 +60,32 @@ ol, ul {
 .footer-visitor .links-section a {
   font-weight: 300;
 }
+
 .footer-navbar-wrapper .links-section a {
   line-height: 30px;
 }
+
 .footer-visitor a, .footer-visitor h2, .footer-visitor li, .footer-visitor p {
   color: #a0a0a0;
 }
+
 .footer-navbar-wrapper a, .footer-navbar-wrapper p {
-  font-family: Gotham SSm,Helvetica,Arial,sans-serif;
+  font-family: Gotham SSm, Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: #656565;
 }
+
 a {
   color: $primary-color;
   text-decoration: none;
   font-weight: 500;
 }
+
 a {
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
 }
+
 *, :after, :before {
   box-sizing: border-box;
 }

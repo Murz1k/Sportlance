@@ -26,9 +26,12 @@ export class JwtInterceptor implements HttpInterceptor {
         const newJwt = event.headers.get(HeadersConstants.XNewAuthToken);
         if (!isNullOrUndefined(newJwt)) {
           user.token = newJwt;
-          user.roles = event.headers.get(HeadersConstants.XNewRoles).split(',');
-          this.userContext.saveCurrentUser(user);
         }
+        const roles = event.headers.get(HeadersConstants.XNewRoles);
+        if (!isNullOrUndefined(roles)) {
+          user.roles = roles.split(',');
+        }
+        this.userContext.saveCurrentUser(user);
       }
     }));
   }

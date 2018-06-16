@@ -1,118 +1,114 @@
-<div *ngIf="isRendering; else loading" class="container">
-  <div class="air-card col-9" style="padding-right: 2em; padding-bottom: 1em;">
-    <section (click)="openProfileAsync(trainer.id)">
-      <div>
-        <article class="row">
-          <div class="col-md-2">
-            <div class="row">
-              <div class="col-md-10">
-                <div style="position: relative;">
-                  <img
-                    src="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&amp;Expires=2147483647&amp;Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
-                    alt="Svetoslav V.'s avatar" class="avatar vertical-align-middle avatar-lg m-0">
+<div *ngIf="isRendering; else loading" class="content">
+  <div class="page">
+    <div class="air-card col-9">
+      <section (click)="openProfileAsync(trainer.id)">
+        <div>
+          <article class="row">
+            <div class="col-md-2">
+              <div class="row">
+                <div class="col-md-10">
+                  <div style="position: relative;">
+                    <img
+                      src="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&amp;Expires=2147483647&amp;Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
+                      alt="Svetoslav V.'s avatar" class="avatar vertical-align-middle avatar-lg m-0">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-7 p-0-left">
-            <h4 class="m-0-top-bottom ellipsis">
-              <span class="name">{{trainer.firstName}} {{trainer.secondName}}</span>
-            </h4>
-            <div class="m-0-top-bottom">
-              <h4 class="m-0 freelancer-tile-title ellipsis title">{{trainer.title}}</h4>
+            <div class="col-md-7 p-0-left">
+              <h4 class="m-0-top-bottom ellipsis">
+                <span class="name">{{trainer.firstName}} {{trainer.secondName}}</span>
+              </h4>
+              <div class="m-0-top-bottom">
+                <h4 class="m-0 freelancer-tile-title ellipsis title">{{trainer.title}}</h4>
+              </div>
+              <ul class="list-inline m-0-bottom">
+                <li>
+                  <h3 class="m-xs-bottom ng-binding">{{trainer.price}}₽</h3>
+                  <div class="text-muted ng-binding">Часовая ставка</div>
+                </li>
+                <li>
+                  <h3 class="m-xs-bottom ng-binding">{{trainer.trainingsCount}}</h3>
+                  <div class="text-muted ng-binding">Проведено тренировок</div>
+                </li>
+              </ul>
             </div>
-            <ul class="list-inline m-0-bottom">
-              <li>
-                <h3 class="m-xs-bottom ng-binding">{{trainer.price}}₽</h3>
-                <div class="text-muted ng-binding">Часовая ставка</div>
-              </li>
-              <li>
-                <h3 class="m-xs-bottom ng-binding">{{trainer.trainingsCount}}</h3>
-                <div class="text-muted ng-binding">Проведено тренировок</div>
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-3 p-0-right">
-            <div>
-              <div class="no-wrap freelancer-tile-location ellipsis"
-              ><i class="material-icons position-icon text-muted">place</i><strong
-                class="hidden-xs"
-                title="Bulgaria">{{trainer.country}}, {{trainer.city}} </strong>
+            <div class="col-md-3 p-0-right">
+              <div>
+                <div class="no-wrap freelancer-tile-location ellipsis"
+                ><i class="material-icons position-icon text-muted">place</i><strong
+                  class="hidden-xs"
+                  title="Bulgaria">{{trainer.country}}, {{trainer.city}} </strong>
+                </div>
               </div>
             </div>
-          </div>
-        </article>
-      </div>
-    </section>
-  </div>
-  <div class="air-card col-9" style="margin-top: 2em;">
-    <div class="air-card-header">
-      <div class="clearfix">
+          </article>
+        </div>
+      </section>
+    </div>
+    <div class="air-card col-9" style="margin-top: 2em;">
+      <div class="air-card-header">
         <h3 class="m-0-bottom pull-left">
           О тренере
         </h3>
       </div>
+      <section class="pull-left">
+        {{trainer.about}}
+      </section>
     </div>
-    <section class="pull-left">
-      {{trainer.about}}
-    </section>
-  </div>
-  <div class="air-card col-9" style="margin-top: 2em;">
-    <div class="air-card-header">
-      <div class="clearfix">
-        <h3 class="m-0-bottom pull-left">
-          Отзывы
-        </h3>
-      </div>
-    </div>
-    <section class="pull-left">
-      <ul style="list-style: none; padding: 0; margin: 0;">
-        <li *ngFor="let review of trainer.reviews">
-          <div class="row" style="padding-bottom: 1em;">
-            <div class="col">
-              <div style="position: relative;">
-                <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
-                  {{scoreStar.isFull ? 'star' : ''}}
-                  {{scoreStar.isEmpty ? 'star_border' : ''}}
-                  {{scoreStar.isHalf ? 'star_half' : ''}}
-                </i>
-              </div>
-            </div>
-          </div>
-          <div class="row" style="padding-bottom: 1em;">
-            <div class="col">
-              {{review.description}}
-            </div>
-          </div>
-          <div class="row">
-            <div class="col text-muted">
-              {{review.clientName}} {{review.createDate}}
-            </div>
-          </div>
-        </li>
-      </ul>
-    </section>
-  </div>
-  <div class="air-card col-9" style="margin-top: 2em;">
-    <div class="air-card-header">
-      <div class="clearfix">
+    <div class="air-card col-9" style="margin-top: 2em;">
+      <div class="air-card-header">
         <h3 class="m-0-bottom pull-left">
           Навыки
         </h3>
       </div>
-    </div>
-    <section>
-      <div class="up-active-container">
-        <div class="o-profile-skills m-sm-top ng-scope">
-          <a class="o-tag-skill ng-binding ng-scope">
-            Плавание
-          </a>
-          <a class="o-tag-skill ng-binding ng-scope">
-            Гимнастика
-          </a>
+      <section>
+        <div class="up-active-container">
+          <div class="o-profile-skills m-sm-top ng-scope">
+            <a class="o-tag-skill ng-binding ng-scope">
+              Плавание
+            </a>
+            <a class="o-tag-skill ng-binding ng-scope">
+              Гимнастика
+            </a>
+          </div>
         </div>
+      </section>
+    </div>
+    <div class="air-card col-9" style="margin-top: 2em;">
+      <div class="air-card-header">
+        <h3 class="m-0-bottom pull-left">
+          Отзывы
+        </h3>
       </div>
-    </section>
+      <section class="pull-left">
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li *ngFor="let review of trainer.reviews">
+            <div class="row" style="padding-bottom: 1em;">
+              <div class="col">
+                <div style="position: relative;">
+                  <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
+                    {{scoreStar.isFull ? 'star' : ''}}
+                    {{scoreStar.isEmpty ? 'star_border' : ''}}
+                    {{scoreStar.isHalf ? 'star_half' : ''}}
+                  </i>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="padding-bottom: 1em;">
+              <div class="col">
+                {{review.description}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col text-muted">
+                {{review.clientName}} {{review.createDate}}
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
   </div>
 </div>
 <ng-template #loading>

@@ -31,10 +31,8 @@ namespace Sportlance.BLL.Services
                       && (query.SearchString == null || trainer.Title.Contains(query.SearchString) ||
                           query.SearchString.Contains(trainer.User.FirstName) ||
                           query.SearchString.Contains(trainer.User.LastName))
-                      && (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <= trainer.TrainerSports
-                              .SelectMany(i => i.Trainings).Where(i => i.Feedback != null).Count())
-                      && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >= trainer.TrainerSports
-                              .SelectMany(i => i.Trainings).Where(i => i.Feedback != null).Count())
+                      && (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <= trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
+                      && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >= trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
                       && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <=
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
                       && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >=
@@ -53,8 +51,8 @@ namespace Sportlance.BLL.Services
                     Price = trainer.Price,
                     Title = trainer.Title,
                     Score = trainer.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback.Score),
-                    FeedbacksCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
-                        .Count(),
+                    FeedbacksCount = trainer.TrainerSports.SelectMany(i => i.Trainings)
+                        .Count(i => i.Feedback != null),
                     TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
                 }).GetPageAsync(query.Offset, query.Count);
         }

@@ -8,6 +8,29 @@ $ripple-color: rgba(55, 160, 0, .26);
 
 $checkbox-size: 15px !important;
 
+$footer-height: 100px;
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  > :not(router-outlet):not(header):not(app-footer) {
+    flex: 1 0 auto;
+  }
+  app-footer {
+    flex: 0 0 auto;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
 body {
   font-family: Gotham SSm, Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -242,10 +265,6 @@ a {
   background: transparent;
 }
 
-.container {
-  padding: 5em 5%;
-}
-
 .no-border {
   border: none !important;
 }
@@ -338,7 +357,12 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
 
 .content {
   width: 800px;
-  margin: 30px auto;
+  margin: auto;
+}
+
+.page {
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .btn:hover {

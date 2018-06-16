@@ -9,7 +9,6 @@ import {isNullOrUndefined} from 'util';
 
 @Injectable()
 export class TrainersService extends BaseService {
-  public defaultHeaders: HttpHeaders = new HttpHeaders();
   constructor(private http: HttpClient) {
     super();
   }
@@ -34,6 +33,6 @@ export class TrainersService extends BaseService {
   }
 
   getSelfAsync(): Promise<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/self`, {headers: this.defaultHeaders}).toPromise();
+    return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/self`).toPromise();
   }
 }

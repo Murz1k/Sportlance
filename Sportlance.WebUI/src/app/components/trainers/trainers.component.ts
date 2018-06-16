@@ -97,7 +97,6 @@ export class TrainersComponent implements OnInit {
 
   async submitFiltersAsync() {
     this.offset = 0;
-    console.log(this.location);
     await this.updateDataAsync();
     this.filtersIsHidden = true;
   }

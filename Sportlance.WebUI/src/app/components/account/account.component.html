@@ -1,5 +1,5 @@
-<div *ngIf="isRendering; else loading" class="container">
-  <div class="air-card col-9" style="padding-right: 2em; padding-bottom: 1em;">
+<div *ngIf="isRendering; else loading" class="content page">
+  <div class="air-card col-9 page">
     <section (click)="openProfileAsync(trainer.id)">
       <div>
         <article class="row">
@@ -47,11 +47,9 @@
   </div>
   <div class="air-card col-9" style="margin-top: 2em;">
     <div class="air-card-header">
-      <div class="clearfix">
-        <h3 class="m-0-bottom pull-left">
-          О тренере
-        </h3>
-      </div>
+      <h3 class="m-0-bottom pull-left">
+        О тренере
+      </h3>
     </div>
     <section class="pull-left">
       {{trainer.about}}
@@ -59,11 +57,9 @@
   </div>
   <div class="air-card col-9" style="margin-top: 2em;">
     <div class="air-card-header">
-      <div class="clearfix">
-        <h3 class="m-0-bottom pull-left">
-          Отзывы
-        </h3>
-      </div>
+      <h3 class="m-0-bottom pull-left">
+        Отзывы
+      </h3>
     </div>
     <section class="pull-left">
       <ul style="list-style: none; padding: 0; margin: 0;">
@@ -95,11 +91,9 @@
   </div>
   <div class="air-card col-9" style="margin-top: 2em;">
     <div class="air-card-header">
-      <div class="clearfix">
-        <h3 class="m-0-bottom pull-left">
-          Навыки
-        </h3>
-      </div>
+      <h3 class="m-0-bottom pull-left">
+        Навыки
+      </h3>
     </div>
     <section>
       <div class="up-active-container">

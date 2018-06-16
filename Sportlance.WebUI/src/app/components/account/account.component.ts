@@ -15,6 +15,7 @@ export class AccountComponent implements OnInit {
 
   public account: User;
   public trainer: TrainerInfo;
+  public isRendering = false;
   starsNumber = 5;
 
   constructor(private userService: UserService,
@@ -23,6 +24,7 @@ export class AccountComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isRendering = false;
     const response = await this.trainerService.getSelfAsync();
     this.trainer = <TrainerInfo>{
       reviews: response.reviews.map(i => <ReviewInfo>{
@@ -42,6 +44,7 @@ export class AccountComponent implements OnInit {
       country: response.country,
       stars: this.convertAverageScoreToStars(response.score)
     };
+    this.isRendering = true;
   }
 
   private convertAverageScoreToStars(score: number): Array<Star> {

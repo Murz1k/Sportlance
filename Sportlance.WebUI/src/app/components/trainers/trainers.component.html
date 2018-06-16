@@ -9,7 +9,7 @@
       </div>
     </div>
   </div>
-  <div class="air-card">
+  <div class="air-card page">
     <section>
       <article class="search-container">
         <input [(ngModel)]="searchString" type="text" placeholder="Введите Имя, Фамилию или Специальность"
@@ -165,7 +165,7 @@
       </article>
     </section>
     <footer *ngIf="pagesCount > 1">
-      <section class="freelancer-search-pagination p-0-top-bottom clearfix">
+      <section class="freelancer-search-pagination p-0-top-bottom">
         <div class="pull-right">
           <ul class="pagination pagination-sm m-0-top m-xs-bottom">
             <li [class.disabled]="offset === 0" class="pagination-prev">
