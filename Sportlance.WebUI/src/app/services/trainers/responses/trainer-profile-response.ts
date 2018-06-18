@@ -1,4 +1,6 @@
 import {ReviewInfoResponse} from './review-info-response';
+import {SportResponse} from '../../sports/sport-response';
+import {TrainerStatus} from '../trainer-status';
 
 export interface TrainerProfileResponse {
   id: number;
@@ -10,6 +12,8 @@ export interface TrainerProfileResponse {
   score: number;
   about: string;
   title: string;
+  status: TrainerStatus;
   reviews: Array<ReviewInfoResponse>;
   trainingsCount: number;
+  sports: Array<SportResponse>;
 }

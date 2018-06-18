@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -9,14 +7,14 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "IsEmailConfirm",
-                table: "Users",
+                "IsEmailConfirm",
+                "Users",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
-                name: "PasswordHash",
-                table: "Users",
+                "PasswordHash",
+                "Users",
                 nullable: false,
                 defaultValue: "");
         }
@@ -24,12 +22,12 @@ namespace Sportlance.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsEmailConfirm",
-                table: "Users");
+                "IsEmailConfirm",
+                "Users");
 
             migrationBuilder.DropColumn(
-                name: "PasswordHash",
-                table: "Users");
+                "PasswordHash",
+                "Users");
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Sportlance.BLL.Entities
+﻿using System.Collections.Generic;
+using Sportlance.DAL.Entities;
+
+namespace Sportlance.BLL.Entities
 {
     public class TrainerListItem
     {
@@ -24,5 +27,7 @@
 
         //TODO поменять на AzureBlobStorage
         public string PhotoUrl { get; set; }
+
+        public IReadOnlyCollection<Sport> Sports { get; set; }
     }
 }

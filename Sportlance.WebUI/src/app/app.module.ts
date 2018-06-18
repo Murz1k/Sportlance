@@ -13,7 +13,7 @@ import {HeaderComponent} from './components/header/header.component';
 import {RootComponent} from './components/root/root.component';
 import {TrainersComponent} from './components/trainers/trainers.component';
 
-import {SportService} from './services/sport.service';
+import {SportService} from './services/sports/sport.service';
 import {AuthApiClient} from './services/auth/auth-api-client';
 import {TrainersService} from './services/trainers/trainers.service';
 import {AccountService} from './services/account-service';

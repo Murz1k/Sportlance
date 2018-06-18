@@ -45,7 +45,8 @@ export class ProfileComponent implements OnInit {
       about: response.about,
       title: response.title,
       country: response.country,
-      stars: this.convertAverageScoreToStars(response.score)
+      stars: this.convertAverageScoreToStars(response.score),
+      sports: response.sports
     };
     this.isRendering = true;
   }

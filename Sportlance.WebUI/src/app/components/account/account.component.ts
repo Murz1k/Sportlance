@@ -5,6 +5,8 @@ import {TrainerInfo} from '../trainers/trainer-info';
 import {TrainersService} from '../../services/trainers/trainers.service';
 import {Star} from '../trainers/star';
 import {ReviewInfo} from '../profile/review-info';
+import {TrainerStatus} from '../../services/trainers/trainer-status';
+import {MatCheckboxChange, MatCheckboxChange} from "@angular/material";
 
 @Component({
   selector: 'app-account',
@@ -16,6 +18,7 @@ export class AccountComponent implements OnInit {
   public account: User;
   public trainer: TrainerInfo;
   public isRendering = false;
+  public TrainerStatus = TrainerStatus;
   starsNumber = 5;
 
   constructor(private userService: UserService,
@@ -42,9 +45,24 @@ export class AccountComponent implements OnInit {
       about: response.about,
       title: response.title,
       country: response.country,
-      stars: this.convertAverageScoreToStars(response.score)
+      stars: this.convertAverageScoreToStars(response.score),
+      sports: response.sports,
+      status: response.status
     };
     this.isRendering = true;
+  }
+
+  public async changeStatusAsync(event: MatCheckboxChange) {
+    if (this.trainer.status === TrainerStatus.Banned || this.trainer.status === TrainerStatus.Deleted) {
+      return;
+    }
+    if (event.checked) {
+      await this.trainerService.setAvailabilityAsync(true);
+      this.trainer.status = TrainerStatus.Available;
+    } else {
+      await this.trainerService.setAvailabilityAsync(false);
+      this.trainer.status = TrainerStatus.NotAvailable;
+    }
   }
 
   private convertAverageScoreToStars(score: number): Array<Star> {

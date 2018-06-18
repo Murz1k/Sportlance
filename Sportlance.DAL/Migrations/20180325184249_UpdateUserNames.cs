@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -9,15 +7,15 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "FirstName",
-                table: "Users",
+                "FirstName",
+                "Users",
                 maxLength: 20,
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "LastName",
-                table: "Users",
+                "LastName",
+                "Users",
                 maxLength: 30,
                 nullable: false,
                 defaultValue: "");
@@ -26,12 +24,12 @@ namespace Sportlance.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "FirstName",
-                table: "Users");
+                "FirstName",
+                "Users");
 
             migrationBuilder.DropColumn(
-                name: "LastName",
-                table: "Users");
+                "LastName",
+                "Users");
         }
     }
 }

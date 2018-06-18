@@ -1,5 +1,7 @@
 import {Star} from './star';
 import {ReviewInfo} from '../profile/review-info';
+import {SportResponse} from '../../services/sports/sport-response';
+import {TrainerStatus} from '../../services/trainers/trainer-status';
 
 export interface TrainerInfo {
   id: number;
@@ -15,4 +17,6 @@ export interface TrainerInfo {
   reviewTitle: string;
   trainingsCount: number;
   trainingsTitle: string;
+  sports: Array<SportResponse>;
+  status: TrainerStatus;
 }

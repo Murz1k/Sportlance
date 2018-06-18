@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sportlance.DAL.Entities;
 
 namespace Sportlance.BLL.Entities
 {
@@ -22,7 +23,11 @@ namespace Sportlance.BLL.Entities
 
         public string Title { get; set; }
 
-        public IEnumerable<ReviewInfo> Reviews { get; set; }
+        public TrainerStatus Status { get; set; }
+
+        public IReadOnlyCollection<ReviewInfo> Reviews { get; set; }
+
+        public IReadOnlyCollection<Sport> Sports { get; set; }
 
         public int TrainingsCount { get; set; }
 

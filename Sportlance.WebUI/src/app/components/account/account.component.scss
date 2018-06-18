@@ -1,11 +1,5 @@
 @import "../../../styles";
 
-.air-card > section {
-  margin: 0 -30px;
-  padding: 30px;
-  word-wrap: break-word;
-}
-
 .air-card .name {
   line-height: 27px;
   font-size: 21px;
@@ -83,10 +77,6 @@ h1, h2, h3, h4, h5, h6 {
   content: none;
 }
 
-.air-card footer {
-  border-top: 1px solid #e0e0e0;
-}
-
 .m-0-bottom {
   margin-bottom: 0 !important;
 }
@@ -118,13 +108,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .m-0-bottom {
   margin-bottom: 0 !important;
-}
-
-.air-card footer, .air-card-header {
-  margin: 0 -30px;
-  padding: 30px;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .pull-right {
@@ -199,4 +182,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .o-tag-skill {
   margin: 0 6px 10px 0;
+}
+
+.side-bar-item:not(:last-child) {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border: 0;
+  border-bottom: 1px solid #e0e0e0;
+  display: flow-root;
 }

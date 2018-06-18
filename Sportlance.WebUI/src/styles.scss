@@ -10,7 +10,7 @@ $checkbox-size: 15px !important;
 
 $footer-height: 100px;
 
-.app-wrapper {
+.app-wrapper, app-login, app-signup {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -93,6 +93,47 @@ body {
   background-color: $default-color;
   padding: 0 30px;
   box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
+}
+
+.air-card > section {
+  margin: 0 -30px;
+  padding: 20px 30px;
+  word-wrap: break-word;
+}
+
+.air-card footer, .air-card-header {
+  margin: 0 -30px;
+  padding: 20px 30px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.air-card-header {
+  > h3 {
+    display: inline-block;
+  }
+  > .btn-rnd {
+    float: right;
+    > i {
+      font-size: 20px;
+    }
+  }
+}
+
+ul.feedbacks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li:not(:last-child) {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
+
+.air-card footer {
+  border-top: 1px solid #e0e0e0;
 }
 
 .mat-checkbox-layout {
@@ -365,10 +406,29 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
   margin-top: 30px;
 }
 
-.btn:hover {
-  background-color: $primary-dark-color;
-  color: $default-color;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+.btn:hover, .btn:active {
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  outline: none;
+  -webkit-box-shadow: 0 2px 10px 1px rgba(57, 73, 76, 0.4), 0 1px 2px rgba(57, 73, 76, 0.25);
+  box-shadow: 0 2px 10px 1px rgba(57, 73, 76, 0.4), 0 1px 2px rgba(57, 73, 76, 0.25);
+}
+
+.btn-rnd {
+  padding: 7px;
+  font-size: 14px;
+  line-height: 10px;
+  border-radius: 50%;
+  margin: 0px;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active {
+  color: $primary-dark-color;
+  background-color: $default-color;
+  border-color: transparent;
+}
+
+.row {
+  margin: 0;
 }
 

@@ -95,14 +95,7 @@ export class TrainersComponent implements OnInit {
     this.maxFeedbacksCount = this.feedbackFilters[event.value].max;
   }
 
-  async submitFiltersAsync() {
-    this.offset = 0;
-    await this.updateDataAsync();
-    this.filtersIsHidden = true;
-  }
-
   async updateDataAsync() {
-    this.isRendering = false;
     const response = await this.trainerService.getAsync(<GetTrainersQuery>{
       searchString: this.searchString,
       minPrice: this.minPrice,
@@ -124,7 +117,8 @@ export class TrainersComponent implements OnInit {
         title: i.title,
         reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
         trainingsCount: i.trainingsCount,
-        trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount)
+        trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
+        sports: i.sports
       });
       this.offset = response.offset;
       this.totalCount = response.totalCount;
@@ -143,14 +137,22 @@ export class TrainersComponent implements OnInit {
         }
       });
     }
-
-    this.isRendering = true;
   }
 
   ckechKeyDownSearch(e): void {
     if (e.keyCode === 13) {
+      this.isRendering = false;
       this.searchAsync();
+      this.isRendering = true;
     }
+  }
+
+  async submitFiltersAsync() {
+    this.offset = 0;
+    this.isRendering = false;
+    await this.updateDataAsync();
+    this.isRendering = true;
+    this.filtersIsHidden = true;
   }
 
   public showFilters(): void {
@@ -159,11 +161,15 @@ export class TrainersComponent implements OnInit {
 
   public async searchAsync(): Promise<void> {
     this.offset = 0;
+    this.isRendering = false;
     await this.updateDataAsync();
+    this.isRendering = true;
   }
 
   async ngOnInit() {
+    this.isRendering = false;
     await this.updateDataAsync();
+    this.isRendering = true;
   }
 
   async openProfileAsync(trainerId: number) {

@@ -7,7 +7,7 @@
             Offset = 0;
             Count = 10;
         }
-        
+
         public double? MinPrice { get; set; }
 
         public double? MaxPrice { get; set; }

@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -10,11 +9,12 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Trainings",
-                columns: table => new
+                "Trainings",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy",
+                            SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<long>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
@@ -24,25 +24,26 @@ namespace Sportlance.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Trainings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Trainings_Users_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_Trainings_Users_ClientId",
+                        x => x.ClientId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Trainings_Trainers_TrainerId",
-                        column: x => x.TrainerId,
-                        principalTable: "Trainers",
-                        principalColumn: "Id",
+                        "FK_Trainings_Trainers_TrainerId",
+                        x => x.TrainerId,
+                        "Trainers",
+                        "Id",
                         onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reviews",
-                columns: table => new
+                "Reviews",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy",
+                            SqlServerValueGenerationStrategy.IdentityColumn),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: false),
                     Score = table.Column<byte>(nullable: true),
@@ -52,37 +53,37 @@ namespace Sportlance.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Trainings_TrainingId",
-                        column: x => x.TrainingId,
-                        principalTable: "Trainings",
-                        principalColumn: "Id",
+                        "FK_Reviews_Trainings_TrainingId",
+                        x => x.TrainingId,
+                        "Trainings",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_TrainingId",
-                table: "Reviews",
-                column: "TrainingId",
+                "IX_Reviews_TrainingId",
+                "Reviews",
+                "TrainingId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trainings_ClientId",
-                table: "Trainings",
-                column: "ClientId");
+                "IX_Trainings_ClientId",
+                "Trainings",
+                "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trainings_TrainerId",
-                table: "Trainings",
-                column: "TrainerId");
+                "IX_Trainings_TrainerId",
+                "Trainings",
+                "TrainerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reviews");
+                "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Trainings");
+                "Trainings");
         }
     }
 }

@@ -28,11 +28,6 @@ namespace Sportlance.DAL.Core
 
         public DbSet<Sport> Sports { get; set; }
 
-        public bool IsDetached<T>(T entity) where T : class, new()
-        {
-            return Entry(entity).State == EntityState.Detached;
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

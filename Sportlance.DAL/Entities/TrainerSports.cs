@@ -8,7 +8,7 @@ namespace Sportlance.DAL.Entities
         {
             Trainings = new List<Training>();
         }
-        
+
         public long Id { get; set; }
 
         public long TrainerId { get; set; }

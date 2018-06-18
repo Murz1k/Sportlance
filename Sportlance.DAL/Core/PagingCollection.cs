@@ -2,7 +2,7 @@
 
 namespace Sportlance.DAL.Core
 {
-    public class PagingCollection<TEntity>: List<TEntity> where TEntity : class
+    public class PagingCollection<TEntity> : List<TEntity> where TEntity : class
     {
         public PagingCollection(IReadOnlyCollection<TEntity> entities, int totalCount, int offset)
         {

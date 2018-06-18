@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -9,52 +7,52 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "City",
-                table: "Trainers",
+                "City",
+                "Trainers",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "Country",
-                table: "Trainers",
+                "Country",
+                "Trainers",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "FirstName",
-                table: "Trainers",
+                "FirstName",
+                "Trainers",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "PhotoUrl",
-                table: "Trainers",
+                "PhotoUrl",
+                "Trainers",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "SecondName",
-                table: "Trainers",
+                "SecondName",
+                "Trainers",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "City",
-                table: "Trainers");
+                "City",
+                "Trainers");
 
             migrationBuilder.DropColumn(
-                name: "Country",
-                table: "Trainers");
+                "Country",
+                "Trainers");
 
             migrationBuilder.DropColumn(
-                name: "FirstName",
-                table: "Trainers");
+                "FirstName",
+                "Trainers");
 
             migrationBuilder.DropColumn(
-                name: "PhotoUrl",
-                table: "Trainers");
+                "PhotoUrl",
+                "Trainers");
 
             migrationBuilder.DropColumn(
-                name: "SecondName",
-                table: "Trainers");
+                "SecondName",
+                "Trainers");
         }
     }
 }

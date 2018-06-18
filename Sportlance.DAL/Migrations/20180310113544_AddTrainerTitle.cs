@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -9,41 +7,41 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "SecondName",
-                table: "Trainers",
+                "SecondName",
+                "Trainers",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
-                name: "FirstName",
-                table: "Trainers",
+                "FirstName",
+                "Trainers",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
-                name: "Country",
-                table: "Trainers",
+                "Country",
+                "Trainers",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
-                name: "City",
-                table: "Trainers",
+                "City",
+                "Trainers",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "About",
-                table: "Trainers",
+                "About",
+                "Trainers",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "Title",
-                table: "Trainers",
+                "Title",
+                "Trainers",
                 nullable: false,
                 defaultValue: "");
         }
@@ -51,34 +49,34 @@ namespace Sportlance.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "About",
-                table: "Trainers");
+                "About",
+                "Trainers");
 
             migrationBuilder.DropColumn(
-                name: "Title",
-                table: "Trainers");
+                "Title",
+                "Trainers");
 
             migrationBuilder.AlterColumn<string>(
-                name: "SecondName",
-                table: "Trainers",
+                "SecondName",
+                "Trainers",
                 nullable: true,
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
-                name: "FirstName",
-                table: "Trainers",
+                "FirstName",
+                "Trainers",
                 nullable: true,
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
-                name: "Country",
-                table: "Trainers",
+                "Country",
+                "Trainers",
                 nullable: true,
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
-                name: "City",
-                table: "Trainers",
+                "City",
+                "Trainers",
                 nullable: true,
                 oldClrType: typeof(string));
         }

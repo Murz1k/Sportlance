@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -10,63 +8,63 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Trainings_Users_ClientId",
-                table: "Trainings");
+                "FK_Trainings_Users_ClientId",
+                "Trainings");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Trainings_Trainers_TrainerId",
-                table: "Trainings");
+                "FK_Trainings_Trainers_TrainerId",
+                "Trainings");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_TrainerSports",
-                table: "TrainerSports");
+                "PK_TrainerSports",
+                "TrainerSports");
 
             migrationBuilder.DropIndex(
-                name: "IX_Reviews_TrainingId",
-                table: "Reviews");
+                "IX_Reviews_TrainingId",
+                "Reviews");
 
             migrationBuilder.RenameColumn(
-                name: "TrainerId",
-                table: "Trainings",
-                newName: "TrainerSportId");
+                "TrainerId",
+                "Trainings",
+                "TrainerSportId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Trainings_TrainerId",
+                "IX_Trainings_TrainerId",
                 table: "Trainings",
                 newName: "IX_Trainings_TrainerSportId");
 
             migrationBuilder.AddColumn<bool>(
-                name: "IsDeleted",
-                table: "Users",
+                "IsDeleted",
+                "Users",
                 nullable: false,
                 defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
-                name: "Phone",
-                table: "Users",
+                "Phone",
+                "Users",
                 nullable: true);
 
             migrationBuilder.AddColumn<long>(
-                    name: "Id",
-                    table: "TrainerSports",
+                    "Id",
+                    "TrainerSports",
                     nullable: false,
                     defaultValue: 0L)
                 .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             migrationBuilder.AddColumn<int>(
-                name: "Status",
-                table: "Trainers",
+                "Status",
+                "Trainers",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_TrainerSports",
-                table: "TrainerSports",
-                column: "Id");
+                "PK_TrainerSports",
+                "TrainerSports",
+                "Id");
 
             migrationBuilder.CreateTable(
-                name: "Clients",
-                columns: table => new
+                "Clients",
+                table => new
                 {
                     UserId = table.Column<long>(nullable: false),
                     Status = table.Column<int>(nullable: false)
@@ -75,16 +73,16 @@ namespace Sportlance.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Clients", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_Clients_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_Clients_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
+                "Roles",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy",
@@ -94,8 +92,8 @@ namespace Sportlance.DAL.Migrations
                 constraints: table => { table.PrimaryKey("PK_Roles", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
+                "UserRoles",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy",
@@ -107,59 +105,59 @@ namespace Sportlance.DAL.Migrations
                 {
                     table.PrimaryKey("PK_UserRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
+                        "FK_UserRoles_Roles_RoleId",
+                        x => x.RoleId,
+                        "Roles",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_UserRoles_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Phone",
-                table: "Users",
-                column: "Phone",
+                "IX_Users_Phone",
+                "Users",
+                "Phone",
                 unique: true,
                 filter: "[Phone] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainerSports_SportId",
-                table: "TrainerSports",
-                column: "SportId");
+                "IX_TrainerSports_SportId",
+                "TrainerSports",
+                "SportId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_TrainingId",
-                table: "Reviews",
-                column: "TrainingId");
+                "IX_Reviews_TrainingId",
+                "Reviews",
+                "TrainingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
-                column: "RoleId");
+                "IX_UserRoles_RoleId",
+                "UserRoles",
+                "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                table: "UserRoles",
-                column: "UserId");
+                "IX_UserRoles_UserId",
+                "UserRoles",
+                "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Trainings_Clients_ClientId",
-                table: "Trainings",
-                column: "ClientId",
-                principalTable: "Clients",
+                "FK_Trainings_Clients_ClientId",
+                "Trainings",
+                "ClientId",
+                "Clients",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Trainings_TrainerSports_TrainerSportId",
-                table: "Trainings",
-                column: "TrainerSportId",
-                principalTable: "TrainerSports",
+                "FK_Trainings_TrainerSports_TrainerSportId",
+                "Trainings",
+                "TrainerSportId",
+                "TrainerSports",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.NoAction);
         }
@@ -167,88 +165,88 @@ namespace Sportlance.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Trainings_Clients_ClientId",
-                table: "Trainings");
+                "FK_Trainings_Clients_ClientId",
+                "Trainings");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Trainings_TrainerSports_TrainerSportId",
-                table: "Trainings");
+                "FK_Trainings_TrainerSports_TrainerSportId",
+                "Trainings");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                "Clients");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                "UserRoles");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                "Roles");
 
             migrationBuilder.DropIndex(
-                name: "IX_Users_Phone",
-                table: "Users");
+                "IX_Users_Phone",
+                "Users");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_TrainerSports",
-                table: "TrainerSports");
+                "PK_TrainerSports",
+                "TrainerSports");
 
             migrationBuilder.DropIndex(
-                name: "IX_TrainerSports_SportId",
-                table: "TrainerSports");
+                "IX_TrainerSports_SportId",
+                "TrainerSports");
 
             migrationBuilder.DropIndex(
-                name: "IX_Reviews_TrainingId",
-                table: "Reviews");
+                "IX_Reviews_TrainingId",
+                "Reviews");
 
             migrationBuilder.DropColumn(
-                name: "IsDeleted",
-                table: "Users");
+                "IsDeleted",
+                "Users");
 
             migrationBuilder.DropColumn(
-                name: "Phone",
-                table: "Users");
+                "Phone",
+                "Users");
 
             migrationBuilder.DropColumn(
-                name: "Id",
-                table: "TrainerSports");
+                "Id",
+                "TrainerSports");
 
             migrationBuilder.DropColumn(
-                name: "Status",
-                table: "Trainers");
+                "Status",
+                "Trainers");
 
             migrationBuilder.RenameColumn(
-                name: "TrainerSportId",
-                table: "Trainings",
-                newName: "TrainerId");
+                "TrainerSportId",
+                "Trainings",
+                "TrainerId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Trainings_TrainerSportId",
+                "IX_Trainings_TrainerSportId",
                 table: "Trainings",
                 newName: "IX_Trainings_TrainerId");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_TrainerSports",
-                table: "TrainerSports",
-                columns: new[] {"SportId", "TrainerId"});
+                "PK_TrainerSports",
+                "TrainerSports",
+                new[] {"SportId", "TrainerId"});
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_TrainingId",
-                table: "Reviews",
-                column: "TrainingId",
+                "IX_Reviews_TrainingId",
+                "Reviews",
+                "TrainingId",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Trainings_Users_ClientId",
-                table: "Trainings",
-                column: "ClientId",
-                principalTable: "Users",
+                "FK_Trainings_Users_ClientId",
+                "Trainings",
+                "ClientId",
+                "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Trainings_Trainers_TrainerId",
-                table: "Trainings",
-                column: "TrainerId",
-                principalTable: "Trainers",
+                "FK_Trainings_Trainers_TrainerId",
+                "Trainings",
+                "TrainerId",
+                "Trainers",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
+using Sportlance.DAL.Entities;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
@@ -41,6 +42,17 @@ namespace Sportlance.WebAPI.Controllers
         public async Task<TrainerProfile> GetSelf()
         {
             return await _service.GetById(User.GetUserId());
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("availability")]
+        public async Task<IActionResult> SetAvailabilityAsync([FromBody] SetAvailabilityRequest request)
+        {
+            await _service.SetAvailabilityAsync(User.GetUserId(),
+                request.IsAvailable ? TrainerStatus.Available : TrainerStatus.NotAvailable);
+
+            return NoContent();
         }
     }
 }

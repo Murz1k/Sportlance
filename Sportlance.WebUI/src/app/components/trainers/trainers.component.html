@@ -1,4 +1,4 @@
-<div class="content">
+<div *ngIf="isRendering; else loading" class="content">
   <div *ngIf="!isAuthorized" class="oSearchHeader row m-lg-top">
     <div class="col-9" style="padding-bottom: 2em;">
       <h1 class="ellipsis m-0-top-bottom">Лучшие тренеры Sportlance</h1>
@@ -62,34 +62,20 @@
     <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
       <article class="row">
         <div class="col-md-2">
-          <div class="row">
-            <div class="col-md-10">
-              <div style="position: relative;">
-                <a href="/o/profiles/users/_~01f032e02bf502ada0" title="{{trainer.firstName}} {{trainer.secondName}}">
-                  <img
-                    src="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&amp;Expires=2147483647&amp;Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
-                    alt="Svetoslav V.'s avatar" class="avatar vertical-align-middle avatar-lg m-0">
-                </a>
-              </div>
-            </div>
+          <a href="/o/profiles/users/_~01f032e02bf502ada0" title="{{trainer.firstName}} {{trainer.secondName}}">
+            <img
+              src="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&amp;Expires=2147483647&amp;Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
+              alt="Svetoslav V.'s avatar" class="avatar vertical-align-middle avatar-lg m-0">
+          </a>
+          <div style="padding-top: 1em;">
+            <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
+              {{scoreStar.isFull ? 'star' : ''}}
+              {{scoreStar.isEmpty ? 'star_border' : ''}}
+              {{scoreStar.isHalf ? 'star_half' : ''}}
+            </i>
           </div>
-          <div class="row">
-            <div class="col-md-10">
-              <div style="position: relative; padding-top: 1em;">
-                <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
-                  {{scoreStar.isFull ? 'star' : ''}}
-                  {{scoreStar.isEmpty ? 'star_border' : ''}}
-                  {{scoreStar.isHalf ? 'star_half' : ''}}
-                </i>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-10">
-              <div style="position: relative; text-align: center;">
-                <span class="text-muted">{{trainer.reviewTitle}}</span>
-              </div>
-            </div>
+          <div style="position: relative; text-align: center;">
+            <span class="text-muted">{{trainer.reviewTitle}}</span>
           </div>
         </div>
         <div class="col-md-10 p-0-left">
@@ -187,3 +173,8 @@
     </footer>
   </div>
 </div>
+<ng-template #loading>
+  <div class="back-loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

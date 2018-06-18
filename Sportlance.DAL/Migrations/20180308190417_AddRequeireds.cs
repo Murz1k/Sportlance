@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -9,61 +7,61 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
-                name: "IX_Users_Email",
-                table: "Users");
+                "IX_Users_Email",
+                "Users");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Email",
-                table: "Users",
+                "Email",
+                "Users",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Sports",
+                "Name",
+                "Sports",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
+                "IX_Users_Email",
+                "Users",
+                "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainerSports_TrainerId",
-                table: "TrainerSports",
-                column: "TrainerId");
+                "IX_TrainerSports_TrainerId",
+                "TrainerSports",
+                "TrainerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trainers_UserId",
-                table: "Trainers",
-                column: "UserId",
+                "IX_Trainers_UserId",
+                "Trainers",
+                "UserId",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Trainers_Users_UserId",
-                table: "Trainers",
-                column: "UserId",
-                principalTable: "Users",
+                "FK_Trainers_Users_UserId",
+                "Trainers",
+                "UserId",
+                "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_TrainerSports_Sports_SportId",
-                table: "TrainerSports",
-                column: "SportId",
-                principalTable: "Sports",
+                "FK_TrainerSports_Sports_SportId",
+                "TrainerSports",
+                "SportId",
+                "Sports",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_TrainerSports_Trainers_TrainerId",
-                table: "TrainerSports",
-                column: "TrainerId",
-                principalTable: "Trainers",
+                "FK_TrainerSports_Trainers_TrainerId",
+                "TrainerSports",
+                "TrainerId",
+                "Trainers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -71,45 +69,45 @@ namespace Sportlance.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Trainers_Users_UserId",
-                table: "Trainers");
+                "FK_Trainers_Users_UserId",
+                "Trainers");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_TrainerSports_Sports_SportId",
-                table: "TrainerSports");
+                "FK_TrainerSports_Sports_SportId",
+                "TrainerSports");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_TrainerSports_Trainers_TrainerId",
-                table: "TrainerSports");
+                "FK_TrainerSports_Trainers_TrainerId",
+                "TrainerSports");
 
             migrationBuilder.DropIndex(
-                name: "IX_Users_Email",
-                table: "Users");
+                "IX_Users_Email",
+                "Users");
 
             migrationBuilder.DropIndex(
-                name: "IX_TrainerSports_TrainerId",
-                table: "TrainerSports");
+                "IX_TrainerSports_TrainerId",
+                "TrainerSports");
 
             migrationBuilder.DropIndex(
-                name: "IX_Trainers_UserId",
-                table: "Trainers");
+                "IX_Trainers_UserId",
+                "Trainers");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Email",
-                table: "Users",
+                "Email",
+                "Users",
                 nullable: true,
                 oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Sports",
+                "Name",
+                "Sports",
                 nullable: true,
                 oldClrType: typeof(string));
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Email",
-                table: "Users",
-                column: "Email",
+                "IX_Users_Email",
+                "Users",
+                "Email",
                 unique: true,
                 filter: "[Email] IS NOT NULL");
         }

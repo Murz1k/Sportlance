@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace Sportlance.DAL.Migrations
 {
@@ -10,40 +9,40 @@ namespace Sportlance.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Reviews");
+                "Reviews");
 
             migrationBuilder.DropColumn(
-                name: "Price",
-                table: "TrainerSports");
+                "Price",
+                "TrainerSports");
 
             migrationBuilder.DropColumn(
-                name: "TaxType",
-                table: "TrainerSports");
+                "TaxType",
+                "TrainerSports");
 
             migrationBuilder.DropColumn(
-                name: "FirstName",
-                table: "Trainers");
+                "FirstName",
+                "Trainers");
 
             migrationBuilder.DropColumn(
-                name: "SecondName",
-                table: "Trainers");
+                "SecondName",
+                "Trainers");
 
             migrationBuilder.AddColumn<double>(
-                name: "Price",
-                table: "Trainers",
+                "Price",
+                "Trainers",
                 nullable: false,
                 defaultValue: 0.0);
 
             migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Roles",
+                "Name",
+                "Roles",
                 nullable: false,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Feedbacks",
-                columns: table => new
+                "Feedbacks",
+                table => new
                 {
                     TrainingId = table.Column<long>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
@@ -54,10 +53,10 @@ namespace Sportlance.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Feedbacks", x => x.TrainingId);
                     table.ForeignKey(
-                        name: "FK_Feedbacks_Trainings_TrainingId",
-                        column: x => x.TrainingId,
-                        principalTable: "Trainings",
-                        principalColumn: "Id",
+                        "FK_Feedbacks_Trainings_TrainingId",
+                        x => x.TrainingId,
+                        "Trainings",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
         }
@@ -65,48 +64,49 @@ namespace Sportlance.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Feedbacks");
+                "Feedbacks");
 
             migrationBuilder.DropColumn(
-                name: "Price",
-                table: "Trainers");
+                "Price",
+                "Trainers");
 
             migrationBuilder.AddColumn<double>(
-                name: "Price",
-                table: "TrainerSports",
+                "Price",
+                "TrainerSports",
                 nullable: false,
                 defaultValue: 0.0);
 
             migrationBuilder.AddColumn<int>(
-                name: "TaxType",
-                table: "TrainerSports",
+                "TaxType",
+                "TrainerSports",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<string>(
-                name: "FirstName",
-                table: "Trainers",
+                "FirstName",
+                "Trainers",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "SecondName",
-                table: "Trainers",
+                "SecondName",
+                "Trainers",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Roles",
+                "Name",
+                "Roles",
                 nullable: true,
                 oldClrType: typeof(string));
 
             migrationBuilder.CreateTable(
-                name: "Reviews",
-                columns: table => new
+                "Reviews",
+                table => new
                 {
                     Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:ValueGenerationStrategy",
+                            SqlServerValueGenerationStrategy.IdentityColumn),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: false),
                     Score = table.Column<byte>(nullable: true),
@@ -116,17 +116,17 @@ namespace Sportlance.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Trainings_TrainingId",
-                        column: x => x.TrainingId,
-                        principalTable: "Trainings",
-                        principalColumn: "Id",
+                        "FK_Reviews_Trainings_TrainingId",
+                        x => x.TrainingId,
+                        "Trainings",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_TrainingId",
-                table: "Reviews",
-                column: "TrainingId");
+                "IX_Reviews_TrainingId",
+                "Reviews",
+                "TrainingId");
         }
     }
 }

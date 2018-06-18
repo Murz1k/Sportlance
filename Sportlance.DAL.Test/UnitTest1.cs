@@ -89,8 +89,8 @@ namespace Sportlance.DAL.Test
         public void RandomData()
         {
             var dict = new Dictionary<string, List<string>>();
-            dict.Add("FirstName", new List<string> {"Вася", "Петя", "Саня", "Маша", "Миша"});
-            dict.Add("LastName", new List<string> {"Васин", "Петров", "Александров", "Машин", "Мишин"});
+            dict.Add("FirstName", new List<string> {"Р’Р°СЃСЏ", "РџРµС‚СЏ", "РЎР°РЅСЏ", "РњР°С€Р°", "РњРёС€Р°"});
+            dict.Add("LastName", new List<string> {"Р’Р°СЃРёРЅ", "РџРµС‚СЂРѕРІ", "РђР»РµРєСЃР°РЅРґСЂРѕРІ", "РњР°С€РёРЅ", "РњРёС€РёРЅ"});
             dict.Add("Email1", new List<string> {"dfadfsafd", "dfgsdfgs", "fghdfghfgh", "xcvbxcvb", "vbnmvbnmvbn"});
             dict.Add("Email2", new List<string> {"gmail.com", "mail.ru", "yandex.ru", "rambler.ru", "yahoo.com"});
 
@@ -120,9 +120,9 @@ namespace Sportlance.DAL.Test
 
             _sports = new List<Sport>
             {
-                new Sport {Name = "Плавание"},
-                new Sport {Name = "Водное поло"},
-                new Sport {Name = "Бокс"}
+                new Sport {Name = "РџР»Р°РІР°РЅРёРµ"},
+                new Sport {Name = "Р’РѕРґРЅРѕРµ РїРѕР»Рѕ"},
+                new Sport {Name = "Р‘РѕРєСЃ"}
             };
         }
 
@@ -155,19 +155,18 @@ namespace Sportlance.DAL.Test
         [Test]
         public async Task LoadReviews()
         {
-            await LoadTrainings();
-
-            var reviews = from training in _env.GetContext().Trainings
-                let rand = TimeSpan.FromDays(new Random().Next(10, 40))
+            var reviews = await (from training in _env.GetContext().Trainings.Include(i=>i.Feedback).DefaultIfEmpty()
+                          where training.Feedback == null
+                let rand = TimeSpan.FromDays(new Random().Next(1, 40))
                 let createDate = DateTime.Now - rand
-                let score = Convert.ToByte(new Random().Next(0, 8))
+                let score = Convert.ToByte(new Random().Next(1, 6))
                 select new Feedback
                 {
                     TrainingId = training.Id,
                     CreateDate = createDate,
                     Score = score > 5 ? default(byte?) : score,
-                    Description = @"sdfsdfsdfasdgasdgasdgasg"
-                };
+                    Description = @"sdfsdfsdfasdgasdgasdgsdfsdfsdfasdgasdgasdgsdfsdfsdfasdgasdgasdgsdfsdfsdfasdgasdgasdg"
+                }).ToListAsync();
 
             await _env.GetContext().AddRangeAsync(reviews);
             await _env.GetContext().SaveChangesAsync();
@@ -244,11 +243,10 @@ namespace Sportlance.DAL.Test
         [Test]
         public async Task LoadTrainings()
         {
-            await LoadTrainerSports();
             var allClients = await _env.GetContext().Clients.ToListAsync();
             var trainerSports = await (from trainerSport in _env.GetContext().TrainerSports
                 join sport in _env.GetContext().Sports on trainerSport.SportId equals sport.Id
-                where sport.Name == "Бокс"
+                where sport.Name == "Р‘РѕРєСЃ"
                 select trainerSport).ToArrayAsync();
 
             var trainings = from trainer in _env.GetContext().Trainers

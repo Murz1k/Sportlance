@@ -35,4 +35,8 @@ export class TrainersService extends BaseService {
   getSelfAsync(): Promise<TrainerProfileResponse> {
     return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/self`).toPromise();
   }
+
+  setAvailabilityAsync(isAvailable: boolean) {
+    return this.http.post(`${this.baseApiUrl}/trainers/availability`, {isAvailable: isAvailable}).toPromise();
+  }
 }
