@@ -38,6 +38,11 @@ import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
 import {MatRadioModule} from '@angular/material';
+import {DialogService} from './services/dialog.service';
+import {EditTrainerAboutDialogComponent} from './components/common/edit-trainer-about-dialog/edit-trainer-about-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {EditPhotoDialogComponent} from "./components/common/edit-photo-dialog/edit-photo-dialog.component";
+import {EditTrainerPaidDialogComponent} from "./components/common/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component";
 
 
 @NgModule({
@@ -54,7 +59,15 @@ import {MatRadioModule} from '@angular/material';
     ConfirmRegisterComponent,
     InitializationComponent,
     AccountComponent,
-    EmailVerifyComponent
+    EditPhotoDialogComponent,
+    EditTrainerAboutDialogComponent,
+    EmailVerifyComponent,
+    EditTrainerPaidDialogComponent
+  ],
+  entryComponents: [
+    EditPhotoDialogComponent,
+    EditTrainerPaidDialogComponent,
+    EditTrainerAboutDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +79,7 @@ import {MatRadioModule} from '@angular/material';
     ReactiveFormsModule,
     HttpClientModule,
     MatMenuModule,
+    MatDialogModule,
     MatProgressSpinnerModule,
     MatIconModule,
     MatRadioModule,
@@ -82,6 +96,7 @@ import {MatRadioModule} from '@angular/material';
     AccountService,
     AuthApiClient,
     ProfileApiClient,
+    DialogService,
     UserInfoStorage,
     InitializationGuard,
     EmailConfirmationGuard,

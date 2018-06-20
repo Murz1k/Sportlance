@@ -6,7 +6,10 @@ import {TrainersService} from '../../services/trainers/trainers.service';
 import {Star} from '../trainers/star';
 import {ReviewInfo} from '../profile/review-info';
 import {TrainerStatus} from '../../services/trainers/trainer-status';
-import {MatCheckboxChange, MatCheckboxChange} from "@angular/material";
+import {MatCheckboxChange} from '@angular/material';
+import {Paths} from '../../core/paths';
+import {DialogService} from '../../services/dialog.service';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-account',
@@ -18,15 +21,21 @@ export class AccountComponent implements OnInit {
   public account: User;
   public trainer: TrainerInfo;
   public isRendering = false;
+  public Paths = Paths;
   public TrainerStatus = TrainerStatus;
   starsNumber = 5;
 
   constructor(private userService: UserService,
+              private dialogService: DialogService,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
   }
 
   async ngOnInit() {
+    await this.updateDataAsync();
+  }
+
+  private async updateDataAsync() {
     this.isRendering = false;
     const response = await this.trainerService.getSelfAsync();
     this.trainer = <TrainerInfo>{
@@ -47,7 +56,9 @@ export class AccountComponent implements OnInit {
       country: response.country,
       stars: this.convertAverageScoreToStars(response.score),
       sports: response.sports,
-      status: response.status
+      status: response.status,
+      id: response.id,
+      photoUrl: response.photoUrl
     };
     this.isRendering = true;
   }
@@ -120,5 +131,32 @@ export class AccountComponent implements OnInit {
       title = `${feedbacksCount} ${title}а`;
     }
     return title;
+  }
+
+  async changeAboutAsync() {
+    const newAbout = await this.dialogService.showEditTrainerAboutDialogAsync(this.trainer.about);
+    if (isNullOrUndefined(newAbout)) {
+      return;
+    }
+    await this.trainerService.updateAboutAsync(newAbout);
+    await this.updateDataAsync();
+  }
+
+  async changePaidAsync() {
+    const newPrice = await this.dialogService.showEditTrainerPaidDialogAsync(this.trainer.price);
+    if (isNullOrUndefined(newPrice)) {
+      return;
+    }
+    await this.trainerService.updatePaidAsync(newPrice);
+    await this.updateDataAsync();
+  }
+
+  async changePhotoAsync() {
+    const newPhoto = await this.dialogService.showEditPhotoDialogAsync(this.trainer.photoUrl);
+    if (isNullOrUndefined(newPhoto)) {
+      return;
+    }
+    await this.trainerService.uploadPhotoAsync(newPhoto);
+    await this.updateDataAsync();
   }
 }

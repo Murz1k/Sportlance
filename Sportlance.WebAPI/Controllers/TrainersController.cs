@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
@@ -52,6 +53,34 @@ namespace Sportlance.WebAPI.Controllers
             await _service.SetAvailabilityAsync(User.GetUserId(),
                 request.IsAvailable ? TrainerStatus.Available : TrainerStatus.NotAvailable);
 
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("about")]
+        public async Task<IActionResult> UpdateAboutAsync([FromBody] UpdateAboutRequest request)
+        {
+            await _service.UpdateAboutAsync(User.GetUserId(), request.About);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("price")]
+        public async Task<IActionResult> UpdatePriceAsync([FromBody] UpdatePriceRequest request)
+        {
+            await _service.UpdatePriceAsync(User.GetUserId(), request.Price);
+
+            return NoContent();
+        }
+
+        [HttpPut("photo")]
+        [Authorize]
+        public async Task<IActionResult> UploadPhotoAsync([FromForm] IFormFile photo)
+        {
+            await _service.UpdatePhotoAsync(User.GetUserId(), photo.ToAzureFile());
             return NoContent();
         }
     }

@@ -79,7 +79,12 @@ body {
 .btn-primary {
   color: $default-color;
   background-color: $primary-color;
-  border-color: transparent
+  border-color: transparent;
+  :hover {
+    color: $default-color;
+    background-color: $primary-dark-color;
+    border-color: $primary-dark-color;
+  }
 }
 
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
@@ -129,6 +134,66 @@ ul.feedbacks {
     padding-bottom: 15px;
     border: 0;
     border-bottom: 1px solid #e0e0e0;
+  }
+}
+
+small {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dialog-close {
+  float: right;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  color: $primary-dark-color;
+  user-select: none;
+  outline: none !important;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+}
+
+.dialog-header {
+  min-height: 60px;
+  padding: 20px 30px;
+  border-bottom: 1px solid #E0E0E0;
+  background: #F9F9F9;
+}
+
+.dialog-content {
+  padding: 20px 30px;
+  ul {
+    padding-left: 15px;
+  }
+  textarea {
+    min-height: 150px !important;
+  }
+}
+
+.btn-link {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: 500;
+  outline: none;
+  :hover, :active, :focus {
+    text-decoration: underline;
+    color: $primary-dark-color;
+  }
+}
+
+.dialog-footer {
+  min-height: 60px;
+  padding: 20px 30px;
+  border-top: 1px solid #E0E0E0;
+  background: #F9F9F9;
+  button {
+    margin-bottom: 0;
   }
 }
 
@@ -399,6 +464,18 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
 .content {
   width: 800px;
   margin: auto;
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  color: #e0e0e0;
+  width: 100px;
+  height: 100px;
+}
+
+i.material-icons {
+  background-color: transparent !important;
 }
 
 .page {

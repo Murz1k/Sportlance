@@ -62,11 +62,7 @@
     <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
       <article class="row">
         <div class="col-md-2">
-          <a href="/o/profiles/users/_~01f032e02bf502ada0" title="{{trainer.firstName}} {{trainer.secondName}}">
-            <img
-              src="https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&amp;Expires=2147483647&amp;Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
-              alt="Svetoslav V.'s avatar" class="avatar vertical-align-middle avatar-lg m-0">
-          </a>
+          <img src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg m-0">
           <div style="padding-top: 1em;">
             <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
               {{scoreStar.isFull ? 'star' : ''}}
@@ -78,75 +74,35 @@
             <span class="text-muted">{{trainer.reviewTitle}}</span>
           </div>
         </div>
-        <div class="col-md-10 p-0-left">
-          <h4 class="m-0-top-bottom ellipsis">
-            <a href="/o/profiles/users/_~01f032e02bf502ada0" class="freelancer-tile-name"
-               title="{{trainer.firstName}} {{trainer.secondName}}">
+        <div class="col-md-8">
+          <h4 class="m-0-top-bottom">
+            <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
               {{trainer.firstName}} {{trainer.secondName}}
             </a>
           </h4>
-          <!--Title-->
-          <div class="m-0-top-bottom">
-            <h4 class="m-0 freelancer-tile-title ellipsis">{{trainer.title}}</h4>
-          </div>
-          <div class="row m-sm-top m-0-bottom">
-            <div class="col-md-3 p-0-right">
-              <div><strong>{{trainer.price}}₽</strong><span class="text-muted">/ час</span>
-              </div>
+          <h4 class="info-section">{{trainer.title}}</h4>
+          <div class="info-section counts-list">
+            <div class="counts-list-item">
+              <strong>{{trainer.price}}₽</strong>
+              <span class="text-muted">/ час</span>
             </div>
-            <div class="col-md-4 p-0-right">
-              <div>
-                <i class="material-icons position-icon text-muted">access_time</i>
-                <strong>{{trainer.trainingsCount}}</strong>
-                <span class="text-muted"> {{trainer.trainingsTitle}}</span>
-              </div>
+            <div class="counts-list-item">
+              <i class="material-icons position-icon text-muted">access_time</i>
+              <strong>{{trainer.trainingsCount}}</strong>
+              <span class="text-muted"> {{trainer.trainingsTitle}}</span>
             </div>
-            <div *ngIf="trainer.country && trainer.city" class="col-md-3 p-0-right">
-              <div class="no-wrap freelancer-tile-location ellipsis">
-                <i class="material-icons position-icon text-muted">place</i>
-                <strong>{{trainer.country}}, {{trainer.city}} </strong>
-              </div>
+            <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
+              <i class="material-icons position-icon text-muted">place</i>
+              <strong>{{trainer.country}}, {{trainer.city}} </strong>
             </div>
           </div>
-          <div class="row m-sm-top m-0-bottom">
-            <div class="col-md-12">
-              <div><p class="p-0-left m-0 freelancer-tile-description">
-                {{trainer.about}}</p></div>
-            </div>
+          <p class="info-section">{{trainer.about}}</p>
+          <div>
+            <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+              {{sport.name}}
+            </a>
+            <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
           </div>
-          <!--Skills-->
-          <!--<span>-->
-          <!--<a class="o-tag-skill m-sm-top m-0-bottom" target="_self"-->
-          <!--href="/hire/swift-freelancers/">-->
-          <!--<span>Swift</span>-->
-          <!--<span aria-hidden="true"-->
-          <!--class="glyphicon air-icon-complete m-xs-left m-0-right"></span>-->
-          <!--</a>-->
-          <!--</span>-->
-          <!--<span>-->
-          <!--<a class="o-tag-skill m-sm-top m-0-bottom" target="_self"-->
-          <!--href="/hire/objective-c-developers/">-->
-          <!--<span>Obje<em>c</em>tive-<em>C</em></span>-->
-          <!--<span aria-hidden="true"-->
-          <!--class="glyphicon air-icon-complete m-xs-left m-0-right"></span>-->
-          <!--</a>-->
-          <!--</span>-->
-          <!--<span>-->
-          <!--<a class="o-tag-skill m-sm-top m-0-bottom" target="_self" href="/hire/php-developers/">-->
-          <!--<span>PHP</span>-->
-          <!--<span aria-hidden="true"-->
-          <!--class="glyphicon air-icon-complete m-xs-left m-0-right"></span>-->
-          <!--</a>-->
-          <!--</span>-->
-          <!--<span>-->
-          <!--<a class="o-tag-skill m-sm-top m-0-bottom" target="_self"-->
-          <!--href="/hire/cocoa-freelancers/">-->
-          <!--<span>Cocoa</span>-->
-          <!--<span aria-hidden="true"-->
-          <!--class="glyphicon air-icon-complete m-xs-left m-0-right"></span>-->
-          <!--</a>-->
-          <!--</span>-->
-          <!--<a class="btn btn-link m-0 p-0" title="6 more" href="/o/profiles/users/_~01f032e02bf502ada0">6 more</a>-->
         </div>
       </article>
     </section>

@@ -1,0 +1,24 @@
+.paid-list {
+  width: 450px;
+  .paid-list-item:not(:last-child) {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border: 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .paid-list-item {
+    .value {
+      width: 100px;
+      float: right;
+      text-align: right;
+    }
+    display: flow-root;
+    > div {
+      display: inline-block;
+      width: 350px;
+      > strong {
+        display: block;
+      }
+    }
+  }
+}

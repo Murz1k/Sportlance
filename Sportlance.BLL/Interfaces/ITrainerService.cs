@@ -2,6 +2,7 @@
 using Sportlance.BLL.Entities;
 using Sportlance.DAL.Core;
 using Sportlance.DAL.Entities;
+using Sportlance.WebAPI.Utilities;
 
 namespace Sportlance.BLL.Interfaces
 {
@@ -12,6 +13,13 @@ namespace Sportlance.BLL.Interfaces
         Task<TrainerProfile> GetById(long trainerId);
 
         Task AddAsync(long userId);
+        
         Task SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus);
+
+        Task UpdateAboutAsync(long trainerId, string about);
+
+        Task UpdatePhotoAsync(long trainerId, AzureFile photo);
+
+        Task UpdatePriceAsync(long trainerId, double price);
     }
 }

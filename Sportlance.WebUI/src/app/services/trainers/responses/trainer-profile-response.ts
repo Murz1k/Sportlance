@@ -16,4 +16,5 @@ export interface TrainerProfileResponse {
   reviews: Array<ReviewInfoResponse>;
   trainingsCount: number;
   sports: Array<SportResponse>;
+  photoUrl: string;
 }

@@ -7,6 +7,16 @@
   background-color: white;
 }
 
+.counts-list {
+  display: flex;
+  .counts-list-item:not(:last-child) {
+    margin-right: 20px;
+  }
+  .counts-list-item.position {
+    margin-left: auto;
+  }
+}
+
 .air-card footer section {
   margin: 0;
   padding: 0 0 20px;
@@ -14,6 +24,10 @@
 
 .air-card > section > div {
   padding: 0 20px;
+}
+
+.info-section {
+  margin-bottom: 10px !important;
 }
 
 h4, h5, h6 {
@@ -55,12 +69,6 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 30px;
   color: #222;
   font-family: inherit;
-}
-
-.avatar {
-  border-radius: 50%;
-  object-fit: cover;
-  color: #e0e0e0;
 }
 
 .air-card [eo-collapse] section:after, .air-card section:after {

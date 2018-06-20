@@ -21,6 +21,8 @@ namespace Sportlance.BLL.Entities
 
         public string Title { get; set; }
 
+        public string About { get; set; }
+
         public int FeedbacksCount { get; set; }
 
         public int TrainingsCount { get; set; }

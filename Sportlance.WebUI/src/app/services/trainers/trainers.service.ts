@@ -36,7 +36,21 @@ export class TrainersService extends BaseService {
     return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/self`).toPromise();
   }
 
+  async uploadPhotoAsync(photo: Blob): Promise<void> {
+    const data = new FormData();
+    data.append('photo', photo);
+    await this.http.put(`${this.baseApiUrl}/trainers/photo`, data).toPromise();
+  }
+
   setAvailabilityAsync(isAvailable: boolean) {
     return this.http.post(`${this.baseApiUrl}/trainers/availability`, {isAvailable: isAvailable}).toPromise();
+  }
+
+  updateAboutAsync(about: string) {
+    return this.http.put(`${this.baseApiUrl}/trainers/about`, {about: about}).toPromise();
+  }
+
+  updatePaidAsync(price: number) {
+    return this.http.put(`${this.baseApiUrl}/trainers/price`, {price: price}).toPromise();
   }
 }

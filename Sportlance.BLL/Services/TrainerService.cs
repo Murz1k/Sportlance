@@ -1,20 +1,26 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
+using Sportlance.DAL.AzureStorage;
 using Sportlance.DAL.Core;
 using Sportlance.DAL.Entities;
+using Sportlance.WebAPI.Utilities;
 
 namespace Sportlance.BLL.Services
 {
     public class TrainerService : ITrainerService
     {
         private readonly AppDBContext _appContext;
+        private readonly TrainersStorageProvider _trainerStorageProvider;
 
-        public TrainerService(AppDBContext appContext)
+        public TrainerService(AppDBContext appContext,
+            TrainersStorageProvider trainerStorageProvider)
         {
             _appContext = appContext;
+            _trainerStorageProvider = trainerStorageProvider;
         }
 
         public async Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query)
@@ -52,6 +58,7 @@ namespace Sportlance.BLL.Services
                     PhotoUrl = trainer.PhotoUrl,
                     Price = trainer.Price,
                     Title = trainer.Title,
+                    About = trainer.About,
                     Score = trainer.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback.Score),
                     FeedbacksCount = trainer.TrainerSports.SelectMany(i => i.Trainings)
                         .Count(i => i.Feedback != null),
@@ -106,6 +113,29 @@ namespace Sportlance.BLL.Services
         {
             var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
             trainer.Status = trainerStatus;
+            await _appContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAboutAsync(long trainerId, string about)
+        {
+            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            trainer.About = about;
+            await _appContext.SaveChangesAsync();
+        }
+
+        public async Task UpdatePriceAsync(long trainerId, double price)
+        {
+            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            trainer.Price = price;
+            await _appContext.SaveChangesAsync();
+        }
+
+        public async Task UpdatePhotoAsync(long trainerId, AzureFile photo)
+        {
+            var photoName = $"trainer-{trainerId}/photo-{Guid.NewGuid()}{photo.Extension}";
+            var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
+            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            trainer.PhotoUrl = link;
             await _appContext.SaveChangesAsync();
         }
     }

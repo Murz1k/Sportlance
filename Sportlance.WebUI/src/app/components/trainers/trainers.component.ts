@@ -24,6 +24,7 @@ export class TrainersComponent implements OnInit {
   public isAuthorized = false;
   public priceFilters = [];
   public feedbackFilters = [];
+  public Paths = Paths;
 
   public searchString: string;
 
@@ -118,7 +119,9 @@ export class TrainersComponent implements OnInit {
         reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
         trainingsCount: i.trainingsCount,
         trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
-        sports: i.sports
+        sports: i.sports,
+        photoUrl: i.photoUrl,
+        about: this.cutAbout(i.about)
       });
       this.offset = response.offset;
       this.totalCount = response.totalCount;
@@ -180,6 +183,13 @@ export class TrainersComponent implements OnInit {
 
   login() {
     this.router.navigate([Paths.Login]);
+  }
+
+  private cutAbout(about: string): string {
+    if (about.length <= 167) {
+      return about;
+    }
+    return about.substring(0, 167) + '...';
   }
 
   private convertAverageScoreToStars(score: number): Array<Star> {

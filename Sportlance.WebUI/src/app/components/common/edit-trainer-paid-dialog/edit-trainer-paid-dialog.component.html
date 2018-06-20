@@ -1,0 +1,40 @@
+<form [formGroup]="form">
+  <div class="dialog-header">
+    <button class="dialog-close" mat-dialog-close><i class="material-icons">close</i></button>
+    <h2>Изменение почасовой ставки</h2>
+  </div>
+  <div class="dialog-content">
+    <p>
+      Обратите внимание, что ваша новая почасовая ставка будет применяться только к новым контрактам. Плата за работу с
+      работой составляет {{fee}}% при начале контракта с новым клиентом. После того, как вы заплатите более 500 долларов с
+      вашим клиентом, плата будет составлять 10%.
+    </p>
+    <span class="text-muted">Ваша оценка профиля: $ 20.00 / час</span>
+    <div class="paid-list">
+      <div class="paid-list-item">
+        <div>
+          <strong>Часовая ставка</strong>
+          Общая сумма, которую клиент увидит
+        </div>
+        <input class="value form-control" formControlName="paid"/>
+      </div>
+      <div class="paid-list-item">
+        <div>
+          <strong>{{fee}}% комиссионных за обслуживание</strong>
+        </div>
+        <span class="value">{{calculateFee()}}</span>
+      </div>
+      <div class="paid-list-item">
+        <div>
+          <strong>Вам будет выплачено</strong>
+          Расчетная сумма, которую вы получите после оплаты услуг
+        </div>
+        <input class="value form-control" (value)="calculatePaid" [value]="calculatePriceWithoutFee()"/>
+      </div>
+    </div>
+  </div>
+  <div class="dialog-footer">
+    <button class="btn btn-primary" (click)="submit(true)">Сохранить</button>
+    <button class="btn-link" (click)="submit(false)">Отмена</button>
+  </div>
+</form>

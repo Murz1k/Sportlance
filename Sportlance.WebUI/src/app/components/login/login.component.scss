@@ -4,20 +4,6 @@
   margin: 0 !important
 }
 
-.btn-link {
-  background-color: transparent;
-  border: none;
-  color: $primary-color;
-  text-decoration: none;
-  font-weight: 500;
-  outline: none
-}
-
-.btn-link:active, .btn-link:focus, .btn-link:hover {
-  color: $primary-dark-color;
-  text-decoration: underline
-}
-
 .width-sm {
   width: 218px !important;
   min-width: 218px !important;

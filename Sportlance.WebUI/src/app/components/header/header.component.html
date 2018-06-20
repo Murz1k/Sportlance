@@ -4,7 +4,7 @@
       <div class="row">
         <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
         <span class="example-spacer"></span>
-        <div *ngIf="isAuthorized; else isNotBlock;" style="display: flex;">
+        <div *ngIf="isAuthorized; else isNotBlock;" class="auth-section" style="display: flex;">
           <a routerLink="/{{Paths.Account}}" routerLinkActive="active">
             {{currentUser.firstName}}
             {{currentUser.secondName}}
@@ -13,7 +13,7 @@
             Выход
           </button>
         </div>
-        <ng-template #isNotBlock style="display: flex;">
+        <ng-template #isNotBlock class="auth-section" style="display: flex;">
           <button (click)="login()" class="btn-link">
             Вход
           </button>

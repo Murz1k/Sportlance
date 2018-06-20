@@ -1,0 +1,23 @@
+<form [formGroup]="form">
+  <div class="dialog-header">
+    <button class="dialog-close" mat-dialog-close><i class="material-icons">close</i></button>
+    <h2>О себе</h2>
+  </div>
+  <div class="dialog-content">
+    <p>
+      Используйте это пространство, чтобы показать клиентам, что у вас есть навыки и опыт, которые они ищут.
+    </p>
+    <ul>
+      <li>Опишите свои сильные и умения</li>
+      <li>Выделять проекты, достижения и образование</li>
+      <li>Держите его коротким и убедитесь, что он без ошибок</li>
+    </ul>
+    <textarea class="form-control" formControlName="about">
+  </textarea>
+    <small class="text-muted">осталось {{getCharactersLeft()}} символов</small>
+  </div>
+  <div class="dialog-footer">
+    <button class="btn btn-primary" (click)="submit(true)">Сохранить</button>
+    <button class="btn-link" (click)="submit(false)">Отмена</button>
+  </div>
+</form>

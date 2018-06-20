@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Sportlance.BLL.Interfaces;
 using Sportlance.BLL.Services;
 using Sportlance.DAL;
+using Sportlance.DAL.AzureStorage;
 using Sportlance.DAL.Core;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
@@ -55,7 +56,7 @@ namespace Sportlance.WebAPI
 
             JwtConfigure(services);
 
-            services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
+            services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions), typeof(AzureStorageOptions));
             services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
             services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
 
@@ -87,6 +88,8 @@ namespace Sportlance.WebAPI
 
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton(InitializeTrainersStorageProvider);
+
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
@@ -124,6 +127,13 @@ namespace Sportlance.WebAPI
             app.UseCors(CorsPolicyName);
 
             app.UseMvc();
+        }
+
+        private static TrainersStorageProvider InitializeTrainersStorageProvider(IServiceProvider serviceProvider)
+        {
+            var storageProvider = new TrainersStorageProvider(serviceProvider.GetService<AzureStorageOptions>());
+            storageProvider.InitializeAsync().Wait();
+            return storageProvider;
         }
 
         private void JwtConfigure(IServiceCollection services)
