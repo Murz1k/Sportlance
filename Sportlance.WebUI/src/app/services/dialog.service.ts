@@ -7,6 +7,7 @@ import {EditPhotoDialogComponent} from '../components/common/edit-photo-dialog/e
 import {EditPhotoDialogData} from '../components/common/edit-photo-dialog/edit-photo-dialog-data';
 import {EditTrainerPaidDialogComponent} from "../components/common/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component";
 import {EditTrainerPaidDialogData} from "../components/common/edit-trainer-paid-dialog/edit-trainer-paid-dialog-data";
+import {EditAccountInfoDialogComponent} from "../components/common/edit-account-info-dialog/edit-account-info-dialog.component";
 
 @Injectable()
 export class DialogService {
@@ -24,6 +25,12 @@ export class DialogService {
     return this.openModal(EditTrainerPaidDialogComponent, <EditTrainerPaidDialogData> {paid: paid}, false, '600px')
       .afterClosed()
       .toPromise<number>();
+  }
+
+  public showEditAccountInfoDialogAsync(): Promise<boolean> {
+    return this.openModal(EditAccountInfoDialogComponent, {}, false, '600px')
+      .afterClosed()
+      .toPromise<boolean>();
   }
 
   public showEditPhotoDialogAsync(url: string): Promise<File> {

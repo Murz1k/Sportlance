@@ -1,0 +1,25 @@
+<h3>Контактная информация</h3>
+<div class="air-card">
+  <div class="air-card-header">
+    <h3 class="m-0-bottom pull-left">
+      Учетная запись
+    </h3>
+    <button (click)="changeAccountInfoAsync()" class="btn btn-default btn-rnd">
+      <i class="material-icons">create</i>
+    </button>
+  </div>
+  <section>
+    <label>
+      Имя
+    </label>
+    <span>{{account.firstName}}</span>
+    <label>
+      Фамилия
+    </label>
+    <span>{{account.secondName}}</span>
+    <label>
+      Email
+    </label>
+    <span>{{account.email}}</span>
+  </section>
+</div>

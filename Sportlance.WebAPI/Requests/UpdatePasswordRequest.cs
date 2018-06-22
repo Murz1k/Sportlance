@@ -8,8 +8,6 @@ namespace Sportlance.WebAPI.Requests
     {
         public string Token { get; set; }
 
-        public int UserId { get; set; }
-
         [AppRequired]
         [StringLength(100, ErrorMessage = nameof(ValidationErrorCode.IncorrectLength), MinimumLength = 6)]
         [DataType(DataType.Password)]

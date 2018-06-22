@@ -9,6 +9,7 @@ using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
+using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 using Sportlance.WebAPI.Utilities;
@@ -53,6 +54,31 @@ namespace Sportlance.WebAPI.Controllers
             return new CheckUserResponse
             {
                 Email = user.Email
+            };
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<LoginResponse> PutAsync([FromBody] UpdateAccountRequest request)
+        {
+            var user = await _userRepository.GetByIdAsync(_authService.UserId);
+            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
+
+            user.FirstName = request.FirstName;
+            user.LastName = request.SecondName;
+            user.Email = request.Email;
+            await _userRepository.SaveChangesAsync();
+
+            var roles = await _roleRepository.GetRolesByUserId(user.Id);
+
+            return new LoginResponse
+            {
+                FirstName = user.FirstName,
+                SecondName = user.LastName,
+                Token = await _authService.GenerateAccessTokenAsync(user),
+                Email = user.Email,
+                IsConfirmed = user.IsEmailConfirm,
+                Roles = roles.Select(i => i.Name)
             };
         }
 
@@ -183,7 +209,7 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut(nameof(UpdateUserEmail))]
+        [HttpPut("email")]
         public async Task<EmptyResponse> UpdateUserEmail(string token)
         {
             var user = await _userRepository.GetByIdAsync(_authService.UserId);
@@ -195,13 +221,14 @@ namespace Sportlance.WebAPI.Controllers
             return new EmptyResponse();
         }
 
-        [HttpPut(nameof(UpdatePassword))]
+        [Authorize]
+        [HttpPut("password")]
         public async Task<EmptyResponse> UpdatePassword([FromBody] UpdatePasswordRequest data)
         {
-            var user = await _userRepository.GetByIdAsync(data.UserId);
-            if (user == null ||
-                !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash,
-                    data.Token))
+            var user = await _userRepository.GetByIdAsync(_authService.UserId);
+            if (user == null 
+                //|| !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash, data.Token)
+                )
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
             user.PasswordHash = HashUtils.CreateHash(data.Password);
             user.IsEmailConfirm = true;

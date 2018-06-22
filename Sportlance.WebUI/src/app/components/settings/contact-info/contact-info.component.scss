@@ -1,4 +1,4 @@
-@import "../../../styles";
+@import "../../../../styles";
 
 .air-card .name {
   line-height: 27px;
@@ -20,6 +20,21 @@ h4, h5, h6 {
   line-height: 23px;
   font-size: 15px;
   font-weight: 500;
+}
+
+section {
+  label {
+    display: block;
+    margin-bottom: 10px !important;
+    color: #222;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: left !important;
+  }
+  span {
+    display: block;
+    margin-bottom: 10px !important;
+  }
 }
 
 .m-0-top-bottom {

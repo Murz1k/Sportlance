@@ -43,6 +43,9 @@ import {EditTrainerAboutDialogComponent} from './components/common/edit-trainer-
 import {MatDialogModule} from '@angular/material/dialog';
 import {EditPhotoDialogComponent} from "./components/common/edit-photo-dialog/edit-photo-dialog.component";
 import {EditTrainerPaidDialogComponent} from "./components/common/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component";
+import {SettingsComponent} from "./components/settings/settings.component";
+import {ContactInfoComponent} from "./components/settings/contact-info/contact-info.component";
+import {EditAccountInfoDialogComponent} from "./components/common/edit-account-info-dialog/edit-account-info-dialog.component";
 
 
 @NgModule({
@@ -62,12 +65,16 @@ import {EditTrainerPaidDialogComponent} from "./components/common/edit-trainer-p
     EditPhotoDialogComponent,
     EditTrainerAboutDialogComponent,
     EmailVerifyComponent,
-    EditTrainerPaidDialogComponent
+    EditTrainerPaidDialogComponent,
+    SettingsComponent,
+    ContactInfoComponent,
+    EditAccountInfoDialogComponent
   ],
   entryComponents: [
     EditPhotoDialogComponent,
     EditTrainerPaidDialogComponent,
-    EditTrainerAboutDialogComponent
+    EditTrainerAboutDialogComponent,
+    EditAccountInfoDialogComponent
   ],
   imports: [
     BrowserModule,

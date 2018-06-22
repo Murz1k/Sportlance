@@ -8,6 +8,8 @@ import {Injectable} from '@angular/core';
 import {CheckUserResponse} from './responses/check-user-response';
 import {ResendEmailRequest} from './requests/resend-email-request';
 import {BaseService} from '../common/base-service';
+import {UpdatePasswordRequest} from './requests/update-password-request';
+import {UpdateAccountRequest} from './requests/update-account-request';
 
 @Injectable()
 export class AuthApiClient extends BaseService {
@@ -25,6 +27,21 @@ export class AuthApiClient extends BaseService {
 
   public async reSendEmailAsync(token: string): Promise<void> {
     await this.http.post(this.baseApiUrl + '/auth/re-send', <ResendEmailRequest> {token: token}).toPromise();
+  }
+
+  public async updatePasswordAsync(password: string, confirmPassword: string): Promise<void> {
+    await this.http.put(this.baseApiUrl + '/auth/password', <UpdatePasswordRequest> {
+      password: password,
+      confirmPassword: confirmPassword
+    }).toPromise();
+  }
+
+  public async updateAccountAsync(firstName: string, secondName: string, email: string): Promise<LoginResponse> {
+    return this.http.put<LoginResponse>(this.baseApiUrl + '/auth', <UpdateAccountRequest> {
+      firstName: firstName,
+      secondName: secondName,
+      email: email
+    }).toPromise();
   }
 
   public async confirmEmailAsync(request: ConfirmRegistrationRequest): Promise<LoginResponse> {

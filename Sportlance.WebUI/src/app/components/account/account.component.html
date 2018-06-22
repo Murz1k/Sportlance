@@ -3,9 +3,10 @@
     <div class="air-card">
       <section>
         <article class="row">
-          <img (click)="changePhotoAsync()"
-               src="{{trainer.photoUrl}}"
-               class="avatar">
+          <div class="photo-input">
+            <img src="{{trainer.photoUrl}}">
+            <button (click)="changePhotoAsync()">Изменить</button>
+          </div>
           <div style="margin-left: 15px;">
             <h4 class="name">
               {{trainer.firstName}} {{trainer.secondName}}
@@ -95,9 +96,9 @@
   </div>
   <div class="side-bar">
     <div class="side-bar-item">
-      <button class="btn btn-block m-0-top m-md-bottom btn-default">
+      <a routerLink="{{'/' + Paths.Settings}}" class="btn btn-block m-0-top m-md-bottom btn-default">
         Настройки профиля
-      </button>
+      </a>
       <a routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">
         <small>Посмотреть мой профиль как видят его другие</small>
       </a>
