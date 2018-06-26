@@ -4,6 +4,7 @@ import {Paths} from '../../core/paths';
 import {UserService} from '../../services/user.service/user.service';
 import {User} from '../../services/user.service/user';
 import {AccountService} from '../../services/account-service';
+import {UserInfoStorage} from "../../core/user-info-storage";
 
 @Component({
   selector: 'header',
@@ -19,9 +20,9 @@ export class HeaderComponent implements OnInit {
   public Paths = Paths;
 
   constructor(private router: Router,
-              private userService: UserService,
+              private userContext: UserInfoStorage,
               private accountService: AccountService) {
-    this.accountService.authStatusChanged.subscribe(async () => await this.updateUserAsync());
+    this.userContext.userInfoChanged.subscribe(async () => await this.updateUserAsync());
   }
 
   async ngOnInit() {
@@ -30,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   public async updateUserAsync(): Promise<void> {
     if (this.accountService.isAuthorized) {
-      this.currentUser = await this.userService.getCurrent();
+      this.currentUser = await this.userContext.getCurrentUser();
       this.isAuthorized = true;
     } else {
       this.currentUser = null;

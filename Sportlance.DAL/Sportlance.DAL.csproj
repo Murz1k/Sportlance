@@ -12,6 +12,9 @@
     <Compile Remove="Migrations\20180505124907_ReviewToFeedback.cs" />
     <Compile Remove="Migrations\20180616124145_AddTrainerSkills.cs" />
     <Compile Remove="Migrations\20180616124453_AddTrainerSkills.cs" />
+    <Compile Remove="Migrations\20180625182306_AddTeam.cs" />
+    <Compile Remove="Migrations\20180625184541_AddTeam.cs" />
+    <Compile Remove="Migrations\20180625184859_AddTeam.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />

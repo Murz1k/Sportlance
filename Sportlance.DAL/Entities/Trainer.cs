@@ -7,6 +7,7 @@ namespace Sportlance.DAL.Entities
         public Trainer()
         {
             TrainerSports = new List<TrainerSport>();
+            TrainerTeams = new List<TrainerTeam>();
         }
 
         public long UserId { get; set; }
@@ -19,7 +20,6 @@ namespace Sportlance.DAL.Entities
 
         public string About { get; set; }
 
-        //TODO поменять на AzureBlobStorage
         public string PhotoUrl { get; set; }
 
         public double Price { get; set; }
@@ -29,5 +29,7 @@ namespace Sportlance.DAL.Entities
         public TrainerStatus Status { get; set; }
 
         public ICollection<TrainerSport> TrainerSports { get; set; }
+
+        public ICollection<TrainerTeam> TrainerTeams { get; set; }
     }
 }

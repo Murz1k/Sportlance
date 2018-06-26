@@ -1,0 +1,135 @@
+<div *ngIf="isRendering; else loading" class="content page">
+  <div class="main-bar">
+    <div class="air-card">
+      <section>
+        <article class="row">
+          <div class="photo-input">
+            <img src="{{trainer.photoUrl}}">
+            <button (click)="changePhotoAsync()">Изменить</button>
+          </div>
+          <div style="margin-left: 15px;">
+            <h4 class="name">
+              {{trainer.firstName}} {{trainer.secondName}}
+            </h4>
+            <div class="m-0-top-bottom">
+              <h4 class="m-0 title">{{trainer.title}}</h4>
+            </div>
+            <ul class="list-inline m-0-bottom">
+              <li (click)="changePaidAsync()">
+                <h3 class="m-xs-bottom ng-binding">{{trainer.price}}₽</h3>
+                <div class="text-muted ng-binding">Часовая ставка</div>
+              </li>
+              <li>
+                <h3 class="m-xs-bottom ng-binding">{{trainer.trainingsCount}}</h3>
+                <div class="text-muted ng-binding">Проведено тренировок</div>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="trainer.country && trainer.city" style="margin-left: auto;">
+            <i class="material-icons position-icon text-muted">place</i>
+            <strong class="hidden-xs" title="Bulgaria">{{trainer.country}}, {{trainer.city}} </strong>
+          </div>
+        </article>
+      </section>
+    </div>
+    <div class="air-card" style="margin-top: 2em;">
+      <div class="air-card-header">
+        <h3 class="m-0-bottom pull-left">
+          О себе
+        </h3>
+        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd">
+          <i class="material-icons">create</i>
+        </button>
+      </div>
+      <section class="pull-left text-muted" *ngIf="!trainer.about">
+        Расскажите о себе.
+      </section>
+      <section class="pull-left" *ngIf="trainer.about">
+        {{trainer.about}}
+      </section>
+    </div>
+    <div class="air-card" style="margin-top: 2em;">
+      <div class="air-card-header">
+        <h3 class="m-0-bottom pull-left">
+          Навыки
+        </h3>
+        <button class="btn btn-default btn-rnd">
+          <i class="material-icons">create</i>
+        </button>
+      </div>
+      <section>
+        <div class="up-active-container">
+          <div class="o-profile-skills">
+            <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+              {{sport.name}}
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="air-card" style="margin-top: 2em;">
+      <div class="air-card-header">
+        <h3 class="m-0-bottom pull-left">
+          Отзывы
+        </h3>
+      </div>
+      <section class="pull-left">
+        <ul class="feedbacks">
+          <li *ngFor="let review of trainer.reviews">
+            <div class="row" style="padding-bottom: 1em;">
+              <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
+                {{scoreStar.isFull ? 'star' : ''}}
+                {{scoreStar.isEmpty ? 'star_border' : ''}}
+                {{scoreStar.isHalf ? 'star_half' : ''}}
+              </i>
+            </div>
+            <div class="row" style="padding-bottom: 1em;">
+              {{review.description}}
+            </div>
+            <div class="row text-muted">
+              {{review.clientName}} {{review.createDate}}
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <div class="side-bar">
+    <div class="side-bar-item">
+      <a routerLink="{{'/' + Paths.Settings}}" class="btn btn-block m-0-top m-md-bottom btn-default">
+        Настройки профиля
+      </a>
+      <a routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">
+        <small>Посмотреть мой профиль как видят его другие</small>
+      </a>
+    </div>
+    <div class="side-bar-item">
+      <h4>Доступность</h4>
+      <div [ngSwitch]="trainer.status">
+        <mat-checkbox class="form-control no-border"
+                      (change)="changeStatusAsync($event)"
+                      [ngModel]="trainer.status === TrainerStatus.Available">
+          <span *ngSwitchCase="TrainerStatus.Available">Доступен</span>
+          <span *ngSwitchCase="TrainerStatus.NotAvailable">Недоступен</span>
+        </mat-checkbox>
+        <span *ngSwitchCase="TrainerStatus.Banned">Заблокирован</span>
+        <span *ngSwitchCase="TrainerStatus.Deleted">Удален</span>
+      </div>
+    </div>
+    <div *ngIf="clubs.length > 0" class="side-bar-item">
+      <h4>Работает в</h4>
+      <!-- список клубов -->
+    </div>
+    <div *ngIf="clubs.length === 0" class="side-bar-item">
+      <h4>Вы нигде не работаете</h4>
+      <a routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">
+        <small>Найти клуб</small>
+      </a>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <div class="back-loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

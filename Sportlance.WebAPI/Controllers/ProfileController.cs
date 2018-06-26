@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.DAL.Interfaces;
+using Sportlance.BLL.Interfaces;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Extensions;
@@ -12,11 +12,11 @@ namespace Sportlance.WebAPI.Controllers
     [Route("api/[controller]")]
     public class ProfileController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public ProfileController(IUserRepository userRepository)
+        public ProfileController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -24,7 +24,7 @@ namespace Sportlance.WebAPI.Controllers
         [Authorize]
         public async Task<CheckUserResponse> GetCurrentAsync()
         {
-            var user = await _userRepository.GetByIdAsync(User.GetUserId());
+            var user = await _userService.GetByIdAsync(User.GetUserId());
             if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             if (!user.IsEmailConfirm) throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));

@@ -11,8 +11,9 @@ export class EmailConfirmationGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Promise<boolean> {
-    if (this.userInfoStorage.token) {
-      if (this.userInfoStorage.isConfirmed) {
+    const user = this.userInfoStorage.getCurrentUser();
+    if (user.token) {
+      if (user.isConfirmed) {
         return Promise.resolve(true);
       } else {
         this.router.navigate([Paths.Root]);

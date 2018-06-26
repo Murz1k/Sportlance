@@ -4,7 +4,7 @@ import {User} from '../../../services/user.service/user';
 import {UserInfoStorage} from '../../../core/user-info-storage';
 import {AuthApiClient} from '../../../services/auth/auth-api-client';
 import {MatDialogRef} from '@angular/material';
-import {AccountService} from "../../../services/account-service";
+import {AccountService} from '../../../services/account-service';
 
 @Component({
   selector: 'app-edit-trainer-paid-dialog',
@@ -14,7 +14,6 @@ import {AccountService} from "../../../services/account-service";
 export class EditAccountInfoDialogComponent implements OnInit {
 
   public form: FormGroup;
-  public fee = 20;
   private account: User;
 
   constructor(private formBuilder: FormBuilder,
@@ -25,7 +24,7 @@ export class EditAccountInfoDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.account = this.userContext.userInfo;
+    this.account = this.userContext.getCurrentUser();
     this.form = this.formBuilder.group({
       firstName: [this.account.firstName],
       secondName: [this.account.secondName],
@@ -37,7 +36,7 @@ export class EditAccountInfoDialogComponent implements OnInit {
 
   public async submitAsync(result): Promise<void> {
     if (result) {
-      await Promise.all([this.changePasswordAsync(), this.changeAccountInfoAsync()]);
+      await this.changeAccountInfoAsync();
       this.dialogRef.close(true);
     }
     this.dialogRef.close(null);
@@ -49,12 +48,6 @@ export class EditAccountInfoDialogComponent implements OnInit {
       || this.form.value.email !== this.account.email) {
       const response = await this.authApiClient.updateAccountAsync(this.form.value.firstName, this.form.value.secondName, this.form.value.email);
       this.accountService.login(response);
-    }
-  }
-
-  private async changePasswordAsync() {
-    if (this.form.value.password === this.form.value.confirmPassword && this.form.value.password.length >= 6) {
-      await this.authApiClient.updatePasswordAsync(this.form.value.password, this.form.value.confirmPassword);
     }
   }
 }

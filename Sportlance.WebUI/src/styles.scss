@@ -509,3 +509,109 @@ i.material-icons {
   margin: 0;
 }
 
+@keyframes tile-move {
+  0%, 10%{
+    transform: scaleX(0);
+  }
+  20%, 80%{
+    transform: scaleX(1);
+  }
+  90%, 100%{
+    transform: scaleX(0);
+  }
+}
+
+.tile-placeholder {
+  display: block;
+  height: 167px;
+  position: relative;
+  padding-left: 148px !important;
+}
+.tile-placeholder:before {
+   content: '';
+   position: absolute;
+   left: 0;
+   display: block;
+   width: 100px;
+   height: 100px;
+   border-radius: 50px;
+   background-color: #e0e0e0;
+ }
+
+@mixin box-shadow($top, $left, $blur, $color, $inset:"") {
+  -webkit-box-shadow: $top $left $blur $color unquote($inset);
+  -moz-box-shadow:    $top $left $blur $color unquote($inset);
+  box-shadow:         $top $left $blur $color unquote($inset);
+}
+
+.tile-placeholder_index_1 .tile-placeholder__title {
+  animation-delay: 0.5s;
+}
+
+.tile-placeholder_index_2 .tile-placeholder__title {
+  animation-delay: 1s;
+}
+
+.tile-placeholder_index_3 .tile-placeholder__title {
+  animation-delay: 1.5s;
+}
+
+.tile-placeholder_index_4 .tile-placeholder__title {
+  animation-delay: 2s;
+}
+
+.tile-placeholder_index_5 .tile-placeholder__title {
+  animation-delay: 2.5s;
+}
+
+.tile-placeholder_index_6 .tile-placeholder__title {
+  animation-delay: 3s;
+}
+
+.tile-placeholder_index_7 .tile-placeholder__title {
+  animation-delay: 3.5s;
+}
+
+.tile-placeholder_index_8 .tile-placeholder__title {
+  animation-delay: 4s;
+}
+
+.tile-placeholder_index_9 .tile-placeholder__title {
+  animation-delay: 4.5s;
+}
+
+.tile-placeholder_index_10 .tile-placeholder__title {
+  animation-delay: 5s;
+}
+
+.tile-placeholder__name {
+  transform-origin: left;
+  background: #e0e0e0;
+  animation: tile-move 5s ease-in-out alternate infinite;
+  transform: scaleX(0);
+  animation-delay: .3s;
+  width: 200px;
+  height: 18px;
+}
+
+.tile-placeholder__title {
+  transform-origin: left;
+  background: #e0e0e0;
+  animation: tile-move 5s ease-in-out alternate infinite;
+  transform: scaleX(0);
+  animation-delay: .5s;
+  margin-top: 8px;
+  width: 400px;
+  height: 18px;
+}
+
+.tile-placeholder__text {
+  transform-origin: left;
+  background: #e0e0e0;
+  animation: tile-move 5s ease-in-out alternate infinite;
+  transform: scaleX(0);
+  animation-delay: .7s;
+  margin-top: 13px;
+  width: 540px;
+  height: 18px;
+}

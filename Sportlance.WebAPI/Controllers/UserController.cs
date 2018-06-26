@@ -22,7 +22,7 @@ namespace Sportlance.WebAPI.Controllers
         [Authorize]
         public async Task<UserResponse> GetAsync()
         {
-            var user = await _userService.GetAsync(User.GetUserId());
+            var user = await _userService.GetByIdAsync(User.GetUserId());
             return new UserResponse {Email = user.Email, FirstName = user.FirstName, LastName = user.LastName};
         }
     }

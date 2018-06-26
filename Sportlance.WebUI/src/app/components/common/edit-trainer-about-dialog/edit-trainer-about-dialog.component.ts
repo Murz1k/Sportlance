@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditTrainerAboutDialogData} from './edit-trainer-about-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TrainersService} from "../../../services/trainers/trainers.service";
 
 @Component({
   selector: 'app-edit-trainer-about-dialog',
@@ -15,7 +16,8 @@ export class EditTrainerAboutDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: EditTrainerAboutDialogData,
-              private dialogRef: MatDialogRef<EditTrainerAboutDialogComponent>) {
+              private dialogRef: MatDialogRef<EditTrainerAboutDialogComponent>,
+              private trainerService: TrainersService) {
   }
 
   ngOnInit() {
@@ -24,12 +26,13 @@ export class EditTrainerAboutDialogComponent implements OnInit {
     });
   }
 
-  public submit(result): void {
-    if (result) {
-      this.dialogRef.close(this.form.value.about);
+  public async submitAsync(result: boolean): Promise<void> {
+    if (result && this.data.about !== this.form.value.about) {
+      await this.trainerService.updateAboutAsync(this.form.value.about);
+      this.dialogRef.close(true);
       return;
     }
-    this.dialogRef.close(null);
+    this.dialogRef.close(false);
   }
 
   getCharactersLeft(): number {

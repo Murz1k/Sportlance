@@ -46,6 +46,10 @@ import {EditTrainerPaidDialogComponent} from "./components/common/edit-trainer-p
 import {SettingsComponent} from "./components/settings/settings.component";
 import {ContactInfoComponent} from "./components/settings/contact-info/contact-info.component";
 import {EditAccountInfoDialogComponent} from "./components/common/edit-account-info-dialog/edit-account-info-dialog.component";
+import {MyTeamsComponent} from "./components/settings/my-teams/my-teams.component";
+import {PasswordAndSecurityComponent} from "./components/settings/password-and-security/password-and-security.component";
+import {CreateTeamComponent} from "./components/create-team/create-team.component";
+import {EditPasswordDialogComponent} from "./components/common/edit-password-dialog/edit-password-dialog.component";
 
 
 @NgModule({
@@ -68,13 +72,18 @@ import {EditAccountInfoDialogComponent} from "./components/common/edit-account-i
     EditTrainerPaidDialogComponent,
     SettingsComponent,
     ContactInfoComponent,
-    EditAccountInfoDialogComponent
+    EditAccountInfoDialogComponent,
+    MyTeamsComponent,
+    PasswordAndSecurityComponent,
+    CreateTeamComponent,
+    EditPasswordDialogComponent
   ],
   entryComponents: [
     EditPhotoDialogComponent,
     EditTrainerPaidDialogComponent,
     EditTrainerAboutDialogComponent,
-    EditAccountInfoDialogComponent
+    EditAccountInfoDialogComponent,
+    EditPasswordDialogComponent
   ],
   imports: [
     BrowserModule,

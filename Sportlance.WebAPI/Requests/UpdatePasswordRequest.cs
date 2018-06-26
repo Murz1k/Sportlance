@@ -7,6 +7,8 @@ namespace Sportlance.WebAPI.Requests
     public class UpdatePasswordRequest
     {
         public string Token { get; set; }
+        
+        public string OldPassword { get; set; }
 
         [AppRequired]
         [StringLength(100, ErrorMessage = nameof(ValidationErrorCode.IncorrectLength), MinimumLength = 6)]

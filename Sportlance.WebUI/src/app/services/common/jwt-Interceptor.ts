@@ -13,7 +13,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const user = this.userContext.userInfo;
+    const user = this.userContext.getCurrentUser();
     if (isNullOrUndefined(user) || isNullOrUndefined(user.token)) {
       return next.handle(req);
     }

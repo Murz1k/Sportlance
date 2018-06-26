@@ -1,12 +1,13 @@
 @import "../../../styles";
 
 .menu-list {
-  width: 250px;
+  width: 230px;
   display: inline-block;
   float: left;
+  margin-right: 20px;
 }
 
-.nav-stacked > li > a {
+.nav-stacked > li > span {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -25,6 +26,7 @@
 .nav-stacked > li {
   float: none;
   margin: 0;
+  width: 230px;
 }
 
 .nav > li.active {
@@ -36,13 +38,13 @@
   margin-left: 0;
 }
 
-.nav-stacked > li > a:hover, .nav-stacked > li > a:focus {
+.nav-stacked > li > span:hover, .nav-stacked > li > span:focus {
   color: #008329;
   background-color: #F9F9F9;
   text-decoration: underline;
 }
 
-.nav-stacked > li.active > a, .nav-stacked > li.active a:hover, .nav-stacked > li.active a:active, .nav-stacked > li.active a:focus {
+.nav-stacked > li.active > span, .nav-stacked > li.active span:hover, .nav-stacked > li.active span:active, .nav-stacked > li.active span:focus {
   background-color: #F9F9F9;
   border-left-width: 0 !important;
   color: #37A000;
@@ -51,7 +53,7 @@
   font-weight: 700;
 }
 
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+.nav-pills > li.active > span, .nav-pills > li.active > span:hover, .nav-pills > li.active > span:focus {
   color: #37A000;
   background-color: #fff;
 }

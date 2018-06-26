@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditTrainerPaidDialogData} from './edit-trainer-paid-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TrainersService} from "../../../services/trainers/trainers.service";
 
 @Component({
   selector: 'app-edit-trainer-paid-dialog',
@@ -15,7 +16,8 @@ export class EditTrainerPaidDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: EditTrainerPaidDialogData,
-              private dialogRef: MatDialogRef<EditTrainerPaidDialogComponent>) {
+              private dialogRef: MatDialogRef<EditTrainerPaidDialogComponent>,
+              private trainerService: TrainersService) {
   }
 
   ngOnInit() {
@@ -24,12 +26,13 @@ export class EditTrainerPaidDialogComponent implements OnInit {
     });
   }
 
-  public submit(result): void {
-    if (result) {
-      this.dialogRef.close(this.form.value.paid);
+  public async submitAsync(result: boolean): Promise<void> {
+    if (result && this.data.paid !== this.form.value.paid) {
+      await this.trainerService.updatePaidAsync(this.form.value.paid);
+      this.dialogRef.close(true);
       return;
     }
-    this.dialogRef.close(null);
+    this.dialogRef.close(false);
   }
 
   public calculateFee(): number {

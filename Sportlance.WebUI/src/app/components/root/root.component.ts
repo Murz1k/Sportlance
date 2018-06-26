@@ -6,13 +6,9 @@ import {AccountService} from "../../services/account-service";
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.css']
 })
-export class RootComponent implements OnInit {
+export class RootComponent {
 
 
-  constructor(public accountService: AccountService) {
-    this.accountService.initServicesAuthHeader();
-  }
-
-  ngOnInit() {
+  constructor() {
   }
 }

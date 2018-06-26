@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
 import {TrainerInfo} from './trainer-info';
 import {Star} from './star';
 import {isNullOrUndefined} from 'util';
@@ -9,6 +8,7 @@ import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatRadioChange} from '@angular/material';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-trainers',
@@ -19,7 +19,7 @@ export class TrainersComponent implements OnInit {
 
   starsNumber = 5;
   trainers: Array<TrainerInfo> = [];
-  isRendering = false;
+  isRendering = true;
   filtersIsHidden = true;
   public isAuthorized = false;
   public priceFilters = [];
@@ -43,13 +43,12 @@ export class TrainersComponent implements OnInit {
   public maxFeedbacksCount?: number;
 
   constructor(private router: Router,
+              private httpClient: HttpClient,
               private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
-              private trainerService: TrainersService,
-              private location: Location) {
+              private trainerService: TrainersService) {
 
     this.isAuthorized = this.accountService.isAuthorized;
-    // subscribe to router event
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.searchString = params['q'];
       this.minPrice = params['minPrice'];
@@ -97,6 +96,7 @@ export class TrainersComponent implements OnInit {
   }
 
   async updateDataAsync() {
+    this.isRendering = true;
     const response = await this.trainerService.getAsync(<GetTrainersQuery>{
       searchString: this.searchString,
       minPrice: this.minPrice,
@@ -128,6 +128,7 @@ export class TrainersComponent implements OnInit {
       this.pagesCount = this.count === 0 ? 0 : Math.round(this.totalCount / this.count);
 
       this.pages = this.pagesCount < 6 ? Array(this.pagesCount).fill(0).map((x, i) => i) : [];
+      this.isRendering = false;
 
       this.router.navigate([Paths.Trainers], {
         queryParams: {
@@ -144,18 +145,14 @@ export class TrainersComponent implements OnInit {
 
   ckechKeyDownSearch(e): void {
     if (e.keyCode === 13) {
-      this.isRendering = false;
       this.searchAsync();
-      this.isRendering = true;
     }
   }
 
   async submitFiltersAsync() {
     this.offset = 0;
-    this.isRendering = false;
-    await this.updateDataAsync();
-    this.isRendering = true;
     this.filtersIsHidden = true;
+    await this.updateDataAsync();
   }
 
   public showFilters(): void {
@@ -164,15 +161,11 @@ export class TrainersComponent implements OnInit {
 
   public async searchAsync(): Promise<void> {
     this.offset = 0;
-    this.isRendering = false;
     await this.updateDataAsync();
-    this.isRendering = true;
   }
 
   async ngOnInit() {
-    this.isRendering = false;
     await this.updateDataAsync();
-    this.isRendering = true;
   }
 
   async openProfileAsync(trainerId: number) {

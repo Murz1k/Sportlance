@@ -1,13 +1,23 @@
 <div *ngIf="isRendering; else loading" class="content page">
   <div class="main-bar">
+    <img id="profile-background-image-target-image" alt="Фоновое изображение"
+         src="https://media.licdn.com/dms/image/C5616AQHcgQdTWmp8kg/profile-displaybackgroundimage-shrink_350_1400/0?e=1535587200&amp;v=beta&amp;t=NSEpVgdPACngIg0_vegMtPxq1b3Sne-Mvbrwbu4_kJ8"
+         style="
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+    width:  586px;
+    height: 160px;
+" class="profile-background-image__image relative full-width full-height">
     <div class="air-card">
       <section>
         <article class="row">
           <div class="photo-input">
             <img src="{{trainer.photoUrl}}">
-            <button (click)="changePhotoAsync()">Изменить</button>
+            <button (click)="changePhotoAsync()">
+              <i class="material-icons" style="display:  inherit;font-size:  36px;">wallpaper</i>
+              Изменить
+            </button>
           </div>
-          <div style="margin-left: 15px;">
+          <div style="margin-left: 175px;">
             <h4 class="name">
               {{trainer.firstName}} {{trainer.secondName}}
             </h4>
@@ -31,24 +41,24 @@
           </div>
         </article>
       </section>
-    </div>
-    <div class="air-card" style="margin-top: 2em;">
-      <div class="air-card-header">
-        <h3 class="m-0-bottom pull-left">
-          О себе
-        </h3>
-        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd">
-          <i class="material-icons">create</i>
-        </button>
-      </div>
-      <section class="pull-left text-muted" *ngIf="!trainer.about">
+      <section class="pull-left" *ngIf="account.isTrainer && !trainer.about" style="position: relative;">
+        <h3 style="margin-bottom:30px;"> О себе </h3>
         Расскажите о себе.
+        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+                style="position: absolute;     right: 30px;    top: 20px;">
+          <i class="material-icons" style="font-size: 20px;">create</i>
+        </button>
       </section>
-      <section class="pull-left" *ngIf="trainer.about">
+      <section *ngIf="account.isTrainer && trainer.about" class="pull-left" style="position: relative;">
+        <h3 style="margin-bottom:30px;"> О себе </h3>
         {{trainer.about}}
+        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+                style="position: absolute;     right: 30px;    top: 20px;">
+          <i class="material-icons" style="font-size: 20px;">create</i>
+        </button>
       </section>
     </div>
-    <div class="air-card" style="margin-top: 2em;">
+    <div *ngIf="account.isTrainer" class="air-card" style="margin-top: 2em;">
       <div class="air-card-header">
         <h3 class="m-0-bottom pull-left">
           Навыки
@@ -67,7 +77,7 @@
         </div>
       </section>
     </div>
-    <div class="air-card" style="margin-top: 2em;">
+    <div *ngIf="account.isTrainer" class="air-card" style="margin-top: 2em;">
       <div class="air-card-header">
         <h3 class="m-0-bottom pull-left">
           Отзывы
@@ -99,11 +109,11 @@
       <a routerLink="{{'/' + Paths.Settings}}" class="btn btn-block m-0-top m-md-bottom btn-default">
         Настройки профиля
       </a>
-      <a routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">
+      <a *ngIf="account.isTrainer" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">
         <small>Посмотреть мой профиль как видят его другие</small>
       </a>
     </div>
-    <div class="side-bar-item">
+    <div *ngIf="account.isTrainer" class="side-bar-item">
       <h4>Доступность</h4>
       <div [ngSwitch]="trainer.status">
         <mat-checkbox class="form-control no-border"
@@ -115,6 +125,16 @@
         <span *ngSwitchCase="TrainerStatus.Banned">Заблокирован</span>
         <span *ngSwitchCase="TrainerStatus.Deleted">Удален</span>
       </div>
+    </div>
+    <div *ngIf="clubs.length > 0" class="side-bar-item">
+      <h4>Работает в</h4>
+      <!-- список клубов -->
+    </div>
+    <div *ngIf="account.isTrainer && clubs.length === 0" class="side-bar-item">
+      <h4>Вы нигде не работаете</h4>
+      <a routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">
+        <small>Найти клуб</small>
+      </a>
     </div>
   </div>
 </div>

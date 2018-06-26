@@ -30,8 +30,7 @@ namespace Sportlance.BLL.Entities
         public IReadOnlyCollection<Sport> Sports { get; set; }
 
         public int TrainingsCount { get; set; }
-
-        //TODO поменять на AzureBlobStorage
+        
         public string PhotoUrl { get; set; }
     }
 }

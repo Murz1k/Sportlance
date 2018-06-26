@@ -4,12 +4,37 @@
       Пользовательские настройки
     </h4>
     <ul class="nav nav-pills nav-stacked">
-      <li class="active">
-        <a href="">Контактная информация</a>
+      <li (click)="changePage(SettingsLinks.ContactInfo)"
+          [class.active]="activeLink === SettingsLinks.ContactInfo">
+        <span>Контактная информация</span>
+      </li>
+      <li (click)="changePage(SettingsLinks.PasswordAndSecurity)"
+          [class.active]="activeLink === SettingsLinks.PasswordAndSecurity">
+        <span>Пароль и безопасность</span>
+      </li>
+    </ul>
+    <h4 *ngIf="account.isTrainer" class="menu-list-main-item">
+      Тренерские настройки
+    </h4>
+    <ul *ngIf="account.isTrainer" class="nav nav-pills nav-stacked">
+      <li (click)="changePage(SettingsLinks.MyTeams)"
+          [class.active]="activeLink === SettingsLinks.MyTeams">
+        <span>Мои команды</span>
+      </li>
+    </ul>
+    <h4 *ngIf="account.isTeam" class="menu-list-main-item">
+      Командные настройки
+    </h4>
+    <ul *ngIf="account.isTeam" class="nav nav-pills nav-stacked">
+      <li (click)="changePage(SettingsLinks.MyTeams)"
+          [class.active]="activeLink === SettingsLinks.MyTeams">
+        <span>Мои команды</span>
       </li>
     </ul>
   </div>
-  <div class="view-container">
-    <app-contact-info></app-contact-info>
+  <div class="view-container" [ngSwitch]="activeLink">
+    <app-contact-info *ngSwitchCase="SettingsLinks.ContactInfo"></app-contact-info>
+    <app-my-teams *ngSwitchCase="SettingsLinks.MyTeams"></app-my-teams>
+    <app-password-and-security *ngSwitchCase="SettingsLinks.PasswordAndSecurity"></app-password-and-security>
   </div>
 </div>

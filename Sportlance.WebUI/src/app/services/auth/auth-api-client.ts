@@ -29,8 +29,9 @@ export class AuthApiClient extends BaseService {
     await this.http.post(this.baseApiUrl + '/auth/re-send', <ResendEmailRequest> {token: token}).toPromise();
   }
 
-  public async updatePasswordAsync(password: string, confirmPassword: string): Promise<void> {
+  public async updatePasswordAsync(oldPassword: string, password: string, confirmPassword: string): Promise<void> {
     await this.http.put(this.baseApiUrl + '/auth/password', <UpdatePasswordRequest> {
+      oldPassword: oldPassword,
       password: password,
       confirmPassword: confirmPassword
     }).toPromise();

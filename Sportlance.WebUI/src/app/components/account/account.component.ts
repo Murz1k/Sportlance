@@ -20,6 +20,7 @@ export class AccountComponent implements OnInit {
 
   public account: User;
   public trainer: TrainerInfo;
+  public clubs = [];
   public isRendering = false;
   public Paths = Paths;
   public TrainerStatus = TrainerStatus;
@@ -29,6 +30,7 @@ export class AccountComponent implements OnInit {
               private dialogService: DialogService,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
+    console.log(this.account.isTrainer);
   }
 
   async ngOnInit() {
@@ -134,21 +136,17 @@ export class AccountComponent implements OnInit {
   }
 
   async changeAboutAsync() {
-    const newAbout = await this.dialogService.showEditTrainerAboutDialogAsync(this.trainer.about);
-    if (isNullOrUndefined(newAbout)) {
-      return;
+    const result = await this.dialogService.showEditTrainerAboutDialogAsync(this.trainer.about);
+    if (result) {
+      await this.updateDataAsync();
     }
-    await this.trainerService.updateAboutAsync(newAbout);
-    await this.updateDataAsync();
   }
 
   async changePaidAsync() {
-    const newPrice = await this.dialogService.showEditTrainerPaidDialogAsync(this.trainer.price);
-    if (isNullOrUndefined(newPrice)) {
-      return;
+    const result = await this.dialogService.showEditTrainerPaidDialogAsync(this.trainer.price);
+    if (result) {
+      await this.updateDataAsync();
     }
-    await this.trainerService.updatePaidAsync(newPrice);
-    await this.updateDataAsync();
   }
 
   async changePhotoAsync() {

@@ -6,8 +6,8 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Entities;
-using Sportlance.DAL.Interfaces;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
 
@@ -18,17 +18,15 @@ namespace Sportlance.WebAPI.Authentication
         private readonly IDateTime _dateTime;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly JwtIssuerOptions _jwtOptions;
-        private readonly IRoleRepository _roleRepository;
         private readonly JwtSecurityTokenHandler _tokenHandler;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         public AuthService(IHttpContextAccessor httpContextAccessor, IDateTime dateTime,
-            IOptions<JwtIssuerOptions> jwtOptions, IUserRepository userRepository, IRoleRepository roleRepository)
+            IOptions<JwtIssuerOptions> jwtOptions, IUserService userService)
         {
             _httpContextAccessor = httpContextAccessor;
             _dateTime = dateTime;
-            _userRepository = userRepository;
-            _roleRepository = roleRepository;
+            _userService = userService;
             _tokenHandler = new JwtSecurityTokenHandler();
             _jwtOptions = jwtOptions.Value;
         }
@@ -36,27 +34,24 @@ namespace Sportlance.WebAPI.Authentication
         public long UserId => long.Parse(_httpContextAccessor.HttpContext
             .User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        public async Task<ClaimsIdentity> CreateClaimsIdentityAsync(User user)
+        private ClaimsIdentity CreateClaimsIdentity(User user)
         {
             var claimsIdentity = new ClaimsIdentity(new GenericIdentity(user.Email, "Token"));
             claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 
-            var roles = await _roleRepository.GetRolesByUserId(user.Id);
-
-            foreach (var role in roles) claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+            foreach (var role in user.Roles) claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
             return claimsIdentity;
         }
 
         public async Task<RefreshTokenDto> RefreshAccessToken()
         {
-            var user = await _userRepository.GetByIdAsync(UserId);
-            var roles = await _roleRepository.GetRolesByUserId(UserId);
+            var user = await _userService.GetByIdAsync(UserId);
 
             var token = await GenerateAccessTokenAsync(user);
 
             return new RefreshTokenDto
             {
-                Roles = roles.Select(i => i.Name),
+                Roles = user.Roles.Select(i => i.Name),
                 Token = token
             };
         }
@@ -73,7 +68,7 @@ namespace Sportlance.WebAPI.Authentication
 
         public async Task<string> GenerateAccessTokenAsync(User user, bool rememberMe = false)
         {
-            var identity = await CreateClaimsIdentityAsync(user);
+            var identity = CreateClaimsIdentity(user);
             var accessToken = new JwtSecurityToken(
                 _jwtOptions.Issuer,
                 _jwtOptions.Audience,

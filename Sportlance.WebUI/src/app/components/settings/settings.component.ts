@@ -10,6 +10,7 @@ import {MatCheckboxChange} from '@angular/material';
 import {Paths} from '../../core/paths';
 import {DialogService} from '../../services/dialog.service';
 import {isNullOrUndefined} from 'util';
+import {SettingsLinks} from "./settings-links";
 
 @Component({
   selector: 'app-settings',
@@ -23,6 +24,8 @@ export class SettingsComponent implements OnInit {
   public isRendering = false;
   public Paths = Paths;
   public TrainerStatus = TrainerStatus;
+  public SettingsLinks = SettingsLinks;
+  public activeLink = SettingsLinks.ContactInfo;
   starsNumber = 5;
 
   constructor(private userService: UserService,
@@ -134,11 +137,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async changeAboutAsync() {
-    const newAbout = await this.dialogService.showEditTrainerAboutDialogAsync(this.trainer.about);
-    if (isNullOrUndefined(newAbout)) {
-      return;
-    }
-    await this.trainerService.updateAboutAsync(newAbout);
+    await this.dialogService.showEditTrainerAboutDialogAsync(this.trainer.about);
     await this.updateDataAsync();
   }
 
@@ -158,5 +157,9 @@ export class SettingsComponent implements OnInit {
     }
     await this.trainerService.uploadPhotoAsync(newPhoto);
     await this.updateDataAsync();
+  }
+
+  public changePage(link: SettingsLinks) {
+    this.activeLink = link;
   }
 }

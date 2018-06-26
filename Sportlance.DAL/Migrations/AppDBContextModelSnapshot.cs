@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Sportlance.DAL.Core;
+using Sportlance.DAL.Entities;
 using System;
 
 namespace Sportlance.DAL.Migrations
@@ -15,7 +18,7 @@ namespace Sportlance.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Client", b =>
@@ -54,7 +57,11 @@ namespace Sportlance.DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<long?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Roles");
                 });
@@ -70,6 +77,38 @@ namespace Sportlance.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sports");
+                });
+
+            modelBuilder.Entity("Sportlance.DAL.Entities.Team", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("About");
+
+                    b.Property<long>("AuthorId");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<DateTime>("CreateDateTime");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<string>("PhotoUrl");
+
+                    b.Property<int>("Status");
+
+                    b.Property<string>("SubTitle");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Trainer", b =>
@@ -95,7 +134,7 @@ namespace Sportlance.DAL.Migrations
                     b.ToTable("Trainers");
                 });
 
-            modelBuilder.Entity("Sportlance.DAL.Entities.TrainerSports", b =>
+            modelBuilder.Entity("Sportlance.DAL.Entities.TrainerSport", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -111,6 +150,24 @@ namespace Sportlance.DAL.Migrations
                     b.HasIndex("TrainerId");
 
                     b.ToTable("TrainerSports");
+                });
+
+            modelBuilder.Entity("Sportlance.DAL.Entities.TrainerTeam", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("TeamId");
+
+                    b.Property<long>("TrainerId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("TrainerId");
+
+                    b.ToTable("TrainerTeam");
                 });
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Training", b =>
@@ -200,9 +257,24 @@ namespace Sportlance.DAL.Migrations
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Feedback", b =>
                 {
-                    b.HasOne("Sportlance.DAL.Entities.Training", "Training")
-                        .WithOne()
+                    b.HasOne("Sportlance.DAL.Entities.Training")
+                        .WithOne("Feedback")
                         .HasForeignKey("Sportlance.DAL.Entities.Feedback", "TrainingId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Sportlance.DAL.Entities.Role", b =>
+                {
+                    b.HasOne("Sportlance.DAL.Entities.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Sportlance.DAL.Entities.Team", b =>
+                {
+                    b.HasOne("Sportlance.DAL.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -214,15 +286,28 @@ namespace Sportlance.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sportlance.DAL.Entities.TrainerSports", b =>
+            modelBuilder.Entity("Sportlance.DAL.Entities.TrainerSport", b =>
                 {
                     b.HasOne("Sportlance.DAL.Entities.Sport", "Sport")
                         .WithMany()
                         .HasForeignKey("SportId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Sportlance.DAL.Entities.Trainer", "Trainer")
-                        .WithMany()
+                    b.HasOne("Sportlance.DAL.Entities.Trainer")
+                        .WithMany("TrainerSports")
+                        .HasForeignKey("TrainerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Sportlance.DAL.Entities.TrainerTeam", b =>
+                {
+                    b.HasOne("Sportlance.DAL.Entities.Team")
+                        .WithMany("TrainerTeams")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Sportlance.DAL.Entities.Trainer")
+                        .WithMany("TrainerTeams")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -234,8 +319,8 @@ namespace Sportlance.DAL.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Sportlance.DAL.Entities.TrainerSports", "TrainerSport")
-                        .WithMany()
+                    b.HasOne("Sportlance.DAL.Entities.TrainerSport")
+                        .WithMany("Trainings")
                         .HasForeignKey("TrainerSportId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -248,7 +333,7 @@ namespace Sportlance.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Sportlance.DAL.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -1,5 +1,4 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import {StorageUtils} from './storage-utils';
 import {User} from '../services/user.service/user';
 
 @Injectable()
@@ -9,37 +8,45 @@ export class UserInfoStorage {
 
   readonly UserKey = 'user';
 
-  get userInfo(): User {
-    return StorageUtils.getItem(this.UserKey);
-  }
-
-  set userInfo(v: User) {
-    StorageUtils.setItem(this.UserKey, v);
-    this.userInfoChanged.emit(true);
-  }
-
-  get token(): string {
-    return this.userInfo && this.userInfo.token || null;
-  }
-
-  get email(): string {
-    return this.userInfo && this.userInfo.email || null;
-  }
-
-  get isConfirmed(): boolean {
-    return this.userInfo && this.userInfo.isConfirmed || false;
-  }
-
-  public updateAuth(token: string) {
-    const userInfo = this.userInfo;
-    userInfo.token = token;
-    this.userInfo = userInfo;
+  public getCurrentUser(): User {
+    const userOptions = JSON.parse(localStorage.getItem(this.UserKey));
+    let user = null;
+    if (userOptions) {
+      user = new User(
+        userOptions.firstName,
+        userOptions.secondName,
+        userOptions.token,
+        userOptions.roles,
+        userOptions.email,
+        userOptions.isConfirmed
+      );
+    }
+    return user;
   }
 
   public saveCurrentUser(user: User) {
-
+    if (this.isCurrentUserEquals(user)) {
+      return;
+    }
     localStorage.setItem(this.UserKey, JSON.stringify(user));
-    this.userInfoChanged.emit(user);
+    this.userInfoChanged.emit(this.getCurrentUser());
+  }
+
+  public deleteCurrentUser() {
+    localStorage.removeItem(this.UserKey);
+    this.userInfoChanged.emit(null);
+  }
+
+  private isCurrentUserEquals(user: User): boolean {
+    const currentUser = this.getCurrentUser();
+    if (currentUser != null && user.firstName === currentUser.firstName
+      && user.secondName === currentUser.secondName
+      && user.token === currentUser.token
+      && user.roles.length === currentUser.roles.length
+      && user.roles.every((v, i) => v === currentUser.roles[i])) {
+      return true;
+    }
+    return false;
   }
 }
 

@@ -14,6 +14,7 @@ import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
 import {SettingsComponent} from './components/settings/settings.component';
+import {CreateTeamComponent} from "./components/create-team/create-team.component";
 
 const appRoutes: Routes = [
   {path: Paths.Initialization, component: InitializationComponent},
@@ -24,7 +25,8 @@ const appRoutes: Routes = [
     {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
     {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent},
     {path: Paths.Settings, pathMatch: 'full', component: SettingsComponent},
-    {path: Paths.Account, pathMatch: 'full', component: AccountComponent}
+    {path: Paths.Account, pathMatch: 'full', component: AccountComponent},
+    {path: Paths.CreateTeam, pathMatch: 'full', component: CreateTeamComponent}
   ]
   },
   {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},

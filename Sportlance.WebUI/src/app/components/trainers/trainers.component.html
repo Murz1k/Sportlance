@@ -1,4 +1,4 @@
-<div *ngIf="isRendering; else loading" class="content">
+<div class="content">
   <div *ngIf="!isAuthorized" class="oSearchHeader row m-lg-top">
     <div class="col-9" style="padding-bottom: 2em;">
       <h1 class="ellipsis m-0-top-bottom">Лучшие тренеры Sportlance</h1>
@@ -53,84 +53,163 @@
         </button>
       </div>
     </section>
-    <section *ngIf="trainers.length === 0">
-      <div class="text-center" role="alert">
-        <img src="/o/profiles/browse/bundles/odeskprofilesearch/images/no-results.svg">
-        <h2 class="m-lg-top m-md-bottom text-muted">Please try modifying your search to get more results.</h2>
+    <section *ngIf="isRendering; else loading">
+      <div class="tile-placeholder tile-placeholder_index_1">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_2">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_3">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_4">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_5">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_6">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_7">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_8">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_9">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
+      </div>
+      <div class="tile-placeholder tile-placeholder_index_10">
+        <div class="tile-placeholder__name">
+        </div>
+        <div class="tile-placeholder__title">
+        </div>
+        <div class="tile-placeholder__text">
+        </div>
       </div>
     </section>
-    <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
-      <article class="row">
-        <div class="col-md-2">
-          <img src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg m-0">
-          <div style="padding-top: 1em;">
-            <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
-              {{scoreStar.isFull ? 'star' : ''}}
-              {{scoreStar.isEmpty ? 'star_border' : ''}}
-              {{scoreStar.isHalf ? 'star_half' : ''}}
-            </i>
-          </div>
-          <div style="position: relative; text-align: center;">
-            <span class="text-muted">{{trainer.reviewTitle}}</span>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <h4 class="m-0-top-bottom">
-            <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
-              {{trainer.firstName}} {{trainer.secondName}}
-            </a>
-          </h4>
-          <h4 class="info-section">{{trainer.title}}</h4>
-          <div class="info-section counts-list">
-            <div class="counts-list-item">
-              <strong>{{trainer.price}}₽</strong>
-              <span class="text-muted">/ час</span>
-            </div>
-            <div class="counts-list-item">
-              <i class="material-icons position-icon text-muted">access_time</i>
-              <strong>{{trainer.trainingsCount}}</strong>
-              <span class="text-muted"> {{trainer.trainingsTitle}}</span>
-            </div>
-            <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
-              <i class="material-icons position-icon text-muted">place</i>
-              <strong>{{trainer.country}}, {{trainer.city}} </strong>
-            </div>
-          </div>
-          <p class="info-section">{{trainer.about}}</p>
-          <div>
-            <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
-              {{sport.name}}
-            </a>
-            <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
-          </div>
-        </div>
-      </article>
-    </section>
-    <footer *ngIf="pagesCount > 1">
-      <section class="freelancer-search-pagination p-0-top-bottom">
-        <div class="pull-right">
-          <ul class="pagination pagination-sm m-0-top m-xs-bottom">
-            <li [class.disabled]="offset === 0" class="pagination-prev">
-              <button [disabled]="offset === 0" (click)="goToPage(currentPage - 1)">
-                <i class="material-icons m-0-left arrow">chevron_left</i>Previous
-              </button>
-            </li>
-            <li class="pagination-page" [class.active]="currentPage=== page" *ngFor="let page of pages">
-              <button (click)="goToPage(page)">{{page + 1}}</button>
-            </li>
-            <li [class.disabled]="totalCount < offset + count" class="pagination-next">
-              <button [disabled]="totalCount < offset + count" (click)="goToPage(currentPage + 1)">Next
-                <i class="material-icons m-0-left arrow">chevron_right</i>
-              </button>
-            </li>
-          </ul>
+    <ng-template #loading>
+      <section *ngIf="trainers.length === 0">
+        <div class="text-center" role="alert">
+          <img src="/o/profiles/browse/bundles/odeskprofilesearch/images/no-results.svg">
+          <h2 class="m-lg-top m-md-bottom text-muted">Please try modifying your search to get more results.</h2>
         </div>
       </section>
-    </footer>
+      <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
+        <article class="row">
+          <div class="col-md-2">
+            <img src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg m-0">
+            <div style="padding-top: 1em;">
+              <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
+                {{scoreStar.isFull ? 'star' : ''}}
+                {{scoreStar.isEmpty ? 'star_border' : ''}}
+                {{scoreStar.isHalf ? 'star_half' : ''}}
+              </i>
+            </div>
+            <div style="position: relative; text-align: center;">
+              <span class="text-muted">{{trainer.reviewTitle}}</span>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <h4 class="m-0-top-bottom">
+              <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
+                {{trainer.firstName}} {{trainer.secondName}}
+              </a>
+            </h4>
+            <h4 class="info-section">{{trainer.title}}</h4>
+            <div class="info-section counts-list">
+              <div class="counts-list-item">
+                <strong>{{trainer.price}}₽</strong>
+                <span class="text-muted">/ час</span>
+              </div>
+              <div class="counts-list-item">
+                <i class="material-icons position-icon text-muted">access_time</i>
+                <strong>{{trainer.trainingsCount}}</strong>
+                <span class="text-muted"> {{trainer.trainingsTitle}}</span>
+              </div>
+              <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
+                <i class="material-icons position-icon text-muted">place</i>
+                <strong>{{trainer.country}}, {{trainer.city}} </strong>
+              </div>
+            </div>
+            <p class="info-section">{{trainer.about}}</p>
+            <div>
+              <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+                {{sport.name}}
+              </a>
+              <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
+            </div>
+          </div>
+        </article>
+      </section>
+      <footer *ngIf="pagesCount > 1">
+        <section class="freelancer-search-pagination p-0-top-bottom">
+          <div class="pull-right">
+            <ul class="pagination pagination-sm m-0-top m-xs-bottom">
+              <li [class.disabled]="offset === 0" class="pagination-prev">
+                <button [disabled]="offset === 0" (click)="goToPage(currentPage - 1)">
+                  <i class="material-icons m-0-left arrow">chevron_left</i>Previous
+                </button>
+              </li>
+              <li class="pagination-page" [class.active]="currentPage=== page" *ngFor="let page of pages">
+                <button (click)="goToPage(page)">{{page + 1}}</button>
+              </li>
+              <li [class.disabled]="totalCount < offset + count" class="pagination-next">
+                <button [disabled]="totalCount < offset + count" (click)="goToPage(currentPage + 1)">Next
+                  <i class="material-icons m-0-left arrow">chevron_right</i>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </footer>
+    </ng-template>
   </div>
 </div>
-<ng-template #loading>
-  <div class="back-loading">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-template>

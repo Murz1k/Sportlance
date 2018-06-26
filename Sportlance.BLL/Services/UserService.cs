@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Core;
@@ -8,16 +11,58 @@ namespace Sportlance.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly AppDBContext _context;
+        private readonly AppDBContext _appContext;
 
         public UserService(AppDBContext context)
         {
-            _context = context;
+            _appContext = context;
         }
 
-        public Task<User> GetAsync(long id)
+        public Task<User> GetByIdAsync(long id)
         {
-            return _context.Users.FirstOrDefaultAsync(i => i.Id == id);
+            return Entities().FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public Task<User> GetByEmailAsync(string email)
+        {
+            return Entities().FirstOrDefaultAsync(x =>
+                string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public Task<bool> IsEmailExistsAsync(string email)
+        {
+            return _appContext.Users.AnyAsync(i => i.Email == email);
+        }
+
+        public Task AddAsync(User user)
+        {
+            return _appContext.AddAsync(user);
+        }
+
+        public IQueryable<User> Entities()
+        {
+            return _appContext.Users.Include(i=>i.UserRoles).ThenInclude(i=>i.Role);
+        }
+
+        public Task SaveChangesAsync()
+        {
+            return _appContext.SaveChangesAsync();
+        }
+
+        public void RemoveRange(IEnumerable<User> entities)
+        {
+            _appContext.RemoveRange(entities);
+        }
+
+        public Task AddRangeAsync(IEnumerable<User> entities)
+        {
+            return _appContext.AddRangeAsync(entities);
+        }
+
+        public Task<bool> IsEmailExists(string email)
+        {
+            return _appContext.Users.AnyAsync(x =>
+                string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }

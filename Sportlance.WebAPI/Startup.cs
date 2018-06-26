@@ -78,13 +78,8 @@ namespace Sportlance.WebAPI
 
             ConfigureCorsPolicy(services);
 
-            var builder = new DbContextOptionsBuilder<AppDBContext>();
-            builder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            var dbOptions = builder.Options;
             services.AddDbContext<AppDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            DataLoader.LoadRepositories(services);
 
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

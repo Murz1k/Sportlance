@@ -16,11 +16,11 @@ export class EmailVerifyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.email = this.userInfoStorage.email;
+    this.email = this.userInfoStorage.getCurrentUser().email;
   }
 
   async resendEmailAsync(): Promise<void> {
-    const token = this.userInfoStorage.token;
+    const token = this.userInfoStorage.getCurrentUser().token;
     await this.authApiClient.reSendEmailAsync(token);
   }
 }

@@ -9,6 +9,6 @@ export class UserService {
   }
 
   public getCurrent(): User {
-    return this.userStorage.userInfo;
+    return this.userStorage.getCurrentUser();
   }
 }
