@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
-using Sportlance.DAL.Entities;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
@@ -21,14 +20,14 @@ namespace Sportlance.WebAPI.Controllers
             _service = service;
         }
 
-//        [HttpGet]
-//        public async Task<PartialCollectionResponse<TrainerListItem>> GetAll(
-//            [FromQuery] GetTrainersQueryRequest request)
-//        {
-//            var trainers = await _service.GetAsync(request.ToBLE());
-//
-//            return trainers.ToPartialCollectionResponse();
-//        }
+        [HttpGet]
+        public async Task<PartialCollectionResponse<TeamListItem>> GetAll(
+            [FromQuery] GetTrainersQueryRequest request)
+        {
+            var trainers = await _service.GetAsync(request.ToBLE());
+
+            return trainers.ToPartialCollectionResponse();
+        }
 
         [HttpGet]
         [Route("{teamId}")]
@@ -75,13 +74,13 @@ namespace Sportlance.WebAPI.Controllers
 //
 //            return NoContent();
 //        }
-//
-//        [HttpPut("photo")]
-//        [Authorize]
-//        public async Task<IActionResult> UploadPhotoAsync([FromForm] IFormFile photo)
-//        {
-//            await _service.UpdatePhotoAsync(User.GetUserId(), photo.ToAzureFile());
-//            return NoContent();
-//        }
+
+        [HttpPut("photo")]
+        [Authorize]
+        public async Task<IActionResult> UploadPhotoAsync([FromForm] IFormFile photo)
+        {
+            await _service.UpdatePhotoAsync(User.GetUserId(), photo.ToAzureFile());
+            return NoContent();
+        }
     }
 }

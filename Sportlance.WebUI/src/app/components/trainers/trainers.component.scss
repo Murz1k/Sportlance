@@ -1,12 +1,5 @@
 @import "../../../styles";
 
-.air-card section {
-  margin: 0 -30px;
-  padding: 20px 20px;
-  position: relative;
-  background-color: white;
-}
-
 .counts-list {
   display: flex;
   .counts-list-item:not(:last-child) {
@@ -20,10 +13,6 @@
 .air-card footer section {
   margin: 0;
   padding: 0 0 20px;
-}
-
-.air-card > section > div {
-  padding: 0 20px;
 }
 
 .info-section {
@@ -69,21 +58,6 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 30px;
   color: #222;
   font-family: inherit;
-}
-
-.air-card [eo-collapse] section:after, .air-card section:after {
-  content: " ";
-  border-bottom: 1px solid #e0e0e0;
-  display: block;
-  position: relative;
-  top: 21px;
-  z-index: 7;
-  left: -20px;
-  width: calc(100% + 20px * 2);
-}
-
-.air-card section:last-of-type:after {
-  content: none;
 }
 
 .arrow {
@@ -175,7 +149,10 @@ button:focus {
   background-color: $primary-dark-color;
 }
 
-.air-card > section:focus, .air-card > section:hover {
+.air-card > section:focus:not(.air-card-header),
+.air-card > section:focus:not(.air-card-footer),
+.air-card > section:hover:not(.air-card-header),
+.air-card > section:hover:not(.air-card-footer) {
   box-shadow: none;
   background-color: #f9f9f9;
   outline: none;
@@ -200,13 +177,6 @@ button:focus {
 
 .o-tag-skill {
   margin: 0 6px 10px 0;
-}
-
-section.air-card-hover:focus, section.air-card-hover:hover {
-  box-shadow: none;
-  background-color: #f9f9f9;
-  outline: none;
-  cursor: pointer;
 }
 
 .search-container {

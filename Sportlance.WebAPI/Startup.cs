@@ -84,11 +84,13 @@ namespace Sportlance.WebAPI
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(InitializeTrainersStorageProvider);
-
+            services.AddSingleton(InitializeTeamsStorageProvider);
+            services.AddSingleton(InitializeTeamPhotosStorageProvider);
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
             services.AddTransient<ITrainerService, TrainerService>();
+            services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<AuthService, AuthService>();
             services.AddTransient<MailService, MailService>();
             services.AddTransient<MailTokenService, MailTokenService>();
@@ -124,9 +126,23 @@ namespace Sportlance.WebAPI
             app.UseMvc();
         }
 
+        private static TeamPhotosStorageProvider InitializeTeamPhotosStorageProvider(IServiceProvider serviceProvider)
+        {
+            var storageProvider = new TeamPhotosStorageProvider(serviceProvider.GetService<AzureStorageOptions>());
+            storageProvider.InitializeAsync().Wait();
+            return storageProvider;
+        }
+
         private static TrainersStorageProvider InitializeTrainersStorageProvider(IServiceProvider serviceProvider)
         {
             var storageProvider = new TrainersStorageProvider(serviceProvider.GetService<AzureStorageOptions>());
+            storageProvider.InitializeAsync().Wait();
+            return storageProvider;
+        }
+
+        private static TeamsStorageProvider InitializeTeamsStorageProvider(IServiceProvider serviceProvider)
+        {
+            var storageProvider = new TeamsStorageProvider(serviceProvider.GetService<AzureStorageOptions>());
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }

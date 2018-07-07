@@ -1,0 +1,92 @@
+<div class="content">
+  <div class="page">
+    <div class="main-bar">
+      <img id="profile-background-image-target-image" alt="Фоновое изображение"
+           src="https://media.licdn.com/dms/image/C5616AQHcgQdTWmp8kg/profile-displaybackgroundimage-shrink_350_1400/0?e=1535587200&amp;v=beta&amp;t=NSEpVgdPACngIg0_vegMtPxq1b3Sne-Mvbrwbu4_kJ8"
+           style="
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+    width:  586px;
+    height: 160px;
+" class="profile-background-image__image relative full-width full-height">
+      <div class="air-card">
+        <section>
+          <article class="row">
+            <div class="photo-input">
+              <img src="{{profile.photoUrl}}">
+              <button (click)="changePhotoAsync()">
+                <i class="material-icons" style="display:  inherit;font-size:  36px;">wallpaper</i>
+                Изменить
+              </button>
+            </div>
+            <div style="margin-left: 175px;">
+              <h4 class="name">
+                {{profile.title}}
+              </h4>
+              <div class="m-0-top-bottom">
+                <h4 class="m-0 title">{{profile.subTitle}}</h4>
+              </div>
+              <ul class="list-inline m-0-bottom">
+                <!--<li (click)="changePaidAsync()">-->
+                <!--<h3 class="m-xs-bottom ng-binding">{{trainer.price}}₽</h3>-->
+                <!--<div class="text-muted ng-binding">Часовая ставка</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                <!--<h3 class="m-xs-bottom ng-binding">{{trainer.trainingsCount}}</h3>-->
+                <!--<div class="text-muted ng-binding">Проведено тренировок</div>-->
+                <!--</li>-->
+              </ul>
+            </div>
+            <div *ngIf="profile.country && profile.city" style="margin-left: auto;">
+              <i class="material-icons position-icon text-muted">place</i>
+              <strong class="hidden-xs" title="Bulgaria">{{profile.country}}, {{profile.city}} </strong>
+            </div>
+          </article>
+        </section>
+        <section class="pull-left" *ngIf="!profile.about" style="position: relative;">
+          <h3 style="margin-bottom:30px;">О клубе</h3>
+          Расскажите о себе.
+          <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+                  style="position: absolute;     right: 30px;    top: 20px;">
+            <i class="material-icons" style="font-size: 20px;">create</i>
+          </button>
+        </section>
+        <section *ngIf="profile.about" class="pull-left" style="position: relative;">
+          <h3 style="margin-bottom:30px;">О клубе</h3>
+          {{profile.about}}
+          <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+                  style="position: absolute;     right: 30px;    top: 20px;">
+            <i class="material-icons" style="font-size: 20px;">create</i>
+          </button>
+        </section>
+      </div>
+      <div class="air-card" style="margin-top: 2em;">
+        <div class="air-card-header">
+          <h3 class="m-0-bottom pull-left">
+            Галерея
+          </h3>
+          <button (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
+            <i class="material-icons">create</i>
+          </button>
+        </div>
+        <section *ngIf="!photos" class="photo-collection">
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+        </section>
+        <section *ngIf="photos" class="photo-collection">
+          <img *ngFor="let photo of photos"
+               src="{{photo}}">
+        </section>
+      </div>
+    </div>
+    <div class="side-bar">
+      <div *ngIf="profile.phoneNumber" class="side-bar-item">
+        <a class="phone-number" href="tel:{{profile.phoneNumber}}">
+          {{profile.phoneNumber}}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

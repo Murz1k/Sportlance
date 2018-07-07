@@ -22,6 +22,8 @@ namespace Sportlance.BLL.Entities
 
         public string About { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         public TeamStatus Status { get; set; }
 
         public DateTime CreateDateTime { get; set; }

@@ -12,10 +12,6 @@
   font-weight: 500;
 }
 
-.m-xs-bottom {
-  margin-bottom: 0;
-}
-
 h4, h5, h6 {
   line-height: 23px;
   font-size: 15px;
@@ -54,21 +50,6 @@ h1, h2, h3, h4, h5, h6 {
   word-break: break-word;
   color: #222;
   font-family: inherit;
-}
-
-.air-card [eo-collapse] section:after, .air-card section:after {
-  content: " ";
-  border-bottom: 1px solid #e0e0e0;
-  display: block;
-  position: relative;
-  top: 21px;
-  z-index: 7;
-  left: -20px;
-  width: calc(100% + 20px * 2);
-}
-
-.air-card section:last-of-type:after {
-  content: none;
 }
 
 .m-0-bottom {

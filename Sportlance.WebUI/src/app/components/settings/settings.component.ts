@@ -142,21 +142,17 @@ export class SettingsComponent implements OnInit {
   }
 
   async changePaidAsync() {
-    const newPrice = await this.dialogService.showEditTrainerPaidDialogAsync(this.trainer.price);
-    if (isNullOrUndefined(newPrice)) {
-      return;
+    const result = await this.dialogService.showEditTrainerPaidDialogAsync(this.trainer.price);
+    if (result) {
+      await this.updateDataAsync();
     }
-    await this.trainerService.updatePaidAsync(newPrice);
-    await this.updateDataAsync();
   }
 
   async changePhotoAsync() {
-    const newPhoto = await this.dialogService.showEditPhotoDialogAsync(this.trainer.photoUrl);
-    if (isNullOrUndefined(newPhoto)) {
-      return;
+    const result = await this.dialogService.showEditPhotoDialogAsync(this.trainer.photoUrl);
+    if (result) {
+      await this.updateDataAsync();
     }
-    await this.trainerService.uploadPhotoAsync(newPhoto);
-    await this.updateDataAsync();
   }
 
   public changePage(link: SettingsLinks) {

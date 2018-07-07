@@ -50,6 +50,10 @@ import {MyTeamsComponent} from "./components/settings/my-teams/my-teams.componen
 import {PasswordAndSecurityComponent} from "./components/settings/password-and-security/password-and-security.component";
 import {CreateTeamComponent} from "./components/create-team/create-team.component";
 import {EditPasswordDialogComponent} from "./components/common/edit-password-dialog/edit-password-dialog.component";
+import {TeamsComponent} from "./components/teams/teams.component";
+import {TeamsService} from "./services/teams/teams.service";
+import { TeamProfileComponent } from './components/team-profile/team-profile.component';
+import { AddTeamPhotoDialogComponent } from './components/common/add-team-photo-dialog/add-team-photo-dialog.component';
 
 
 @NgModule({
@@ -76,14 +80,18 @@ import {EditPasswordDialogComponent} from "./components/common/edit-password-dia
     MyTeamsComponent,
     PasswordAndSecurityComponent,
     CreateTeamComponent,
-    EditPasswordDialogComponent
+    EditPasswordDialogComponent,
+    TeamsComponent,
+    TeamProfileComponent,
+    AddTeamPhotoDialogComponent
   ],
   entryComponents: [
     EditPhotoDialogComponent,
     EditTrainerPaidDialogComponent,
     EditTrainerAboutDialogComponent,
     EditAccountInfoDialogComponent,
-    EditPasswordDialogComponent
+    EditPasswordDialogComponent,
+    AddTeamPhotoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -114,6 +122,7 @@ import {EditPasswordDialogComponent} from "./components/common/edit-password-dia
     ProfileApiClient,
     DialogService,
     UserInfoStorage,
+    TeamsService,
     InitializationGuard,
     EmailConfirmationGuard,
     UserService,

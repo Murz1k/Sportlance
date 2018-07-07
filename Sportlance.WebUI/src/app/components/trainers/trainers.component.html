@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="air-card page">
-    <section>
+    <section class="air-card-header">
       <article class="search-container">
         <input [(ngModel)]="searchString" type="text" placeholder="Введите Имя, Фамилию или Специальность"
                class="search-input form-control"
@@ -143,54 +143,52 @@
         </div>
       </section>
       <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
-        <article class="row">
-          <div class="col-md-2">
-            <img src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg m-0">
-            <div style="padding-top: 1em;">
-              <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
-                {{scoreStar.isFull ? 'star' : ''}}
-                {{scoreStar.isEmpty ? 'star_border' : ''}}
-                {{scoreStar.isHalf ? 'star_half' : ''}}
-              </i>
+        <div class="avatar-container">
+          <img src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg m-0">
+          <div style="padding-top: 1em;">
+            <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
+              {{scoreStar.isFull ? 'star' : ''}}
+              {{scoreStar.isEmpty ? 'star_border' : ''}}
+              {{scoreStar.isHalf ? 'star_half' : ''}}
+            </i>
+          </div>
+          <div style="position: relative; text-align: center;">
+            <span class="text-muted">{{trainer.reviewTitle}}</span>
+          </div>
+        </div>
+        <div class="info-container">
+          <h4 class="m-0-top-bottom">
+            <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
+              {{trainer.firstName}} {{trainer.secondName}}
+            </a>
+          </h4>
+          <h4 class="info-section">{{trainer.title}}</h4>
+          <div class="info-section counts-list">
+            <div class="counts-list-item">
+              <strong>{{trainer.price}}₽</strong>
+              <span class="text-muted">/ час</span>
             </div>
-            <div style="position: relative; text-align: center;">
-              <span class="text-muted">{{trainer.reviewTitle}}</span>
+            <div class="counts-list-item">
+              <i class="material-icons position-icon text-muted">access_time</i>
+              <strong>{{trainer.trainingsCount}}</strong>
+              <span class="text-muted"> {{trainer.trainingsTitle}}</span>
+            </div>
+            <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
+              <i class="material-icons position-icon text-muted">place</i>
+              <strong>{{trainer.country}}, {{trainer.city}} </strong>
             </div>
           </div>
-          <div class="col-md-8">
-            <h4 class="m-0-top-bottom">
-              <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
-                {{trainer.firstName}} {{trainer.secondName}}
-              </a>
-            </h4>
-            <h4 class="info-section">{{trainer.title}}</h4>
-            <div class="info-section counts-list">
-              <div class="counts-list-item">
-                <strong>{{trainer.price}}₽</strong>
-                <span class="text-muted">/ час</span>
-              </div>
-              <div class="counts-list-item">
-                <i class="material-icons position-icon text-muted">access_time</i>
-                <strong>{{trainer.trainingsCount}}</strong>
-                <span class="text-muted"> {{trainer.trainingsTitle}}</span>
-              </div>
-              <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
-                <i class="material-icons position-icon text-muted">place</i>
-                <strong>{{trainer.country}}, {{trainer.city}} </strong>
-              </div>
-            </div>
-            <p class="info-section">{{trainer.about}}</p>
-            <div>
-              <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
-                {{sport.name}}
-              </a>
-              <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
-            </div>
+          <p class="info-section">{{trainer.about}}</p>
+          <div>
+            <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+              {{sport.name}}
+            </a>
+            <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
           </div>
-        </article>
+        </div>
       </section>
       <footer *ngIf="pagesCount > 1">
-        <section class="freelancer-search-pagination p-0-top-bottom">
+        <section class="air-card-footer p-0-top-bottom">
           <div class="pull-right">
             <ul class="pagination pagination-sm m-0-top m-xs-bottom">
               <li [class.disabled]="offset === 0" class="pagination-prev">

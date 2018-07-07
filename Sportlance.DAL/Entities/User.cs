@@ -8,7 +8,7 @@ namespace Sportlance.DAL.Entities
     {
         public User()
         {
-            UserRoles = new List<UserRole>();
+            Roles = new List<Role>();
         }
 
         public long Id { get; set; }
@@ -27,24 +27,24 @@ namespace Sportlance.DAL.Entities
 
         [Phone] public string Phone { get; set; }
 
-        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<Role> Roles { get; set; }
 
-        public IReadOnlyCollection<Role> Roles
-        {
-            get { return UserRoles.Select(i => i.Role).ToArray(); }
-        }
+        //public IEnumerable<Role> Roles
+        //{
+        //    get { return UserRoles.Select(i => i.Role); }
+        //}
 
         public void AddRole(Role role)
         {
-            UserRoles.Add(new UserRole {Role = role, User = this});
+            Roles.Add(role);
         }
 
         public void RemoveRole(Role role)
         {
-            var existRole = UserRoles.FirstOrDefault(i => i.Role.Name == role.Name);
+            var existRole = Roles.FirstOrDefault(i => i.Name == role.Name);
             if (existRole != null)
             {
-                UserRoles.Remove(existRole);
+                Roles.Remove(existRole);
             }
         }
     }

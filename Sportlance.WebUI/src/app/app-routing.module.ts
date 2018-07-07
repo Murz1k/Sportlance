@@ -15,19 +15,23 @@ import {EmailVerifyComponent} from './components/email-verify/email-verify.compo
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
 import {SettingsComponent} from './components/settings/settings.component';
 import {CreateTeamComponent} from "./components/create-team/create-team.component";
+import {TeamsComponent} from "./components/teams/teams.component";
+import {TeamProfileComponent} from "./components/team-profile/team-profile.component";
 
 const appRoutes: Routes = [
   {path: Paths.Initialization, component: InitializationComponent},
   {
     path: Paths.Root, component: RootComponent, canActivate: [InitializationGuard], children: [
-    {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
-    {path: Paths.Trainers, pathMatch: 'full', component: TrainersComponent},
-    {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
-    {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent},
-    {path: Paths.Settings, pathMatch: 'full', component: SettingsComponent},
-    {path: Paths.Account, pathMatch: 'full', component: AccountComponent},
-    {path: Paths.CreateTeam, pathMatch: 'full', component: CreateTeamComponent}
-  ]
+      {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
+      {path: Paths.Trainers, pathMatch: 'full', component: TrainersComponent},
+      {path: Paths.Teams, pathMatch: 'full', component: TeamsComponent},
+      {path: Paths.Teams + '/:id', pathMatch: 'full', component: TeamProfileComponent},
+      {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
+      {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent},
+      {path: Paths.Settings, pathMatch: 'full', component: SettingsComponent},
+      {path: Paths.Account, pathMatch: 'full', component: AccountComponent},
+      {path: Paths.CreateTeam, pathMatch: 'full', component: CreateTeamComponent}
+    ]
   },
   {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},
   {path: Paths.EmailVerify, pathMatch: 'full', component: EmailVerifyComponent, canActivate: [EmailConfirmationGuard]},

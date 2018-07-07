@@ -41,7 +41,7 @@ namespace Sportlance.BLL.Services
 
         public IQueryable<User> Entities()
         {
-            return _appContext.Users.Include(i=>i.UserRoles).ThenInclude(i=>i.Role);
+            return _appContext.Users.Include(i=>i.Roles);
         }
 
         public Task SaveChangesAsync()

@@ -26,6 +26,8 @@ namespace Sportlance.DAL.Core
 
         public DbSet<TrainerSport> TrainerSports { get; set; }
 
+        public DbSet<TrainerTeam> TrainerTeams { get; set; }
+
         public DbSet<User> Users { get; set; }
 
         public DbSet<Sport> Sports { get; set; }
@@ -81,10 +83,16 @@ namespace Sportlance.DAL.Core
                 .HasOne(c => c.Sport);
 
             modelBuilder.Entity<User>()
-                .HasMany(c => c.UserRoles);
+                .HasMany(c => c.Roles);
 
             modelBuilder.Entity<UserRole>()
                 .HasOne(c => c.Role);
+
+            modelBuilder.Entity<UserRole>()
+                .HasOne(c => c.User);
+
+            modelBuilder.Entity<TeamPhoto>()
+                .HasOne(c => c.Team);
         }
     }
 }

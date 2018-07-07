@@ -6,9 +6,11 @@ import {EditTrainerAboutDialogData} from '../components/common/edit-trainer-abou
 import {EditPhotoDialogComponent} from '../components/common/edit-photo-dialog/edit-photo-dialog.component';
 import {EditPhotoDialogData} from '../components/common/edit-photo-dialog/edit-photo-dialog-data';
 import {EditTrainerPaidDialogComponent} from "../components/common/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component";
-import {EditTrainerPaidDialogData} from "../components/common/edit-trainer-paid-dialog/edit-trainer-paid-dialog-data";
+import {EditTrainerPaidDialogData} from '../components/common/edit-trainer-paid-dialog/edit-trainer-paid-dialog-data';
 import {EditAccountInfoDialogComponent} from "../components/common/edit-account-info-dialog/edit-account-info-dialog.component";
 import {EditPasswordDialogComponent} from "../components/common/edit-password-dialog/edit-password-dialog.component";
+import {AddTeamPhotoDialogComponent} from "../components/common/add-team-photo-dialog/add-team-photo-dialog.component";
+import {AddTeamPhotoDialogData} from "../components/common/add-team-photo-dialog/add-team-photo-dialog-data";
 
 @Injectable()
 export class DialogService {
@@ -25,9 +27,7 @@ export class DialogService {
   }
 
   public showEditAccountInfoDialogAsync(): Promise<boolean> {
-    return this.openModal(EditAccountInfoDialogComponent, {}, false, '600px')
-      .afterClosed()
-      .toPromise<boolean>();
+    return this.openModalAsync(EditAccountInfoDialogComponent, {});
   }
 
   public showEditPasswordDialogAsync(): Promise<boolean> {
@@ -36,10 +36,12 @@ export class DialogService {
       .toPromise<boolean>();
   }
 
-  public showEditPhotoDialogAsync(url: string): Promise<File> {
-    return this.openModal(EditPhotoDialogComponent, <EditPhotoDialogData> {url: url}, false, '360px')
-      .afterClosed()
-      .toPromise<File>();
+  public showEditPhotoDialogAsync(url: string): Promise<boolean> {
+    return this.openModalAsync(EditPhotoDialogComponent, <EditPhotoDialogData> {url: url});
+  }
+
+  public showAddTeamPhotoDialogAsync(teamId: number): Promise<boolean> {
+    return this.openModalAsync(AddTeamPhotoDialogComponent, <AddTeamPhotoDialogData> {teamId: teamId});
   }
 
   private openModal<TComponent, TData>(componentType: ComponentType<TComponent>,

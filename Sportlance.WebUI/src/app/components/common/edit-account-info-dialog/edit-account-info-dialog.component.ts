@@ -28,9 +28,7 @@ export class EditAccountInfoDialogComponent implements OnInit {
     this.form = this.formBuilder.group({
       firstName: [this.account.firstName],
       secondName: [this.account.secondName],
-      email: [this.account.email, Validators.email],
-      password: ['', Validators.minLength(6)],
-      confirmPassword: ['', Validators.minLength(6)]
+      email: [this.account.email, Validators.email]
     });
   }
 

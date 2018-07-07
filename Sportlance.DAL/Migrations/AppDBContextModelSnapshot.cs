@@ -111,6 +111,22 @@ namespace Sportlance.DAL.Migrations
                     b.ToTable("Teams");
                 });
 
+            modelBuilder.Entity("Sportlance.DAL.Entities.TeamPhoto", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhotoUrl");
+
+                    b.Property<long>("TeamId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("TeamPhoto");
+                });
+
             modelBuilder.Entity("Sportlance.DAL.Entities.Trainer", b =>
                 {
                     b.Property<long>("UserId");
@@ -167,7 +183,7 @@ namespace Sportlance.DAL.Migrations
 
                     b.HasIndex("TrainerId");
 
-                    b.ToTable("TrainerTeam");
+                    b.ToTable("TrainerTeams");
                 });
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Training", b =>
@@ -278,6 +294,14 @@ namespace Sportlance.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Sportlance.DAL.Entities.TeamPhoto", b =>
+                {
+                    b.HasOne("Sportlance.DAL.Entities.Team", "Team")
+                        .WithMany("TeamPhotos")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Sportlance.DAL.Entities.Trainer", b =>
                 {
                     b.HasOne("Sportlance.DAL.Entities.User", "User")
@@ -333,7 +357,7 @@ namespace Sportlance.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Sportlance.DAL.Entities.User", "User")
-                        .WithMany("UserRoles")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

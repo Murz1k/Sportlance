@@ -30,7 +30,6 @@ export class AccountComponent implements OnInit {
               private dialogService: DialogService,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
-    console.log(this.account.isTrainer);
   }
 
   async ngOnInit() {
@@ -150,11 +149,9 @@ export class AccountComponent implements OnInit {
   }
 
   async changePhotoAsync() {
-    const newPhoto = await this.dialogService.showEditPhotoDialogAsync(this.trainer.photoUrl);
-    if (isNullOrUndefined(newPhoto)) {
-      return;
+    const result = await this.dialogService.showEditPhotoDialogAsync(this.trainer.photoUrl);
+    if (result) {
+      await this.updateDataAsync();
     }
-    await this.trainerService.uploadPhotoAsync(newPhoto);
-    await this.updateDataAsync();
   }
 }

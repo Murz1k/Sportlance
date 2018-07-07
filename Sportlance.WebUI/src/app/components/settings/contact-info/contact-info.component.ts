@@ -32,9 +32,8 @@ export class ContactInfoComponent implements OnInit {
 
   async changeAccountInfoAsync() {
     const result = await this.dialogService.showEditAccountInfoDialogAsync();
-    if (isNullOrUndefined(result)) {
-      return;
+    if (result) {
+      this.account = this.userService.getCurrent();
     }
-    this.account = this.userService.getCurrent();
   }
 }

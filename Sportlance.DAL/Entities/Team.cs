@@ -8,6 +8,7 @@ namespace Sportlance.DAL.Entities
         public Team()
         {
             TrainerTeams = new List<TrainerTeam>();
+            TeamPhotos = new List<TeamPhoto>();
         }
         
         public long Id { get; set; }
@@ -33,6 +34,8 @@ namespace Sportlance.DAL.Entities
         public DateTime CreateDateTime { get; set; }
 
         public User Author { get; set; }
+
+        public ICollection<TeamPhoto> TeamPhotos { get; set; }
 
         public ICollection<TrainerTeam> TrainerTeams { get; set; }
     }

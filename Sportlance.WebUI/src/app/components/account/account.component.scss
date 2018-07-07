@@ -12,10 +12,6 @@
   font-weight: 500;
 }
 
-.m-xs-bottom {
-  margin-bottom: 0;
-}
-
 h4, h5, h6 {
   line-height: 23px;
   font-size: 15px;
@@ -54,20 +50,6 @@ h1, h2, h3, h4, h5, h6 {
   word-break: break-word;
   color: #222;
   font-family: inherit;
-}
-
-.air-card [eo-collapse] section:after, .air-card section:after {
-  content: " ";
-  border-bottom: 1px solid #e0e0e0;
-  display: block;
-  position: relative;
-  top: 20px;
-  z-index: 7;
-  width: 100%;
-}
-
-.air-card section:last-of-type:after {
-  content: none;
 }
 
 .m-0-bottom {
@@ -175,57 +157,4 @@ h1, h2, h3, h4, h5, h6 {
 
 .o-tag-skill {
   margin: 0 6px 10px 0;
-}
-
-.main-bar {
-  width: 600px;
-  padding-right: 15px;
-  display: inline-block;
-}
-
-.side-bar {
-  width: 200px;
-  padding-left: 15px;
-  float: right;
-}
-
-.side-bar-item:not(:last-child) {
-  margin-bottom: 18px;
-  padding-bottom: 18px;
-  border: 0;
-  border-bottom: 1px solid #e0e0e0;
-  display: flow-root;
-}
-
-.photo-input {
-  width: 150px;
-  position: absolute;
-  top: -75px;
-  height: 150px;
-  border-radius: 50%;
-  box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
-  img {
-    border-radius: 50%;
-    -o-object-fit: cover;
-    object-fit: cover;
-    color: #e0e0e0;
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    border: 4px solid white;
-  }
-  button {
-    position: absolute;
-    border-radius: 50%;
-    height: 150px;
-    width: 150px;
-    border: none;
-    color: transparent;
-    background-color: transparent;
-  }
-  :hover {
-    color: white;
-    background-color: #0000008a;
-    cursor: pointer;
-  }
 }

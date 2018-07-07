@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditPhotoDialogData} from './edit-photo-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TrainersService} from "../../../services/trainers/trainers.service";
 
 @Component({
   selector: 'edit-photo-dialog',
@@ -16,7 +17,8 @@ export class EditPhotoDialogComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: EditPhotoDialogData,
-              private dialogRef: MatDialogRef<EditPhotoDialogComponent>) {
+              private dialogRef: MatDialogRef<EditPhotoDialogComponent>,
+              private trainerService: TrainersService) {
   }
 
   ngOnInit() {
@@ -59,7 +61,8 @@ export class EditPhotoDialogComponent implements OnInit {
     // this.uploadHandler.emit(this.value);
   }
 
-  public submit(): void {
-    this.dialogRef.close(this.newPhoto);
+  public async submitAsync(): Promise<void> {
+    await this.trainerService.uploadPhotoAsync(this.newPhoto);
+    this.dialogRef.close(true);
   }
 }
