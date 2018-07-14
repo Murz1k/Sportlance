@@ -72,7 +72,7 @@ namespace Sportlance.WebAPI.Controllers
                 Token = await _authService.GenerateAccessTokenAsync(user),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
-                Roles = user.Roles.Select(i => i.Name)
+                Roles = user.UserRoles.Select(i=>i.Role).Select(i => i.Name)
             };
         }
 
@@ -92,7 +92,7 @@ namespace Sportlance.WebAPI.Controllers
                     : _mailTokenService.EncryptToken(user.Email),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
-                Roles = user.Roles.Select(i => i.Name)
+                Roles = user.UserRoles.Select(i=>i.Role).Select(i => i.Name)
             };
         }
 
@@ -144,7 +144,7 @@ namespace Sportlance.WebAPI.Controllers
                 Token = await _authService.GenerateAccessTokenAsync(user),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
-                Roles = user.Roles.Select(i => i.Name)
+                Roles = user.UserRoles.Select(i=>i.Role).Select(i => i.Name)
             };
         }
 

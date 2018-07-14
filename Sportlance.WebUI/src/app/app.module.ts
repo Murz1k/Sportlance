@@ -54,6 +54,7 @@ import {TeamsComponent} from "./components/teams/teams.component";
 import {TeamsService} from "./services/teams/teams.service";
 import { TeamProfileComponent } from './components/team-profile/team-profile.component';
 import { AddTeamPhotoDialogComponent } from './components/common/add-team-photo-dialog/add-team-photo-dialog.component';
+import {EditBackgroundDialogComponent} from "./components/common/edit-background-dialog/edit-background-dialog.component";
 
 
 @NgModule({
@@ -83,7 +84,8 @@ import { AddTeamPhotoDialogComponent } from './components/common/add-team-photo-
     EditPasswordDialogComponent,
     TeamsComponent,
     TeamProfileComponent,
-    AddTeamPhotoDialogComponent
+    AddTeamPhotoDialogComponent,
+    EditBackgroundDialogComponent
   ],
   entryComponents: [
     EditPhotoDialogComponent,
@@ -91,7 +93,8 @@ import { AddTeamPhotoDialogComponent } from './components/common/add-team-photo-
     EditTrainerAboutDialogComponent,
     EditAccountInfoDialogComponent,
     EditPasswordDialogComponent,
-    AddTeamPhotoDialogComponent
+    AddTeamPhotoDialogComponent,
+    EditBackgroundDialogComponent
   ],
   imports: [
     BrowserModule,

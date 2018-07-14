@@ -84,6 +84,7 @@ namespace Sportlance.BLL.Services
                 City = trainer.City,
                 Country = trainer.Country,
                 PhotoUrl = trainer.PhotoUrl,
+                BackgroundUrl = trainer.BackgroundUrl,
                 Price = trainer.Price,
                 About = trainer.About,
                 Title = trainer.Title,
@@ -130,12 +131,21 @@ namespace Sportlance.BLL.Services
             await _appContext.SaveChangesAsync();
         }
 
-        public async Task UpdatePhotoAsync(long trainerId, AzureFile photo)
+        public async Task UpdateMainPhotoAsync(long trainerId, AzureFile photo)
         {
-            var photoName = $"trainer-{trainerId}/photo-{Guid.NewGuid()}{photo.Extension}";
+            var photoName = $"trainer-{trainerId}/main";
             var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
-            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
-            trainer.PhotoUrl = link;
+            var team = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            team.PhotoUrl = link;
+            await _appContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateBackgroundImageAsync(long trainerId, AzureFile photo)
+        {
+            var photoName = $"trainer-{trainerId}/background";
+            var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
+            var team = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            team.BackgroundUrl = link;
             await _appContext.SaveChangesAsync();
         }
     }

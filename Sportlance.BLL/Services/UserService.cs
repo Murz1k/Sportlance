@@ -34,14 +34,15 @@ namespace Sportlance.BLL.Services
             return _appContext.Users.AnyAsync(i => i.Email == email);
         }
 
-        public Task AddAsync(User user)
+        public async Task AddAsync(User user)
         {
-            return _appContext.AddAsync(user);
+            await _appContext.AddAsync(user);
+            await _appContext.SaveChangesAsync();
         }
 
         public IQueryable<User> Entities()
         {
-            return _appContext.Users.Include(i=>i.Roles);
+            return _appContext.Users.Include(i=>i.UserRoles).ThenInclude(i=>i.Role);
         }
 
         public Task SaveChangesAsync()

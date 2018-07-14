@@ -25,10 +25,6 @@ export class User {
     return this.roles.some(r => r === 'Trainer');
   }
 
-  get isClient(): boolean {
-    return this.roles.some(r => r === 'Client');
-  }
-
   get isAdmin(): boolean {
     return this.roles.some(r => r === 'Admin');
   }

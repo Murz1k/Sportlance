@@ -96,10 +96,8 @@ body {
 .air-card {
   position: relative;
   background-color: $default-color;
-  padding: 0 30px;
   box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
   section {
-    margin: 0 -30px;
     padding: 24px;
     word-wrap: break-word;
     .avatar-container {
@@ -113,7 +111,6 @@ body {
     }
   }
   footer, .air-card-header {
-    margin: 0 -30px;
     padding: 24px;
     background-color: #f9f9f9;
     border-bottom: 1px solid #e0e0e0;
@@ -149,13 +146,13 @@ body {
   }
 }
 
-ul.feedbacks {
+ul.feedbacks, ul.my-teams {
   list-style: none;
   padding: 0;
   margin: 0;
   li:not(:last-child) {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
     border: 0;
     border-bottom: 1px solid #e0e0e0;
   }
@@ -163,13 +160,13 @@ ul.feedbacks {
 
 .main-bar {
   width: 600px;
-  padding-right: 15px;
+  padding-right: 12px;
   display: inline-block;
 }
 
 .side-bar {
   width: 200px;
-  padding-left: 15px;
+  padding-left: 12px;
   float: right;
 }
 
@@ -178,7 +175,6 @@ ul.feedbacks {
   padding-bottom: 16px;
   border: 0;
   border-bottom: 1px solid #e0e0e0;
-  display: flow-root;
 }
 
 .photo-input {
@@ -468,17 +464,9 @@ a {
   border: none !important;
 }
 
-.p-sm-bottom {
-  padding-bottom: 10px !important;
-}
-
-.m-sm-top-bottom {
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
-}
-
-.m-sm-top {
-  margin-top: 10px !important;
+.btn-primary.active, .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+  color: $default-color;
+  background-color: $primary-dark-color;
 }
 
 .mat-checkbox-layout {

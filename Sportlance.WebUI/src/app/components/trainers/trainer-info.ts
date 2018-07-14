@@ -20,4 +20,5 @@ export interface TrainerInfo {
   sports: Array<SportResponse>;
   status: TrainerStatus;
   photoUrl: string;
+  backgroundUrl: string;
 }

@@ -10,13 +10,14 @@
   max-width: none
 }
 
-.m-sm-top {
-  margin-top: 10px !important
+.title {
+  padding-bottom: 24px;
+  font-size: 20px;
 }
 
-.m-0-left-right {
-  margin-left: 0 !important;
-  margin-right: 0 !important
+form {
+  width: 400px;
+  margin: auto;
 }
 
 .checkbox-inline label:hover, .checkbox label:hover, .radio-inline label:hover, .radio label:hover {

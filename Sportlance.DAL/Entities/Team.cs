@@ -29,6 +29,8 @@ namespace Sportlance.DAL.Entities
 
         public string PhotoUrl { get; set; }
 
+        public string BackgroundUrl { get; set; }
+
         public TeamStatus Status { get; set; }
 
         public DateTime CreateDateTime { get; set; }

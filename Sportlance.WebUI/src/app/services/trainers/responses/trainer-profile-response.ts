@@ -17,4 +17,5 @@ export interface TrainerProfileResponse {
   trainingsCount: number;
   sports: Array<SportResponse>;
   photoUrl: string;
+  backgroundUrl: string;
 }

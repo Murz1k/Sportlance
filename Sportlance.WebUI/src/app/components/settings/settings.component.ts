@@ -35,7 +35,9 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.updateDataAsync();
+    if (this.account.isTrainer) {
+      await this.updateDataAsync();
+    }
   }
 
   private async updateDataAsync() {

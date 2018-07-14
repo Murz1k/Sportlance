@@ -15,6 +15,7 @@
     <Compile Remove="Migrations\20180625182306_AddTeam.cs" />
     <Compile Remove="Migrations\20180625184541_AddTeam.cs" />
     <Compile Remove="Migrations\20180625184859_AddTeam.cs" />
+    <Compile Remove="Migrations\20180708081905_UpdateTeamMembers.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />

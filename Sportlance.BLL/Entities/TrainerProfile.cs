@@ -32,5 +32,7 @@ namespace Sportlance.BLL.Entities
         public int TrainingsCount { get; set; }
         
         public string PhotoUrl { get; set; }
+        
+        public string BackgroundUrl { get; set; }
     }
 }

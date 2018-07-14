@@ -52,11 +52,11 @@ namespace Sportlance.DAL.Core
 
             modelBuilder.Entity<Trainer>()
                 .HasKey(r => r.UserId);
-
-            modelBuilder.Entity<Team>()
-                .HasMany(i => i.TrainerTeams);
-
+            
             modelBuilder.Entity<Trainer>()
+                .HasMany(i => i.TrainerTeams);
+            
+            modelBuilder.Entity<Team>()
                 .HasMany(i => i.TrainerTeams);
 
             modelBuilder.Entity<Trainer>()
@@ -83,13 +83,10 @@ namespace Sportlance.DAL.Core
                 .HasOne(c => c.Sport);
 
             modelBuilder.Entity<User>()
-                .HasMany(c => c.Roles);
+                .HasMany(c => c.UserRoles);
 
-            modelBuilder.Entity<UserRole>()
-                .HasOne(c => c.Role);
-
-            modelBuilder.Entity<UserRole>()
-                .HasOne(c => c.User);
+            modelBuilder.Entity<Role>()
+                .HasMany(c => c.UserRoles);
 
             modelBuilder.Entity<TeamPhoto>()
                 .HasOne(c => c.Team);

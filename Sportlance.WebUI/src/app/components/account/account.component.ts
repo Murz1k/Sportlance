@@ -9,7 +9,8 @@ import {TrainerStatus} from '../../services/trainers/trainer-status';
 import {MatCheckboxChange} from '@angular/material';
 import {Paths} from '../../core/paths';
 import {DialogService} from '../../services/dialog.service';
-import {isNullOrUndefined} from 'util';
+import {Title} from '@angular/platform-browser';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-account',
@@ -25,15 +26,20 @@ export class AccountComponent implements OnInit {
   public Paths = Paths;
   public TrainerStatus = TrainerStatus;
   starsNumber = 5;
+  public isTrainer = false;
 
   constructor(private userService: UserService,
               private dialogService: DialogService,
+              private titleService: Title,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
+    this.titleService.setTitle(`${this.account.firstName} ${this.account.secondName} | Sportlance`);
   }
 
   async ngOnInit() {
-    await this.updateDataAsync();
+    if (this.account.isTrainer) {
+      await this.updateDataAsync();
+    }
   }
 
   private async updateDataAsync() {
@@ -59,8 +65,11 @@ export class AccountComponent implements OnInit {
       sports: response.sports,
       status: response.status,
       id: response.id,
-      photoUrl: response.photoUrl
+      photoUrl: response.photoUrl,
+      backgroundUrl: response.backgroundUrl
     };
+    this.isTrainer = this.account.isTrainer && !isNullOrUndefined(this.trainer);
+
     this.isRendering = true;
   }
 
@@ -150,6 +159,13 @@ export class AccountComponent implements OnInit {
 
   async changePhotoAsync() {
     const result = await this.dialogService.showEditPhotoDialogAsync(this.trainer.photoUrl);
+    if (result) {
+      await this.updateDataAsync();
+    }
+  }
+
+  async changeBackgroundAsync() {
+    const result = await this.dialogService.showEditBackgroundDialogAsync(this.trainer.backgroundUrl);
     if (result) {
       await this.updateDataAsync();
     }

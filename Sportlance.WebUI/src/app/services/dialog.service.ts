@@ -11,6 +11,8 @@ import {EditAccountInfoDialogComponent} from "../components/common/edit-account-
 import {EditPasswordDialogComponent} from "../components/common/edit-password-dialog/edit-password-dialog.component";
 import {AddTeamPhotoDialogComponent} from "../components/common/add-team-photo-dialog/add-team-photo-dialog.component";
 import {AddTeamPhotoDialogData} from "../components/common/add-team-photo-dialog/add-team-photo-dialog-data";
+import {EditBackgroundDialogData} from "../components/common/edit-background-dialog/edit-background-dialog-data";
+import {EditBackgroundDialogComponent} from "../components/common/edit-background-dialog/edit-background-dialog.component";
 
 @Injectable()
 export class DialogService {
@@ -38,6 +40,10 @@ export class DialogService {
 
   public showEditPhotoDialogAsync(url: string): Promise<boolean> {
     return this.openModalAsync(EditPhotoDialogComponent, <EditPhotoDialogData> {url: url});
+  }
+
+  public showEditBackgroundDialogAsync(url: string): Promise<boolean> {
+    return this.openModalAsync(EditBackgroundDialogComponent, <EditBackgroundDialogData> {url: url});
   }
 
   public showAddTeamPhotoDialogAsync(teamId: number): Promise<boolean> {

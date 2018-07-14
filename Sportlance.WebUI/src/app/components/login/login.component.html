@@ -1,47 +1,39 @@
 <header [isEmpty]="true"></header>
-<div class="content">
-  <form [formGroup]="loginForm" class="col-md-6 offset-3 air-card p-0-bottom m-sm-top">
-    <div *ngIf="isLoginPage; else enterPassword" class="text-center" style="padding-top: 30px;">
-      <div class="m-0 lead lead-md light-bold" style="margin-bottom: 30px !important;">
+<div class="content page">
+  <form [formGroup]="loginForm" class="air-card">
+    <div *ngIf="isLoginPage; else enterPassword" class="text-center" style="padding-top: 30px; padding-bottom: 24px;">
+      <div class="title">
         Войди и начни заниматься
       </div>
-      <div [ngClass]="showLoginError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
-        <div class="form-group" style="margin-bottom: 0.5rem !important; position: relative;">
+      <div [ngClass]="showLoginError ? 'ng-invalid' : ''" style="width: 260px; margin: auto;">
+        <div style="margin-bottom: 24px; position: relative;">
           <input id="Email" formControlName="email" name="email" type="text"
                  class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
                  (keydown)="ckechKeyDownLogin($event)">
           <i class="material-icons input-icon">person</i>
+          <div class="error" *ngIf="showLoginError;">
+            <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+            <label *ngIf="loginForm.value.email !== ''" class="error__message">
+              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+              Ой! Неправильный email.</label>
+            <label *ngIf="loginForm.value.email === ''" class="error__message">
+              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+              Обязательное поле.</label>
+          </div>
         </div>
-        <div class="error" *ngIf="showLoginError;">
-          <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-          <label *ngIf="loginForm.value.email !== ''" class="error__message">
-            <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-            Ой! Неправильный email.</label>
-          <label *ngIf="loginForm.value.email === ''" class="error__message">
-            <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-            Обязательное поле.</label>
-        </div>
-        <div class="m-lg-bottom">
-        </div>
-        <div class="form-group m-0-bottom">
-          <button (click)="checkLoginAsync()" [disabled]="isDisabled"
-                  class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
-            Продолжить
-          </button>
-        </div>
-        <div class="m-lg-bottom p-lg-bottom p-sm-top hidden-xs"></div>
-        <div class="m-lg-bottom p-xs-bottom p-sm-top visible-xs"></div>
+        <button (click)="checkLoginAsync()" [disabled]="isDisabled" class="btn btn-primary"
+                style="width: 260px; margin: auto;">
+          Продолжить
+        </button>
       </div>
     </div>
     <ng-template #enterPassword>
-      <div style="padding-bottom: 30px;" class="text-center">
-        <div class="text-center m-0 lead lead-md light-bold hidden-xs" style="padding-top: 30px;">
-          Добро пожаловать
+      <div style="padding-bottom: 24px; padding-top: 24px;" class="text-center">
+        <div class="text-center title">
+          <span>Добро пожаловать</span>
+          <div style="font-size: 12px;">{{loginForm.value.email}}</div>
         </div>
         <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
-          <div style="margin-bottom: 30px;" class="small text-center m-sm-bottom p-xs-bottom ellipsis">
-            {{loginForm.value.email}}
-          </div>
           <div class="form-group" style="margin-bottom: 5px; position: relative;">
             <input id="Password" formControlName="password" name="password" type="password"
                    class="password-input form-control" placeholder="Пароль"
@@ -54,45 +46,26 @@
               <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
               Ой! Неправильный пароль.</label>
           </div>
-          <div>
+          <div class="checkbox">
+            <mat-checkbox class="form-control no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
           </div>
-          <div class="pull-left">
-            <div class="checkbox">
-              <mat-checkbox class="form-control no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
-            </div>
-          </div>
-          <div class="pull-right text-right p-xs-top hidden-xs hidden-sm">
-            <button (click)="forgotPassword()" class="btn-link" style="padding-right: 0;">
-              Забыли пароль?
-            </button>
-          </div>
-          <div class="p-md-top m-xs-top"></div>
-          <div class="form-group m-0-bottom">
-            <button (click)="loginAsync()" [disabled]="isDisabled"
-                    class="hidden-xs width-sm btn btn-primary m-0 text-capitalize">
-              Войти
-            </button>
-          </div>
-          <div class="m-sm-top p-xs-top">
-            <button (click)="hidePasswordPage()" class="btn-link">
-              Это не ты?
-            </button>
-          </div>
-          <div class="m-md-bottom p-md-bottom"></div>
+          <button (click)="forgotPassword()" class="btn-link" style="padding-right: 0;">
+            Забыли пароль?
+          </button>
+          <button (click)="loginAsync()" [disabled]="isDisabled" class="btn btn-primary" style="margin-bottom: 24px; width: 260px;">
+            Войти
+          </button>
+          <button (click)="hidePasswordPage()" class="btn-link">
+            Это не ты?
+          </button>
         </div>
       </div>
     </ng-template>
-    <footer class="p-0-top-bottom text-center">
-      <div class="col-md-10 offset-1">
-        <p class="form-group m-lg-bottom m-md-top">
-        </p>
-        <div class="line-heading p-sm-bottom m-sm-top-bottom text-muted">Первый раз на Sportlance?</div>
-        <button (click)="navigateToRegister()"
-                class="btn btn-default m-sm-top m-0-bottom m-0-left-right width-sm hidden-xs">
-          Регистрация
-        </button>
-        <p></p>
-      </div>
+    <footer class="text-center">
+      <div class="line-heading text-muted">Первый раз на Sportlance?</div>
+      <button (click)="navigateToRegister()" class="btn btn-default" style=" width: 260px; margin: 24px auto auto;">
+        Регистрация
+      </button>
     </footer>
   </form>
 </div>

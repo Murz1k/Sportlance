@@ -9,6 +9,7 @@ import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {MatRadioChange} from '@angular/material';
 import {HttpClient} from "@angular/common/http";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-trainers',
@@ -46,7 +47,9 @@ export class TrainersComponent implements OnInit {
               private httpClient: HttpClient,
               private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
+              private titleService: Title,
               private trainerService: TrainersService) {
+    this.titleService.setTitle(`Тренеры | Sportlance`);
 
     this.isAuthorized = this.accountService.isAuthorized;
     this.activatedRoute.queryParams.subscribe((params: Params) => {
@@ -135,7 +138,7 @@ export class TrainersComponent implements OnInit {
           q: this.searchString,
           minPrice: this.minPrice,
           maxPrice: this.maxPrice,
-          page: this.currentPage,
+          page: this.currentPage === 0 ? null : this.currentPage,
           feedbacksMinCount: this.minFeedbacksCount,
           feedbacksMaxCount: this.maxFeedbacksCount
         }

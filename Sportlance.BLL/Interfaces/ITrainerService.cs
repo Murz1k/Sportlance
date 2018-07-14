@@ -18,7 +18,9 @@ namespace Sportlance.BLL.Interfaces
 
         Task UpdateAboutAsync(long trainerId, string about);
 
-        Task UpdatePhotoAsync(long trainerId, AzureFile photo);
+        Task UpdateBackgroundImageAsync(long trainerId, AzureFile photo);
+
+        Task UpdateMainPhotoAsync(long trainerId, AzureFile photo);
 
         Task UpdatePriceAsync(long trainerId, double price);
     }

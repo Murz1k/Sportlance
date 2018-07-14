@@ -24,6 +24,8 @@ namespace Sportlance.DAL.Entities
 
         public double Price { get; set; }
 
+        public string BackgroundUrl { get; set; }
+
         public User User { get; set; }
 
         public TrainerStatus Status { get; set; }

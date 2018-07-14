@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {TeamProfileResponse} from '../../services/teams/responses/team-profile-response';
 import {TeamsService} from '../../services/teams/teams.service';
 import {ActivatedRoute} from '@angular/router';
-import {TeamPhotoResponse} from '../../services/teams/responses/team-photo-response';
 import {DialogService} from '../../services/dialog.service';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-team-profile',
@@ -19,6 +18,7 @@ export class TeamProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private dialogService: DialogService,
               private sanitizer: DomSanitizer,
+              private titleService: Title,
               private teamService: TeamsService) {
   }
 
@@ -26,6 +26,7 @@ export class TeamProfileComponent implements OnInit {
     await this.route.params.forEach(async params => {
       this.updateInfoAsync(params['id']);
       this.updatePhotosAsync(params['id']);
+      this.upadteTeamMembersAsync(params['id']);
     });
   }
 
@@ -38,10 +39,16 @@ export class TeamProfileComponent implements OnInit {
 
   private async updateInfoAsync(teamId: number) {
     this.profile = await this.teamService.getByIdAsync(teamId);
+    this.titleService.setTitle(`${this.profile.title} | Sportlance`);
   }
 
   private async updatePhotosAsync(teamId: number) {
     const response = await this.teamService.getPhotosByTeamIdAsync(teamId);
     this.photos = response.items.map(i => `data:image/jpg;base64,${i.file.data}`);
   }
+
+  private async upadteTeamMembersAsync(teamId: number){
+
+  }
+
 }

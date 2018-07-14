@@ -1,15 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../../services/user.service/user';
 import {UserService} from '../../../services/user.service/user.service';
-import {TrainerInfo} from '../../trainers/trainer-info';
-import {TrainersService} from '../../../services/trainers/trainers.service';
-import {Star} from '../../trainers/star';
-import {ReviewInfo} from '../../profile/review-info';
-import {TrainerStatus} from '../../../services/trainers/trainer-status';
-import {MatCheckboxChange} from '@angular/material';
 import {Paths} from '../../../core/paths';
-import {DialogService} from '../../../services/dialog.service';
-import {isNullOrUndefined} from 'util';
+import {TeamResponse} from '../../../services/teams/requests/team-response';
+import {TeamsService} from '../../../services/teams/teams.service';
+import {GetTeamQuery} from '../../../services/teams/requests/get-team-query';
 
 @Component({
   selector: 'app-my-teams',
@@ -19,13 +14,21 @@ import {isNullOrUndefined} from 'util';
 export class MyTeamsComponent implements OnInit {
 
   public account: User;
-  public trainer: TrainerInfo;
   public Paths = Paths;
+  public teams: TeamResponse[] = [];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private teamService: TeamsService) {
     this.account = this.userService.getCurrent();
   }
 
   async ngOnInit() {
+    if (this.account.isTrainer || this.account.isTeam) {
+      const response = await this.teamService.getSelfAsync(<GetTeamQuery>{
+        count: 10,
+        offset: 0
+      });
+        this.teams = response.items;
+    }
   }
 }

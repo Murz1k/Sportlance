@@ -57,11 +57,7 @@ namespace Sportlance.DAL.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<long?>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Roles");
                 });
@@ -87,6 +83,8 @@ namespace Sportlance.DAL.Migrations
                     b.Property<string>("About");
 
                     b.Property<long>("AuthorId");
+
+                    b.Property<string>("BackgroundUrl");
 
                     b.Property<string>("City");
 
@@ -132,6 +130,8 @@ namespace Sportlance.DAL.Migrations
                     b.Property<long>("UserId");
 
                     b.Property<string>("About");
+
+                    b.Property<string>("BackgroundUrl");
 
                     b.Property<string>("City");
 
@@ -279,13 +279,6 @@ namespace Sportlance.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sportlance.DAL.Entities.Role", b =>
-                {
-                    b.HasOne("Sportlance.DAL.Entities.User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("Sportlance.DAL.Entities.Team", b =>
                 {
                     b.HasOne("Sportlance.DAL.Entities.User", "Author")
@@ -325,12 +318,12 @@ namespace Sportlance.DAL.Migrations
 
             modelBuilder.Entity("Sportlance.DAL.Entities.TrainerTeam", b =>
                 {
-                    b.HasOne("Sportlance.DAL.Entities.Team")
+                    b.HasOne("Sportlance.DAL.Entities.Team", "Team")
                         .WithMany("TrainerTeams")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Sportlance.DAL.Entities.Trainer")
+                    b.HasOne("Sportlance.DAL.Entities.Trainer", "Trainer")
                         .WithMany("TrainerTeams")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -352,12 +345,12 @@ namespace Sportlance.DAL.Migrations
             modelBuilder.Entity("Sportlance.DAL.Entities.UserRole", b =>
                 {
                     b.HasOne("Sportlance.DAL.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Sportlance.DAL.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

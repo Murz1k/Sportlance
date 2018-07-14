@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {BaseService} from '../common/base-service';
 import {CollectionResponse} from '../common/collection-response';
 import {isNullOrUndefined} from 'util';
-import {TrainerListItemResponse} from './responses/trainer-list-item-response';
-import {GetTrainersQuery} from '../trainers/get-trainers-query';
 import {TeamProfileResponse} from './responses/team-profile-response';
-import {TeamPhotoResponse} from "./responses/team-photo-response";
+import {TeamPhotoResponse} from './responses/team-photo-response';
+import {InviteMemberRequest} from './requests/invite-member-request';
+import {GetTeamQuery} from './requests/get-team-query';
+import {TeamResponse} from './requests/team-response';
 
 @Injectable()
 export class TeamsService extends BaseService {
@@ -14,19 +15,13 @@ export class TeamsService extends BaseService {
     super();
   }
 
-  getAsync(query: GetTrainersQuery): Promise<CollectionResponse<TrainerListItemResponse>> {
+  getAsync(query: GetTeamQuery): Promise<CollectionResponse<TeamResponse>> {
     const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
-      .append('feedbacksMinCount', checkParam(query.feedbacksMinCount))
-      .append('maxPrice', checkParam(query.maxPrice))
-      .append('minPrice', checkParam(query.minPrice))
-      .append('trainingsMaxCount', checkParam(query.trainingsMaxCount))
-      .append('searchString', checkParam(query.searchString))
+      .append('userId', checkParam(query.userId))
       .append('offset', checkParam(query.offset))
-      .append('count', checkParam(query.count))
-      .append('trainingsMinCount', checkParam(query.trainingsMinCount))
-      .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
-    return this.http.get<CollectionResponse<TrainerListItemResponse>>(`${this.baseApiUrl}/teams`, {params: parameters}).toPromise();
+      .append('count', checkParam(query.count));
+    return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams`, {params: parameters}).toPromise();
   }
 
   getByIdAsync(teamId: number): Promise<TeamProfileResponse> {
@@ -36,21 +31,32 @@ export class TeamsService extends BaseService {
   getPhotosByTeamIdAsync(teamId: number): Promise<CollectionResponse<TeamPhotoResponse>> {
     return this.http.get<CollectionResponse<TeamPhotoResponse>>(`${this.baseApiUrl}/teams/${teamId}/photos`).toPromise();
   }
+
   async addPhotoAsync(teamId: number, photo: Blob): Promise<void> {
     const data = new FormData();
     data.append('photo', photo);
     await this.http.post(`${this.baseApiUrl}/teams/${teamId}/photos`, data).toPromise();
   }
-  //
-  // getSelfAsync(): Promise<TrainerProfileResponse> {
-  //   return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/self`).toPromise();
-  // }
-  //
-  // async uploadPhotoAsync(photo: Blob): Promise<void> {
-  //   const data = new FormData();
-  //   data.append('photo', photo);
-  //   await this.http.put(`${this.baseApiUrl}/trainers/photo`, data).toPromise();
-  // }
+
+  getSelfAsync(query: GetTeamQuery): Promise<CollectionResponse<TeamResponse>> {
+    const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
+    const parameters = new HttpParams()
+      .append('userId', checkParam(query.userId))
+      .append('offset', checkParam(query.offset))
+      .append('count', checkParam(query.count));
+    return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams/self`, {params: parameters}).toPromise();
+  }
+  async uploadMainPhotoAsync(teamId: number, photo: Blob): Promise<void> {
+    const data = new FormData();
+    data.append('photo', photo);
+    await this.http.put(`${this.baseApiUrl}/trainers/photo`, data).toPromise();
+  }
+
+  async uploadBackgroundImageAsync(teamId: number, photo: Blob): Promise<void> {
+    const data = new FormData();
+    data.append('photo', photo);
+    await this.http.put(`${this.baseApiUrl}/trainers/background`, data).toPromise();
+  }
   //
   // setAvailabilityAsync(isAvailable: boolean) {
   //   return this.http.post(`${this.baseApiUrl}/trainers/availability`, {isAvailable: isAvailable}).toPromise();
@@ -63,4 +69,8 @@ export class TeamsService extends BaseService {
   // updatePaidAsync(price: number) {
   //   return this.http.put(`${this.baseApiUrl}/trainers/price`, {price: price}).toPromise();
   // }
+
+  inviteMemberAsync(teamId: number, memberId: number) {
+    return this.http.post(`${this.baseApiUrl}/teams/${teamId}/members`, <InviteMemberRequest>{ memberId: memberId}).toPromise();
+  }
 }

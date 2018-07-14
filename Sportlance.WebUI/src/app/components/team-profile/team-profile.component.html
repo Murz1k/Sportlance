@@ -1,5 +1,5 @@
 <div class="content">
-  <div class="page">
+  <div *ngIf="profile" class="page">
     <div class="main-bar">
       <img id="profile-background-image-target-image" alt="Фоновое изображение"
            src="https://media.licdn.com/dms/image/C5616AQHcgQdTWmp8kg/profile-displaybackgroundimage-shrink_350_1400/0?e=1535587200&amp;v=beta&amp;t=NSEpVgdPACngIg0_vegMtPxq1b3Sne-Mvbrwbu4_kJ8"
@@ -43,7 +43,7 @@
           </article>
         </section>
         <section class="pull-left" *ngIf="!profile.about" style="position: relative;">
-          <h3 style="margin-bottom:30px;">О клубе</h3>
+          <h3 style="margin-bottom:30px;">О нас</h3>
           Расскажите о себе.
           <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
                   style="position: absolute;     right: 30px;    top: 20px;">
@@ -51,7 +51,7 @@
           </button>
         </section>
         <section *ngIf="profile.about" class="pull-left" style="position: relative;">
-          <h3 style="margin-bottom:30px;">О клубе</h3>
+          <h3 style="margin-bottom:30px;">О нас</h3>
           {{profile.about}}
           <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
                   style="position: absolute;     right: 30px;    top: 20px;">
@@ -78,6 +78,27 @@
         <section *ngIf="photos" class="photo-collection">
           <img *ngFor="let photo of photos"
                src="{{photo}}">
+        </section>
+      </div>
+      <div class="air-card" style="margin-top: 2em;">
+        <div class="air-card-header">
+          <h3 class="m-0-bottom pull-left">
+            Команда
+          </h3>
+          <button (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
+            <i class="material-icons">create</i>
+          </button>
+        </div>
+        <section *ngIf="!teamMembers">
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+        </section>
+        <section *ngIf="teamMembers" class="photo-collection">
+          <img *ngFor="let member of teamMembers"
+               src="{{member}}">
         </section>
       </div>
     </div>

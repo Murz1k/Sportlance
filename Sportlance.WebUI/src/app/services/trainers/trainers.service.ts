@@ -42,6 +42,12 @@ export class TrainersService extends BaseService {
     await this.http.put(`${this.baseApiUrl}/trainers/photo`, data).toPromise();
   }
 
+  async uploadBackgorundImageAsync(photo: Blob): Promise<void> {
+    const data = new FormData();
+    data.append('photo', photo);
+    await this.http.put(`${this.baseApiUrl}/trainers/background`, data).toPromise();
+  }
+
   setAvailabilityAsync(isAvailable: boolean) {
     return this.http.post(`${this.baseApiUrl}/trainers/availability`, {isAvailable: isAvailable}).toPromise();
   }

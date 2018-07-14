@@ -8,6 +8,7 @@ import {MatRadioChange} from '@angular/material';
 import {Star} from '../trainers/star';
 import {TeamsService} from '../../services/teams/teams.service';
 import {TrainerInfo} from '../trainers/trainer-info';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-teams',
@@ -44,7 +45,9 @@ export class TeamsComponent implements OnInit {
   constructor(private router: Router,
               private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
+              private titleService: Title,
               private teamsService: TeamsService) {
+    this.titleService.setTitle(`Команды | Sportlance`);
 
     this.isAuthorized = this.accountService.isAuthorized;
     this.activatedRoute.queryParams.subscribe((params: Params) => {
@@ -138,7 +141,7 @@ export class TeamsComponent implements OnInit {
           q: this.searchString,
           minPrice: this.minPrice,
           maxPrice: this.maxPrice,
-          page: this.currentPage,
+          page: this.currentPage === 0 ? null : this.currentPage,
           feedbacksMinCount: this.minFeedbacksCount,
           feedbacksMaxCount: this.maxFeedbacksCount
         }

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Entities;
 using Sportlance.BLL.Interfaces;
+using Sportlance.WebAPI.Errors;
+using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
@@ -21,12 +23,11 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<PartialCollectionResponse<TeamListItem>> GetAll(
-            [FromQuery] GetTrainersQueryRequest request)
+        public async Task<PartialCollectionResponse<TeamListItem>> GetAll([FromQuery] TeamQuery request)
         {
-            var trainers = await _service.GetAsync(request.ToBLE());
+            var teams = await _service.GetAsync(request);
 
-            return trainers.ToPartialCollectionResponse();
+            return teams.ToPartialCollectionResponse();
         }
 
         [HttpGet]
@@ -36,12 +37,31 @@ namespace Sportlance.WebAPI.Controllers
             return await _service.GetById(teamId);
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> PostAsync([FromBody] CreateTeamRequest request)
+        {
+            await _service.AddAsync(
+                User.GetUserId(), 
+                request.Title, 
+                request.SubTitle, 
+                request.Country, 
+                request.City, 
+                request.About, 
+                request.PhoneNumber, 
+                request.Photo.ToAzureFile());
+            
+            return NoContent();
+        }
+
         [HttpGet]
         [Authorize]
         [Route("self")]
-        public async Task<TeamProfile> GetSelf()
+        public async Task<PartialCollectionResponse<TeamListItem>> GetSelfTeams([FromQuery] TeamQuery query)
         {
-            return await _service.GetById(User.GetUserId());
+            var teams = await _service.GetAsync(query, User.GetUserId());
+
+            return teams.ToPartialCollectionResponse();
         }
 
 //        [HttpPost]
@@ -77,9 +97,21 @@ namespace Sportlance.WebAPI.Controllers
 
         [HttpPut("photo")]
         [Authorize]
-        public async Task<IActionResult> UploadPhotoAsync([FromForm] IFormFile photo)
+        public async Task<IActionResult> UploadPhotoAsync([FromForm] ChangeTeamPhotoRequest request)
         {
-            await _service.UpdatePhotoAsync(User.GetUserId(), photo.ToAzureFile());
+            if(!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId)) throw new AppErrorException(ErrorCode.ServerError);
+            
+            await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToAzureFile());
+            return NoContent();
+        }
+
+        [HttpPut("background")]
+        [Authorize]
+        public async Task<IActionResult> UploadBackgroundAsync([FromForm] ChangeTeamPhotoRequest request)
+        {
+            if(!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId)) throw new AppErrorException(ErrorCode.ServerError);
+            
+            await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToAzureFile());
             return NoContent();
         }
     }

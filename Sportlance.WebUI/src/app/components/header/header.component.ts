@@ -1,10 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Paths} from '../../core/paths';
-import {UserService} from '../../services/user.service/user.service';
 import {User} from '../../services/user.service/user';
 import {AccountService} from '../../services/account-service';
-import {UserInfoStorage} from "../../core/user-info-storage";
+import {UserInfoStorage} from '../../core/user-info-storage';
 
 @Component({
   selector: 'header',

@@ -39,7 +39,7 @@ namespace Sportlance.WebAPI.Authentication
             var claimsIdentity = new ClaimsIdentity(new GenericIdentity(user.Email, "Token"));
             claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 
-            foreach (var role in user.Roles) claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
+            foreach (var role in user.UserRoles.Select(i=>i.Role)) claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, role.ToString()));
             return claimsIdentity;
         }
 
@@ -51,7 +51,7 @@ namespace Sportlance.WebAPI.Authentication
 
             return new RefreshTokenDto
             {
-                Roles = user.Roles.Select(i => i.Name),
+                Roles = user.UserRoles.Select(i=>i.Role).Select(i => i.Name),
                 Token = token
             };
         }

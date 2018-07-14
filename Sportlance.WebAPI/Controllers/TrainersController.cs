@@ -80,7 +80,15 @@ namespace Sportlance.WebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> UploadPhotoAsync([FromForm] IFormFile photo)
         {
-            await _service.UpdatePhotoAsync(User.GetUserId(), photo.ToAzureFile());
+            await _service.UpdateMainPhotoAsync(User.GetUserId(), photo.ToAzureFile());
+            return NoContent();
+        }
+
+        [HttpPut("background")]
+        [Authorize]
+        public async Task<IActionResult> UploadBackgroundAsync([FromForm] IFormFile photo)
+        {
+            await _service.UpdateBackgroundImageAsync(User.GetUserId(), photo.ToAzureFile());
             return NoContent();
         }
     }

@@ -25,12 +25,11 @@ namespace Sportlance.BLL.Services
             _teamPhotosStorageProvider = teamPhotosStorageProvider;
         }
 
-        public async Task<PagingCollection<TeamListItem>> GetAsync(TrainersQuery query)
+        public async Task<PagingCollection<TeamListItem>> GetAsync(TeamQuery query, long? userId = null)
         {
-            var teamQuery = from team in _appContext.Teams
+            var teamQuery = from team in _appContext.Teams.Include(i=>i.TrainerTeams)
                 where team.Status == TeamStatus.Available
-                      && (query.SearchString == null || team.Title.Contains(query.SearchString)
-                                                     || team.SubTitle.Contains(query.SearchString))
+                      && (!userId.HasValue  || userId.Value == team.AuthorId || team.TrainerTeams.Any(i=>i.TrainerId == userId.Value))
                 select team;
             return await (from team in teamQuery
                 select new TeamListItem
@@ -65,10 +64,24 @@ namespace Sportlance.BLL.Services
         }
 
 
-        public async Task AddAsync(long authorId)
+        public async Task AddAsync(long authorId,string title,string subTitle,string country,string city,string about,string phoneNumber,AzureFile photo)
         {
-            await _appContext.AddAsync(new Team {AuthorId = authorId});
+            var newTeam = new Team
+            {
+                AuthorId = authorId,
+                Title = title,
+                SubTitle = subTitle,
+                City = city,
+                Country = country,
+                About = about,
+                PhoneNumber = phoneNumber,
+                CreateDateTime = DateTime.Now,
+                Status = TeamStatus.Available
+            };
+            await _appContext.AddAsync(newTeam);
             await _appContext.SaveChangesAsync();
+
+            await UpdateMainPhotoAsync(newTeam.Id, photo);
         }
 
         public async Task UpdateAboutAsync(long teamId, string about)
@@ -148,13 +161,37 @@ namespace Sportlance.BLL.Services
             await _appContext.SaveChangesAsync();
         }
 
-        public async Task UpdatePhotoAsync(long teamId, AzureFile photo)
+        public async Task UpdateMainPhotoAsync(long teamId, AzureFile photo)
         {
-            var photoName = $"team-{teamId}/photo-{Guid.NewGuid()}{photo.Extension}";
+            var photoName = $"team-{teamId}/main";
             var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             team.PhotoUrl = link;
             await _appContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateBackgroundImageAsync(long teamId, AzureFile photo)
+        {
+            var photoName = $"team-{teamId}/background";
+            var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            team.BackgroundUrl = link;
+            await _appContext.SaveChangesAsync();
+        }
+
+        public async Task InviteMemberAsync(long teamId, long memberId)
+        {
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == teamId);
+            
+            team.TrainerTeams.Add(new TrainerTeam{Trainer = trainer});
+
+            await _appContext.SaveChangesAsync();
+        }
+
+        public Task<bool> IsTeamAuthorAsync(long userId, long teamId)
+        {
+            return _appContext.Teams.AnyAsync(i => i.AuthorId == userId && i.Id == teamId);
         }
     }
 }
