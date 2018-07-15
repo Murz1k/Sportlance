@@ -110,12 +110,6 @@ namespace Sportlance.WebAPI.Controllers
 
             await _userService.AddAsync(user);
 
-            if (request.BeTrainer) await _trainerService.AddAsync(user.Id);
-
-            if (request.NeedTrainer)
-            {
-            }
-
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
 
             return new RegistrationResponse

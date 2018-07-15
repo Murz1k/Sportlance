@@ -18,7 +18,8 @@ export class UserInfoStorage {
         userOptions.token,
         userOptions.roles,
         userOptions.email,
-        userOptions.isConfirmed
+        userOptions.isConfirmed,
+        userOptions.photoUrl
       );
     }
     return user;

@@ -10,7 +10,8 @@ import {MatCheckboxChange} from '@angular/material';
 import {Paths} from '../../core/paths';
 import {DialogService} from '../../services/dialog.service';
 import {Title} from '@angular/platform-browser';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {FeedbacksService} from '../../services/feedbacks/feedbacks.service';
 
 @Component({
   selector: 'app-account',
@@ -28,9 +29,16 @@ export class AccountComponent implements OnInit {
   starsNumber = 5;
   public isTrainer = false;
 
+  private offset = 0;
+  private count = 10;
+  private totalCount = 0;
+
+  public feedbacks: Array<ReviewInfo> = [];
+
   constructor(private userService: UserService,
               private dialogService: DialogService,
               private titleService: Title,
+              private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
     this.titleService.setTitle(`${this.account.firstName} ${this.account.secondName} | Sportlance`);
@@ -38,21 +46,25 @@ export class AccountComponent implements OnInit {
 
   async ngOnInit() {
     if (this.account.isTrainer) {
-      await this.updateDataAsync();
+      await Promise.all([this.updateFeedbacksAsync, this.updateDataAsync]);
     }
+  }
+
+  private async updateFeedbacksAsync() {
+    const response = await this.feedbackService.getSelfTrainerFeedbacksAsync(this.offset, this.count);
+    this.feedbacks = response.items.map(i => <ReviewInfo>{
+      stars: this.convertAverageScoreToStars(i.score),
+      clientName: i.clientName,
+      createDate: i.createDate,
+      description: i.description,
+      photoUrl: i.photoUrl
+    });
   }
 
   private async updateDataAsync() {
     this.isRendering = false;
     const response = await this.trainerService.getSelfAsync();
     this.trainer = <TrainerInfo>{
-      reviews: response.reviews.map(i => <ReviewInfo>{
-        stars: this.convertAverageScoreToStars(i.score),
-        clientName: i.clientName,
-        createDate: i.createDate,
-        description: i.description,
-        photoUrl: i.photoUrl
-      }),
       firstName: response.firstName,
       secondName: response.secondName,
       trainingsCount: response.trainingsCount,

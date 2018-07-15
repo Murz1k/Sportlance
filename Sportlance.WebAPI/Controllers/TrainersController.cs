@@ -22,8 +22,7 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<PartialCollectionResponse<TrainerListItem>> GetAll(
-            [FromQuery] GetTrainersQueryRequest request)
+        public async Task<PartialCollectionResponse<TrainerListItem>> GetAll([FromQuery] GetTrainersQueryRequest request)
         {
             var trainers = await _service.GetAsync(request.ToBLE());
 

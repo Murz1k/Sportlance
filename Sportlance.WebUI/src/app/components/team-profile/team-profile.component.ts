@@ -47,8 +47,7 @@ export class TeamProfileComponent implements OnInit {
     this.photos = response.items.map(i => `data:image/jpg;base64,${i.file.data}`);
   }
 
-  private async upadteTeamMembersAsync(teamId: number){
+  private async upadteTeamMembersAsync(teamId: number) {
 
   }
-
 }

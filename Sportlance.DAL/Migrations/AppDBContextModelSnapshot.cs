@@ -137,8 +137,6 @@ namespace Sportlance.DAL.Migrations
 
                     b.Property<string>("Country");
 
-                    b.Property<string>("PhotoUrl");
-
                     b.Property<double>("Price");
 
                     b.Property<int>("Status");
@@ -232,6 +230,8 @@ namespace Sportlance.DAL.Migrations
                         .IsRequired();
 
                     b.Property<string>("Phone");
+
+                    b.Property<string>("PhotoUrl");
 
                     b.HasKey("Id");
 

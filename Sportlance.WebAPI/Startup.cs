@@ -90,6 +90,7 @@ namespace Sportlance.WebAPI
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
             services.AddTransient<ITrainerService, TrainerService>();
+            services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<AuthService, AuthService>();
             services.AddTransient<MailService, MailService>();

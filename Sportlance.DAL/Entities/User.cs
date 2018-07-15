@@ -21,6 +21,8 @@ namespace Sportlance.DAL.Entities
 
         [Required] [MaxLength(30)] public string LastName { get; set; }
 
+        public string PhotoUrl { get; set; }
+
         public bool IsEmailConfirm { get; set; }
 
         public bool IsDeleted { get; set; }

@@ -26,7 +26,7 @@ namespace Sportlance.DAL.AzureStorage
             await SetPermissions(container);
         }
 
-        protected virtual async Task SetPermissions(CloudBlobContainer container)
+        private async Task SetPermissions(CloudBlobContainer container)
         {
             var permissions = await container.GetPermissionsAsync();
             permissions.PublicAccess = BlobContainerPublicAccessType.Blob;
@@ -36,6 +36,11 @@ namespace Sportlance.DAL.AzureStorage
         public async Task<AzureFile> DowndloadAsync(string fileName)
         {
             var blockBlob = _client.GetContainerReference(_containerName).GetBlockBlobReference(fileName);
+            if (!await blockBlob.ExistsAsync())
+            {
+                return null;
+            }
+
             using (var stream = new MemoryStream())
             {
                 await blockBlob.DownloadToStreamAsync(stream);

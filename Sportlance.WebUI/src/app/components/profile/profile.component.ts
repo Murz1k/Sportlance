@@ -4,6 +4,7 @@ import {Star} from '../trainers/star';
 import {TrainerInfo} from '../trainers/trainer-info';
 import {TrainersService} from '../../services/trainers/trainers.service';
 import {ReviewInfo} from './review-info';
+import {FeedbacksService} from "../../services/feedbacks/feedbacks.service";
 
 @Component({
   selector: 'app-profile',
@@ -15,28 +16,56 @@ export class ProfileComponent implements OnInit {
   trainer: TrainerInfo;
   isRendering = false;
   starsNumber = 5;
+  trainerId: number;
+  private offset = 0;
+  private count = 10;
+  private totalCount = 0;
+  public feedbacks: Array<ReviewInfo> = [];
 
   constructor(private route: ActivatedRoute,
+              private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
   }
 
   async ngOnInit() {
     await this.route.params.forEach(async params => {
-      await this.updateDataAsync(params['id']);
+      this.trainerId = params['id'];
+      await Promise.all([this.updateDataAsync(this.trainerId), this.updateFeedbacksAsync(this.trainerId)]);
     });
+  }
+
+  private async updateFeedbacksAsync(trainerId: number) {
+    const response = await this.feedbackService.getTrainerFeedbacksAsync(trainerId, this.offset, this.count);
+    this.totalCount = response.totalCount;
+    this.feedbacks = response.items.map(i => <ReviewInfo>{
+      stars: this.convertAverageScoreToStars(i.score),
+      clientName: i.clientName,
+      createDate: i.createDate,
+      description: i.description,
+      photoUrl: i.photoUrl
+    });
+  }
+
+  public async onScrollDownAsync() {
+    if (this.offset + this.count >= this.totalCount) {
+      return;
+    }
+    this.offset = this.count + this.offset;
+    const response = await this.feedbackService.getTrainerFeedbacksAsync(this.trainerId, this.offset, this.count);
+    this.totalCount = response.totalCount;
+    response.items.map(i => <ReviewInfo>{
+      stars: this.convertAverageScoreToStars(i.score),
+      clientName: i.clientName,
+      createDate: i.createDate,
+      description: i.description,
+      photoUrl: i.photoUrl
+    }).forEach(item => this.feedbacks.push(item));
   }
 
   async updateDataAsync(id: number) {
     this.isRendering = false;
     const response = await this.trainerService.getByIdAsync(id);
     this.trainer = <TrainerInfo>{
-      reviews: response.reviews.map(i => <ReviewInfo>{
-        stars: this.convertAverageScoreToStars(i.score),
-        clientName: i.clientName,
-        createDate: i.createDate,
-        description: i.description,
-        photoUrl: i.photoUrl
-      }),
       firstName: response.firstName,
       secondName: response.secondName,
       trainingsCount: response.trainingsCount,

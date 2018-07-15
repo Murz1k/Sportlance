@@ -6,6 +6,7 @@ import {TrainerProfileResponse} from './responses/trainer-profile-response';
 import {CollectionResponse} from '../common/collection-response';
 import {GetTrainersQuery} from './get-trainers-query';
 import {isNullOrUndefined} from 'util';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class TrainersService extends BaseService {
@@ -13,7 +14,7 @@ export class TrainersService extends BaseService {
     super();
   }
 
-  getAsync(query: GetTrainersQuery): Promise<CollectionResponse<TrainerInfoResponse>> {
+  get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerInfoResponse>> {
     const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
       .append('feedbacksMinCount', checkParam(query.feedbacksMinCount))
@@ -23,9 +24,11 @@ export class TrainersService extends BaseService {
       .append('searchString', checkParam(query.searchString))
       .append('offset', checkParam(query.offset))
       .append('count', checkParam(query.count))
+      .append('country', checkParam(query.country))
+      .append('city', checkParam(query.city))
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
-    return this.http.get<CollectionResponse<TrainerInfoResponse>>(`${this.baseApiUrl}/trainers`, {params: parameters}).toPromise();
+    return this.http.get<CollectionResponse<TrainerInfoResponse>>(`${this.baseApiUrl}/trainers`, {params: parameters});
   }
 
   getByIdAsync(trainerId: number): Promise<TrainerProfileResponse> {

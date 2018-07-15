@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {TrainerInfo} from './trainer-info';
 import {Star} from './star';
 import {isNullOrUndefined} from 'util';
@@ -7,27 +7,26 @@ import {TrainersService} from '../../services/trainers/trainers.service';
 import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {MatRadioChange} from '@angular/material';
-import {HttpClient} from "@angular/common/http";
-import {Title} from "@angular/platform-browser";
+import {HttpClient} from '@angular/common/http';
+import {Title} from '@angular/platform-browser';
+import {ISubscription} from 'rxjs-compat/Subscription';
 
 @Component({
   selector: 'app-trainers',
   templateUrl: './trainers.component.html',
   styleUrls: ['./trainers.component.scss']
 })
-export class TrainersComponent implements OnInit {
+export class TrainersComponent {
 
   starsNumber = 5;
   trainers: Array<TrainerInfo> = [];
   isRendering = true;
-  filtersIsHidden = true;
   public isAuthorized = false;
-  public priceFilters = [];
-  public feedbackFilters = [];
   public Paths = Paths;
 
   public searchString: string;
+  public country: string;
+  public city: string;
 
   public minPrice?: number;
   public maxPrice?: number;
@@ -35,13 +34,11 @@ export class TrainersComponent implements OnInit {
   public offset = 0;
   public count = 10;
   public totalCount = 100;
-  public pagesCount = 0;
-  public currentPage = 0;
-
-  public pages: number[] = [];
 
   public minFeedbacksCount?: number;
   public maxFeedbacksCount?: number;
+
+  public subscription: ISubscription;
 
   constructor(private router: Router,
               private httpClient: HttpClient,
@@ -52,65 +49,36 @@ export class TrainersComponent implements OnInit {
     this.titleService.setTitle(`Тренеры | Sportlance`);
 
     this.isAuthorized = this.accountService.isAuthorized;
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
+    this.activatedRoute.queryParams.subscribe(async (params: Params) => {
       this.searchString = params['q'];
+      this.country = params['country'];
+      this.city = params['city'];
       this.minPrice = params['minPrice'];
       this.maxPrice = params['maxPrice'];
-      this.currentPage = isNullOrUndefined(params['page']) ? 0 : +params['page'];
-      this.offset = this.count * this.currentPage;
       this.minFeedbacksCount = params['minFeedbacksCount'];
       this.maxFeedbacksCount = params['maxFeedbacksCount'];
+
+      this.updateData();
     });
-
-    this.priceFilters = [
-      {min: null, max: null, label: 'Любая стоимость'},
-      {min: null, max: 500, label: '500Р и менее'},
-      {min: 500, max: 1000, label: '500Р - 1000р'},
-      {min: 1000, max: 5000, label: '1000Р - 5000р'},
-      {min: 5000, max: 10000, label: '5000Р - 10000р'},
-      {min: 10000, max: null, label: '10000Р и более'}
-    ];
-
-    this.feedbackFilters = [
-      {min: null, max: null},
-      {min: null, max: 10},
-      {min: 10, max: 50},
-      {min: 50, max: 100},
-      {min: 100, max: null}
-    ];
   }
 
-  goToPage(page: number) {
-    this.currentPage = page;
-    this.offset = this.count * page;
-    this.updateDataAsync();
-  }
-
-  changePriceFilter(event: MatRadioChange) {
-    if (isNullOrUndefined(event.value)) return;
-    this.minPrice = this.priceFilters[event.value].min;
-    this.maxPrice = this.priceFilters[event.value].max;
-  }
-
-  changeFeedbackFilter(event: MatRadioChange) {
-    if (isNullOrUndefined(event.value)) return;
-    this.minFeedbacksCount = this.feedbackFilters[event.value].min;
-    this.maxFeedbacksCount = this.feedbackFilters[event.value].max;
-  }
-
-  async updateDataAsync() {
-    this.isRendering = true;
-    const response = await this.trainerService.getAsync(<GetTrainersQuery>{
+  public onScrollDownAsync() {
+    if (this.offset + this.count >= this.totalCount) {
+      return;
+    }
+    this.offset = this.count + this.offset;
+    this.subscription = this.trainerService.get(<GetTrainersQuery>{
       searchString: this.searchString,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
       offset: this.offset,
       count: this.count,
+      count: this.count,
+      country: this.country,
       feedbacksMinCount: this.minFeedbacksCount,
       feedbacksMaxCount: this.maxFeedbacksCount
-    });
-    if (response.items) {
-      this.trainers = response.items.map(i => <TrainerInfo>{
+    }).subscribe(response => {
+      response.items.map(i => <TrainerInfo>{
         id: i.id,
         city: i.city,
         country: i.country,
@@ -123,52 +91,69 @@ export class TrainersComponent implements OnInit {
         trainingsCount: i.trainingsCount,
         trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
         sports: i.sports,
-        photoUrl: i.photoUrl,
+        photoUrl: isNullOrUndefined(i.photo) ? null : `data:image/jpg;base64,${i.photo.data}`,
         about: this.cutAbout(i.about)
-      });
-      this.offset = response.offset;
+      }).forEach(item => this.trainers.push(item));
       this.totalCount = response.totalCount;
-      this.pagesCount = this.count === 0 ? 0 : Math.round(this.totalCount / this.count);
+    });
+  }
 
-      this.pages = this.pagesCount < 6 ? Array(this.pagesCount).fill(0).map((x, i) => i) : [];
-      this.isRendering = false;
-
-      this.router.navigate([Paths.Trainers], {
-        queryParams: {
-          q: this.searchString,
-          minPrice: this.minPrice,
-          maxPrice: this.maxPrice,
-          page: this.currentPage === 0 ? null : this.currentPage,
-          feedbacksMinCount: this.minFeedbacksCount,
-          feedbacksMaxCount: this.maxFeedbacksCount
-        }
-      });
+  updateData() {
+    this.isRendering = true;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.offset = 0;
     }
+    this.subscription = this.trainerService.get(<GetTrainersQuery>{
+      searchString: this.searchString,
+      minPrice: this.minPrice,
+      maxPrice: this.maxPrice,
+      offset: this.offset,
+      count: this.count,
+      country: this.country,
+      city: this.city,
+      feedbacksMinCount: this.minFeedbacksCount,
+      feedbacksMaxCount: this.maxFeedbacksCount
+    }).subscribe(response => {
+      if (response.items) {
+        this.trainers = response.items.map(i => <TrainerInfo>{
+          id: i.id,
+          city: i.city,
+          country: i.country,
+          price: i.price,
+          secondName: i.secondName,
+          firstName: i.firstName,
+          stars: this.convertAverageScoreToStars(i.score),
+          title: i.title,
+          reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
+          trainingsCount: i.trainingsCount,
+          trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
+          sports: i.sports,
+          photoUrl: isNullOrUndefined(i.photo) ? null : `data:image/jpg;base64,${i.photo.data}`,
+          about: this.cutAbout(i.about)
+        });
+        this.offset = response.offset;
+        this.totalCount = response.totalCount;
+
+        this.isRendering = false;
+      }
+    });
   }
 
-  ckechKeyDownSearch(e): void {
-    if (e.keyCode === 13) {
-      this.searchAsync();
-    }
-  }
-
-  async submitFiltersAsync() {
-    this.offset = 0;
-    this.filtersIsHidden = true;
-    await this.updateDataAsync();
-  }
-
-  public showFilters(): void {
-    this.filtersIsHidden = !this.filtersIsHidden;
-  }
-
-  public async searchAsync(): Promise<void> {
-    this.offset = 0;
-    await this.updateDataAsync();
-  }
-
-  async ngOnInit() {
-    await this.updateDataAsync();
+  changeParams() {
+    const checkNumber = (param) => isNullOrUndefined(param) || param === '' || param === 0 ? null : +param;
+    const checkString = (param) => isNullOrUndefined(param) || param === '' ? null : '' + param;
+    this.router.navigate([Paths.Trainers], {
+      queryParams: {
+        q: checkString(this.searchString),
+        country: checkString(this.country),
+        city: checkString(this.city),
+        minPrice: checkNumber(this.minPrice),
+        maxPrice: checkNumber(this.maxPrice),
+        minFeedbacksCount: checkNumber(this.minFeedbacksCount),
+        maxFeedbacksCount: checkNumber(this.maxFeedbacksCount)
+      }
+    });
   }
 
   async openProfileAsync(trainerId: number) {

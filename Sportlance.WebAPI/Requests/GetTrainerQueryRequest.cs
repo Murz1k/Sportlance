@@ -17,6 +17,10 @@ namespace Sportlance.WebAPI.Requests
 
         public string SearchString { get; set; }
 
+        public string Country { get; set; }
+
+        public string City { get; set; }
+
         public ushort? TrainingsMinCount { get; set; }
 
         public ushort? TrainingsMaxCount { get; set; }
@@ -33,6 +37,8 @@ namespace Sportlance.WebAPI.Requests
         {
             return new TrainersQuery
             {
+                Country = Country,
+                City = City,
                 Offset = Offset,
                 Count = Count,
                 MinPrice = MinPrice,

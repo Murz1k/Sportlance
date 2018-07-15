@@ -20,8 +20,6 @@ namespace Sportlance.DAL.Entities
 
         public string About { get; set; }
 
-        public string PhotoUrl { get; set; }
-
         public double Price { get; set; }
 
         public string BackgroundUrl { get; set; }

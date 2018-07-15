@@ -113,7 +113,10 @@ namespace Sportlance.DAL.Test
                     LastName = dict["LastName"][new Random().Next(0, 5)],
                     Email = email,
                     IsEmailConfirm = Convert.ToBoolean(new Random().Next(0, 2)),
-                    PasswordHash = "Test"
+                    PasswordHash = "Test",
+                    PhotoUrl =
+                        "https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
+
                 };
                 _users.Add(user);
             }
@@ -215,9 +218,8 @@ namespace Sportlance.DAL.Test
                 City = "Moscow",
                 Country = "Russia",
                 Title = "Super Trainer",
-                Price = new Random().Next(10, 40) * 100,
-                PhotoUrl =
-                    "https://odesk-prod-portraits.s3.amazonaws.com/Users:svetoslav-vladim:PortraitUrl_100?AWSAccessKeyId=AKIAIKIUKM3HBSWUGCNQ&Expires=2147483647&Signature=QEHQgSepTHZYdyB9x%2Fe9Vk4ILdo%3D"
+                Price = new Random().Next(10, 40) * 100
+                
             });
 
             await _env.GetContext().AddRangeAsync(trainers);

@@ -25,8 +25,6 @@ namespace Sportlance.BLL.Entities
 
         public TrainerStatus Status { get; set; }
 
-        public IReadOnlyCollection<ReviewInfo> Reviews { get; set; }
-
         public IReadOnlyCollection<Sport> Sports { get; set; }
 
         public int TrainingsCount { get; set; }

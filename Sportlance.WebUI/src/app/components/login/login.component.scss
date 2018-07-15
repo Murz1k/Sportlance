@@ -16,7 +16,7 @@
 }
 
 form {
-  width: 400px;
+  width: 360px;
   margin: auto;
 }
 
@@ -73,14 +73,6 @@ form {
   line-height: 24px;
   vertical-align: middle;
   margin-bottom: 0;
-}
-
-.input-icon {
-  color: $primary-dark-color;
-  position: absolute;
-  left: 9px;
-  top: 6px;
-  font-size: 24px;
 }
 
 .login-input, .password-input {

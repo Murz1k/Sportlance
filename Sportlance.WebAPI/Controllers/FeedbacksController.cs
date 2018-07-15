@@ -1,14 +1,23 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.BLL.Entities;
+using Sportlance.BLL.Interfaces;
+using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Route("api/feedbacks")]
     public class FeedbacksController : Controller
     {
+        private readonly IFeedbackService _service;
+
+        public FeedbacksController(IFeedbackService service)
+        {
+            _service = service;
+        }
+
         [HttpGet]
         [Authorize]
         public void Get()
@@ -16,10 +25,23 @@ namespace Sportlance.WebAPI.Controllers
             // Получить все отзывы может только администратор в админке
         }
 
-        [HttpGet("{trainerId}")]
-        public void Get(int trainerId)
+        [HttpGet]
+        [Route("api/trainers/{trainerId}/feedbacks")]
+        public async Task<PartialCollectionResponse<ReviewInfo>> GetTrainerFeedbacks(int trainerId, [FromQuery] GetFeedbacksQueryRequest request)
         {
-            // Получить все отзывы по тренеру
+            var feedbacks = await _service.GetTrainerFeedbacksAsync(trainerId, request.Offset, request.Count);
+
+            return feedbacks.ToPartialCollectionResponse();
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("api/trainers/self/feedbacks")]
+        public async Task<PartialCollectionResponse<ReviewInfo>> GetTrainerFeedbacks([FromQuery] GetFeedbacksQueryRequest request)
+        {
+            var feedbacks = await _service.GetTrainerFeedbacksAsync(User.GetUserId(), request.Offset, request.Count);
+
+            return feedbacks.ToPartialCollectionResponse();
         }
 
         [HttpPost]

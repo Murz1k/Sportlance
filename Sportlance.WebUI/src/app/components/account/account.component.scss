@@ -35,8 +35,9 @@ h4, h5, h6 {
   margin-bottom: 24px;
 }
 
-.m-0-bottom {
-  margin-bottom: 0 !important;
+.mat-checkbox {
+  display: flex;
+  background-color: transparent;
 }
 
 .ellipsis {
@@ -171,7 +172,7 @@ h1, h2, h3, h4, h5, h6 {
   .info-list-item {
     display: inline-block;
   }
-  .info-list-item:not(:last-child){
+  .info-list-item:not(:last-child) {
     margin-right: 12px;
   }
 }

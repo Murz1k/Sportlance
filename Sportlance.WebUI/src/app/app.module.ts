@@ -52,9 +52,12 @@ import {CreateTeamComponent} from "./components/create-team/create-team.componen
 import {EditPasswordDialogComponent} from "./components/common/edit-password-dialog/edit-password-dialog.component";
 import {TeamsComponent} from "./components/teams/teams.component";
 import {TeamsService} from "./services/teams/teams.service";
-import { TeamProfileComponent } from './components/team-profile/team-profile.component';
-import { AddTeamPhotoDialogComponent } from './components/common/add-team-photo-dialog/add-team-photo-dialog.component';
+import {TeamProfileComponent} from './components/team-profile/team-profile.component';
+import {AddTeamPhotoDialogComponent} from './components/common/add-team-photo-dialog/add-team-photo-dialog.component';
 import {EditBackgroundDialogComponent} from "./components/common/edit-background-dialog/edit-background-dialog.component";
+import {FeedbacksService} from './services/feedbacks/feedbacks.service';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {NumberOnlyDirective} from "./core/number-only.directive";
 
 
 @NgModule({
@@ -85,7 +88,8 @@ import {EditBackgroundDialogComponent} from "./components/common/edit-background
     TeamsComponent,
     TeamProfileComponent,
     AddTeamPhotoDialogComponent,
-    EditBackgroundDialogComponent
+    EditBackgroundDialogComponent,
+    NumberOnlyDirective
   ],
   entryComponents: [
     EditPhotoDialogComponent,
@@ -102,6 +106,7 @@ import {EditBackgroundDialogComponent} from "./components/common/edit-background
     MatToolbarModule,
     MatCheckboxModule,
     AppRoutingModule,
+    InfiniteScrollModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -122,6 +127,7 @@ import {EditBackgroundDialogComponent} from "./components/common/edit-background
     TrainersService,
     AccountService,
     AuthApiClient,
+    FeedbacksService,
     ProfileApiClient,
     DialogService,
     UserInfoStorage,

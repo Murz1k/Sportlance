@@ -1,4 +1,4 @@
-import {ReviewInfoResponse} from './review-info-response';
+import {ReviewInfoResponse} from '../../feedbacks/responses/review-info-response';
 import {SportResponse} from '../../sports/sport-response';
 import {TrainerStatus} from '../trainer-status';
 
@@ -13,7 +13,6 @@ export interface TrainerProfileResponse {
   about: string;
   title: string;
   status: TrainerStatus;
-  reviews: Array<ReviewInfoResponse>;
   trainingsCount: number;
   sports: Array<SportResponse>;
   photoUrl: string;

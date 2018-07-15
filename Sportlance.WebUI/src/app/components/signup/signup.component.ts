@@ -18,11 +18,7 @@ export class SignupComponent implements OnInit {
   public isEmailExist: boolean;
   public emailAlreadyExist: boolean;
 
-  public beTrainer: boolean;
-  public needTrainer: boolean;
-
   public submitForm: FormGroup;
-  public showChooseRoleError: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -30,16 +26,6 @@ export class SignupComponent implements OnInit {
               private authClient: AuthApiClient) {
     this.isEmailExist = false;
     this.createForm();
-  }
-
-  public changeBe(): void {
-    this.beTrainer = !this.beTrainer;
-    this.showChooseRoleError = false;
-  }
-
-  public changeNeed(): void {
-    this.needTrainer = !this.needTrainer;
-    this.showChooseRoleError = false;
   }
 
   async checkUserEmailAsync(): Promise<void> {
@@ -87,18 +73,12 @@ export class SignupComponent implements OnInit {
     if (this.submitForm.invalid) {
       return;
     }
-    if (!this.beTrainer && !this.needTrainer) {
-      this.showChooseRoleError = true;
-      return;
-    }
     const form = this.submitForm.value;
     await this.authClient.registerAsync(<RegistrationRequest>{
       email: form.email,
       lastName: form.lastName,
       password: form.password,
-      firstName: form.firstName,
-      beTrainer: this.beTrainer,
-      needTrainer: this.needTrainer
+      firstName: form.firstName
     });
 
     const response = await this.authClient.loginAsync(<LoginRequest>{

@@ -11,7 +11,7 @@ export interface TrainerInfoResponse {
   title: string;
   feedbacksCount: number;
   trainingsCount: number;
-  photoUrl: string;
+  photo: any;
   about: string;
   sports: Array<SportResponse>;
 }

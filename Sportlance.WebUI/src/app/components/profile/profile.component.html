@@ -69,7 +69,7 @@
     </div>
     <section class="pull-left">
       <ul class="feedbacks">
-        <li *ngFor="let review of trainer.reviews">
+        <li *ngFor="let review of feedbacks">
           <div class="row" style="padding-bottom: 1em;">
             <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
               {{scoreStar.isFull ? 'star' : ''}}
@@ -85,6 +85,12 @@
           </div>
         </li>
       </ul>
+      <div class="search-results"
+           infiniteScroll
+           [infiniteScrollDistance]="1"
+           [infiniteScrollThrottle]="1000"
+           (scrolled)="onScrollDownAsync()">
+      </div>
     </section>
   </div>
 </div>

@@ -1,14 +1,4 @@
-.m-md-top {
-  margin-top: 20px !important;
-}
-
-.m-0-bottom {
-  margin-bottom: 0 !important;
-}
-
-.m-0-right {
-  margin-right: 0 !important;
-}
+@import "../../../styles";
 
 h1, h2, h3, h4, h5, h6 {
   word-break: break-word;
@@ -18,16 +8,12 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.3333;
 }
 
-.form-input{
-  border-color: #e0e0e0;
-  box-shadow: none;
-  padding-left: 44px;
+form {
+  width: 360px;
+  margin: auto;
 }
 
-.input-icon{
-  color: #008329;
-  position: absolute;
-  left: 9px;
-  top: 6px;
-  font-size: 24px;
+.title {
+  padding-bottom: 24px;
+  font-size: 20px;
 }

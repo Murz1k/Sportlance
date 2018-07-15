@@ -25,7 +25,7 @@ namespace Sportlance.BLL.Services
 
         public async Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query)
         {
-            var trainerQuery = from trainer in _appContext.Trainers
+            var collection = await (from trainer in _appContext.Trainers
                     .Include(t => t.User)
                     .Include(i => i.TrainerSports)
                     .ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
@@ -37,6 +37,8 @@ namespace Sportlance.BLL.Services
                           trainer.TrainerSports.Any(i => i.Sport.Name.Contains(query.SearchString)) ||
                           query.SearchString.Contains(trainer.User.FirstName) ||
                           query.SearchString.Contains(trainer.User.LastName))
+                      && (query.Country == null || trainer.Country.Contains(query.Country))
+                      && (query.City == null || trainer.City.Contains(query.City))
                       && (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <=
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
                       && (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >=
@@ -45,9 +47,6 @@ namespace Sportlance.BLL.Services
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
                       && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >=
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
-                select trainer;
-
-            return await (from trainer in trainerQuery
                 select new TrainerListItem
                 {
                     Id = trainer.UserId,
@@ -55,7 +54,6 @@ namespace Sportlance.BLL.Services
                     SecondName = trainer.User.LastName,
                     City = trainer.City,
                     Country = trainer.Country,
-                    PhotoUrl = trainer.PhotoUrl,
                     Price = trainer.Price,
                     Title = trainer.Title,
                     About = trainer.About,
@@ -65,6 +63,17 @@ namespace Sportlance.BLL.Services
                     TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count(),
                     Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray()
                 }).GetPageAsync(query.Offset, query.Count);
+
+            return new PagingCollection<TrainerListItem>(
+                await Task.WhenAll(collection.Select(AddPhotoToTrainerAsync)), 
+                collection.TotalCount, 
+                collection.Offset);
+        }
+
+        private async Task<TrainerListItem> AddPhotoToTrainerAsync(TrainerListItem trainer)
+        {
+            trainer.Photo = await _trainerStorageProvider.DowndloadAsync($"trainer-{trainer.Id}/main");
+            return trainer;
         }
 
         public async Task<TrainerProfile> GetById(long trainerId)
@@ -83,21 +92,12 @@ namespace Sportlance.BLL.Services
                 SecondName = trainer.User.LastName,
                 City = trainer.City,
                 Country = trainer.Country,
-                PhotoUrl = trainer.PhotoUrl,
+                PhotoUrl = trainer.User.PhotoUrl,
                 BackgroundUrl = trainer.BackgroundUrl,
                 Price = trainer.Price,
                 About = trainer.About,
                 Title = trainer.Title,
                 Score = trainer.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback?.Score),
-                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
-                    .OrderByDescending(i => i.Feedback.CreateDate).Select(i =>
-                        new ReviewInfo
-                        {
-                            ClientName = i.Client.User.FirstName,
-                            Score = i.Feedback.Score,
-                            Description = i.Feedback.Description,
-                            CreateDate = i.Feedback.CreateDate
-                        }).ToArray(),
                 Status = trainer.Status,
                 Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray(),
                 TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
@@ -136,7 +136,7 @@ namespace Sportlance.BLL.Services
             var photoName = $"trainer-{trainerId}/main";
             var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
             var team = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
-            team.PhotoUrl = link;
+            team.User.PhotoUrl = link;
             await _appContext.SaveChangesAsync();
         }
 

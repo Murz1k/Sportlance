@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sportlance.DAL.Entities;
+using Sportlance.WebAPI.Utilities;
 
 namespace Sportlance.BLL.Entities
 {
@@ -27,8 +28,7 @@ namespace Sportlance.BLL.Entities
 
         public int TrainingsCount { get; set; }
 
-        //TODO поменять на AzureBlobStorage
-        public string PhotoUrl { get; set; }
+        public AzureFile Photo { get; set; }
 
         public IReadOnlyCollection<Sport> Sports { get; set; }
     }

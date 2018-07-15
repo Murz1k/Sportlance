@@ -40,13 +40,6 @@ export class CreateTeamComponent implements OnInit {
     this.isRendering = false;
     const response = await this.trainerService.getSelfAsync();
     this.trainer = <TrainerInfo>{
-      reviews: response.reviews.map(i => <ReviewInfo>{
-        stars: this.convertAverageScoreToStars(i.score),
-        clientName: i.clientName,
-        createDate: i.createDate,
-        description: i.description,
-        photoUrl: i.photoUrl
-      }),
       firstName: response.firstName,
       secondName: response.secondName,
       trainingsCount: response.trainingsCount,

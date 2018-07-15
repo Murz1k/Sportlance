@@ -9,205 +9,212 @@
       </div>
     </div>
   </div>
-  <div class="air-card page">
-    <section class="air-card-header">
-      <article class="search-container">
-        <input [(ngModel)]="searchString" type="text" placeholder="Введите Имя, Фамилию или Специальность"
-               class="search-input form-control"
-               (keydown)="ckechKeyDownSearch($event)"/>
-        <button class="btn btn-primary m-0 pull-right search-btn" (click)="searchAsync()">
-          <i class="material-icons">search</i>
-        </button>
-        <button class="btn pull-right filter-btn" (click)="showFilters()">
-          <i class="material-icons">tune</i>
-          <span>Фильтры</span>
-        </button>
-      </article>
-      <div class="filters" [class.hidden]="filtersIsHidden">
-        <div class="filters-container">
-          <div class="filter-column">
-            <label>Стоимость тренировки</label>
-            <mat-radio-group (change)="changePriceFilter($event)">
-              <mat-radio-button
-                [checked]="minPrice === price.min && minPrice === price.max"
-                *ngFor="let price of priceFilters; let i = index">
-                {{price.label}}
-              </mat-radio-button>
-            </mat-radio-group>
+  <div class="main-bar page">
+    <div class="air-card">
+      <section *ngIf="isRendering; else loading">
+        <div class="tile-placeholder tile-placeholder_index_1">
+          <div class="tile-placeholder__name">
           </div>
-          <div class="filter-column">
-            <label>Количество отзывов</label>
-            <mat-radio-group (change)="changeFeedbackFilter($event)">
-              <mat-radio-button [checked]="!minFeedbacksCount || !maxFeedbacksCount" value="0">Любое количество
-                отзывов
-              </mat-radio-button>
-              <mat-radio-button value="1">0 - 10</mat-radio-button>
-              <mat-radio-button value="2">10 - 50</mat-radio-button>
-              <mat-radio-button value="3">50 - 100</mat-radio-button>
-              <mat-radio-button value="4">100 и более</mat-radio-button>
-            </mat-radio-group>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
           </div>
         </div>
-        <button class="btn btn-default" (click)="submitFiltersAsync()">
-          Применить
-        </button>
-      </div>
-    </section>
-    <section *ngIf="isRendering; else loading">
-      <div class="tile-placeholder tile-placeholder_index_1">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_2">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_3">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_4">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_5">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_6">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_7">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_8">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_9">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-      <div class="tile-placeholder tile-placeholder_index_10">
-        <div class="tile-placeholder__name">
-        </div>
-        <div class="tile-placeholder__title">
-        </div>
-        <div class="tile-placeholder__text">
-        </div>
-      </div>
-    </section>
-    <ng-template #loading>
-      <section *ngIf="trainers.length === 0">
-        <div class="text-center" role="alert">
-          <img src="/o/profiles/browse/bundles/odeskprofilesearch/images/no-results.svg">
-          <h2 class="m-lg-top m-md-bottom text-muted">Please try modifying your search to get more results.</h2>
-        </div>
-      </section>
-      <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
-        <div class="avatar-container">
-          <img src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg m-0">
-          <div style="padding-top: 1em;">
-            <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
-              {{scoreStar.isFull ? 'star' : ''}}
-              {{scoreStar.isEmpty ? 'star_border' : ''}}
-              {{scoreStar.isHalf ? 'star_half' : ''}}
-            </i>
+        <div class="tile-placeholder tile-placeholder_index_2">
+          <div class="tile-placeholder__name">
           </div>
-          <div style="position: relative; text-align: center;">
-            <span class="text-muted">{{trainer.reviewTitle}}</span>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
           </div>
         </div>
-        <div class="info-container">
-          <h4 class="m-0-top-bottom">
-            <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
-              {{trainer.firstName}} {{trainer.secondName}}
-            </a>
-          </h4>
-          <h4 class="info-section">{{trainer.title}}</h4>
-          <div class="info-section counts-list">
-            <div class="counts-list-item">
-              <strong>{{trainer.price}}₽</strong>
-              <span class="text-muted">/ час</span>
-            </div>
-            <div class="counts-list-item">
-              <i class="material-icons position-icon text-muted">access_time</i>
-              <strong>{{trainer.trainingsCount}}</strong>
-              <span class="text-muted"> {{trainer.trainingsTitle}}</span>
-            </div>
-            <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
-              <i class="material-icons position-icon text-muted">place</i>
-              <strong>{{trainer.country}}, {{trainer.city}} </strong>
-            </div>
+        <div class="tile-placeholder tile-placeholder_index_3">
+          <div class="tile-placeholder__name">
           </div>
-          <p class="info-section">{{trainer.about}}</p>
-          <div>
-            <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
-              {{sport.name}}
-            </a>
-            <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
+          </div>
+        </div>
+        <div class="tile-placeholder tile-placeholder_index_4">
+          <div class="tile-placeholder__name">
+          </div>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
+          </div>
+        </div>
+        <div class="tile-placeholder tile-placeholder_index_5">
+          <div class="tile-placeholder__name">
+          </div>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
+          </div>
+        </div>
+        <div class="tile-placeholder tile-placeholder_index_6">
+          <div class="tile-placeholder__name">
+          </div>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
+          </div>
+        </div>
+        <div class="tile-placeholder tile-placeholder_index_7">
+          <div class="tile-placeholder__name">
+          </div>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
+          </div>
+        </div>
+        <div class="tile-placeholder tile-placeholder_index_8">
+          <div class="tile-placeholder__name">
+          </div>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
+          </div>
+        </div>
+        <div class="tile-placeholder tile-placeholder_index_9">
+          <div class="tile-placeholder__name">
+          </div>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
+          </div>
+        </div>
+        <div class="tile-placeholder tile-placeholder_index_10">
+          <div class="tile-placeholder__name">
+          </div>
+          <div class="tile-placeholder__title">
+          </div>
+          <div class="tile-placeholder__text">
           </div>
         </div>
       </section>
-      <footer *ngIf="pagesCount > 1">
-        <section class="air-card-footer p-0-top-bottom">
-          <div class="pull-right">
-            <ul class="pagination pagination-sm m-0-top m-xs-bottom">
-              <li [class.disabled]="offset === 0" class="pagination-prev">
-                <button [disabled]="offset === 0" (click)="goToPage(currentPage - 1)">
-                  <i class="material-icons m-0-left arrow">chevron_left</i>Previous
-                </button>
-              </li>
-              <li class="pagination-page" [class.active]="currentPage=== page" *ngFor="let page of pages">
-                <button (click)="goToPage(page)">{{page + 1}}</button>
-              </li>
-              <li [class.disabled]="totalCount < offset + count" class="pagination-next">
-                <button [disabled]="totalCount < offset + count" (click)="goToPage(currentPage + 1)">Next
-                  <i class="material-icons m-0-left arrow">chevron_right</i>
-                </button>
-              </li>
-            </ul>
+      <ng-template #loading>
+        <section *ngIf="trainers.length === 0">
+          <div class="text-center" role="alert">
+            <img src="/o/profiles/browse/bundles/odeskprofilesearch/images/no-results.svg">
+            <h2 class="text-muted">Please try modifying your search to get more results.</h2>
           </div>
         </section>
-      </footer>
-    </ng-template>
+        <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
+          <div class="avatar-container">
+            <div *ngIf="!trainer.photoUrl" class="empty-avatar">
+              <i class="material-icons">account_circle</i>
+            </div>
+            <img *ngIf="trainer.photoUrl" src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg">
+            <div style="padding-top: 1em;">
+              <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
+                {{scoreStar.isFull ? 'star' : ''}}
+                {{scoreStar.isEmpty ? 'star_border' : ''}}
+                {{scoreStar.isHalf ? 'star_half' : ''}}
+              </i>
+            </div>
+            <div style="position: relative; text-align: center;">
+              <span class="text-muted">{{trainer.reviewTitle}}</span>
+            </div>
+          </div>
+          <div class="info-container">
+            <h4>
+              <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
+                {{trainer.firstName}} {{trainer.secondName}}
+              </a>
+            </h4>
+            <h4 class="info-section">{{trainer.title}}</h4>
+            <div class="info-section counts-list">
+              <div class="counts-list-item">
+                <strong>{{trainer.price}}₽</strong>
+                <span class="text-muted">/ час</span>
+              </div>
+              <div class="counts-list-item">
+                <i class="material-icons position-icon text-muted">access_time</i>
+                <strong>{{trainer.trainingsCount}}</strong>
+                <span class="text-muted"> {{trainer.trainingsTitle}}</span>
+              </div>
+              <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
+                <i class="material-icons position-icon text-muted">place</i>
+                <strong>{{trainer.country}}, {{trainer.city}} </strong>
+              </div>
+            </div>
+            <p class="info-section">{{trainer.about}}</p>
+            <div>
+              <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+                {{sport.name}}
+              </a>
+              <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
+            </div>
+          </div>
+        </section>
+        <div class="search-results" *ngIf="trainers.length <= count"
+             infiniteScroll
+             [infiniteScrollDistance]="1"
+             [infiniteScrollThrottle]="200"
+             (scrolled)="onScrollDownAsync()">
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="side-bar page" style="position: sticky; top: 24px;">
+    <div class="air-card">
+      <section class="air-card-header">
+        <div style="position: relative;">
+          <input (keyup)="changeParams()" [(ngModel)]="searchString" type="text"
+                 placeholder="Введите Имя, Фамилию или Специальность"
+                 class="form-control form-input"/>
+          <i class="material-icons input-icon">search</i>
+        </div>
+        <div class="filters">
+          <div class="filters-container">
+            <div class="filter-column">
+              <label>Страна</label>
+              <input type="text" placeholder="Россия"
+                     [(ngModel)]="country"
+                     (keyup)="changeParams()"
+                     style="display: inline-block;"
+                     class="form-control"/>
+            </div>
+            <div class="filter-column">
+              <label>Город</label>
+              <input type="text" placeholder="Москва"
+                     [(ngModel)]="city"
+                     (keyup)="changeParams()"
+                     style="display: inline-block;"
+                     class="form-control"/>
+            </div>
+            <div class="filter-column">
+              <label>Стоимость тренировки</label>
+              <div style="width: 50%; display: inline-block; padding-right: 5px;">
+                <input (keyup)="changeParams()" [(ngModel)]="minPrice" appNumberOnly type="text" placeholder="от 1000"
+                       style="display: inline-block;"
+                       class="form-control"/>
+              </div>
+              <div style="width: 50%; display: inline-block; padding-left: 5px;">
+                <input (keyup)="changeParams()" [(ngModel)]="maxPrice" appNumberOnly type="text" placeholder="до 10000"
+                       style="display: inline-block;"
+                       class="form-control"/>
+              </div>
+            </div>
+            <div class="filter-column">
+              <label>Количество отзывов</label>
+              <div style="width: 50%; display: inline-block; padding-right: 5px;">
+                <input (keyup)="changeParams()" [(ngModel)]="minFeedbacksCount" appNumberOnly type="text"
+                       placeholder="от 0"
+                       style="display: inline-block;"
+                       class="form-control"/>
+              </div>
+              <div style="width: 50%; display: inline-block; padding-left: 5px;">
+                <input (keyup)="changeParams()" [(ngModel)]="maxFeedbacksCount" appNumberOnly type="text"
+                       placeholder="до 100"
+                       style="display: inline-block;"
+                       class="form-control"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </div>
