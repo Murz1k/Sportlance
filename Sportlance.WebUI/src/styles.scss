@@ -380,28 +380,24 @@ small {
   line-height: 1.42857;
   color: #222;
   background-color: $default-color;
-  min-height: 55px;
+  min-height: 46px;
   box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
   z-index: 10;
 }
 
-header a {
+header a, header .btn-link {
   text-decoration: none;
   font-size: 12px;
   line-height: 12px;
   color: #666;
-  display: flex;
   align-items: center;
-  text-transform: uppercase;
   font-weight: bold;
-}
-
-header a:not(:first-child) {
-  padding-left: 1em;
+  height: 46px;
+  display: inline-flex;
 }
 
 header a:not(:last-child) {
-  padding-right: 1em;
+  padding-right: 16px;
 }
 
 header a.active, a {
@@ -451,6 +447,7 @@ header mat-toolbar {
 
 .mat-toolbar-row {
   padding: 0 !important;
+  height: 46px !important;
 }
 
 .form-control.ng-dirty.ng-invalid {
@@ -474,7 +471,7 @@ a:active, a:hover {
 header a:active, header a:focus, header a:hover,
 .btn-link:active, .btn-link:focus, .btn-link:hover {
   color: $primary-color !important;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 a {
@@ -571,7 +568,7 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
 /* Large desktops and laptops */
 @media screen and (min-width: 1200px) {
   .content {
-    max-width: 1190px;
+    width: 1190px;
   }
 }
 
@@ -594,7 +591,6 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
 @media screen and (max-width: 480px) {
 
 }
-
 
 .avatar {
   border-radius: 50%;

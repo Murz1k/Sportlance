@@ -1,0 +1,29 @@
+<div *ngIf="isAuthorized; else isNotBlock;" style="position: relative;">
+  <div (click)="clickedInside($event)" class="profile-container">
+    <div class="user-name">
+      {{currentUser.firstName}}
+    </div>
+    <img
+      src="http://127.0.0.1:10000/devstoreaccount1/trainers/trainer-61/photo-83f41af4-f7b7-43c5-98fc-0111e9f81260.jpg"
+      style="border-radius: 50%; -o-object-fit: cover; object-fit: cover; width: 33px; height: 33px; margin-top: 7px; margin-bottom: 7px;">
+  </div>
+  <ul class="menu-container" *ngIf="isOpen">
+    <li class="menu-list-group">
+      <a class="menu-list-item" routerLink="/{{Paths.Account}}">Профиль</a>
+    </li>
+    <li class="menu-list-group">
+      <a class="menu-list-item" routerLink="/{{Paths.Settings}}">Настройки</a>
+      <button (click)="logout()" class="btn-link menu-list-item" style="font-weight: bold;">
+        Выйти
+      </button>
+    </li>
+  </ul>
+</div>
+<ng-template #isNotBlock class="auth-section" style="display: flex;">
+  <button (click)="login()" class="btn-link">
+    Войти
+  </button>
+  <button (click)="registerAsync()" class="btn-link">
+    Регистрация
+  </button>
+</ng-template>

@@ -8,6 +8,7 @@ import {TeamPhotoResponse} from './responses/team-photo-response';
 import {InviteMemberRequest} from './requests/invite-member-request';
 import {GetTeamQuery} from './requests/get-team-query';
 import {TeamResponse} from './requests/team-response';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class TeamsService extends BaseService {
@@ -15,13 +16,16 @@ export class TeamsService extends BaseService {
     super();
   }
 
-  getAsync(query: GetTeamQuery): Promise<CollectionResponse<TeamResponse>> {
+  get(query: GetTeamQuery): Observable<CollectionResponse<TeamResponse>> {
     const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
       .append('userId', checkParam(query.userId))
       .append('offset', checkParam(query.offset))
+      .append('searchString', checkParam(query.searchString))
+      .append('country', checkParam(query.country))
+      .append('city', checkParam(query.city))
       .append('count', checkParam(query.count));
-    return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams`, {params: parameters}).toPromise();
+    return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams`, {params: parameters});
   }
 
   getByIdAsync(teamId: number): Promise<TeamProfileResponse> {

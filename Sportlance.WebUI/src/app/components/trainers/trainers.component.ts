@@ -62,7 +62,7 @@ export class TrainersComponent {
     });
   }
 
-  public onScrollDownAsync() {
+  public onScrollDown() {
     if (this.offset + this.count >= this.totalCount) {
       return;
     }
@@ -73,7 +73,7 @@ export class TrainersComponent {
       maxPrice: this.maxPrice,
       offset: this.offset,
       count: this.count,
-      count: this.count,
+      city: this.city,
       country: this.country,
       feedbacksMinCount: this.minFeedbacksCount,
       feedbacksMaxCount: this.maxFeedbacksCount

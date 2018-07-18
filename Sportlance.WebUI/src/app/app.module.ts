@@ -58,6 +58,7 @@ import {EditBackgroundDialogComponent} from "./components/common/edit-background
 import {FeedbacksService} from './services/feedbacks/feedbacks.service';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {NumberOnlyDirective} from "./core/number-only.directive";
+import { MenuComponent } from './components/header/menu/menu.component';
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import {NumberOnlyDirective} from "./core/number-only.directive";
     TeamProfileComponent,
     AddTeamPhotoDialogComponent,
     EditBackgroundDialogComponent,
-    NumberOnlyDirective
+    NumberOnlyDirective,
+    MenuComponent
   ],
   entryComponents: [
     EditPhotoDialogComponent,

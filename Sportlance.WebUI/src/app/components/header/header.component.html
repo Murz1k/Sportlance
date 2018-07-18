@@ -2,29 +2,13 @@
   <mat-toolbar-row>
     <div *ngIf="!isEmpty" class="content">
       <div class="row">
-        <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
-        <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
-        <span class="example-spacer"></span>
-        <div *ngIf="isAuthorized; else isNotBlock;" class="auth-section" style="display: flex;">
-          <a routerLink="/{{Paths.Account}}" routerLinkActive="active">
-            {{currentUser.firstName}}
-            {{currentUser.secondName}}
-          </a>
-          <img
-            src="http://127.0.0.1:10000/devstoreaccount1/trainers/trainer-61/photo-83f41af4-f7b7-43c5-98fc-0111e9f81260.jpg"
-            style="border-radius: 50%; -o-object-fit: cover; object-fit: cover; width: 50px; height: 50px; margin-top: 7px;">
-          <button (click)="logout()" class="btn-link">
-            Выход
-          </button>
+        <div style="flex: 1 1 auto;">
+          <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
+          <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
         </div>
-        <ng-template #isNotBlock class="auth-section" style="display: flex;">
-          <button (click)="login()" class="btn-link">
-            Вход
-          </button>
-          <button (click)="registerAsync()" class="btn-link">
-            Регистрация
-          </button>
-        </ng-template>
+        <div style="flex: 0 0 auto;">
+          <app-menu></app-menu>
+        </div>
       </div>
     </div>
   </mat-toolbar-row>

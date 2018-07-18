@@ -118,7 +118,7 @@
             </div>
           </div>
           <div class="info-container">
-            <h4>
+            <h4 class="info-section">
               <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
                 {{trainer.firstName}} {{trainer.secondName}}
               </a>
@@ -152,7 +152,7 @@
              infiniteScroll
              [infiniteScrollDistance]="1"
              [infiniteScrollThrottle]="200"
-             (scrolled)="onScrollDownAsync()">
+             (scrolled)="onScrollDown()">
         </div>
       </ng-template>
     </div>
