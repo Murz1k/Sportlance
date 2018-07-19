@@ -8,7 +8,7 @@ import {TeamPhotoResponse} from './responses/team-photo-response';
 import {InviteMemberRequest} from './requests/invite-member-request';
 import {GetTeamQuery} from './requests/get-team-query';
 import {TeamResponse} from './requests/team-response';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class TeamsService extends BaseService {
@@ -16,15 +16,18 @@ export class TeamsService extends BaseService {
     super();
   }
 
+  private checkParam(param): string {
+    return isNullOrUndefined(param) ? '' : param.toString();
+  }
+
   get(query: GetTeamQuery): Observable<CollectionResponse<TeamResponse>> {
-    const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
-      .append('userId', checkParam(query.userId))
-      .append('offset', checkParam(query.offset))
-      .append('searchString', checkParam(query.searchString))
-      .append('country', checkParam(query.country))
-      .append('city', checkParam(query.city))
-      .append('count', checkParam(query.count));
+      .append('userId', this.checkParam(query.userId))
+      .append('offset', this.checkParam(query.offset))
+      .append('searchString', this.checkParam(query.searchString))
+      .append('country', this.checkParam(query.country))
+      .append('city', this.checkParam(query.city))
+      .append('count', this.checkParam(query.count));
     return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams`, {params: parameters});
   }
 
@@ -42,14 +45,27 @@ export class TeamsService extends BaseService {
     await this.http.post(`${this.baseApiUrl}/teams/${teamId}/photos`, data).toPromise();
   }
 
+  add(title: string, subtitle: string, phoneNumber: string, country: string, city: string, about: string, photo: Blob): Observable<Object> {
+    const data = new FormData();
+    data.append('title', title);
+    data.append('subtitle', subtitle);
+    data.append('phoneNumber', phoneNumber);
+    data.append('country', country);
+    data.append('city', city);
+    data.append('about', this.checkParam(about));
+    if (photo) {
+      data.append('photo', photo);
+    }
+    return this.http.post(`${this.baseApiUrl}/teams`, data);
+  }
+
   getSelfAsync(query: GetTeamQuery): Promise<CollectionResponse<TeamResponse>> {
-    const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
-      .append('userId', checkParam(query.userId))
-      .append('offset', checkParam(query.offset))
-      .append('count', checkParam(query.count));
+      .append('offset', this.checkParam(query.offset))
+      .append('count', this.checkParam(query.count));
     return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams/self`, {params: parameters}).toPromise();
   }
+
   async uploadMainPhotoAsync(teamId: number, photo: Blob): Promise<void> {
     const data = new FormData();
     data.append('photo', photo);
@@ -61,6 +77,7 @@ export class TeamsService extends BaseService {
     data.append('photo', photo);
     await this.http.put(`${this.baseApiUrl}/trainers/background`, data).toPromise();
   }
+
   //
   // setAvailabilityAsync(isAvailable: boolean) {
   //   return this.http.post(`${this.baseApiUrl}/trainers/availability`, {isAvailable: isAvailable}).toPromise();
@@ -75,6 +92,6 @@ export class TeamsService extends BaseService {
   // }
 
   inviteMemberAsync(teamId: number, memberId: number) {
-    return this.http.post(`${this.baseApiUrl}/teams/${teamId}/members`, <InviteMemberRequest>{ memberId: memberId}).toPromise();
+    return this.http.post(`${this.baseApiUrl}/teams/${teamId}/members`, <InviteMemberRequest>{memberId: memberId}).toPromise();
   }
 }

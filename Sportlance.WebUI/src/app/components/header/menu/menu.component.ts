@@ -55,10 +55,6 @@ export class MenuComponent implements OnInit {
     await this.router.navigate([Paths.SignUp]);
   }
 
-  navigateToAccount() {
-    this.router.navigate([Paths.Account]);
-  }
-
   logout() {
     this.accountService.logout();
     this.router.navigate([Paths.Login]);

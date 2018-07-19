@@ -66,6 +66,8 @@ namespace Sportlance.BLL.Services
 
         public async Task AddAsync(long authorId,string title,string subTitle,string country,string city,string about,string phoneNumber,AzureFile photo)
         {
+            var author = await _appContext.Users.FirstOrDefaultAsync(u=>u.Id == authorId);
+            var roleTeam = await _appContext.Roles.FirstOrDefaultAsync(r => r.Name == "Team");
             var newTeam = new Team
             {
                 AuthorId = authorId,
@@ -78,10 +80,20 @@ namespace Sportlance.BLL.Services
                 CreateDateTime = DateTime.Now,
                 Status = TeamStatus.Available
             };
-            await _appContext.AddAsync(newTeam);
+            
+            if (author.UserRoles.All(i => i.RoleId != roleTeam.Id))
+            {
+                _appContext.Add(new UserRole {RoleId = roleTeam.Id, UserId = authorId});
+            }
+            
+            _appContext.Add(newTeam);
+            
             await _appContext.SaveChangesAsync();
 
-            await UpdateMainPhotoAsync(newTeam.Id, photo);
+            if (photo != null)
+            {
+                await UpdateMainPhotoAsync(newTeam.Id, photo);
+            }
         }
 
         public async Task UpdateAboutAsync(long teamId, string about)

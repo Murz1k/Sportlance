@@ -39,7 +39,7 @@ namespace Sportlance.WebAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> PostAsync([FromBody] CreateTeamRequest request)
+        public async Task<IActionResult> PostAsync([FromForm] CreateTeamRequest request)
         {
             await _service.AddAsync(
                 User.GetUserId(), 
@@ -49,7 +49,7 @@ namespace Sportlance.WebAPI.Controllers
                 request.City, 
                 request.About, 
                 request.PhoneNumber, 
-                request.Photo.ToAzureFile());
+                request.Photo?.ToAzureFile());
             
             return NoContent();
         }

@@ -33,21 +33,12 @@ section {
   }
 }
 
-.m-0-top-bottom {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
 .air-card section:hover .o-tag-skill {
   color: #494949;
 }
 
 .air-card section:hover a {
   color: #222;
-}
-
-.m-0-bottom {
-  margin-bottom: 0 !important;
 }
 
 .ellipsis {
@@ -61,14 +52,6 @@ h1, h2, h3, h4, h5, h6 {
   word-break: break-word;
   color: #222;
   font-family: inherit;
-}
-
-.m-0-bottom {
-  margin-bottom: 0 !important;
-}
-
-.m-lg-top {
-  margin-top: 30px !important;
 }
 
 .list-inline {
@@ -90,10 +73,6 @@ h1, h2, h3, h4, h5, h6 {
   width: 135px !important;
   min-width: 135px !important;
   max-width: none;
-}
-
-.m-0-bottom {
-  margin-bottom: 0 !important;
 }
 
 .pull-right {
