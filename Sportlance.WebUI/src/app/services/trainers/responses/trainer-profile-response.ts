@@ -1,5 +1,5 @@
 import {ReviewInfoResponse} from '../../feedbacks/responses/review-info-response';
-import {SportResponse} from '../../sports/sport-response';
+import {SportResponse} from './sport-response';
 import {TrainerStatus} from '../trainer-status';
 
 export interface TrainerProfileResponse {

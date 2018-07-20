@@ -2,9 +2,7 @@ import {Paths} from './core/paths';
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {RootComponent} from './components/root/root.component';
-import {TrainersComponent} from './components/trainers/trainers.component';
 import {LandingComponent} from './components/landing/landing.component';
-import {ProfileComponent} from './components/profile/profile.component';
 import {SignupComponent} from './components/signup/signup.component';
 import {LoginComponent} from './components/login/login.component';
 import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
@@ -13,24 +11,16 @@ import {InitializationGuard} from './guards/initialization.guard';
 import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
-import {SettingsComponent} from './components/settings/settings.component';
-import {CreateTeamComponent} from "./components/create-team/create-team.component";
-import {TeamsComponent} from "./components/teams/teams.component";
-import {TeamProfileComponent} from "./components/team-profile/team-profile.component";
 
 const appRoutes: Routes = [
   {path: Paths.Initialization, component: InitializationComponent},
   {
     path: Paths.Root, component: RootComponent, canActivate: [InitializationGuard], children: [
       {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
-      {path: Paths.Trainers, pathMatch: 'full', component: TrainersComponent},
-      {path: Paths.Teams, pathMatch: 'full', component: TeamsComponent},
-      {path: Paths.Teams + '/:id', pathMatch: 'full', component: TeamProfileComponent},
-      {path: Paths.Trainers + '/:id', pathMatch: 'full', component: TrainersComponent},
-      {path: Paths.Profile + '/:id', pathMatch: 'full', component: ProfileComponent},
-      {path: Paths.Settings, pathMatch: 'full', component: SettingsComponent},
-      {path: Paths.Account, pathMatch: 'full', component: AccountComponent},
-      {path: Paths.CreateTeam, pathMatch: 'full', component: CreateTeamComponent}
+      {path: Paths.Trainers, loadChildren: './trainers/trainers.module#TrainersModule'},
+      {path: Paths.Teams, loadChildren: './teams/teams.module#TeamsModule'},
+      {path: Paths.Settings, loadChildren: './settings/settings.module#SettingsModule'},
+      {path: Paths.Account, pathMatch: 'full', component: AccountComponent}
     ]
   },
   {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},

@@ -131,6 +131,14 @@ namespace Sportlance.BLL.Services
             await _appContext.SaveChangesAsync();
         }
 
+        public Task<bool> CanInviteTrainer(long userId, long trainerId)
+        {
+            return (from team in _appContext.Teams
+                where team.AuthorId == userId
+                join trainerTeam in _appContext.TrainerTeams on team.Id equals trainerTeam.TeamId
+                select trainerTeam).AnyAsync(i => i.TrainerId == trainerId);
+        }
+
         public async Task UpdateMainPhotoAsync(long trainerId, AzureFile photo)
         {
             var photoName = $"trainer-{trainerId}/main";

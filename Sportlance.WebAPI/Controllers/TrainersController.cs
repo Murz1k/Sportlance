@@ -30,6 +30,13 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Route("{trainerId}/canInvite")]
+        public async Task<bool> CanInviteTrainer(long trainerId)
+        {
+            return await _service.CanInviteTrainer(User.GetUserId(), trainerId);
+        }
+
+        [HttpGet]
         [Route("{trainerId}")]
         public async Task<TrainerProfile> GetById(long trainerId)
         {

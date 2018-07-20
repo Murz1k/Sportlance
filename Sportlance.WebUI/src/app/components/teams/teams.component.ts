@@ -4,11 +4,11 @@ import {Paths} from '../../core/paths';
 import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Star} from '../trainers/star';
+import {Star} from '../../trainers/trainers/star';
 import {TeamsService} from '../../services/teams/teams.service';
-import {TrainerInfo} from '../trainers/trainer-info';
+import {TrainerInfo} from '../../trainers/trainers/trainer-info';
 import {Title} from '@angular/platform-browser';
-import {ISubscription} from 'rxjs-compat/Subscription';
+import {Subscription} from "rxjs/internal/Subscription";
 
 @Component({
   selector: 'app-teams',
@@ -37,7 +37,7 @@ export class TeamsComponent {
   public minFeedbacksCount?: number;
   public maxFeedbacksCount?: number;
 
-  public subscription: ISubscription;
+  public subscription: Subscription;
 
   constructor(private router: Router,
               private accountService: AccountService,

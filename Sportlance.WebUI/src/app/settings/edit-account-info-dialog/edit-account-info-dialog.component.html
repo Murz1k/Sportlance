@@ -1,0 +1,21 @@
+<form [formGroup]="form">
+  <div class="dialog-header">
+    <button class="dialog-close" mat-dialog-close><i class="material-icons">close</i></button>
+    <h3>Редактирование учетной записи</h3>
+  </div>
+  <div class="dialog-content">
+    <label for="firstName">Имя</label>
+    <input type="text" formControlName="firstName" id="firstName" name="firstName"
+           class="form-input form-control" placeholder="Имя" required>
+    <label for="secondName">Фамилия</label>
+    <input type="text" formControlName="secondName" id="secondName" name="secondName"
+           class="form-input form-control" placeholder="Фамилия" required>
+    <label for="email">Email</label>
+    <input type="email" formControlName="email" id="email" name="email"
+           class="form-input form-control" placeholder="Email" required>
+  </div>
+  <div class="dialog-footer">
+    <button class="btn btn-primary" (click)="submitAsync(true)">Сохранить</button>
+    <button class="btn-link" (click)="submitAsync(false)">Отмена</button>
+  </div>
+</form>

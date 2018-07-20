@@ -6,7 +6,7 @@ import {TrainerProfileResponse} from './responses/trainer-profile-response';
 import {CollectionResponse} from '../common/collection-response';
 import {GetTrainersQuery} from './get-trainers-query';
 import {isNullOrUndefined} from 'util';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 export class TrainersService extends BaseService {
@@ -29,6 +29,10 @@ export class TrainersService extends BaseService {
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
     return this.http.get<CollectionResponse<TrainerInfoResponse>>(`${this.baseApiUrl}/trainers`, {params: parameters});
+  }
+
+  canInviteTrainer(trainerId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseApiUrl}/trainers/${trainerId}/canInvite`);
   }
 
   getByIdAsync(trainerId: number): Promise<TrainerProfileResponse> {

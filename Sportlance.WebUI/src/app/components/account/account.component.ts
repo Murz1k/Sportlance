@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../services/user.service/user';
 import {UserService} from '../../services/user.service/user.service';
-import {TrainerInfo} from '../trainers/trainer-info';
+import {TrainerInfo} from '../../trainers/trainers/trainer-info';
 import {TrainersService} from '../../services/trainers/trainers.service';
-import {Star} from '../trainers/star';
-import {ReviewInfo} from '../profile/review-info';
+import {Star} from '../../trainers/trainers/star';
+import {ReviewInfo} from '../../trainers/profile/review-info';
 import {TrainerStatus} from '../../services/trainers/trainer-status';
 import {MatCheckboxChange} from '@angular/material';
 import {Paths} from '../../core/paths';
@@ -22,11 +22,11 @@ export class AccountComponent implements OnInit {
 
   public account: User;
   public trainer: TrainerInfo;
-  public clubs = [];
   public isRendering = false;
   public Paths = Paths;
   public TrainerStatus = TrainerStatus;
   starsNumber = 5;
+  public clubs = [];
   public isTrainer = false;
 
   private offset = 0;

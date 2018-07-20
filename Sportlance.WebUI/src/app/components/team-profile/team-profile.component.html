@@ -21,8 +21,8 @@
               <h4 class="name">
                 {{profile.title}}
               </h4>
-              <div class="m-0-top-bottom">
-                <h4 class="m-0 title">{{profile.subTitle}}</h4>
+              <div>
+                <h4 class="title">{{profile.subTitle}}</h4>
               </div>
               <ul class="list-inline m-0-bottom">
                 <!--<li (click)="changePaidAsync()">-->
@@ -41,26 +41,23 @@
             </div>
           </article>
         </section>
-        <section class="pull-left" *ngIf="!profile.about" style="position: relative;">
-          <h3 style="margin-bottom:30px;">О нас</h3>
-          Расскажите о себе.
+        <div class="air-card-header">
+          <h3 class="pull-left">О нас</h3>
           <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
                   style="position: absolute;     right: 30px;    top: 20px;">
             <i class="material-icons" style="font-size: 20px;">create</i>
           </button>
+        </div>
+        <section class="pull-left" *ngIf="!profile.about" style="position: relative;">
+          Расскажите о себе.
         </section>
         <section *ngIf="profile.about" class="pull-left" style="position: relative;">
-          <h3 style="margin-bottom:30px;">О нас</h3>
           {{profile.about}}
-          <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
-                  style="position: absolute;     right: 30px;    top: 20px;">
-            <i class="material-icons" style="font-size: 20px;">create</i>
-          </button>
         </section>
       </div>
       <div class="air-card" style="margin-top: 2em;">
         <div class="air-card-header">
-          <h3 class="m-0-bottom pull-left">
+          <h3 class="pull-left">
             Галерея
           </h3>
           <button (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
@@ -68,15 +65,18 @@
           </button>
         </div>
         <section *ngIf="!photos" class="photo-collection">
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
+          <div class="photo-row">
+            <div class="image-placeholder"></div>
+            <div class="image-placeholder"></div>
+            <div class="image-placeholder"></div>
+            <div class="image-placeholder"></div>
+          </div>
         </section>
         <section *ngIf="photos" class="photo-collection">
-          <img *ngFor="let photo of photos"
-               src="{{photo}}">
+          <div class="photo-row" *ngFor="let photoRow of photos">
+            <img *ngFor="let photo of photoRow"
+                 src="{{photo}}">
+          </div>
         </section>
       </div>
       <div class="air-card" style="margin-top: 2em;">

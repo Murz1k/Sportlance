@@ -60,7 +60,7 @@
     </div>
     <div *ngIf="isTrainer" class="air-card">
       <div class="air-card-header">
-        <h3 class="m-0-bottom pull-left">
+        <h3 class="pull-left">
           Навыки
         </h3>
         <button class="btn btn-default btn-rnd">
@@ -105,7 +105,7 @@
       <a routerLink="{{'/' + Paths.Settings}}" class="btn btn-block btn-default">
         Настройки профиля
       </a>
-      <a *ngIf="isTrainer" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">
+      <a *ngIf="isTrainer" routerLink="{{'/' + Paths.Trainers + '/' + trainer.id}}">
         <small>Посмотреть мой профиль как видят его другие</small>
       </a>
     </div>

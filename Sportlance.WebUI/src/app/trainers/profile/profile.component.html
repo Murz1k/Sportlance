@@ -1,0 +1,94 @@
+<div class="content page">
+  <div class="main-bar">
+    <div class="background">
+      <img *ngIf="trainer && trainer.backgroundUrl" src="{{trainer.backgroundUrl}}">
+      <div class="background-placeholder" *ngIf="!trainer || !trainer.backgroundUrl">
+      </div>
+    </div>
+    <div class="air-card">
+      <section *ngIf="trainer">
+        <article class="row">
+          <div class="photo-input">
+            <img src="{{trainer.photoUrl}}">
+          </div>
+          <div style="margin-left: 174px;">
+            <h4 class="name">
+              {{trainer.firstName}} {{trainer.secondName}}
+            </h4>
+            <h4 class="title">{{trainer.title}}</h4>
+            <div class="info-list">
+              <div class="info-list-item">
+                <h3>{{trainer.price}}₽</h3>
+                <div class="text-muted">Часовая ставка</div>
+              </div>
+              <div class="info-list-item">
+                <h3>{{trainer.trainingsCount}}</h3>
+                <div class="text-muted">Проведено тренировок</div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="trainer.country && trainer.city" style="margin-left: auto;">
+            <i class="material-icons position-icon text-muted">place</i>
+            <strong>{{trainer.country}}, {{trainer.city}} </strong>
+          </div>
+        </article>
+      </section>
+      <div class="air-card-header">
+        <h3 class="pull-left">О себе</h3>
+      </div>
+      <section class="pull-left" *ngIf="trainer && !trainer.about" style="position: relative;">
+        Расскажите о себе.
+      </section>
+      <section *ngIf="trainer && trainer.about" class="pull-left" style="position: relative;">
+        {{trainer.about}}
+      </section>
+    </div>
+    <div *ngIf="trainer" class="air-card">
+      <div class="air-card-header">
+        <h3 class="pull-left">
+          Навыки
+        </h3>
+      </div>
+      <section>
+        <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+          {{sport.name}}
+        </a>
+      </section>
+    </div>
+    <div *ngIf="trainer" class="air-card">
+      <div class="air-card-header">
+        <h3 class="pull-left">
+          Отзывы
+        </h3>
+      </div>
+      <section class="pull-left">
+        <ul class="feedbacks">
+          <li *ngFor="let review of feedbacks">
+            <div class="row" style="padding-bottom: 1em;">
+              <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
+                {{scoreStar.isFull ? 'star' : ''}}
+                {{scoreStar.isEmpty ? 'star_border' : ''}}
+                {{scoreStar.isHalf ? 'star_half' : ''}}
+              </i>
+            </div>
+            <div class="row" style="padding-bottom: 1em;">
+              {{review.description}}
+            </div>
+            <div class="row text-muted">
+              {{review.clientName}} {{review.createDate}}
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <div class="side-bar">
+    <div *ngIf="clubs.length > 0" class="side-bar-item">
+      <h4>Работает в</h4>
+      <!-- список клубов -->
+    </div>
+    <div *ngIf="canInvited" class="side-bar-item">
+      <h4>Пригласить</h4>
+    </div>
+  </div>
+</div>

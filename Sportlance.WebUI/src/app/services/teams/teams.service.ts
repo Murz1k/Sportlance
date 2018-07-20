@@ -8,7 +8,7 @@ import {TeamPhotoResponse} from './responses/team-photo-response';
 import {InviteMemberRequest} from './requests/invite-member-request';
 import {GetTeamQuery} from './requests/get-team-query';
 import {TeamResponse} from './requests/team-response';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 export class TeamsService extends BaseService {
@@ -22,7 +22,6 @@ export class TeamsService extends BaseService {
 
   get(query: GetTeamQuery): Observable<CollectionResponse<TeamResponse>> {
     const parameters = new HttpParams()
-      .append('userId', this.checkParam(query.userId))
       .append('offset', this.checkParam(query.offset))
       .append('searchString', this.checkParam(query.searchString))
       .append('country', this.checkParam(query.country))

@@ -1,0 +1,152 @@
+@import "../../../styles";
+
+.air-card .name {
+  line-height: 27px;
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.air-card .title {
+  line-height: 24px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+h4, h5, h6 {
+  line-height: 23px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.background {
+  box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  height: 160px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none;
+  position: relative;
+  button {
+    position: absolute;
+    width: 100%;
+    height: 160px;
+    border: none;
+    color: transparent;
+    background-color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+  }
+  img, .background-placeholder {
+    -o-object-fit: cover;
+    object-fit: cover;
+    width: 100%;
+    height: 160px;
+    position: absolute;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+  }
+  :hover {
+    color: white;
+    background-color: #0000008a;
+    cursor: pointer;
+  }
+}
+
+.air-card:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.air-card section:hover .o-tag-skill {
+  color: #494949;
+}
+
+.air-card section:hover a {
+  color: #222;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  word-break: break-word;
+  color: #222;
+  font-family: inherit;
+}
+
+.list-inline {
+  margin-left: -5px;
+}
+
+.list-inline, .list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-inline > li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.width-xs {
+  width: 135px !important;
+  min-width: 135px !important;
+  max-width: none;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.position-icon {
+  font-size: 19px;
+  vertical-align: sub;
+  padding-right: 5px;
+}
+
+.star-icon {
+  font-size: 17px;
+  color: gold !important;
+  text-shadow: 2px 1px 1px rgba(0, 0, 0, 0.1);
+  display: inline;
+}
+
+.text-muted {
+  color: #656565;
+}
+
+.o-tag, .o-tag-certified, .o-tag-skill, .o-tag-tested, .tokenizer-wrapper > .tokenizer-token-list .tokenizer-token {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  color: #222;
+  font-size: 12px;
+  display: inline-block;
+  cursor: default;
+  padding: 5px 10px;
+  line-height: 1;
+  margin: 10px;
+}
+
+.o-tag-skill {
+  margin: 0 6px 10px 0;
+}
+
+.info-list {
+  .info-list-item {
+    display: inline-block;
+  }
+  .info-list-item:not(:last-child) {
+    margin-right: 12px;
+  }
+}

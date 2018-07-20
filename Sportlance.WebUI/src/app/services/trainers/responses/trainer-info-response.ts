@@ -1,4 +1,4 @@
-import {SportResponse} from '../../sports/sport-response';
+import {SportResponse} from './sport-response';
 
 export interface TrainerInfoResponse {
   id: number;

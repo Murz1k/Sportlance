@@ -1,11 +1,11 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LoginResponse} from './auth/responses/login-response';
 import {UserInfoStorage} from '../core/user-info-storage';
 import {User} from './user.service/user';
-import {Paths} from "../core/paths";
-import {Observable, Subscription} from "rxjs/Rx";
-import {isNullOrUndefined} from "util";
-import {Router} from "@angular/router";
+import {Paths} from '../core/paths';
+import {isNullOrUndefined} from 'util';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs/internal/Subscription';
 
 @Injectable()
 export class AccountService {
@@ -23,9 +23,6 @@ export class AccountService {
   }
 
   public async initializeAsync(): Promise<void> {
-    if (this.isAuthorized) {
-      this.startBackgroundChecker();
-    }
   }
 
   get isAuthorized(): boolean {
@@ -45,25 +42,6 @@ export class AccountService {
 
   public logout() {
     this.userInfoStorage.deleteCurrentUser();
-  }
-
-  private startUserSession(newUser: User) {
-    const user = this.userInfoStorage.getCurrentUser();
-    // if (user != null && user.account === newUser.account && user.email === newUser.email && user.signature === newUser.signature) {
-    //   return;
-    // }
-    this.userInfoStorage.saveCurrentUser(newUser);
-    this.startBackgroundChecker();
-  }
-
-
-  private startBackgroundChecker() {
-    if (!isNullOrUndefined(this.backgroundChecker) && !this.backgroundChecker.closed) {
-      return;
-    }
-    this.backgroundChecker = Observable.interval(3 * 1000)
-      .map(async () => this.checkCurrentAuthStateAsync())
-      .subscribe();
   }
 
   private stopBackgroundChecker() {

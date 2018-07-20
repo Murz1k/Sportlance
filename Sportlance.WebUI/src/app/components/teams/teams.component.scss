@@ -94,10 +94,6 @@ button:focus {
   cursor: pointer;
 }
 
-.air-card > section:first-child:focus, .air-card > section:first-child:hover {
-  cursor: default;
-}
-
 .o-tag, .o-tag-certified, .o-tag-skill, .o-tag-tested, .tokenizer-wrapper > .tokenizer-token-list .tokenizer-token {
   background-color: #e0e0e0;
   border-radius: 4px;

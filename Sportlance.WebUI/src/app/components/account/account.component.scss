@@ -18,11 +18,6 @@ h4, h5, h6 {
   font-weight: 500;
 }
 
-.m-0-top-bottom {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
 .air-card section:hover .o-tag-skill {
   color: #494949;
 }
@@ -55,43 +50,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .pull-right {
   float: right !important;
-}
-
-.pagination {
-  display: inline-block;
-  padding-left: 0;
-  margin: 30px 0;
-}
-
-.pagination > li {
-  display: inline;
-}
-
-.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
-  z-index: 2;
-  padding-bottom: 4px;
-  border-bottom: 4px solid $primary-color;
-  color: $primary-color;
-  cursor: default;
-  text-decoration: none;
-}
-
-.pagination > li > a, .pagination > li > span {
-  position: relative;
-  float: left;
-  min-width: 30px;
-  margin-left: -1px;
-  padding: 8px 10px;
-  line-height: 14px;
-  color: #222;
-  font-size: 14px;
-  text-decoration: none;
-  text-align: center;
-}
-
-.pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
-  color: $primary-dark-color;
-  text-decoration: none;
 }
 
 .position-icon {

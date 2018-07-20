@@ -1,7 +1,7 @@
 <div class="content">
-  <div *ngIf="!isAuthorized" class="oSearchHeader row m-lg-top">
+  <div *ngIf="!isAuthorized" class="oSearchHeader row">
     <div class="col-9" style="padding-bottom: 2em;">
-      <h1 class="ellipsis m-0-top-bottom">Лучшие тренеры Sportlance</h1>
+      <h1 class="ellipsis">Лучшие тренеры Sportlance</h1>
     </div>
     <div class="col-3" style="padding-bottom: 1em;">
       <div (click)="login()" class="btn btn-primary m-0 pull-right">
@@ -97,7 +97,7 @@
         <section *ngIf="trainers.length === 0">
           <div class="text-center" role="alert">
             <img src="/o/profiles/browse/bundles/odeskprofilesearch/images/no-results.svg">
-            <h2 class="m-lg-top m-md-bottom text-muted">Please try modifying your search to get more results.</h2>
+            <h2 class="text-muted">Please try modifying your search to get more results.</h2>
           </div>
         </section>
         <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
@@ -105,7 +105,7 @@
             <div *ngIf="!trainer.photoUrl" class="empty-avatar">
               <i class="material-icons">account_circle</i>
             </div>
-            <img *ngIf="trainer.photoUrl" src="{{trainer.photoUrl}}" class="avatar vertical-align-middle avatar-lg m-0">
+            <img *ngIf="trainer.photoUrl" src="{{trainer.photoUrl}}" class="avatar avatar-lg">
             <div style="padding-top: 1em;">
               <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
                 {{scoreStar.isFull ? 'star' : ''}}
@@ -119,7 +119,7 @@
           </div>
           <div class="info-container">
             <h4>
-              <a [routerLink]="'/' + Paths.Profile + '/' + trainer.id">
+              <a [routerLink]="'/' + Paths.Trainers + '/' + trainer.id">
                 {{trainer.firstName}} {{trainer.secondName}}
               </a>
             </h4>
@@ -144,7 +144,7 @@
               <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
                 {{sport.name}}
               </a>
-              <a title="6 more" routerLink="{{'/' + Paths.Profile + '/' + trainer.id}}">6 more</a>
+              <a title="6 more" routerLink="{{'/' + Paths.Trainers + '/' + trainer.id}}">6 more</a>
             </div>
           </div>
         </section>
@@ -159,7 +159,7 @@
   </div>
   <div class="side-bar page" style="position: sticky; top: 24px;">
     <div class="air-card">
-      <section class="air-card-header">
+      <section>
         <div style="position: relative;">
           <input (keyup)="changeParams()" [(ngModel)]="searchString" type="text"
                  placeholder="Введите Имя, Фамилию или Специальность"

@@ -13,7 +13,7 @@ import {DomSanitizer, Title} from '@angular/platform-browser';
 export class TeamProfileComponent implements OnInit {
 
   public profile: TeamProfileResponse;
-  public photos: any[];
+  public photos: any[][];
 
   constructor(private route: ActivatedRoute,
               private dialogService: DialogService,
@@ -44,7 +44,12 @@ export class TeamProfileComponent implements OnInit {
 
   private async updatePhotosAsync(teamId: number) {
     const response = await this.teamService.getPhotosByTeamIdAsync(teamId);
-    this.photos = response.items.map(i => `data:image/jpg;base64,${i.file.data}`);
+    const allPhotos = response.items.map(i => `data:image/jpg;base64,${i.file.data}`);
+    this.photos = [];
+    for (let i = 0; i < allPhotos.length; i += 4) {
+      this.photos.push(allPhotos.slice(i, i + 4));
+    }
+    console.log(this.photos);
   }
 
   private async upadteTeamMembersAsync(teamId: number) {

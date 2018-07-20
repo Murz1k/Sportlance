@@ -1,6 +1,6 @@
 <header [isEmpty]="true"></header>
 <div class="content" ng-controller="pleaseVerifyPageController">
-  <div class="text-center m-lg-top-bottom p-sm-top">
+  <div class="text-center">
     <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="145px" height="130px"
          viewBox="0 0 145 130">
       <title>Message received</title>
@@ -42,7 +42,7 @@
   </div>
   <div class="row o-please-verify-heading text-center">
     <div class="col-md-12">
-      <h2 class="m-md-bottom text-muted">Verify your email to proceed</h2>
+      <h2 class="text-muted">Verify your email to proceed</h2>
       <div class="fs-lg hidden-xs"></div>
     </div>
   </div>
@@ -55,9 +55,6 @@
         Please check your email and click on the link provided to verify your address.
       </div>
       <div>
-        <span aria-hidden="true"
-              class="glyphicon glyphicon-sm air-icon-arrow-collapse-circle text-success m-0-left m-xs-right m-sm-bottom">
-        </span>
         <a href="#" data-ng-click="collapse.updateEmail = !collapse.updateEmail" class="m-sm-bottom">Change
           email</a>
         <div class="m-md-left collapse" data-eo-collapse="collapse.updateEmail" style="height: 0px;">
@@ -94,9 +91,6 @@
         </div>
       </div>
       <div>
-        <span aria-hidden="true"
-              class="glyphicon glyphicon-sm air-icon-arrow-collapse-circle text-success m-0-left m-xs-right m-sm-bottom">
-        </span>
         <a href="#" data-ng-click="collapse.help = !collapse.help">I need help verifying my email</a>
         <div class="m-md-left collapse" data-eo-collapse="collapse.help" style="height: 0px;">
           <strong>Why we ask for email confirmation?</strong>

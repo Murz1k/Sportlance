@@ -110,9 +110,9 @@ body {
     }
   }
   footer, .air-card-header {
-    padding: 24px;
+    padding: 24px 24px 0;
     background-color: #f9f9f9;
-    border-bottom: 1px solid #e0e0e0;
+    position: relative;
   }
 }
 
@@ -134,8 +134,9 @@ body {
 .air-card-header {
   > h3 {
     display: inline-block;
-    line-height: 24px;
-    font-size: 24px;
+    line-height: 20px;
+    font-size: 20px;
+    margin: 0;
   }
   > .btn-rnd {
     float: right;
@@ -618,11 +619,14 @@ i.material-icons {
 }
 
 .btn-rnd {
-  padding: 7px;
-  font-size: 14px;
-  line-height: 10px;
-  border-radius: 50%;
-  margin: 0px;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  vertical-align: top;
+}
+
+.btn-rnd:hover {
+  box-shadow: none !important;
 }
 
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active {

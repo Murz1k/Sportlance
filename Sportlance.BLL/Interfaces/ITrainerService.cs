@@ -23,5 +23,7 @@ namespace Sportlance.BLL.Interfaces
         Task UpdateMainPhotoAsync(long trainerId, AzureFile photo);
 
         Task UpdatePriceAsync(long trainerId, double price);
+
+        Task<bool> CanInviteTrainer(long userId, long trainerId);
     }
 }
