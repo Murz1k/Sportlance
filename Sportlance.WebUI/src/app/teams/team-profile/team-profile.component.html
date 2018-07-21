@@ -10,7 +10,10 @@
       <div class="air-card">
         <section>
           <article class="row">
-            <div class="photo-input">
+            <div class="empty-avatar-lg" *ngIf="!profile.photoUrl">
+              <i class="material-icons">account_circle</i>
+            </div>
+            <div *ngIf="profile.photoUrl" class="photo-input">
               <img src="{{profile.photoUrl}}">
               <button (click)="changePhotoAsync()">
                 <i class="material-icons" style="display:  inherit;font-size:  36px;">wallpaper</i>
