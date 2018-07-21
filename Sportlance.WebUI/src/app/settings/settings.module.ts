@@ -7,16 +7,19 @@ import {SettingsComponent} from './settings.component';
 import {ContactInfoComponent} from './contact-info/contact-info.component';
 import {MyTeamsComponent} from './my-teams/my-teams.component';
 import {PasswordAndSecurityComponent} from './password-and-security/password-and-security.component';
+import {CreateTeamComponent} from './create-team/create-team.component';
+import {PhoneMaskDirective} from '../core/phone-mask.directive';
 
 @NgModule({
   declarations: [
     SettingsComponent,
     ContactInfoComponent,
     MyTeamsComponent,
-    PasswordAndSecurityComponent
+    PasswordAndSecurityComponent,
+    CreateTeamComponent,
+    PhoneMaskDirective
   ],
-  entryComponents: [
-  ],
+  entryComponents: [],
   imports: [
     CommonModule,
     InfiniteScrollModule,

@@ -1,0 +1,38 @@
+.side-bar-item .phone-number {
+  font-size: 20px;
+  float: right;
+}
+
+.photo-collection {
+  .photo-row {
+    img, .image-placeholder {
+      width: calc(25% - 15px);
+      height: 111px;
+    }
+    img:not(:last-child), .image-placeholder:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+  .photo-row:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  .image-placeholder {
+    background-color: #f2f2f2;
+    display: inline-block;
+  }
+}
+
+.empty-avatar-lg {
+  i {
+    font-size: 150px;
+    position: absolute;
+    top: -75px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+    user-select: none;
+    outline: none;
+    background-color: white !important;
+    color: #6c757c;
+  }
+}

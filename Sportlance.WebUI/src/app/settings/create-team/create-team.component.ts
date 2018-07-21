@@ -10,8 +10,6 @@ import {Router} from '@angular/router';
   styleUrls: ['./create-team.component.scss']
 })
 export class CreateTeamComponent {
-
-
   public form: FormGroup;
 
   constructor(private router: Router,

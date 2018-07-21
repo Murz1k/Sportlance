@@ -2,7 +2,7 @@
   <form [formGroup]="form">
     <h3>Создание клуба</h3>
     <div class="air-card">
-      <section>
+      <section class="air-card-content">
         <label for="title">Название</label>
         <input type="text" formControlName="title" id="title" name="title"
                class="form-control" placeholder="Название" required>
@@ -11,6 +11,7 @@
                class="form-control" placeholder="Фитнес-клуб, ФОК и т.д." required>
         <label for="phoneNumber">Контактный телефон</label>
         <input type="text" formControlName="phoneNumber" id="phoneNumber" name="phoneNumber"
+               appPhoneMask
                class="form-control" placeholder="Контактный телефон" required>
         <label for="country">Страна</label>
         <input type="text" formControlName="country" id="country" name="country"

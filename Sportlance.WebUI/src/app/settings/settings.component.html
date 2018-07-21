@@ -22,15 +22,6 @@
         <span>Мои команды</span>
       </li>
     </ul>
-    <h4 *ngIf="account.isTeam" class="menu-list-main-item">
-      Командные настройки
-    </h4>
-    <ul *ngIf="account.isTeam" class="nav nav-pills nav-stacked">
-      <li (click)="changePage(SettingsLinks.MyTeams)"
-          [class.active]="activeLink === SettingsLinks.MyTeams">
-        <span>Мои команды</span>
-      </li>
-    </ul>
   </div>
   <div class="view-container" [ngSwitch]="activeLink">
     <app-contact-info *ngSwitchCase="SettingsLinks.ContactInfo"></app-contact-info>

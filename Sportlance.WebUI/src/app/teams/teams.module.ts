@@ -3,9 +3,8 @@ import {TeamsRoutingModule} from './teams-routing.module';
 import {CommonModule} from '@angular/common';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {TeamsComponent} from '../components/teams/teams.component';
-import {TeamProfileComponent} from '../components/team-profile/team-profile.component';
-import {CreateTeamComponent} from "../components/create-team/create-team.component";
+import {TeamsComponent} from './teams/teams.component';
+import {TeamProfileComponent} from './team-profile/team-profile.component';
 
 @NgModule({
   imports: [
@@ -19,8 +18,7 @@ import {CreateTeamComponent} from "../components/create-team/create-team.compone
   ],
   declarations: [
     TeamsComponent,
-    TeamProfileComponent,
-    CreateTeamComponent
+    TeamProfileComponent
   ]
 })
 export class TeamsModule {
