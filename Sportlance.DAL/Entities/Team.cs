@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sportlance.DAL.Entities
 {
@@ -40,5 +41,11 @@ namespace Sportlance.DAL.Entities
         public ICollection<TeamPhoto> TeamPhotos { get; set; }
 
         public ICollection<TrainerTeam> TrainerTeams { get; set; }
+
+        public void DeletePhoto(long photoId)
+        {
+            var photo = TeamPhotos.FirstOrDefault(i => i.Id == photoId);
+            TeamPhotos.Remove(photo);
+        }
     }
 }

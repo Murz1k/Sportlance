@@ -35,5 +35,13 @@ namespace Sportlance.WebAPI.Controllers
             await _service.AddPhotoAsync(teamId, photo.ToAzureFile());
             return NoContent();
         }
+        
+        [HttpDelete("{photoId}")]
+        [Authorize]
+        public async Task<IActionResult> RemovePhotoAsync(long teamId, long photoId)
+        {
+            await _service.DeletePhotoAsync(teamId, photoId);
+            return NoContent();
+        }
     }
 }

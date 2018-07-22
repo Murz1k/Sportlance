@@ -173,6 +173,15 @@ namespace Sportlance.BLL.Services
             await _appContext.SaveChangesAsync();
         }
 
+        public async Task DeletePhotoAsync(long teamId, long photoId)
+        {
+            var team = await _appContext.Teams.Include(i=>i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
+            team.DeletePhoto(photoId);
+            await _appContext.SaveChangesAsync();
+            var photoName = $"team-{teamId}/photo-{photoId}";
+            await _teamPhotosStorageProvider.DeleteAsync(photoName);
+        }
+
         public async Task UpdateMainPhotoAsync(long teamId, AzureFile photo)
         {
             var photoName = $"team-{teamId}/main";

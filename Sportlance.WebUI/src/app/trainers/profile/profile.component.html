@@ -8,7 +8,10 @@
     <div class="air-card">
       <section *ngIf="trainer">
         <article class="row">
-          <div class="photo-input">
+          <div class="empty-avatar-lg" *ngIf="!trainer.photoUrl">
+            <i class="material-icons">account_circle</i>
+          </div>
+          <div *ngIf="trainer.photoUrl" class="photo-input">
             <img src="{{trainer.photoUrl}}">
           </div>
           <div style="margin-left: 174px;">

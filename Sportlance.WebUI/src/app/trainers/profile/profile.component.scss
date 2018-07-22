@@ -150,3 +150,18 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 12px;
   }
 }
+
+.empty-avatar-lg {
+  i {
+    font-size: 150px;
+    position: absolute;
+    top: -75px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+    user-select: none;
+    outline: none;
+    background-color: white !important;
+    color: #6c757c;
+  }
+}

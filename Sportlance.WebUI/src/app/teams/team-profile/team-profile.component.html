@@ -1,15 +1,12 @@
 <div class="content">
   <div *ngIf="profile" class="page">
     <div class="main-bar">
-      <img id="profile-background-image-target-image" alt="Фоновое изображение"
-           src="https://media.licdn.com/dms/image/C5616AQHcgQdTWmp8kg/profile-displaybackgroundimage-shrink_350_1400/0?e=1535587200&amp;v=beta&amp;t=NSEpVgdPACngIg0_vegMtPxq1b3Sne-Mvbrwbu4_kJ8"
-           style="
-    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
-    width: 100%;
-" class="profile-background-image__image relative full-width full-height">
       <div class="air-card">
+        <img id="profile-background-image-target-image" alt="Фоновое изображение"
+             src="https://media.licdn.com/dms/image/C5616AQHcgQdTWmp8kg/profile-displaybackgroundimage-shrink_350_1400/0?e=1535587200&amp;v=beta&amp;t=NSEpVgdPACngIg0_vegMtPxq1b3Sne-Mvbrwbu4_kJ8"
+             style="width: 100%;">
         <section>
-          <article class="row">
+          <article class="row" style="position: relative">
             <div class="empty-avatar-lg" *ngIf="!profile.photoUrl">
               <i class="material-icons">account_circle</i>
             </div>
@@ -64,7 +61,7 @@
             Галерея
           </h3>
           <button (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
-            <i class="material-icons">create</i>
+            <i class="material-icons">add</i>
           </button>
         </div>
         <section *ngIf="!photos" class="photo-collection">
@@ -73,12 +70,18 @@
             <div class="image-placeholder"></div>
             <div class="image-placeholder"></div>
             <div class="image-placeholder"></div>
+            <div class="image-placeholder"></div>
+            <div class="image-placeholder"></div>
           </div>
         </section>
         <section *ngIf="photos" class="photo-collection">
           <div class="photo-row" *ngFor="let photoRow of photos">
-            <img *ngFor="let photo of photoRow"
-                 src="{{photo}}">
+            <div class="photo-container" *ngFor="let photo of photoRow">
+              <button (click)="deletePhoto(photo.id)" class="remove-button">
+                <i class="material-icons">clear</i>
+              </button>
+              <img src="{{photo.file}}">
+            </div>
           </div>
         </section>
       </div>
@@ -88,10 +91,11 @@
             Команда
           </h3>
           <button (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
-            <i class="material-icons">create</i>
+            <i class="material-icons">add</i>
           </button>
         </div>
         <section *ngIf="!teamMembers">
+          <div class="image-placeholder"></div>
           <div class="image-placeholder"></div>
           <div class="image-placeholder"></div>
           <div class="image-placeholder"></div>

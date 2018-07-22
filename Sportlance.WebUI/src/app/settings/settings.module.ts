@@ -9,6 +9,7 @@ import {MyTeamsComponent} from './my-teams/my-teams.component';
 import {PasswordAndSecurityComponent} from './password-and-security/password-and-security.component';
 import {CreateTeamComponent} from './create-team/create-team.component';
 import {PhoneMaskDirective} from '../core/phone-mask.directive';
+import { BeTrainerComponent } from './be-trainer/be-trainer.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {PhoneMaskDirective} from '../core/phone-mask.directive';
     MyTeamsComponent,
     PasswordAndSecurityComponent,
     CreateTeamComponent,
-    PhoneMaskDirective
+    PhoneMaskDirective,
+    BeTrainerComponent
   ],
   entryComponents: [],
   imports: [

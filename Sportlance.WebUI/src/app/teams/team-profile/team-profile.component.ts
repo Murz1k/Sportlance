@@ -4,6 +4,10 @@ import {TeamsService} from '../../services/teams/teams.service';
 import {ActivatedRoute} from '@angular/router';
 import {DialogService} from '../../services/dialog.service';
 import {DomSanitizer, Title} from '@angular/platform-browser';
+import {TeamPhotoResponse} from '../../services/teams/responses/team-photo-response';
+import {PartialObserver} from "rxjs/internal/types";
+import {Observable} from "rxjs/internal/Observable";
+import {Subscription} from "rxjs/internal/Subscription";
 
 @Component({
   selector: 'app-team-profile',
@@ -25,7 +29,7 @@ export class TeamProfileComponent implements OnInit {
   async ngOnInit() {
     await this.route.params.forEach(async params => {
       this.updateInfoAsync(params['id']);
-      this.updatePhotosAsync(params['id']);
+      this.updatePhotos(params['id']);
       this.upadteTeamMembersAsync(params['id']);
     });
   }
@@ -33,7 +37,7 @@ export class TeamProfileComponent implements OnInit {
   async showAddTeamPhotoDialogAsync() {
     const result = await this.dialogService.showAddTeamPhotoDialogAsync(this.profile.id);
     if (result) {
-      await this.updatePhotosAsync(this.profile.id);
+      this.updatePhotos(this.profile.id);
     }
   }
 
@@ -42,14 +46,21 @@ export class TeamProfileComponent implements OnInit {
     this.titleService.setTitle(`${this.profile.title} | Sportlance`);
   }
 
-  private async updatePhotosAsync(teamId: number) {
-    const response = await this.teamService.getPhotosByTeamIdAsync(teamId);
-    const allPhotos = response.items.map(i => `data:image/jpg;base64,${i.file.data}`);
-    this.photos = [];
-    for (let i = 0; i < allPhotos.length; i += 4) {
-      this.photos.push(allPhotos.slice(i, i + 4));
-    }
-    console.log(this.photos);
+  public deletePhoto(photoId: number) {
+    this.teamService.deletePhoto(this.profile.id, photoId).subscribe(() => this.updatePhotos(this.profile.id));
+  }
+
+  private updatePhotos(teamId: number) {
+    return this.teamService.getPhotosByTeamId(teamId).subscribe((response) => {
+      const allPhotos = response.items.map(i => <TeamPhotoResponse>{
+        id: i.id,
+        file: `data:image/jpg;base64,${i.file.data}`
+      });
+      this.photos = [];
+      for (let i = 0; i < allPhotos.length; i += 6) {
+        this.photos.push(allPhotos.slice(i, i + 6));
+      }
+    });
   }
 
   private async upadteTeamMembersAsync(teamId: number) {

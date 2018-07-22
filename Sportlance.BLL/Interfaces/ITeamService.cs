@@ -25,6 +25,8 @@ namespace Sportlance.BLL.Interfaces
 
         Task AddPhotoAsync(long teamId, AzureFile photo);
 
+        Task DeletePhotoAsync(long teamId, long photoId);
+
         Task<PagingCollection<TeamPhotoItem>> GetPhotosAsync(int offset, int count, long teamId);
 
         Task InviteMemberAsync(long teamId, long memberId);

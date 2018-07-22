@@ -34,8 +34,12 @@ export class TeamsService extends BaseService {
     return this.http.get<TeamProfileResponse>(`${this.baseApiUrl}/teams/${teamId}`).toPromise();
   }
 
-  getPhotosByTeamIdAsync(teamId: number): Promise<CollectionResponse<TeamPhotoResponse>> {
-    return this.http.get<CollectionResponse<TeamPhotoResponse>>(`${this.baseApiUrl}/teams/${teamId}/photos`).toPromise();
+  getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse>> {
+    return this.http.get<CollectionResponse<TeamPhotoResponse>>(`${this.baseApiUrl}/teams/${teamId}/photos`);
+  }
+
+  deletePhoto(teamId: number, photoId: number) {
+    return this.http.delete(`${this.baseApiUrl}/teams/${teamId}/photos/${photoId}`);
   }
 
   async addPhotoAsync(teamId: number, photo: Blob): Promise<void> {

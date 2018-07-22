@@ -39,12 +39,11 @@ import {AddTeamPhotoDialogComponent} from './components/common/add-team-photo-di
 import {EditBackgroundDialogComponent} from './components/common/edit-background-dialog/edit-background-dialog.component';
 import {FeedbacksService} from './services/feedbacks/feedbacks.service';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {NumberOnlyDirective} from './core/number-only.directive';
 import {MenuComponent} from './components/header/menu/menu.component';
-import {EditTrainerPaidDialogComponent} from "./trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component";
-import {EditTrainerAboutDialogComponent} from "./trainers/edit-trainer-about-dialog/edit-trainer-about-dialog.component";
-import {EditPasswordDialogComponent} from "./settings/edit-password-dialog/edit-password-dialog.component";
-import {EditAccountInfoDialogComponent} from "./settings/edit-account-info-dialog/edit-account-info-dialog.component";
+import {EditTrainerPaidDialogComponent} from './trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
+import {EditTrainerAboutDialogComponent} from './trainers/edit-trainer-about-dialog/edit-trainer-about-dialog.component';
+import {EditPasswordDialogComponent} from './settings/edit-password-dialog/edit-password-dialog.component';
+import {EditAccountInfoDialogComponent} from './settings/edit-account-info-dialog/edit-account-info-dialog.component';
 
 
 @NgModule({
@@ -63,7 +62,6 @@ import {EditAccountInfoDialogComponent} from "./settings/edit-account-info-dialo
     EmailVerifyComponent,
     AddTeamPhotoDialogComponent,
     EditBackgroundDialogComponent,
-    NumberOnlyDirective,
     EditAccountInfoDialogComponent,
     EditPasswordDialogComponent,
     EditTrainerAboutDialogComponent,

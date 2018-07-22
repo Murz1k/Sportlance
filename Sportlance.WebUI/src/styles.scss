@@ -95,10 +95,11 @@ body {
 .air-card {
   position: relative;
   background-color: $default-color;
-  box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.15);
   section {
     padding: 24px;
     word-wrap: break-word;
+    border-bottom: 1px solid #cfcfcf;
     .avatar-container {
       padding-right: 24px;
       display: inline-block;
@@ -114,21 +115,6 @@ body {
     background-color: #f9f9f9;
     position: relative;
   }
-}
-
-.air-card [eo-collapse] section:after, .air-card section:after {
-  content: " ";
-  border-bottom: 1px solid #e0e0e0;
-  display: block;
-  position: relative;
-  top: 21px;
-  z-index: 7;
-  left: -20px;
-  width: calc(100% + 20px * 2);
-}
-
-.air-card section:last-of-type:after {
-  content: none;
 }
 
 .air-card-header {
@@ -158,18 +144,6 @@ ul.feedbacks, ul.my-teams {
   }
 }
 
-.main-bar {
-  width: 75%;
-  padding-right: 12px;
-  display: inline-block;
-}
-
-.side-bar {
-  width: 25%;
-  padding-left: 12px;
-  float: right;
-}
-
 .side-bar-item:not(:last-child) {
   margin-bottom: 16px;
   padding-bottom: 16px;
@@ -194,7 +168,7 @@ ul.feedbacks, ul.my-teams {
 .photo-input {
   width: 150px;
   position: absolute;
-  top: -75px;
+  top: -100px;
   height: 150px;
   border-radius: 50%;
   box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
@@ -374,7 +348,7 @@ small {
   color: #222;
   background-color: $default-color;
   min-height: 46px;
-  box-shadow: 0 1px 6px rgba(57, 73, 76, .35);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.15);
   z-index: 10;
 }
 
@@ -550,10 +524,27 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
   margin: auto;
 }
 
+.main-bar {
+  display: inline-block;
+}
+
+.side-bar {
+  padding-left: 24px;
+  float: right;
+}
+
 /* Large desktops and laptops */
 @media screen and (min-width: 1200px) {
   .content {
     width: 1190px;
+  }
+
+  .main-bar {
+    width: 868px;
+  }
+
+  .side-bar {
+    width: 322px;
   }
 }
 
