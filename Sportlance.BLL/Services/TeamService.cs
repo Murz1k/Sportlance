@@ -203,7 +203,7 @@ namespace Sportlance.BLL.Services
         public async Task InviteMemberAsync(long teamId, long memberId)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
-            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == teamId);
+            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == memberId);
             
             team.TrainerTeams.Add(new TrainerTeam{Trainer = trainer});
 

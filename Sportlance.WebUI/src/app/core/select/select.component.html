@@ -1,0 +1,18 @@
+<div class="select-wrapper">
+  <i class="search-icon material-icons" (click)="showSelectList($event)">expand_more</i>
+  <input readonly (click)="showSelectList($event);"
+         [class.select-__input_focused]="selectedInput"
+         (input)="onSelectInputChange()"
+         autocomplete="nope"
+         [value]="selectedItemLabel"
+         [placeholder]="placeholder" type="text" class="input project-select-input" id="{{elementId}}"
+         name="{{elementName}}">
+  <ul class="select-list" [class.hidden]="isSelectHidden">
+    <li *ngIf="hasEmptyValue" (click)="resetSelection()" class="select-item">
+      <p class="select-item-name select-item-name__off">Не выбрано</p>
+    </li>
+    <li *ngFor="let item of items" (click)="selectItem(item.label, item.value)" class="select-item">
+      <p class="select-item-name">{{item.label}}</p>
+    </li>
+  </ul>
+</div>

@@ -90,9 +90,7 @@
           <h3 class="m-0-bottom pull-left">
             Команда
           </h3>
-          <button (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
-            <i class="material-icons">add</i>
-          </button>
+          <a routerLink="/{{Paths.Trainers}}" style="float: right">Найти тренеров</a>
         </div>
         <section *ngIf="!teamMembers">
           <div class="image-placeholder"></div>
@@ -103,8 +101,15 @@
           <div class="image-placeholder"></div>
         </section>
         <section *ngIf="teamMembers" class="photo-collection">
-          <img *ngFor="let member of teamMembers"
-               src="{{member}}">
+          <div class="photo-row" *ngFor="let teamMemberRow of teamMembers">
+            <div class="photo-container" *ngFor="let teamMember of teamMemberRow">
+              <img *ngIf="teamMember.photo" src="{{teamMember.photo}}">
+              <div *ngIf="!teamMember.photo" class="empty-avatar">
+                <i class="material-icons">account_circle</i>
+              </div>
+              <span style="text-align: center; display: block;">{{teamMember.firstName}} {{teamMember.secondName}}</span>
+            </div>
+          </div>
         </section>
       </div>
     </div>

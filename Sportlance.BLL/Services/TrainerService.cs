@@ -27,9 +27,9 @@ namespace Sportlance.BLL.Services
         {
             var collection = await (from trainer in _appContext.Trainers
                     .Include(t => t.User)
-                    .Include(i => i.TrainerSports)
-                    .ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
+                    .Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
                     .Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
+                .Include(i=>i.TrainerTeams)
                 where trainer.Status == TrainerStatus.Available
                       && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
                       && (query.MaxPrice == null || trainer.Price <= query.MaxPrice.Value)
@@ -45,6 +45,7 @@ namespace Sportlance.BLL.Services
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
                       && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <=
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
+                      && (!query.TeamId.HasValue || trainer.TrainerTeams.Any(i=>i.TeamId == query.TeamId))
                       && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >=
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
                 select new TrainerListItem

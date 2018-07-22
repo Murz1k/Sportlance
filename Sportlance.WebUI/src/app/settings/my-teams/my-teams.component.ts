@@ -22,13 +22,14 @@ export class MyTeamsComponent implements OnInit {
     this.account = this.userService.getCurrent();
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     if (this.account.isTrainer || this.account.isTeam) {
-      const response = await this.teamService.getSelfAsync(<GetTeamQuery>{
+      this.teamService.getSelf(<GetTeamQuery>{
         count: 10,
         offset: 0
-      });
+      }).subscribe((response) => {
         this.teams = response.items;
+      });
     }
   }
 }

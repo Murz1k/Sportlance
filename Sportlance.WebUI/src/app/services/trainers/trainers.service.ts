@@ -26,6 +26,7 @@ export class TrainersService extends BaseService {
       .append('count', checkParam(query.count))
       .append('country', checkParam(query.country))
       .append('city', checkParam(query.city))
+      .append('teamId', checkParam(query.teamId))
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
     return this.http.get<CollectionResponse<TrainerInfoResponse>>(`${this.baseApiUrl}/trainers`, {params: parameters});

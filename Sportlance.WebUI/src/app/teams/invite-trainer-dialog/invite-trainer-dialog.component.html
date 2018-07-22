@@ -1,0 +1,22 @@
+<form [formGroup]="form">
+  <div class="dialog-header">
+    <button class="dialog-close" mat-dialog-close><i class="material-icons">close</i></button>
+    <h3>Приглашение в клуб</h3>
+  </div>
+  <div class="dialog-content">
+    <label>Команда</label>
+    <app-select class="input-component" formControlName="teamId"
+                [elementId]="'teamId'"
+                [items]="teams"></app-select>
+    <label for="title">Название</label>
+    <input type="text" class="form-control" formControlName="title" id="title"/>
+    <p>
+      Используйте это пространство, чтобы показать клиентам, что у вас есть навыки и опыт, которые они ищут.
+    </p>
+    <textarea class="form-control" formControlName="message"></textarea>
+  </div>
+  <div class="dialog-footer">
+    <button class="btn btn-primary" (click)="submit(true)">Сохранить</button>
+    <button class="btn-link" (click)="submit(false)">Отмена</button>
+  </div>
+</form>

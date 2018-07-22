@@ -9,6 +9,7 @@ import {InviteMemberRequest} from './requests/invite-member-request';
 import {GetTeamQuery} from './requests/get-team-query';
 import {TeamResponse} from './requests/team-response';
 import {Observable} from 'rxjs/internal/Observable';
+import {TrainerInfoResponse} from "../trainers/responses/trainer-info-response";
 
 @Injectable()
 export class TeamsService extends BaseService {
@@ -62,11 +63,11 @@ export class TeamsService extends BaseService {
     return this.http.post(`${this.baseApiUrl}/teams`, data);
   }
 
-  getSelfAsync(query: GetTeamQuery): Promise<CollectionResponse<TeamResponse>> {
+  getSelf(query: GetTeamQuery): Observable<CollectionResponse<TeamResponse>> {
     const parameters = new HttpParams()
       .append('offset', this.checkParam(query.offset))
       .append('count', this.checkParam(query.count));
-    return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams/self`, {params: parameters}).toPromise();
+    return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams/self`, {params: parameters});
   }
 
   async uploadMainPhotoAsync(teamId: number, photo: Blob): Promise<void> {
@@ -94,7 +95,7 @@ export class TeamsService extends BaseService {
   //   return this.http.put(`${this.baseApiUrl}/trainers/price`, {price: price}).toPromise();
   // }
 
-  inviteMemberAsync(teamId: number, memberId: number) {
-    return this.http.post(`${this.baseApiUrl}/teams/${teamId}/members`, <InviteMemberRequest>{memberId: memberId}).toPromise();
+  inviteMember(teamId: number, memberId: number) {
+    return this.http.post(`${this.baseApiUrl}/teams/${teamId}/members`, <InviteMemberRequest>{memberId: memberId});
   }
 }

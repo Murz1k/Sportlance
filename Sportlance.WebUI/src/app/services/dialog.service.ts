@@ -13,6 +13,8 @@ import {AddTeamPhotoDialogComponent} from "../components/common/add-team-photo-d
 import {AddTeamPhotoDialogData} from "../components/common/add-team-photo-dialog/add-team-photo-dialog-data";
 import {EditBackgroundDialogData} from "../components/common/edit-background-dialog/edit-background-dialog-data";
 import {EditBackgroundDialogComponent} from "../components/common/edit-background-dialog/edit-background-dialog.component";
+import {InviteTrainerDialogComponent} from "../teams/invite-trainer-dialog/invite-trainer-dialog.component";
+import {InviteTrainerDialogData} from "../teams/invite-trainer-dialog/invite-trainer-dialog-data";
 
 @Injectable()
 export class DialogService {
@@ -30,6 +32,10 @@ export class DialogService {
 
   public showEditAccountInfoDialogAsync(): Promise<boolean> {
     return this.openModalAsync(EditAccountInfoDialogComponent, {});
+  }
+
+  public showInviteTrainerDialogAsync(trainerId: number): Promise<boolean> {
+    return this.openModalAsync(InviteTrainerDialogComponent, <InviteTrainerDialogData>{trainerId: trainerId});
   }
 
   public showEditPasswordDialogAsync(): Promise<boolean> {

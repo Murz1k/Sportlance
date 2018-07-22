@@ -7,6 +7,7 @@ import {ReviewInfo} from './review-info';
 import {FeedbacksService} from "../../services/feedbacks/feedbacks.service";
 import {UserService} from "../../services/user.service/user.service";
 import {User} from "../../services/user.service/user";
+import {DialogService} from '../../services/dialog.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,10 +27,11 @@ export class ProfileComponent implements OnInit {
   private count = 10;
   private totalCount = 0;
   public feedbacks: Array<ReviewInfo> = [];
-  public clubs = [];
+  public teams = [];
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
+              private dialogService: DialogService,
               private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
@@ -120,5 +122,9 @@ export class ProfileComponent implements OnInit {
       allStars.push(<Star>{isEmpty: true});
     }
     return allStars;
+  }
+
+  public invite() {
+    this.dialogService.showInviteTrainerDialogAsync(this.trainerId);
   }
 }

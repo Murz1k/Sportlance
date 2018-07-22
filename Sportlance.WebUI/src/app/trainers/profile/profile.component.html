@@ -1,13 +1,13 @@
 <div class="content page">
   <div class="main-bar">
-    <div class="background">
-      <img *ngIf="trainer && trainer.backgroundUrl" src="{{trainer.backgroundUrl}}">
-      <div class="background-placeholder" *ngIf="!trainer || !trainer.backgroundUrl">
-      </div>
-    </div>
     <div class="air-card">
+      <div class="background">
+        <img *ngIf="trainer && trainer.backgroundUrl" src="{{trainer.backgroundUrl}}">
+        <div class="background-placeholder" *ngIf="!trainer || !trainer.backgroundUrl">
+        </div>
+      </div>
       <section *ngIf="trainer">
-        <article class="row">
+        <article class="row" style="position: relative">
           <div class="empty-avatar-lg" *ngIf="!trainer.photoUrl">
             <i class="material-icons">account_circle</i>
           </div>
@@ -86,12 +86,14 @@
     </div>
   </div>
   <div class="side-bar">
-    <div *ngIf="clubs.length > 0" class="side-bar-item">
+    <div *ngIf="teams.length > 0" class="side-bar-item">
       <h4>Работает в</h4>
       <!-- список клубов -->
     </div>
-    <div *ngIf="canInvited" class="side-bar-item">
-      <h4>Пригласить</h4>
+    <div class="side-bar-item">
+      <button (click)="invite()" class="btn btn-link">
+        Пригласить
+      </button>
     </div>
   </div>
 </div>

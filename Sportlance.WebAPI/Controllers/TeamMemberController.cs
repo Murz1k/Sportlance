@@ -30,7 +30,7 @@ namespace Sportlance.WebAPI.Controllers
         
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> InvitePMemberAsync(long teamId, InviteMemberRequest request)
+        public async Task<IActionResult> InvitePMemberAsync(long teamId, [FromBody] InviteMemberRequest request)
         {
             await _service.InviteMemberAsync(teamId, request.MemberId);
             return NoContent();

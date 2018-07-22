@@ -8,6 +8,9 @@
     .photo-container {
       display: inline-block;
       position: relative;
+      width: 120px;
+      height: 120px;
+      vertical-align: top;
     }
     .remove-button {
       position: absolute;
@@ -54,6 +57,14 @@
     user-select: none;
     outline: none;
     background-color: white !important;
+    color: #6c757c;
+  }
+}
+
+.empty-avatar {
+  text-align: center;
+  i {
+    font-size: 100px;
     color: #6c757c;
   }
 }

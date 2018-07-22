@@ -5,9 +5,10 @@ import {ActivatedRoute} from '@angular/router';
 import {DialogService} from '../../services/dialog.service';
 import {DomSanitizer, Title} from '@angular/platform-browser';
 import {TeamPhotoResponse} from '../../services/teams/responses/team-photo-response';
-import {PartialObserver} from "rxjs/internal/types";
-import {Observable} from "rxjs/internal/Observable";
-import {Subscription} from "rxjs/internal/Subscription";
+import {TrainerInfoResponse} from '../../services/trainers/responses/trainer-info-response';
+import {TrainersService} from '../../services/trainers/trainers.service';
+import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
+import {Paths} from "../../core/paths";
 
 @Component({
   selector: 'app-team-profile',
@@ -17,12 +18,15 @@ import {Subscription} from "rxjs/internal/Subscription";
 export class TeamProfileComponent implements OnInit {
 
   public profile: TeamProfileResponse;
-  public photos: any[][];
+  public photos: TeamPhotoResponse[][];
+  public teamMembers: TrainerInfoResponse[][];
+  public Paths = Paths;
 
   constructor(private route: ActivatedRoute,
               private dialogService: DialogService,
               private sanitizer: DomSanitizer,
               private titleService: Title,
+              private trainersService: TrainersService,
               private teamService: TeamsService) {
   }
 
@@ -30,7 +34,7 @@ export class TeamProfileComponent implements OnInit {
     await this.route.params.forEach(async params => {
       this.updateInfoAsync(params['id']);
       this.updatePhotos(params['id']);
-      this.upadteTeamMembersAsync(params['id']);
+      this.upadteTeamMembers(params['id']);
     });
   }
 
@@ -63,7 +67,16 @@ export class TeamProfileComponent implements OnInit {
     });
   }
 
-  private async upadteTeamMembersAsync(teamId: number) {
-
+  private upadteTeamMembers(teamId: number) {
+    this.trainersService.get(<GetTrainersQuery>{
+      teamId: teamId,
+      offset: 0,
+      count: 10
+    }).subscribe((response) => {
+      this.teamMembers = [];
+      for (let i = 0; i < response.items.length; i += 6) {
+        this.teamMembers.push(response.items.slice(i, i + 6));
+      }
+    });
   }
 }

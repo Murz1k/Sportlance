@@ -44,6 +44,8 @@ import {EditTrainerPaidDialogComponent} from './trainers/edit-trainer-paid-dialo
 import {EditTrainerAboutDialogComponent} from './trainers/edit-trainer-about-dialog/edit-trainer-about-dialog.component';
 import {EditPasswordDialogComponent} from './settings/edit-password-dialog/edit-password-dialog.component';
 import {EditAccountInfoDialogComponent} from './settings/edit-account-info-dialog/edit-account-info-dialog.component';
+import {InviteTrainerDialogComponent} from './teams/invite-trainer-dialog/invite-trainer-dialog.component';
+import {SelectComponent} from './core/select/select.component';
 
 
 @NgModule({
@@ -66,10 +68,13 @@ import {EditAccountInfoDialogComponent} from './settings/edit-account-info-dialo
     EditPasswordDialogComponent,
     EditTrainerAboutDialogComponent,
     EditTrainerPaidDialogComponent,
-    MenuComponent
+    InviteTrainerDialogComponent,
+    MenuComponent,
+    SelectComponent
   ],
   entryComponents: [
     EditPhotoDialogComponent,
+    InviteTrainerDialogComponent,
     AddTeamPhotoDialogComponent,
     EditTrainerAboutDialogComponent,
     EditTrainerPaidDialogComponent,

@@ -17,6 +17,8 @@
         public string Country { get; set; }
 
         public string City { get; set; }
+        
+        public long? TeamId { get; set; }
 
         public ushort? TrainingsMinCount { get; set; }
 

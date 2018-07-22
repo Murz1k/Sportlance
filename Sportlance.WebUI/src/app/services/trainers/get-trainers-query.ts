@@ -10,4 +10,5 @@ export interface GetTrainersQuery {
   feedbacksMaxCount?: number;
   offset?: number;
   count?: number;
+  teamId?: number;
 }
