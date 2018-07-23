@@ -95,7 +95,7 @@ body {
 .air-card {
   position: relative;
   background-color: $default-color;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
   section {
     padding: 24px;
     word-wrap: break-word;
@@ -109,6 +109,23 @@ body {
       width: 624px;
       vertical-align: top;
     }
+  }
+  .air-expand-btn {
+    text-align: center;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    height: 40px;
+    cursor: pointer;
+    outline: none;
+    color: $primary-color;
+    font-weight: 600;
+    i {
+      vertical-align: middle;
+    }
+  }
+  section.collapsed {
+    height: 200px;
   }
   footer, .air-card-header {
     padding: 24px 24px 0;
@@ -348,7 +365,7 @@ small {
   color: #222;
   background-color: $default-color;
   min-height: 46px;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
   z-index: 10;
 }
 

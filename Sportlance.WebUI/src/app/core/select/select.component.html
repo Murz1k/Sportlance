@@ -1,11 +1,15 @@
 <div class="select-wrapper">
-  <i class="search-icon material-icons" (click)="showSelectList($event)">expand_more</i>
+  <i *ngIf="isSelectHidden" class="expand-icon material-icons" (click)="showSelectList($event)">expand_more</i>
+  <i *ngIf="!isSelectHidden" class="expand-icon material-icons" (click)="showSelectList($event)">expand_less</i>
   <input readonly (click)="showSelectList($event);"
-         [class.select-__input_focused]="selectedInput"
+         [class.focused]="!isSelectHidden"
          (input)="onSelectInputChange()"
          autocomplete="nope"
          [value]="selectedItemLabel"
-         [placeholder]="placeholder" type="text" class="input project-select-input" id="{{elementId}}"
+         [placeholder]="placeholder"
+         type="text"
+         class="form-control"
+         id="{{elementId}}"
          name="{{elementName}}">
   <ul class="select-list" [class.hidden]="isSelectHidden">
     <li *ngIf="hasEmptyValue" (click)="resetSelection()" class="select-item">

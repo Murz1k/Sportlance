@@ -42,9 +42,14 @@
       <section class="pull-left" *ngIf="trainer && !trainer.about" style="position: relative;">
         Расскажите о себе.
       </section>
-      <section *ngIf="trainer && trainer.about" class="pull-left" style="position: relative;">
+      <section *ngIf="trainer && trainer.about" [class.collapsed]="!isShowAbout" class="pull-left">
         {{trainer.about}}
       </section>
+      <button (click)="showAbout()" class="air-expand-btn">
+        Развернуть
+        <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
+        <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
+      </button>
     </div>
     <div *ngIf="trainer" class="air-card">
       <div class="air-card-header">

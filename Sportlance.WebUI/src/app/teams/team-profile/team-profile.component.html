@@ -51,9 +51,14 @@
         <section class="pull-left" *ngIf="!profile.about" style="position: relative;">
           Расскажите о себе.
         </section>
-        <section *ngIf="profile.about" class="pull-left" style="position: relative;">
+        <section *ngIf="profile.about" [class.collapsed]="!isShowAbout" class="pull-left" style="position: relative; text-overflow: ellipsis; overflow: hidden;">
           {{profile.about}}
         </section>
+        <button (click)="showAbout()" class="air-expand-btn">
+          Развернуть
+          <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
+          <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
+        </button>
       </div>
       <div class="air-card" style="margin-top: 2em;">
         <div class="air-card-header">

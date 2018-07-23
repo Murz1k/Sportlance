@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {NumberOnlyDirective} from './number-only.directive';
 
 @NgModule({
@@ -8,4 +8,5 @@ import {NumberOnlyDirective} from './number-only.directive';
   ],
   declarations: [NumberOnlyDirective]
 })
-export class NumberOnlyModule { }
+export class NumberOnlyModule {
+}

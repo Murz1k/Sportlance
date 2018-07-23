@@ -4,9 +4,9 @@ import {Star} from '../trainers/star';
 import {TrainerInfo} from '../trainers/trainer-info';
 import {TrainersService} from '../../services/trainers/trainers.service';
 import {ReviewInfo} from './review-info';
-import {FeedbacksService} from "../../services/feedbacks/feedbacks.service";
-import {UserService} from "../../services/user.service/user.service";
-import {User} from "../../services/user.service/user";
+import {FeedbacksService} from '../../services/feedbacks/feedbacks.service';
+import {UserService} from '../../services/user.service/user.service';
+import {User} from '../../services/user.service/user';
 import {DialogService} from '../../services/dialog.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit {
   trainerId: number;
   public account: User;
   public canInvited = false;
+  public isShowAbout = false;
 
   private offset = 0;
   private count = 10;
@@ -47,6 +48,10 @@ export class ProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  public showAbout() {
+    this.isShowAbout = !this.isShowAbout;
   }
 
   private async updateFeedbacksAsync(trainerId: number) {

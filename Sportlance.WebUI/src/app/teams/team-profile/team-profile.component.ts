@@ -21,6 +21,7 @@ export class TeamProfileComponent implements OnInit {
   public photos: TeamPhotoResponse[][];
   public teamMembers: TrainerInfoResponse[][];
   public Paths = Paths;
+  public isShowAbout = false;
 
   constructor(private route: ActivatedRoute,
               private dialogService: DialogService,
@@ -36,6 +37,10 @@ export class TeamProfileComponent implements OnInit {
       this.updatePhotos(params['id']);
       this.upadteTeamMembers(params['id']);
     });
+  }
+
+  public showAbout() {
+    this.isShowAbout = !this.isShowAbout;
   }
 
   async showAddTeamPhotoDialogAsync() {

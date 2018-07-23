@@ -25,16 +25,15 @@ import {SelectItem} from './select-item';
 export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit {
 
   public isSelectHidden: boolean;
-  public selectedInput = false;
   public selectedItemLabel: string;
 
   @Input('selectedItemValue') _selectedItemValue: string | number | null = null;
-  @Input() placeholder: string;
+  @Input() placeholder = '';
   @Input() items: SelectItem[];
   @Input() elementId: string;
   @Input() elementName: string;
   @Input() form?: FormGroup;
-  @Input() hasEmptyValue = true;
+  @Input() hasEmptyValue = false;
   @Input() defaultValue?: string | number;
   @Output() select: EventEmitter<string | number | null> = new EventEmitter<string | number | null>();
 
@@ -92,8 +91,7 @@ export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit 
   public showSelectList($event: Event) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.isSelectHidden = false;
-    this.selectedInput = true;
+    this.isSelectHidden = !this.isSelectHidden;
   }
 
   @HostListener('document:click', ['$event']) hideSelectList() {
