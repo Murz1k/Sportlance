@@ -23,6 +23,7 @@ export class TrainersComponent {
   isRendering = true;
   public isAuthorized = false;
   public Paths = Paths;
+  public finished = false;
 
   public searchString: string;
   public country: string;
@@ -63,7 +64,7 @@ export class TrainersComponent {
   }
 
   public onScrollDown() {
-    if (this.offset + this.count >= this.totalCount) {
+    if (this.finished) {
       return;
     }
     this.offset = this.count + this.offset;
@@ -95,6 +96,7 @@ export class TrainersComponent {
         about: this.cutAbout(i.about)
       }).forEach(item => this.trainers.push(item));
       this.totalCount = response.totalCount;
+      this.finished = this.offset + this.count >= this.totalCount;
     });
   }
 

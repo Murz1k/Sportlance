@@ -88,6 +88,12 @@
           </li>
         </ul>
       </section>
+      <div class="search-results" *ngIf="!finished"
+           infiniteScroll
+           [infiniteScrollDistance]="1"
+           [infiniteScrollThrottle]="200"
+           (scrolled)="onScrollDown()">
+      </div>
     </div>
   </div>
   <div class="side-bar">

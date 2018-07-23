@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
   private totalCount = 0;
   public feedbacks: Array<ReviewInfo> = [];
   public teams = [];
+  public finished = false;
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
@@ -41,7 +42,8 @@ export class ProfileComponent implements OnInit {
   async ngOnInit() {
     await this.route.params.forEach(async params => {
       this.trainerId = params['id'];
-      await Promise.all([this.updateDataAsync(this.trainerId), this.updateFeedbacksAsync(this.trainerId)]);
+      this.updateData(this.trainerId);
+      this.updateFeedbacks(this.trainerId);
       if (this.account.isTeam) {
         this.trainerService.canInviteTrainer(params['id']).subscribe((canInvited) => {
           this.canInvited = canInvited;
@@ -54,50 +56,57 @@ export class ProfileComponent implements OnInit {
     this.isShowAbout = !this.isShowAbout;
   }
 
-  private async updateFeedbacksAsync(trainerId: number) {
-    const response = await this.feedbackService.getTrainerFeedbacksAsync(trainerId, this.offset, this.count);
-    this.totalCount = response.totalCount;
-    this.feedbacks = response.items.map(i => <ReviewInfo>{
-      stars: this.convertAverageScoreToStars(i.score),
-      clientName: i.clientName,
-      createDate: i.createDate,
-      description: i.description,
-      photoUrl: i.photoUrl
-    });
+  private updateFeedbacks(trainerId: number) {
+    this.feedbackService.getTrainerFeedbacks(trainerId, this.offset, this.count)
+      .subscribe((response) => {
+        this.totalCount = response.totalCount;
+        response.items.map(i => <ReviewInfo>{
+          stars: this.convertAverageScoreToStars(i.score),
+          clientName: i.clientName,
+          createDate: i.createDate,
+          description: i.description,
+          photoUrl: i.photoUrl
+        }).forEach(item => this.feedbacks.push(item));
+      });
   }
 
-  public async onScrollDownAsync() {
-    if (this.offset + this.count >= this.totalCount) {
+  public onScrollDown() {
+    if (this.finished) {
       return;
     }
     this.offset = this.count + this.offset;
-    const response = await this.feedbackService.getTrainerFeedbacksAsync(this.trainerId, this.offset, this.count);
-    this.totalCount = response.totalCount;
-    response.items.map(i => <ReviewInfo>{
-      stars: this.convertAverageScoreToStars(i.score),
-      clientName: i.clientName,
-      createDate: i.createDate,
-      description: i.description,
-      photoUrl: i.photoUrl
-    }).forEach(item => this.feedbacks.push(item));
+    this.feedbackService.getTrainerFeedbacks(this.trainerId, this.offset, this.count)
+      .subscribe((response) => {
+        this.totalCount = response.totalCount;
+        this.finished = this.offset + this.count >= this.totalCount;
+        response.items.map(i => <ReviewInfo>{
+          stars: this.convertAverageScoreToStars(i.score),
+          clientName: i.clientName,
+          createDate: i.createDate,
+          description: i.description,
+          photoUrl: i.photoUrl
+        }).forEach(item => this.feedbacks.push(item));
+      });
   }
 
-  async updateDataAsync(id: number) {
+  updateData(id: number) {
     this.isRendering = false;
-    const response = await this.trainerService.getByIdAsync(id);
-    this.trainer = <TrainerInfo>{
-      firstName: response.firstName,
-      secondName: response.secondName,
-      trainingsCount: response.trainingsCount,
-      price: response.price,
-      city: response.city,
-      about: response.about,
-      title: response.title,
-      country: response.country,
-      stars: this.convertAverageScoreToStars(response.score),
-      sports: response.sports
-    };
-    this.isRendering = true;
+    this.trainerService.getById(id)
+      .subscribe((response) => {
+        this.trainer = <TrainerInfo>{
+          firstName: response.firstName,
+          secondName: response.secondName,
+          trainingsCount: response.trainingsCount,
+          price: response.price,
+          city: response.city,
+          about: response.about,
+          title: response.title,
+          country: response.country,
+          stars: this.convertAverageScoreToStars(response.score),
+          sports: response.sports
+        };
+        this.isRendering = true;
+      });
   }
 
   private convertAverageScoreToStars(score: number): Array<Star> {

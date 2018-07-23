@@ -36,8 +36,8 @@ export class TrainersService extends BaseService {
     return this.http.get<boolean>(`${this.baseApiUrl}/trainers/${trainerId}/canInvite`);
   }
 
-  getByIdAsync(trainerId: number): Promise<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/${trainerId}`).toPromise();
+  getById(trainerId: number): Observable<TrainerProfileResponse> {
+    return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/${trainerId}`);
   }
 
   getSelfAsync(): Promise<TrainerProfileResponse> {

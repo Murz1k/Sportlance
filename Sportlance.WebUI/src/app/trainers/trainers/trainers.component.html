@@ -148,7 +148,7 @@
             </div>
           </div>
         </section>
-        <div class="search-results" *ngIf="trainers.length <= count"
+        <div class="search-results" *ngIf="!finished"
              infiniteScroll
              [infiniteScrollDistance]="1"
              [infiniteScrollThrottle]="200"
