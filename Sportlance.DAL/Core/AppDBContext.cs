@@ -12,8 +12,6 @@ namespace Sportlance.DAL.Core
 
         public DbSet<Training> Trainings { get; set; }
 
-        public DbSet<Client> Clients { get; set; }
-
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<UserRole> UserRoles { get; set; }
@@ -39,16 +37,7 @@ namespace Sportlance.DAL.Core
                 .IsUnique();
 
             modelBuilder.Entity<User>()
-                .HasIndex(u => u.Phone)
-                .IsUnique();
-
-            modelBuilder.Entity<Client>()
-                .HasKey(r => r.UserId);
-
-            modelBuilder.Entity<Client>()
-                .HasOne(r => r.User)
-                .WithOne()
-                .HasForeignKey<Client>(c => c.UserId);
+                .HasIndex(u => u.Phone);
 
             modelBuilder.Entity<Trainer>()
                 .HasKey(r => r.UserId);

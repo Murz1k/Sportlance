@@ -140,22 +140,6 @@ namespace Sportlance.DAL.Test
         }
 
         [Test]
-        public async Task LoadClients()
-        {
-            await LoadTrainers();
-
-            var testUsers = await _env.GetContext().Users.Where(i => i.PasswordHash == "Test").ToArrayAsync();
-            var clients = testUsers.Select(user => new Client
-            {
-                UserId = user.Id,
-                Status = ClientStatus.Available
-            });
-
-            await _env.GetContext().AddRangeAsync(clients);
-            await _env.GetContext().SaveChangesAsync();
-        }
-
-        [Test]
         public async Task LoadReviews()
         {
             var reviews = await (from training in _env.GetContext().Trainings.Include(i=>i.Feedback).DefaultIfEmpty()
@@ -271,7 +255,6 @@ namespace Sportlance.DAL.Test
         [Test]
         public async Task LoadTrainerSports()
         {
-            await LoadClients();
             var firstSport = await _env.GetContext().Sports.FirstAsync();
 
             var trainerSports = await _env.GetContext().Trainers.Select(trainer => new TrainerSport
@@ -287,7 +270,7 @@ namespace Sportlance.DAL.Test
         [Test]
         public async Task LoadTrainings()
         {
-            var allClients = await _env.GetContext().Clients.ToListAsync();
+            var allClients = await _env.GetContext().Users.ToListAsync();
             var trainerSports = await (from trainerSport in _env.GetContext().TrainerSports
                 join sport in _env.GetContext().Sports on trainerSport.SportId equals sport.Id
                 where sport.Name == "Бокс"
@@ -301,7 +284,7 @@ namespace Sportlance.DAL.Test
                 where trainerSports.Any(i => i.TrainerId == trainer.UserId)
                 select new Training
                 {
-                    ClientId = allClients.ElementAt(new Random().Next(0, allClients.Count)).UserId,
+                    ClientId = allClients.ElementAt(new Random().Next(0, allClients.Count)).Id,
                     TrainerSportId = trainerSports.First(i => i.TrainerId == trainer.UserId).Id,
                     StartDate = startDate,
                     EndDate = endDate

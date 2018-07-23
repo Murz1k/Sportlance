@@ -21,17 +21,6 @@ namespace Sportlance.DAL.Migrations
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Sportlance.DAL.Entities.Client", b =>
-                {
-                    b.Property<long>("UserId");
-
-                    b.Property<int>("Status");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Clients");
-                });
-
             modelBuilder.Entity("Sportlance.DAL.Entities.Feedback", b =>
                 {
                     b.Property<long>("TrainingId");
@@ -238,9 +227,7 @@ namespace Sportlance.DAL.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("Phone")
-                        .IsUnique()
-                        .HasFilter("[Phone] IS NOT NULL");
+                    b.HasIndex("Phone");
 
                     b.ToTable("Users");
                 });
@@ -261,14 +248,6 @@ namespace Sportlance.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("Sportlance.DAL.Entities.Client", b =>
-                {
-                    b.HasOne("Sportlance.DAL.Entities.User", "User")
-                        .WithOne()
-                        .HasForeignKey("Sportlance.DAL.Entities.Client", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Feedback", b =>
@@ -331,7 +310,7 @@ namespace Sportlance.DAL.Migrations
 
             modelBuilder.Entity("Sportlance.DAL.Entities.Training", b =>
                 {
-                    b.HasOne("Sportlance.DAL.Entities.Client", "Client")
+                    b.HasOne("Sportlance.DAL.Entities.User", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade);

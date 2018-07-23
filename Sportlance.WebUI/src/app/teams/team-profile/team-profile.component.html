@@ -107,7 +107,10 @@
               <div *ngIf="!teamMember.photo" class="empty-avatar">
                 <i class="material-icons">account_circle</i>
               </div>
-              <span style="text-align: center; display: block;">{{teamMember.firstName}} {{teamMember.secondName}}</span>
+              <a routerLink="/{{Paths.Trainers}}/{{teamMember.id}}" class="member-title">{{teamMember.firstName}} {{teamMember.secondName}}</a>
+              <button class="btn btn-default member-button">
+                Записаться
+              </button>
             </div>
           </div>
         </section>

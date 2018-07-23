@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.BLL.Entities;
@@ -29,7 +28,7 @@ namespace Sportlance.BLL.Services
                     .Include(t => t.User)
                     .Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
                     .Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
-                .Include(i=>i.TrainerTeams)
+                    .Include(i => i.TrainerTeams)
                 where trainer.Status == TrainerStatus.Available
                       && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
                       && (query.MaxPrice == null || trainer.Price <= query.MaxPrice.Value)
@@ -45,7 +44,7 @@ namespace Sportlance.BLL.Services
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
                       && (!query.TrainingsMinCount.HasValue || query.TrainingsMinCount <=
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
-                      && (!query.TeamId.HasValue || trainer.TrainerTeams.Any(i=>i.TeamId == query.TeamId))
+                      && (!query.TeamId.HasValue || trainer.TrainerTeams.Any(i => i.TeamId == query.TeamId))
                       && (!query.TrainingsMaxCount.HasValue || query.TrainingsMaxCount >=
                           trainer.TrainerSports.SelectMany(i => i.Trainings).Count())
                 select new TrainerListItem
@@ -66,15 +65,9 @@ namespace Sportlance.BLL.Services
                 }).GetPageAsync(query.Offset, query.Count);
 
             return new PagingCollection<TrainerListItem>(
-                await Task.WhenAll(collection.Select(AddPhotoToTrainerAsync)), 
-                collection.TotalCount, 
+                await Task.WhenAll(collection.Select(AddPhotoToTrainerAsync)),
+                collection.TotalCount,
                 collection.Offset);
-        }
-
-        private async Task<TrainerListItem> AddPhotoToTrainerAsync(TrainerListItem trainer)
-        {
-            trainer.Photo = await _trainerStorageProvider.DowndloadAsync($"trainer-{trainer.Id}/main");
-            return trainer;
         }
 
         public async Task<TrainerProfile> GetById(long trainerId)
@@ -84,7 +77,6 @@ namespace Sportlance.BLL.Services
                 .Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
                 .Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
                 .Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Client)
-                .ThenInclude(i => i.User)
                 .FirstOrDefaultAsync(i => i.UserId == trainerId);
             return new TrainerProfile
             {
@@ -156,6 +148,12 @@ namespace Sportlance.BLL.Services
             var team = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
             team.BackgroundUrl = link;
             await _appContext.SaveChangesAsync();
+        }
+
+        private async Task<TrainerListItem> AddPhotoToTrainerAsync(TrainerListItem trainer)
+        {
+            trainer.Photo = await _trainerStorageProvider.DowndloadAsync($"trainer-{trainer.Id}/main");
+            return trainer;
         }
     }
 }
