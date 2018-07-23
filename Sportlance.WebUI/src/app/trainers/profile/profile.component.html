@@ -42,7 +42,7 @@
       <section class="pull-left" *ngIf="trainer && !trainer.about" style="position: relative;">
         Расскажите о себе.
       </section>
-      <section *ngIf="trainer && trainer.about" [class.collapsed]="!isShowAbout" class="pull-left">
+      <section *ngIf="trainer && trainer.about" [class.collapsed]="!isShowAbout" class="pull-left" style="position: relative; text-overflow: ellipsis; overflow: hidden;">
         {{trainer.about}}
       </section>
       <button (click)="showAbout()" class="air-expand-btn">
