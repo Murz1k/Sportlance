@@ -1,132 +1,143 @@
-<div class="content">
-  <div *ngIf="profile" class="page">
-    <div class="main-bar">
-      <div class="air-card">
-        <img id="profile-background-image-target-image" alt="Фоновое изображение"
-             src="https://media.licdn.com/dms/image/C5616AQHcgQdTWmp8kg/profile-displaybackgroundimage-shrink_350_1400/0?e=1535587200&amp;v=beta&amp;t=NSEpVgdPACngIg0_vegMtPxq1b3Sne-Mvbrwbu4_kJ8"
-             style="width: 100%;">
-        <section>
-          <article class="row" style="position: relative">
-            <div class="empty-avatar-lg" *ngIf="!profile.photoUrl">
-              <i class="material-icons">account_circle</i>
-            </div>
-            <div *ngIf="profile.photoUrl" class="photo-input">
-              <img src="{{profile.photoUrl}}">
-              <button (click)="changePhotoAsync()">
-                <i class="material-icons" style="display:  inherit;font-size:  36px;">wallpaper</i>
-                Изменить
-              </button>
-            </div>
-            <div style="margin-left: 175px;">
-              <h4 class="name">
-                {{profile.title}}
-              </h4>
-              <div>
-                <h4 class="title">{{profile.subTitle}}</h4>
-              </div>
-              <ul class="list-inline m-0-bottom">
-                <!--<li (click)="changePaidAsync()">-->
-                <!--<h3 class="m-xs-bottom ng-binding">{{trainer.price}}₽</h3>-->
-                <!--<div class="text-muted ng-binding">Часовая ставка</div>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<h3 class="m-xs-bottom ng-binding">{{trainer.trainingsCount}}</h3>-->
-                <!--<div class="text-muted ng-binding">Проведено тренировок</div>-->
-                <!--</li>-->
-              </ul>
-            </div>
-            <div *ngIf="profile.country && profile.city" style="margin-left: auto;">
-              <i class="material-icons position-icon text-muted">place</i>
-              <strong class="hidden-xs" title="Bulgaria">{{profile.country}}, {{profile.city}} </strong>
-            </div>
-          </article>
-        </section>
-        <div class="air-card-header">
-          <h3 class="pull-left">О нас</h3>
-          <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
-                  style="position: absolute;     right: 30px;    top: 20px;">
-            <i class="material-icons" style="font-size: 20px;">create</i>
-          </button>
+<div class="content page">
+  <div class="main-bar">
+    <div class="air-card">
+      <div *ngIf="profile" class="background">
+        <img *ngIf="profile.backgroundUrl" src="{{profile.backgroundUrl}}">
+        <div *ngIf="!profile.backgroundUrl" class="background-placeholder">
         </div>
-        <section class="pull-left" *ngIf="!profile.about" style="position: relative;">
-          Расскажите о себе.
-        </section>
-        <section *ngIf="profile.about" [class.collapsed]="!isShowAbout" class="pull-left" style="position: relative; text-overflow: ellipsis; overflow: hidden;">
-          {{profile.about}}
-        </section>
-        <button (click)="showAbout()" class="air-expand-btn">
-          Развернуть
-          <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
-          <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
+      </div>
+      <div *ngIf="!profile" class="background">
+        <div class="background-placeholder">
+        </div>
+      </div>
+      <section *ngIf="profile">
+        <article class="row" style="position: relative">
+          <div class="empty-avatar-lg" *ngIf="!profile.photoUrl">
+            <i class="material-icons">account_circle</i>
+          </div>
+          <div *ngIf="profile.photoUrl" class="photo-input">
+            <img src="{{profile.photoUrl}}">
+            <button (click)="changePhotoAsync()">
+              <i class="material-icons" style="display:  inherit;font-size:  36px;">wallpaper</i>
+              Изменить
+            </button>
+          </div>
+          <div style="margin-left: 175px;">
+            <h4 class="name">
+              {{profile.title}}
+            </h4>
+            <div>
+              <h4 class="title">{{profile.subTitle}}</h4>
+            </div>
+            <ul class="list-inline m-0-bottom">
+              <!--<li (click)="changePaidAsync()">-->
+              <!--<h3 class="m-xs-bottom ng-binding">{{trainer.price}}₽</h3>-->
+              <!--<div class="text-muted ng-binding">Часовая ставка</div>-->
+              <!--</li>-->
+              <!--<li>-->
+              <!--<h3 class="m-xs-bottom ng-binding">{{trainer.trainingsCount}}</h3>-->
+              <!--<div class="text-muted ng-binding">Проведено тренировок</div>-->
+              <!--</li>-->
+            </ul>
+          </div>
+          <div *ngIf="profile.country && profile.city" style="margin-left: auto;">
+            <i class="material-icons position-icon text-muted">place</i>
+            <strong class="hidden-xs" title="Bulgaria">{{profile.country}}, {{profile.city}} </strong>
+          </div>
+        </article>
+      </section>
+      <section *ngIf="!profile" style="position: relative; height: 175px">
+      </section>
+      <div class="air-card-header">
+        <h3 class="pull-left">О нас</h3>
+        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+                style="position: absolute;     right: 30px;    top: 20px;">
+          <i class="material-icons" style="font-size: 20px;">create</i>
         </button>
       </div>
-      <div class="air-card" style="margin-top: 2em;">
-        <div class="air-card-header">
-          <h3 class="pull-left">
-            Галерея
-          </h3>
-          <button (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
-            <i class="material-icons">add</i>
-          </button>
-        </div>
-        <section *ngIf="!photos" class="photo-collection">
-          <div class="photo-row">
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
-            <div class="image-placeholder"></div>
-          </div>
-        </section>
-        <section *ngIf="photos" class="photo-collection">
-          <div class="photo-row" *ngFor="let photoRow of photos">
-            <div class="photo-container" *ngFor="let photo of photoRow">
-              <button (click)="deletePhoto(photo.id)" class="remove-button">
-                <i class="material-icons">clear</i>
-              </button>
-              <img src="{{photo.file}}">
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="air-card" style="margin-top: 2em;">
-        <div class="air-card-header">
-          <h3 class="m-0-bottom pull-left">
-            Команда
-          </h3>
-          <a routerLink="/{{Paths.Trainers}}" style="float: right">Найти тренеров</a>
-        </div>
-        <section *ngIf="!teamMembers">
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-          <div class="image-placeholder"></div>
-        </section>
-        <section *ngIf="teamMembers" class="photo-collection">
-          <div class="photo-row" *ngFor="let teamMemberRow of teamMembers">
-            <div class="photo-container" *ngFor="let teamMember of teamMemberRow">
-              <img *ngIf="teamMember.photo" src="{{teamMember.photo}}">
-              <div *ngIf="!teamMember.photo" class="empty-avatar">
-                <i class="material-icons">account_circle</i>
-              </div>
-              <a routerLink="/{{Paths.Trainers}}/{{teamMember.id}}" class="member-title">{{teamMember.firstName}} {{teamMember.secondName}}</a>
-              <button class="btn btn-default member-button">
-                Записаться
-              </button>
-            </div>
-          </div>
-        </section>
-      </div>
+      <section *ngIf="!profile" class="pull-left" style="position: relative; height: 240px">
+      Расскажите о себе.
+    </section>
+      <section *ngIf="profile && !profile.about" class="pull-left" style="position: relative;">
+        Расскажите о себе.
+      </section>
+      <section *ngIf="profile && profile.about" [class.collapsed]="!isShowAbout && profile.about.length > 500" class="pull-left"
+               style="position: relative; text-overflow: ellipsis; overflow: hidden;">
+        {{profile.about}}
+      </section>
+      <button *ngIf="profile && profile.about.length > 500" (click)="showAbout()" class="air-expand-btn">
+        Развернуть
+        <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
+        <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
+      </button>
     </div>
-    <div class="side-bar">
-      <div *ngIf="profile.phoneNumber" class="side-bar-item">
-        <a class="phone-number" href="tel:{{profile.phoneNumber}}">
-          {{profile.phoneNumber}}
-        </a>
+    <div class="air-card">
+      <div class="air-card-header">
+        <h3 class="pull-left">
+          Галерея
+        </h3>
+        <button *ngIf="!photos" (click)="showAddTeamPhotoDialogAsync()" class="btn btn-default btn-rnd">
+          <i class="material-icons">add</i>
+        </button>
       </div>
+      <section *ngIf="!photos" class="photo-collection">
+        <div class="photo-row">
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+          <div class="image-placeholder"></div>
+        </div>
+      </section>
+      <section *ngIf="photos" class="photo-collection">
+        <div class="photo-row" *ngFor="let photoRow of photos">
+          <div class="photo-container" *ngFor="let photo of photoRow">
+            <button (click)="deletePhoto(photo.id)" class="remove-button">
+              <i class="material-icons">clear</i>
+            </button>
+            <img src="{{photo.file}}">
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="air-card" style="margin-top: 2em;">
+      <div class="air-card-header">
+        <h3 class="m-0-bottom pull-left">
+          Команда
+        </h3>
+        <a *ngIf="!teamMembers" routerLink="/{{Paths.Trainers}}" style="float: right">Найти тренеров</a>
+      </div>
+      <section *ngIf="!teamMembers">
+        <div class="image-placeholder"></div>
+        <div class="image-placeholder"></div>
+        <div class="image-placeholder"></div>
+        <div class="image-placeholder"></div>
+        <div class="image-placeholder"></div>
+        <div class="image-placeholder"></div>
+      </section>
+      <section *ngIf="teamMembers" class="photo-collection">
+        <div class="photo-row" *ngFor="let teamMemberRow of teamMembers">
+          <div class="photo-container" *ngFor="let teamMember of teamMemberRow">
+            <img *ngIf="teamMember.photo" src="{{teamMember.photo}}">
+            <div *ngIf="!teamMember.photo" class="empty-avatar">
+              <i class="material-icons">account_circle</i>
+            </div>
+            <a routerLink="/{{Paths.Trainers}}/{{teamMember.id}}" class="member-title">{{teamMember.firstName}}
+              {{teamMember.secondName}}</a>
+            <button class="btn btn-default member-button">
+              Записаться
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div *ngIf="profile" class="side-bar">
+    <div *ngIf="profile.phoneNumber" class="side-bar-item">
+      <a class="phone-number" href="tel:{{profile.phoneNumber}}">
+        {{profile.phoneNumber}}
+      </a>
     </div>
   </div>
 </div>

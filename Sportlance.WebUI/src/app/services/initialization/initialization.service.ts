@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {AccountService} from "../account-service";
-import {PromiseUtils} from "../../core/promise-utils";
+import {AccountService} from '../account-service';
+import {PromiseUtils} from '../../core/promise-utils';
 
 @Injectable()
 export class InitializationService {

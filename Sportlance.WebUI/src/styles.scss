@@ -10,10 +10,25 @@ $checkbox-size: 15px !important;
 
 $footer-height: 100px;
 
+app-root:not(:last-child(root:empty)) + .loading {
+  display: none;
+}
+
+.hidden {
+  display: none;
+}
+
 .app-wrapper, app-login, app-signup {
   display: flex;
   flex-direction: column;
   height: 100%;
+  bottom: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  background-color: #f2f2f2;
   > :not(router-outlet):not(header):not(app-footer) {
     flex: 1 0 auto;
   }
@@ -92,10 +107,26 @@ body {
   border-color: $primary-color;
 }
 
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .air-card {
   position: relative;
   background-color: $default-color;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
+
+  animation-name: fade-in;
+  animation-duration: .5s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(0, 0, .2, 1);
+  animation-fill-mode: forwards;
+
   section {
     padding: 24px;
     word-wrap: break-word;
@@ -358,6 +389,21 @@ small {
   transition: transform .3s, box-shadow .3s, -webkit-transform .3s, -webkit-box-shadow .3s;
 }
 
+.mat-toolbar {
+  animation: appear 334ms cubic-bezier(0, 0, .2, 1) .15s forwards;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .mat-toolbar.mat-primary {
   font-family: Gotham SSm, Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -548,6 +594,9 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
 .side-bar {
   padding-left: 24px;
   float: right;
+  position: sticky;
+  top: 24px;
+  z-index: -1;
 }
 
 /* Large desktops and laptops */
