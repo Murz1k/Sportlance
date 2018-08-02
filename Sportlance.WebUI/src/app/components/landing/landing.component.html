@@ -1,0 +1,14 @@
+<div class="carousel">
+  <ul class="slides">
+    <li *ngFor="let image of images">
+      <img src="{{image.url}}" alt="">
+      <div class="content">
+        <div class="cta-container">
+          <span class="cta-title">{{image.title}}</span>
+          <span class="cta-descr">{{image.descr}}</span>
+          <a routerLink="/{{image.btnLink}}" class="btn btn-primary">{{image.btnText}}</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

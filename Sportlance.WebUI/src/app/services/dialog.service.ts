@@ -5,16 +5,19 @@ import {EditTrainerAboutDialogComponent} from '../trainers/edit-trainer-about-di
 import {EditTrainerAboutDialogData} from '../trainers/edit-trainer-about-dialog/edit-trainer-about-dialog-data';
 import {EditPhotoDialogComponent} from '../components/common/edit-photo-dialog/edit-photo-dialog.component';
 import {EditPhotoDialogData} from '../components/common/edit-photo-dialog/edit-photo-dialog-data';
-import {EditTrainerPaidDialogComponent} from "../trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component";
+import {EditTrainerPaidDialogComponent} from '../trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
 import {EditTrainerPaidDialogData} from '../trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog-data';
-import {EditAccountInfoDialogComponent} from "../settings/edit-account-info-dialog/edit-account-info-dialog.component";
-import {EditPasswordDialogComponent} from "../settings/edit-password-dialog/edit-password-dialog.component";
-import {AddTeamPhotoDialogComponent} from "../components/common/add-team-photo-dialog/add-team-photo-dialog.component";
-import {AddTeamPhotoDialogData} from "../components/common/add-team-photo-dialog/add-team-photo-dialog-data";
-import {EditBackgroundDialogData} from "../components/common/edit-background-dialog/edit-background-dialog-data";
-import {EditBackgroundDialogComponent} from "../components/common/edit-background-dialog/edit-background-dialog.component";
-import {InviteTrainerDialogComponent} from "../teams/invite-trainer-dialog/invite-trainer-dialog.component";
-import {InviteTrainerDialogData} from "../teams/invite-trainer-dialog/invite-trainer-dialog-data";
+import {EditAccountInfoDialogComponent} from '../settings/edit-account-info-dialog/edit-account-info-dialog.component';
+import {EditPasswordDialogComponent} from '../settings/edit-password-dialog/edit-password-dialog.component';
+import {AddTeamPhotoDialogComponent} from '../components/common/add-team-photo-dialog/add-team-photo-dialog.component';
+import {AddTeamPhotoDialogData} from '../components/common/add-team-photo-dialog/add-team-photo-dialog-data';
+import {EditBackgroundDialogData} from '../components/common/edit-background-dialog/edit-background-dialog-data';
+import {EditBackgroundDialogComponent} from '../components/common/edit-background-dialog/edit-background-dialog.component';
+import {InviteTrainerDialogComponent} from '../teams/invite-trainer-dialog/invite-trainer-dialog.component';
+import {InviteTrainerDialogData} from '../teams/invite-trainer-dialog/invite-trainer-dialog-data';
+import {AddTrainerTrainingDialogData} from '../trainers/add-trainer-training-dialog/add-trainer-training-dialog-data';
+import {AddTrainerTrainingDialogComponent} from '../trainers/add-trainer-training-dialog/add-trainer-training-dialog.component';
+import {SportResponse} from './trainers/responses/sport-response';
 
 @Injectable()
 export class DialogService {
@@ -54,6 +57,10 @@ export class DialogService {
 
   public showAddTeamPhotoDialogAsync(teamId: number): Promise<boolean> {
     return this.openModalAsync(AddTeamPhotoDialogComponent, <AddTeamPhotoDialogData> {teamId: teamId});
+  }
+
+  public showAddTrainingDialog(trainerId: number, sports: SportResponse[]): Promise<boolean> {
+    return this.openModalAsync(AddTrainerTrainingDialogComponent, <AddTrainerTrainingDialogData> {trainerId: trainerId, sports: sports});
   }
 
   private openModal<TComponent, TData>(componentType: ComponentType<TComponent>,

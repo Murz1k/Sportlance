@@ -30,7 +30,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
-import {MatRadioModule} from '@angular/material';
+import {DateAdapter, MatNativeDateModule, MatRadioModule} from '@angular/material';
 import {DialogService} from './services/dialog.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import {EditPhotoDialogComponent} from './components/common/edit-photo-dialog/edit-photo-dialog.component';
@@ -46,6 +46,14 @@ import {EditPasswordDialogComponent} from './settings/edit-password-dialog/edit-
 import {EditAccountInfoDialogComponent} from './settings/edit-account-info-dialog/edit-account-info-dialog.component';
 import {InviteTrainerDialogComponent} from './teams/invite-trainer-dialog/invite-trainer-dialog.component';
 import {SelectModule} from './core/select/select.module';
+import {AddTrainerTrainingDialogComponent} from './trainers/add-trainer-training-dialog/add-trainer-training-dialog.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {TimeMaskModule} from './core/time-mask/time-mask.module';
+import {TimeMaskDirective} from './core/time-mask/time-mask.directive';
+import {DateMaskDirective} from './core/date-mask/date-mask.directive';
+import {MomentModule} from 'ngx-moment';
+import {MyDateAdapter} from "./core/my-date-adapter";
+import {NumberOnlyDirective} from "./core/number-only/number-only.directive";
 
 
 @NgModule({
@@ -69,9 +77,14 @@ import {SelectModule} from './core/select/select.module';
     EditTrainerAboutDialogComponent,
     EditTrainerPaidDialogComponent,
     InviteTrainerDialogComponent,
-    MenuComponent
+    AddTrainerTrainingDialogComponent,
+    MenuComponent,
+    TimeMaskDirective,
+    DateMaskDirective,
+    NumberOnlyDirective
   ],
   entryComponents: [
+    AddTrainerTrainingDialogComponent,
     EditPhotoDialogComponent,
     InviteTrainerDialogComponent,
     AddTeamPhotoDialogComponent,
@@ -87,11 +100,15 @@ import {SelectModule} from './core/select/select.module';
     MatCheckboxModule,
     AppRoutingModule,
     InfiniteScrollModule,
+    MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    MatNativeDateModule,
     HttpClientModule,
+    MomentModule,
     MatDialogModule,
     SelectModule,
+    TimeMaskModule,
     MatProgressSpinnerModule,
     MatRadioModule,
     BrowserAnimationsModule
@@ -102,6 +119,7 @@ import {SelectModule} from './core/select/select.module';
       useClass: JwtInterceptor,
       multi: true
     },
+    {provide: DateAdapter, useClass: MyDateAdapter},
     TrainersService,
     AccountService,
     AuthApiClient,
@@ -117,5 +135,6 @@ import {SelectModule} from './core/select/select.module';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

@@ -4,22 +4,22 @@ import {TrainersComponent} from './trainers/trainers.component';
 import {ProfileComponent} from './profile/profile.component';
 import {CommonModule} from '@angular/common';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {FormsModule} from '@angular/forms';
-import {NumberOnlyModule} from '../core/number-only/number-only.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AppointmentComponent} from './appointment/appointment.component';
 
 @NgModule({
   imports: [
     CommonModule,
     InfiniteScrollModule,
     FormsModule,
-    TrainersRoutingModule,
-    NumberOnlyModule
+    ReactiveFormsModule,
+    TrainersRoutingModule
   ],
-  entryComponents: [
-  ],
+  entryComponents: [],
   declarations: [
     TrainersComponent,
-    ProfileComponent
+    ProfileComponent,
+    AppointmentComponent
   ]
 })
 export class TrainersModule {

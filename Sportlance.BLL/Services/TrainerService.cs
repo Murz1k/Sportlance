@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.BLL.Entities;
@@ -147,6 +149,34 @@ namespace Sportlance.BLL.Services
             var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
             var team = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
             team.BackgroundUrl = link;
+            await _appContext.SaveChangesAsync();
+        }
+
+        public async Task<IReadOnlyCollection<TraningItem>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate, DateTimeOffset toDate)
+        {
+            return await (from trainer in _appContext.Trainers
+                where trainer.UserId == trainerId
+                      join trainingSport in _appContext.TrainerSports on trainer.UserId equals  trainingSport.TrainerId
+                join training in _appContext.Trainings.Include(i=>i.Client).Include(i=>i.TrainerSport).ThenInclude(i=>i.Sport) 
+                    on trainingSport.Id equals training.TrainerSportId
+                where training.StartDate >= fromDate 
+                      && (!training.EndDate.HasValue || training.EndDate.Value <= toDate)
+                select new TraningItem{
+                    Id = training.Id,
+                    StartDate = training.StartDate,
+                    ClientFirstName = training.Client.FirstName,
+                    ClientId = training.Client.Id,
+                    ClientLastName = training.Client.LastName,
+                    EndDate = training.EndDate,
+                    Sport = training.TrainerSport.Sport
+                    }).ToArrayAsync();
+        }
+
+        public async Task AddTrainingAsync(long trainerId, long clientId, long sportId, DateTimeOffset fromDate)
+        {
+            var trainerSport = await _appContext.TrainerSports.FirstOrDefaultAsync(i =>
+                    i.TrainerId == trainerId && i.SportId == sportId);
+            _appContext.Trainings.Add(new Training {ClientId = clientId, StartDate = fromDate.DateTime, TrainerSportId = trainerSport.Id});
             await _appContext.SaveChangesAsync();
         }
 

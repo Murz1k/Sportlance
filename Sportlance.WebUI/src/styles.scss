@@ -18,6 +18,14 @@ app-root:not(:last-child(root:empty)) + .loading {
   display: none;
 }
 
+.mat-calendar-body-selected {
+  background-color: $primary-dark-color;
+}
+
+.mat-ripple-element, .mat-button-focus-overlay {
+  background: none !important;
+}
+
 .app-wrapper, app-login, app-signup {
   display: flex;
   flex-direction: column;
@@ -137,7 +145,7 @@ body {
     }
     .info-container {
       display: inline-block;
-      width: 624px;
+      width: 694px;
       vertical-align: top;
     }
   }
@@ -427,7 +435,7 @@ header a, header .btn-link {
 }
 
 header a:not(:last-child) {
-  padding-right: 16px;
+  padding-right: 32px;
 }
 
 header a.active, a {
@@ -596,7 +604,6 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
   float: right;
   position: sticky;
   top: 24px;
-  z-index: -1;
 }
 
 /* Large desktops and laptops */
@@ -631,7 +638,18 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
 
 /* Landscape phones and smaller */
 @media screen and (max-width: 480px) {
+  .content {
+    width: auto;
+  }
 
+  .main-bar {
+    width: auto;
+  }
+
+  .side-bar {
+    //width: 322px;
+    display: none;
+  }
 }
 
 .avatar {

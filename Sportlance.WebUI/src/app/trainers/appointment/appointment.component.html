@@ -1,0 +1,43 @@
+<div class="content page">
+  <div class="air-card-actions">
+    <button class="btn btn-default" (click)="showAddTrainingDialog()">Добавить</button>
+  </div>
+  <div class="air-card">
+    <section>
+      <div class="scheduler-time-container">
+        <span class="scheduler-time-item">0:00</span>
+        <span class="scheduler-time-item">1:00</span>
+        <span class="scheduler-time-item">2:00</span>
+        <span class="scheduler-time-item">3:00</span>
+        <span class="scheduler-time-item">4:00</span>
+        <span class="scheduler-time-item">5:00</span>
+        <span class="scheduler-time-item">6:00</span>
+        <span class="scheduler-time-item">7:00</span>
+        <span class="scheduler-time-item">8:00</span>
+        <span class="scheduler-time-item">9:00</span>
+        <span class="scheduler-time-item">10:00</span>
+        <span class="scheduler-time-item">11:00</span>
+        <span class="scheduler-time-item">12:00</span>
+        <span class="scheduler-time-item">13:00</span>
+        <span class="scheduler-time-item">14:00</span>
+        <span class="scheduler-time-item">15:00</span>
+        <span class="scheduler-time-item">16:00</span>
+        <span class="scheduler-time-item">17:00</span>
+        <span class="scheduler-time-item">18:00</span>
+        <span class="scheduler-time-item">19:00</span>
+        <span class="scheduler-time-item">20:00</span>
+        <span class="scheduler-time-item">21:00</span>
+        <span class="scheduler-time-item">22:00</span>
+        <span class="scheduler-time-item">23:00</span>
+        <span class="scheduler-time-item">0:00</span>
+      </div>
+      <div class="scheduler-container">
+        <div *ngFor="let training of trainings"
+             [class]="'scheduler-item scheduler-day-' + getDayFromDate(training.from)"
+             [ngStyle]="getSchedulerItemStyle(training.from, training.to)">
+          {{training.label}}
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

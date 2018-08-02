@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Sportlance.BLL.Entities;
 using Sportlance.DAL.Core;
 using Sportlance.DAL.Entities;
@@ -25,5 +27,10 @@ namespace Sportlance.BLL.Interfaces
         Task UpdatePriceAsync(long trainerId, double price);
 
         Task<bool> CanInviteTrainer(long userId, long trainerId);
+
+        Task<IReadOnlyCollection<TraningItem>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate,
+            DateTimeOffset toDate);
+
+        Task AddTrainingAsync(long trainerId, long clientId, long sportId, DateTimeOffset fromDate);
     }
 }

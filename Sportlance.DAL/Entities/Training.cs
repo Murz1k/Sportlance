@@ -14,6 +14,8 @@ namespace Sportlance.DAL.Entities
 
         public DateTime? EndDate { get; set; }
 
+        public TrainerSport TrainerSport { get; set; }
+
         public User Client { get; set; }
 
         public Feedback Feedback { get; set; }

@@ -7,6 +7,7 @@ import {CollectionResponse} from '../common/collection-response';
 import {GetTrainersQuery} from './get-trainers-query';
 import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
+import {TrainingResponse} from './responses/training-response';
 
 @Injectable()
 export class TrainersService extends BaseService {
@@ -66,5 +67,20 @@ export class TrainersService extends BaseService {
 
   updatePaidAsync(price: number) {
     return this.http.put(`${this.baseApiUrl}/trainers/price`, {price: price}).toPromise();
+  }
+
+  getTrainings(trainerId: number, startDate: string, endDate: string): Observable<CollectionResponse<TrainingResponse>> {
+    const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
+    const parameters = new HttpParams()
+      .append('startDate', checkParam(startDate))
+      .append('endDate', checkParam(endDate));
+    return this.http.get<CollectionResponse<TrainingResponse>>(`${this.baseApiUrl}/trainers/${trainerId}/trainings`, {params: parameters});
+  }
+
+  addTraining(trainerId: number, startDate: string, sportId: number): Observable<Object> {
+    return this.http.post(`${this.baseApiUrl}/trainers/${trainerId}/trainings`, {
+      startDate: startDate,
+      sportId: sportId
+    });
   }
 }

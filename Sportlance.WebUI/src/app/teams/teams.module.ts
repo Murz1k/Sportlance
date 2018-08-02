@@ -5,7 +5,6 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TeamsComponent} from './teams/teams.component';
 import {TeamProfileComponent} from './team-profile/team-profile.component';
-import {NumberOnlyModule} from '../core/number-only/number-only.module';
 
 @NgModule({
   imports: [
@@ -13,8 +12,7 @@ import {NumberOnlyModule} from '../core/number-only/number-only.module';
     InfiniteScrollModule,
     FormsModule,
     ReactiveFormsModule,
-    TeamsRoutingModule,
-    NumberOnlyModule
+    TeamsRoutingModule
   ],
   entryComponents: [
   ],

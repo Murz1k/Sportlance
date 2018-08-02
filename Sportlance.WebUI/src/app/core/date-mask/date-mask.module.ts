@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NumberOnlyDirective} from './number-only.directive';
+import {DateMaskDirective} from './date-mask.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: []
+  //declarations: [DateMaskDirective]
 })
-export class NumberOnlyModule {
+export class DateMaskModule {
 }

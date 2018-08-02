@@ -118,6 +118,7 @@
             </div>
           </div>
           <div class="info-container">
+            <a routerLink="/{{Paths.Trainers}}/{{trainer.id}}/appointment" class="btn btn-primary" style="float: right;">Записаться</a>
             <h4 class="info-section">
               <a [routerLink]="'/' + Paths.Trainers + '/' + trainer.id">
                 {{trainer.firstName}} {{trainer.secondName}}

@@ -1,0 +1,62 @@
+.scheduler-container {
+  position: absolute;
+  left: 65px;
+  top: 34px;
+  .scheduler-item {
+    position: absolute;
+    border-left: 2px solid blue;
+    background-color: #0000ff30;
+    padding: 4px;
+    width: 157px;
+    height: 60px;
+  }
+}
+
+.scheduler-time-container {
+  .scheduler-time-item {
+    display: block;
+    color: #666;
+  }
+  .scheduler-time-item:not(:last-child) {
+    height: 60px;
+  }
+  .scheduler-time-item:after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    box-sizing: border-box;
+    width: calc(100% - 42px);
+    border: 1px solid #E0E0E0;
+    margin-right: -100%;
+    margin: 1px;
+    margin-left: 8px;
+  }
+}
+
+.scheduler-day-monday {
+  left: 157px * 0;
+}
+
+.scheduler-day-tuesday {
+  left: 157px * 1;
+}
+
+.scheduler-day-wednesday {
+  left: 157px * 2;
+}
+
+.scheduler-day-thursday {
+  left: 157px * 3;
+}
+
+.scheduler-day-friday {
+  left: 157px * 4;
+}
+
+.scheduler-day-saturday {
+  left: 157px * 5;
+}
+
+.scheduler-day-sunday {
+  left: 157px * 6;
+}
