@@ -1,8 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {User} from '../../services/user.service/user';
-import {UserService} from '../../services/user.service/user.service';
-import {TrainerInfo} from '../../trainers/trainers/trainer-info';
-import {Paths} from '../../core/paths';
+import {Component} from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {EditPasswordDialogComponent} from './edit-password-dialog/edit-password-dialog.component';
 
@@ -11,21 +7,12 @@ import {EditPasswordDialogComponent} from './edit-password-dialog/edit-password-
   templateUrl: './password-and-security.component.html',
   styleUrls: ['./password-and-security.component.scss']
 })
-export class PasswordAndSecurityComponent implements OnInit {
+export class PasswordAndSecurityComponent {
 
-  public account: User;
-  public trainer: TrainerInfo;
-  public Paths = Paths;
-
-  constructor(private userService: UserService,
-              private dialog: MatDialog) {
-    this.account = this.userService.getCurrent();
+  constructor(private dialog: MatDialog) {
   }
 
-  async ngOnInit() {
-  }
-
-  public changePasswordAsync() {
+  public changePassword() {
     this.dialog.open(EditPasswordDialogComponent)
     .afterClosed()
     .subscribe();

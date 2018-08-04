@@ -7,13 +7,14 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppointmentComponent} from './appointment/appointment.component';
 import {NumberOnlyModule} from '../core/number-only/number-only.module';
-import {MatDialogModule} from '@angular/material';
+import {DateAdapter, MatDialogModule, MatNativeDateModule} from '@angular/material';
 import {AddTrainerTrainingDialogComponent} from './add-trainer-training-dialog/add-trainer-training-dialog.component';
 import {DateMaskModule} from '../core/date-mask/date-mask.module';
 import {TimeMaskModule} from '../core/time-mask/time-mask.module';
 import {SelectModule} from '../core/select/select.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
+import {MyDateAdapter} from '../core/my-date-adapter';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-train
     NumberOnlyModule,
     MatDialogModule,
     DateMaskModule,
+    MatNativeDateModule,
     TimeMaskModule,
     MatDatepickerModule,
     SelectModule
@@ -39,6 +41,9 @@ import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-train
     InviteTrainerDialogComponent,
     AddTrainerTrainingDialogComponent,
     AppointmentComponent
+  ],
+  providers: [
+    {provide: DateAdapter, useClass: MyDateAdapter}
   ]
 })
 export class TrainersModule {

@@ -1,10 +1,7 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-
 import {AppComponent} from './app.component';
 import {RootComponent} from './root/root.component';
-
 import {AuthApiClient} from './services/auth/auth-api-client';
 import {TrainersService} from './services/trainers/trainers.service';
 import {AccountService} from './services/account-service';
@@ -15,13 +12,12 @@ import {UserApiClient} from './services/user/user-api.client';
 import {UserService} from './services/user.service/user.service';
 import {JwtInterceptor} from './services/common/jwt-Interceptor';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DateAdapter, MatNativeDateModule} from '@angular/material';
 import {TeamsService} from './services/teams/teams.service';
 import {FeedbacksService} from './services/feedbacks/feedbacks.service';
-import {MyDateAdapter} from './core/my-date-adapter';
 import {FooterModule} from './core/footer/footer.module';
 import {HeaderModule} from './core/header/header.module';
 import {MomentModule} from 'ngx-moment';
+import {BrowserModule} from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -32,7 +28,6 @@ import {MomentModule} from 'ngx-moment';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatNativeDateModule,
     HttpClientModule,
     MomentModule,
     HeaderModule,
@@ -45,7 +40,6 @@ import {MomentModule} from 'ngx-moment';
       useClass: JwtInterceptor,
       multi: true
     },
-    {provide: DateAdapter, useClass: MyDateAdapter},
     TrainersService,
     AccountService,
     AuthApiClient,
