@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {DialogService} from '../../services/dialog.service';
 import {TrainersService} from '../../services/trainers/trainers.service';
 import {ActivatedRoute} from '@angular/router';
 import {TrainerProfileResponse} from '../../services/trainers/responses/trainer-profile-response';
 import {SchedulerItem} from './scheduler-item';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {MatDialog} from '@angular/material';
+import {AddTrainerTrainingDialogComponent} from '../add-trainer-training-dialog/add-trainer-training-dialog.component';
+import {AddTrainerTrainingDialogData} from '../add-trainer-training-dialog/add-trainer-training-dialog-data';
 
 @Component({
   selector: 'app-appointment',
@@ -17,8 +19,8 @@ export class AppointmentComponent implements OnInit {
   public trainer: TrainerProfileResponse;
 
   constructor(private route: ActivatedRoute,
-              private dialogService: DialogService,
-              private trainerService: TrainersService) {
+              private trainerService: TrainersService,
+              private dialog: MatDialog) {
     // this.trainings = [
     //   {label: 'Бокс', text: 'Ведет Тимофей в зале 8', from: '2018-07-26T14:30:00Z', to: '2018-07-26T15:30:00Z'},
     //   {label: 'Плавание', text: 'Ведет Леша в бассейне', from: '2018-07-27T14:30:00Z', to: '2018-07-27T15:30:00Z'},
@@ -103,8 +105,16 @@ export class AppointmentComponent implements OnInit {
     if (isNullOrUndefined(this.trainer)) {
       return;
     }
-    this.dialogService.showAddTrainingDialog(this.trainer.id, this.trainer.sports).then(() => {
-      this.updateTrainings(this.trainer.id);
-    });
+    this.dialog.open(AddTrainerTrainingDialogComponent, {
+      data: <AddTrainerTrainingDialogData> {
+        trainerId: this.trainer.id,
+        sports: this.trainer.sports
+      }
+    })
+      .afterClosed()
+      .subscribe(() => {
+          this.updateTrainings(this.trainer.id);
+        }
+      );
   }
 }

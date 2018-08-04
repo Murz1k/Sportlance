@@ -6,6 +6,14 @@ import {CommonModule} from '@angular/common';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppointmentComponent} from './appointment/appointment.component';
+import {NumberOnlyModule} from '../core/number-only/number-only.module';
+import {MatDialogModule} from '@angular/material';
+import {AddTrainerTrainingDialogComponent} from './add-trainer-training-dialog/add-trainer-training-dialog.component';
+import {DateMaskModule} from '../core/date-mask/date-mask.module';
+import {TimeMaskModule} from '../core/time-mask/time-mask.module';
+import {SelectModule} from '../core/select/select.module';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
 
 @NgModule({
   imports: [
@@ -13,12 +21,23 @@ import {AppointmentComponent} from './appointment/appointment.component';
     InfiniteScrollModule,
     FormsModule,
     ReactiveFormsModule,
-    TrainersRoutingModule
+    TrainersRoutingModule,
+    NumberOnlyModule,
+    MatDialogModule,
+    DateMaskModule,
+    TimeMaskModule,
+    MatDatepickerModule,
+    SelectModule
   ],
-  entryComponents: [],
+  entryComponents: [
+    InviteTrainerDialogComponent,
+    AddTrainerTrainingDialogComponent
+  ],
   declarations: [
     TrainersComponent,
     ProfileComponent,
+    InviteTrainerDialogComponent,
+    AddTrainerTrainingDialogComponent,
     AppointmentComponent
   ]
 })

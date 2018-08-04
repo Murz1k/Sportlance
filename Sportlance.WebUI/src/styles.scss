@@ -354,18 +354,6 @@ small {
   border-radius: 0 !important;
 }
 
-.mat-radio-outer-circle {
-  border-width: 1px;
-}
-
-.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  border-color: $primary-color;
-}
-
-.mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: $primary-color;
-}
-
 .mat-checkbox-layout:hover .mat-checkbox-label {
   color: $primary-dark-color;
 }
@@ -444,10 +432,6 @@ header a.active, a {
 
 header mat-toolbar {
   position: fixed;
-}
-
-.mat-progress-spinner circle, .mat-spinner circle {
-  stroke: #49b73a;
 }
 
 .back-loading {
@@ -562,7 +546,7 @@ a {
   background-color: $primary-color;
 }
 
-.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
   background-color: $ripple-color;
 }
 

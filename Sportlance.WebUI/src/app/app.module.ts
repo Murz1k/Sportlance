@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
@@ -20,40 +19,24 @@ import {SignupComponent} from './components/signup/signup.component';
 import {LoginComponent} from './components/login/login.component';
 import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
 import {UserInfoStorage} from './core/user-info-storage';
-import {InitializationComponent} from './components/initialization/initialization.component';
-import {InitializationGuard} from './guards/initialization.guard';
-import {InitializationService} from './services/initialization/initialization.service';
 import {UserApiClient} from './services/user/user-api.client';
 import {UserService} from './services/user.service/user.service';
 import {JwtInterceptor} from './services/common/jwt-Interceptor';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AccountComponent} from './components/account/account.component';
 import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
 import {EmailConfirmationGuard} from './guards/email-confirmation-guard';
-import {DateAdapter, MatNativeDateModule, MatRadioModule} from '@angular/material';
+import {DateAdapter, MatNativeDateModule} from '@angular/material';
 import {DialogService} from './services/dialog.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import {EditPhotoDialogComponent} from './components/common/edit-photo-dialog/edit-photo-dialog.component';
 import {TeamsService} from './services/teams/teams.service';
-import {AddTeamPhotoDialogComponent} from './components/common/add-team-photo-dialog/add-team-photo-dialog.component';
 import {EditBackgroundDialogComponent} from './components/common/edit-background-dialog/edit-background-dialog.component';
 import {FeedbacksService} from './services/feedbacks/feedbacks.service';
-import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {MenuComponent} from './components/header/menu/menu.component';
 import {EditTrainerPaidDialogComponent} from './trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
 import {EditTrainerAboutDialogComponent} from './trainers/edit-trainer-about-dialog/edit-trainer-about-dialog.component';
-import {EditPasswordDialogComponent} from './settings/edit-password-dialog/edit-password-dialog.component';
-import {EditAccountInfoDialogComponent} from './settings/edit-account-info-dialog/edit-account-info-dialog.component';
-import {InviteTrainerDialogComponent} from './teams/invite-trainer-dialog/invite-trainer-dialog.component';
-import {SelectModule} from './core/select/select.module';
-import {AddTrainerTrainingDialogComponent} from './trainers/add-trainer-training-dialog/add-trainer-training-dialog.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {TimeMaskModule} from './core/time-mask/time-mask.module';
-import {TimeMaskDirective} from './core/time-mask/time-mask.directive';
-import {DateMaskDirective} from './core/date-mask/date-mask.directive';
 import {MomentModule} from 'ngx-moment';
-import {MyDateAdapter} from "./core/my-date-adapter";
-import {NumberOnlyDirective} from "./core/number-only/number-only.directive";
+import {MyDateAdapter} from './core/my-date-adapter';
 
 
 @NgModule({
@@ -66,51 +49,30 @@ import {NumberOnlyDirective} from "./core/number-only/number-only.directive";
     SignupComponent,
     LoginComponent,
     ConfirmRegisterComponent,
-    InitializationComponent,
-    AccountComponent,
-    EditPhotoDialogComponent,
     EmailVerifyComponent,
-    AddTeamPhotoDialogComponent,
     EditBackgroundDialogComponent,
-    EditAccountInfoDialogComponent,
-    EditPasswordDialogComponent,
     EditTrainerAboutDialogComponent,
     EditTrainerPaidDialogComponent,
-    InviteTrainerDialogComponent,
-    AddTrainerTrainingDialogComponent,
-    MenuComponent,
-    TimeMaskDirective,
-    DateMaskDirective,
-    NumberOnlyDirective
+    EditPhotoDialogComponent,
+    MenuComponent
   ],
   entryComponents: [
-    AddTrainerTrainingDialogComponent,
     EditPhotoDialogComponent,
-    InviteTrainerDialogComponent,
-    AddTeamPhotoDialogComponent,
     EditTrainerAboutDialogComponent,
     EditTrainerPaidDialogComponent,
-    EditBackgroundDialogComponent,
-    EditAccountInfoDialogComponent,
-    EditPasswordDialogComponent
+    EditBackgroundDialogComponent
   ],
   imports: [
     BrowserModule,
     MatToolbarModule,
     MatCheckboxModule,
     AppRoutingModule,
-    InfiniteScrollModule,
-    MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
     MatNativeDateModule,
     HttpClientModule,
     MomentModule,
     MatDialogModule,
-    SelectModule,
-    TimeMaskModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
     BrowserAnimationsModule
   ],
   providers: [
@@ -127,11 +89,9 @@ import {NumberOnlyDirective} from "./core/number-only/number-only.directive";
     DialogService,
     UserInfoStorage,
     TeamsService,
-    InitializationGuard,
     EmailConfirmationGuard,
     UserService,
-    UserApiClient,
-    InitializationService
+    UserApiClient
   ],
   bootstrap: [AppComponent]
 })

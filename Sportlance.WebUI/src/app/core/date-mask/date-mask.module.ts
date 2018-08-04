@@ -6,7 +6,10 @@ import {DateMaskDirective} from './date-mask.directive';
   imports: [
     CommonModule
   ],
-  //declarations: [DateMaskDirective]
+  declarations: [DateMaskDirective],
+    exports: [
+      DateMaskDirective
+    ]
 })
 export class DateMaskModule {
 }

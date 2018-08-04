@@ -19,7 +19,6 @@ export class EmailConfirmationGuard implements CanActivate {
         this.router.navigate([Paths.Root]);
       }
     }
-    this.router.navigate([Paths.Initialization], {queryParams: {returnUrl: state.url}});
     return Promise.resolve(false);
   }
 }

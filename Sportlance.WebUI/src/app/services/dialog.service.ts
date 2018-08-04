@@ -7,17 +7,8 @@ import {EditPhotoDialogComponent} from '../components/common/edit-photo-dialog/e
 import {EditPhotoDialogData} from '../components/common/edit-photo-dialog/edit-photo-dialog-data';
 import {EditTrainerPaidDialogComponent} from '../trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
 import {EditTrainerPaidDialogData} from '../trainers/edit-trainer-paid-dialog/edit-trainer-paid-dialog-data';
-import {EditAccountInfoDialogComponent} from '../settings/edit-account-info-dialog/edit-account-info-dialog.component';
-import {EditPasswordDialogComponent} from '../settings/edit-password-dialog/edit-password-dialog.component';
-import {AddTeamPhotoDialogComponent} from '../components/common/add-team-photo-dialog/add-team-photo-dialog.component';
-import {AddTeamPhotoDialogData} from '../components/common/add-team-photo-dialog/add-team-photo-dialog-data';
 import {EditBackgroundDialogData} from '../components/common/edit-background-dialog/edit-background-dialog-data';
 import {EditBackgroundDialogComponent} from '../components/common/edit-background-dialog/edit-background-dialog.component';
-import {InviteTrainerDialogComponent} from '../teams/invite-trainer-dialog/invite-trainer-dialog.component';
-import {InviteTrainerDialogData} from '../teams/invite-trainer-dialog/invite-trainer-dialog-data';
-import {AddTrainerTrainingDialogData} from '../trainers/add-trainer-training-dialog/add-trainer-training-dialog-data';
-import {AddTrainerTrainingDialogComponent} from '../trainers/add-trainer-training-dialog/add-trainer-training-dialog.component';
-import {SportResponse} from './trainers/responses/sport-response';
 
 @Injectable()
 export class DialogService {
@@ -33,34 +24,12 @@ export class DialogService {
     return this.openModalAsync(EditTrainerPaidDialogComponent, <EditTrainerPaidDialogData> {paid: paid});
   }
 
-  public showEditAccountInfoDialogAsync(): Promise<boolean> {
-    return this.openModalAsync(EditAccountInfoDialogComponent, {});
-  }
-
-  public showInviteTrainerDialogAsync(trainerId: number): Promise<boolean> {
-    return this.openModalAsync(InviteTrainerDialogComponent, <InviteTrainerDialogData>{trainerId: trainerId});
-  }
-
-  public showEditPasswordDialogAsync(): Promise<boolean> {
-    return this.openModal(EditPasswordDialogComponent, {}, false, '600px')
-      .afterClosed()
-      .toPromise<boolean>();
-  }
-
   public showEditPhotoDialogAsync(url: string): Promise<boolean> {
     return this.openModalAsync(EditPhotoDialogComponent, <EditPhotoDialogData> {url: url});
   }
 
   public showEditBackgroundDialogAsync(url: string): Promise<boolean> {
     return this.openModalAsync(EditBackgroundDialogComponent, <EditBackgroundDialogData> {url: url});
-  }
-
-  public showAddTeamPhotoDialogAsync(teamId: number): Promise<boolean> {
-    return this.openModalAsync(AddTeamPhotoDialogComponent, <AddTeamPhotoDialogData> {teamId: teamId});
-  }
-
-  public showAddTrainingDialog(trainerId: number, sports: SportResponse[]): Promise<boolean> {
-    return this.openModalAsync(AddTrainerTrainingDialogComponent, <AddTrainerTrainingDialogData> {trainerId: trainerId, sports: sports});
   }
 
   private openModal<TComponent, TData>(componentType: ComponentType<TComponent>,

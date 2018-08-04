@@ -58,7 +58,7 @@ const format = (number) => {
     cursorPosition = formatted.length;
   }
 
-  cursorPosition++; // because of '+'
+  cursorPosition++;
   return {
     formatted: `+${formatted}`,
     cursorPosition

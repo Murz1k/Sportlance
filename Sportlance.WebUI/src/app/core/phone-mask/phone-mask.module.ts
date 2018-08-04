@@ -1,15 +1,15 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TimeMaskDirective} from './time-mask.directive';
+import {PhoneMaskDirective} from './phone-mask.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [TimeMaskDirective],
+  declarations: [PhoneMaskDirective],
   exports: [
-    TimeMaskDirective
+    PhoneMaskDirective
   ]
 })
-export class TimeMaskModule {
+export class PhoneMaskModule {
 }

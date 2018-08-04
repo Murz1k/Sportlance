@@ -6,7 +6,10 @@ import {NumberOnlyDirective} from './number-only.directive';
   imports: [
     CommonModule
   ],
-  declarations: []
+  declarations: [NumberOnlyDirective],
+  exports: [
+    NumberOnlyDirective
+  ]
 })
 export class NumberOnlyModule {
 }

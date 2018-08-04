@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TeamsService} from '../../services/teams/teams.service';
-import {Paths} from '../../core/paths';
+import {TeamsService} from '../../../services/teams/teams.service';
+import {Paths} from '../../../core/paths';
 import {Router} from '@angular/router';
 
 @Component({
@@ -35,7 +35,7 @@ export class CreateTeamComponent {
       this.form.controls['about'].value,
       null
     ).subscribe(() => {
-      this.router.navigate([Paths.Settings]);
+      this.router.navigate([`${Paths.Settings}/my-teams`]);
     });
   }
 }

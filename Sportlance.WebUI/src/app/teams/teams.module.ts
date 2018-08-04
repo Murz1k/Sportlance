@@ -5,6 +5,9 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TeamsComponent} from './teams/teams.component';
 import {TeamProfileComponent} from './team-profile/team-profile.component';
+import {NumberOnlyModule} from '../core/number-only/number-only.module';
+import {MatDialogModule} from '@angular/material';
+import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
 
 @NgModule({
   imports: [
@@ -12,12 +15,16 @@ import {TeamProfileComponent} from './team-profile/team-profile.component';
     InfiniteScrollModule,
     FormsModule,
     ReactiveFormsModule,
-    TeamsRoutingModule
+    TeamsRoutingModule,
+    NumberOnlyModule,
+    MatDialogModule
   ],
   entryComponents: [
+    AddTeamPhotoDialogComponent
   ],
   declarations: [
     TeamsComponent,
+    AddTeamPhotoDialogComponent,
     TeamProfileComponent
   ]
 })

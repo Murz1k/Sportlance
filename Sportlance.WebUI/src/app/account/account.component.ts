@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../../services/user.service/user';
-import {UserService} from '../../services/user.service/user.service';
-import {TrainerInfo} from '../../trainers/trainers/trainer-info';
-import {TrainersService} from '../../services/trainers/trainers.service';
-import {Star} from '../../trainers/trainers/star';
-import {ReviewInfo} from '../../trainers/profile/review-info';
-import {TrainerStatus} from '../../services/trainers/trainer-status';
+import {User} from '../services/user.service/user';
+import {UserService} from '../services/user.service/user.service';
+import {TrainerInfo} from '../trainers/trainers/trainer-info';
+import {TrainersService} from '../services/trainers/trainers.service';
+import {Star} from '../trainers/trainers/star';
+import {ReviewInfo} from '../trainers/profile/review-info';
+import {TrainerStatus} from '../services/trainers/trainer-status';
 import {MatCheckboxChange} from '@angular/material';
-import {Paths} from '../../core/paths';
-import {DialogService} from '../../services/dialog.service';
+import {Paths} from '../core/paths';
+import {DialogService} from '../services/dialog.service';
 import {Title} from '@angular/platform-browser';
 import {isNullOrUndefined} from 'util';
-import {FeedbacksService} from '../../services/feedbacks/feedbacks.service';
+import {FeedbacksService} from '../services/feedbacks/feedbacks.service';
 
 @Component({
   selector: 'app-account',
@@ -31,7 +31,6 @@ export class AccountComponent implements OnInit {
 
   private offset = 0;
   private count = 10;
-  private totalCount = 0;
 
   public feedbacks: Array<ReviewInfo> = [];
 
@@ -125,34 +124,6 @@ export class AccountComponent implements OnInit {
       allStars.push(<Star>{isEmpty: true});
     }
     return allStars;
-  }
-
-  private convertTrainingsToTrainingTitle(trainingsCount: number): string {
-    let title = 'трениров';
-    const lastOneNumber = +trainingsCount.toString().slice(-1);
-    const lastTwoNumbers = +trainingsCount.toString().slice(-2);
-    if (lastOneNumber === 1) {
-      title = `${title}ка`;
-    } else if (lastOneNumber === 0 || lastTwoNumbers === 0 || (lastOneNumber >= 5 && lastTwoNumbers <= 20)) {
-      title = `${title}ок`;
-    } else {
-      title = `${title}ки`;
-    }
-    return title;
-  }
-
-  private convertReviewsToReviewTitle(feedbacksCount: number): string {
-    let title = 'отзыв';
-    const lastOneNumber = +feedbacksCount.toString().slice(-1);
-    const lastTwoNumbers = +feedbacksCount.toString().slice(-2);
-    if (lastOneNumber === 0 || lastTwoNumbers === 0 || (lastOneNumber >= 5 && lastTwoNumbers <= 20)) {
-      title = `${feedbacksCount} ${title}ов`;
-    } else if (lastOneNumber === 1) {
-      title = `${feedbacksCount} ${title}`;
-    } else {
-      title = `${feedbacksCount} ${title}а`;
-    }
-    return title;
   }
 
   async changeAboutAsync() {

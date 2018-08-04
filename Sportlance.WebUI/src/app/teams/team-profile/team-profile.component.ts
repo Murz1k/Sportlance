@@ -2,13 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {TeamProfileResponse} from '../../services/teams/responses/team-profile-response';
 import {TeamsService} from '../../services/teams/teams.service';
 import {ActivatedRoute} from '@angular/router';
-import {DialogService} from '../../services/dialog.service';
 import {DomSanitizer, Title} from '@angular/platform-browser';
 import {TeamPhotoResponse} from '../../services/teams/responses/team-photo-response';
 import {TrainerInfoResponse} from '../../services/trainers/responses/trainer-info-response';
 import {TrainersService} from '../../services/trainers/trainers.service';
 import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
-import {Paths} from "../../core/paths";
+import {Paths} from '../../core/paths';
+import {MatDialog} from '@angular/material';
+import {AddTeamPhotoDialogComponent} from '../add-team-photo-dialog/add-team-photo-dialog.component';
+import {AddTeamPhotoDialogData} from '../add-team-photo-dialog/add-team-photo-dialog-data';
 
 @Component({
   selector: 'app-team-profile',
@@ -24,9 +26,9 @@ export class TeamProfileComponent implements OnInit {
   public isShowAbout = false;
 
   constructor(private route: ActivatedRoute,
-              private dialogService: DialogService,
               private sanitizer: DomSanitizer,
               private titleService: Title,
+              private dialog: MatDialog,
               private trainersService: TrainersService,
               private teamService: TeamsService) {
   }
@@ -43,11 +45,15 @@ export class TeamProfileComponent implements OnInit {
     this.isShowAbout = !this.isShowAbout;
   }
 
-  async showAddTeamPhotoDialogAsync() {
-    const result = await this.dialogService.showAddTeamPhotoDialogAsync(this.profile.id);
-    if (result) {
-      this.updatePhotos(this.profile.id);
-    }
+  public showAddTeamPhotoDialog() {
+    this.dialog.open(AddTeamPhotoDialogComponent, {data: <AddTeamPhotoDialogData> {teamId: this.profile.id}})
+      .afterClosed()
+      .subscribe((result) => {
+          if (result) {
+            this.updatePhotos(this.profile.id);
+          }
+        }
+      );
   }
 
   private async updateInfoAsync(teamId: number) {

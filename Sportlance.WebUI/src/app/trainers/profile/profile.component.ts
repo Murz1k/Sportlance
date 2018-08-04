@@ -8,6 +8,11 @@ import {FeedbacksService} from '../../services/feedbacks/feedbacks.service';
 import {UserService} from '../../services/user.service/user.service';
 import {User} from '../../services/user.service/user';
 import {DialogService} from '../../services/dialog.service';
+import {AddTeamPhotoDialogComponent} from "../../teams/add-team-photo-dialog/add-team-photo-dialog.component";
+import {AddTeamPhotoDialogData} from "../../teams/add-team-photo-dialog/add-team-photo-dialog-data";
+import {InviteTrainerDialogData} from "../invite-trainer-dialog/invite-trainer-dialog-data";
+import {InviteTrainerDialogComponent} from "../invite-trainer-dialog/invite-trainer-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-profile',
@@ -34,6 +39,7 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService,
               private route: ActivatedRoute,
               private dialogService: DialogService,
+              private dialog: MatDialog,
               private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
@@ -139,6 +145,8 @@ export class ProfileComponent implements OnInit {
   }
 
   public invite() {
-    this.dialogService.showInviteTrainerDialogAsync(this.trainerId);
+    this.dialog.open(InviteTrainerDialogComponent, {data: <InviteTrainerDialogData>{trainerId: this.trainerId}})
+      .afterClosed()
+      .subscribe();
   }
 }

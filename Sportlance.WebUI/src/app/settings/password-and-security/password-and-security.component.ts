@@ -3,7 +3,8 @@ import {User} from '../../services/user.service/user';
 import {UserService} from '../../services/user.service/user.service';
 import {TrainerInfo} from '../../trainers/trainers/trainer-info';
 import {Paths} from '../../core/paths';
-import {DialogService} from '../../services/dialog.service';
+import {MatDialog} from '@angular/material';
+import {EditPasswordDialogComponent} from './edit-password-dialog/edit-password-dialog.component';
 
 @Component({
   selector: 'app-password-and-security',
@@ -17,14 +18,16 @@ export class PasswordAndSecurityComponent implements OnInit {
   public Paths = Paths;
 
   constructor(private userService: UserService,
-              private dialogService: DialogService) {
+              private dialog: MatDialog) {
     this.account = this.userService.getCurrent();
   }
 
   async ngOnInit() {
   }
 
-  public async changePasswordAsync() {
-    await this.dialogService.showEditPasswordDialogAsync();
+  public changePasswordAsync() {
+    this.dialog.open(EditPasswordDialogComponent)
+    .afterClosed()
+    .subscribe();
   }
 }

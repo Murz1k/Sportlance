@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {User} from '../../services/user.service/user';
-import {UserInfoStorage} from '../../core/user-info-storage';
-import {AuthApiClient} from '../../services/auth/auth-api-client';
+import {User} from '../../../services/user.service/user';
+import {UserInfoStorage} from '../../../core/user-info-storage';
+import {AuthApiClient} from '../../../services/auth/auth-api-client';
 import {MatDialogRef} from '@angular/material';
-import {AccountService} from '../../services/account-service';
+import {AccountService} from '../../../services/account-service';
 
 @Component({
   selector: 'app-edit-trainer-paid-dialog',
