@@ -167,9 +167,14 @@ body {
     height: 200px;
   }
   footer, .air-card-header {
-    padding: 24px 24px 0;
     background-color: #f9f9f9;
     position: relative;
+  }
+  .air-card-header {
+    padding: 24px 24px 0;
+  }
+  footer {
+    padding: 24px
   }
 }
 

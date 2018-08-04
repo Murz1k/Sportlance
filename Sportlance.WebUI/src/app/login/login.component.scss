@@ -1,0 +1,126 @@
+@import "../../styles";
+
+.width-sm {
+  width: 218px !important;
+  min-width: 218px !important;
+  max-width: none
+}
+
+.title {
+  padding-bottom: 24px;
+  font-size: 20px;
+}
+
+form {
+  width: 360px;
+  margin: auto;
+}
+
+.checkbox-inline label:hover, .checkbox label:hover, .radio-inline label:hover, .radio label:hover {
+  color: $primary-dark-color
+}
+
+.checkbox label:hover, .radio label:hover {
+  background-color: #f9f9f9;
+  box-shadow: -30px 0 0 #f9f9f9
+}
+
+.checkbox label, .radio label {
+  color: #222;
+  font-family: Gotham SSm, Helvetica, Arial, sans-serif;
+  padding: 4px 3px;
+  padding-left: 0;
+  margin: 0 !important;
+  display: block;
+  font-weight: 400;
+  cursor: pointer
+}
+
+.width-sm {
+  width: 218px !important;
+  min-width: 218px !important;
+  max-width: none
+}
+
+.btn-primary.disabled, .btn-primary.disabled:active, .btn-primary.disabled:hover, .btn-primary[disabled], .btn-primary[disabled]:active, .btn-primary[disabled]:hover {
+  color: #a0a0a0 !important;
+  border-color: #e0e0e0;
+  background: #e0e0e0 !important;
+  text-shadow: none;
+  text-decoration: none;
+  outline: none !important;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none !important;
+}
+
+.ng-invalid .error {
+  color: #d50000 !important;
+}
+
+.error {
+  text-align: left !important;
+}
+
+.error__message {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  vertical-align: middle;
+  margin-bottom: 0;
+}
+
+.login-input, .password-input {
+  padding-left: 44px !important;
+}
+
+.line-heading {
+  overflow: hidden;
+  text-align: center;
+}
+
+.line-heading:after {
+  left: 10px;
+  margin-right: -50%;
+}
+
+.line-heading:before {
+  right: 10px;
+  margin-left: -50%;
+}
+
+.line-heading:after, .line-heading:before {
+  background-color: #8f8e8e;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.text-capitalize {
+  text-transform: capitalize
+}
+
+.m-sm-top {
+  margin-top: 10px !important
+}
+
+.p-0-bottom {
+  padding-bottom: 0 !important
+}
+
+.p-0-top-bottom {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important
+}
+
+.text-center {
+  text-align: center
+}
+
+.m-lg-bottom {
+  margin-bottom: 30px !important
+}

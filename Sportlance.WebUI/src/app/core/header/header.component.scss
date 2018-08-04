@@ -1,0 +1,26 @@
+.btn-link {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0);
+  box-sizing: border-box;
+  color: rgb(102, 102, 102);
+  cursor: pointer;
+  font-family: "Gotham SSm", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  list-style: none outside none;
+  padding: 0 20px;
+  text-align: left;
+  text-decoration-color: rgb(102, 102, 102);
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  text-size-adjust: 100%;
+  text-transform: uppercase;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+}
+
+.mat-toolbar {
+  position: initial;
+}

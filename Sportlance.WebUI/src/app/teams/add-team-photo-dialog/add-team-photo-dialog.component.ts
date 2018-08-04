@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {EditPhotoDialogComponent} from '../../components/common/edit-photo-dialog/edit-photo-dialog.component';
+import {EditPhotoDialogComponent} from '../../account/edit-photo-dialog/edit-photo-dialog.component';
 import {TeamsService} from '../../services/teams/teams.service';
 import {AddTeamPhotoDialogData} from './add-team-photo-dialog-data';
 

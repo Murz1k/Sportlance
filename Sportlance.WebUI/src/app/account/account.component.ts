@@ -6,12 +6,19 @@ import {TrainersService} from '../services/trainers/trainers.service';
 import {Star} from '../trainers/trainers/star';
 import {ReviewInfo} from '../trainers/profile/review-info';
 import {TrainerStatus} from '../services/trainers/trainer-status';
-import {MatCheckboxChange} from '@angular/material';
+import {MatCheckboxChange, MatDialog} from '@angular/material';
 import {Paths} from '../core/paths';
-import {DialogService} from '../services/dialog.service';
 import {Title} from '@angular/platform-browser';
 import {isNullOrUndefined} from 'util';
 import {FeedbacksService} from '../services/feedbacks/feedbacks.service';
+import {EditTrainerAboutDialogComponent} from './edit-trainer-about-dialog/edit-trainer-about-dialog.component';
+import {EditTrainerAboutDialogData} from './edit-trainer-about-dialog/edit-trainer-about-dialog-data';
+import {EditTrainerPaidDialogComponent} from './edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
+import {EditTrainerPaidDialogData} from './edit-trainer-paid-dialog/edit-trainer-paid-dialog-data';
+import {EditPhotoDialogData} from './edit-photo-dialog/edit-photo-dialog-data';
+import {EditPhotoDialogComponent} from './edit-photo-dialog/edit-photo-dialog.component';
+import {EditBackgroundDialogComponent} from './edit-background-dialog/edit-background-dialog.component';
+import {EditBackgroundDialogData} from './edit-background-dialog/edit-background-dialog-data';
 
 @Component({
   selector: 'app-account',
@@ -35,8 +42,8 @@ export class AccountComponent implements OnInit {
   public feedbacks: Array<ReviewInfo> = [];
 
   constructor(private userService: UserService,
-              private dialogService: DialogService,
               private titleService: Title,
+              private dialog: MatDialog,
               private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
     this.account = this.userService.getCurrent();
@@ -127,30 +134,42 @@ export class AccountComponent implements OnInit {
   }
 
   async changeAboutAsync() {
-    const result = await this.dialogService.showEditTrainerAboutDialogAsync(this.trainer.about);
-    if (result) {
-      await this.updateDataAsync();
-    }
+    this.dialog.open(EditTrainerAboutDialogComponent, {data: <EditTrainerAboutDialogData>{about: this.trainer.about}})
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.updateDataAsync();
+        }
+      });
   }
 
   async changePaidAsync() {
-    const result = await this.dialogService.showEditTrainerPaidDialogAsync(this.trainer.price);
-    if (result) {
-      await this.updateDataAsync();
-    }
+    this.dialog.open(EditTrainerPaidDialogComponent, {data: <EditTrainerPaidDialogData>{paid: this.trainer.price}})
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.updateDataAsync();
+        }
+      });
   }
 
   async changePhotoAsync() {
-    const result = await this.dialogService.showEditPhotoDialogAsync(this.trainer.photoUrl);
-    if (result) {
-      await this.updateDataAsync();
-    }
+    this.dialog.open(EditPhotoDialogComponent, {data: <EditPhotoDialogData>{url: this.trainer.photoUrl}})
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.updateDataAsync();
+        }
+      });
   }
 
   async changeBackgroundAsync() {
-    const result = await this.dialogService.showEditBackgroundDialogAsync(this.trainer.backgroundUrl);
-    if (result) {
-      await this.updateDataAsync();
-    }
+    this.dialog.open(EditBackgroundDialogComponent, {data: <EditBackgroundDialogData>{url: this.trainer.backgroundUrl}})
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.updateDataAsync();
+        }
+      });
   }
 }

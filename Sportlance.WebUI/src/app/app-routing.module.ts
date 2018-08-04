@@ -1,12 +1,8 @@
 import {Paths} from './core/paths';
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {RootComponent} from './components/root/root.component';
-import {LandingComponent} from './components/landing/landing.component';
-import {SignupComponent} from './components/signup/signup.component';
-import {LoginComponent} from './components/login/login.component';
-import {ConfirmRegisterComponent} from './components/confirm-register/confirm-register.component';
-import {EmailVerifyComponent} from './components/email-verify/email-verify.component';
+import {RootComponent} from './root/root.component';
+import {LandingComponent} from './landing/landing.component';
 
 const appRoutes: Routes = [
   {
@@ -18,10 +14,10 @@ const appRoutes: Routes = [
       {path: Paths.Account, loadChildren: './account/account.module#AccountModule'}
     ]
   },
-  {path: Paths.SignUp, pathMatch: 'full', component: SignupComponent},
-  {path: Paths.EmailVerify, pathMatch: 'full', component: EmailVerifyComponent},
-  {path: Paths.ConfirmRegistration, component: ConfirmRegisterComponent},
-  {path: Paths.Login, pathMatch: 'full', component: LoginComponent},
+  {path: Paths.SignUp, loadChildren: './signup/signup.module#SignupModule'},
+  {path: Paths.EmailVerify, loadChildren: './email-verify/email-verify.module#EmailVerifyModule'},
+  {path: Paths.ConfirmRegistration, loadChildren: './confirm-register/confirm-register.module#ConfirmRegisterModule'},
+  {path: Paths.Login, loadChildren: './login/login.module#LoginModule'},
   {path: '**', redirectTo: Paths.Root}
 ];
 
