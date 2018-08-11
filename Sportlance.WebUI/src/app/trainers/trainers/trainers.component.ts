@@ -7,9 +7,8 @@ import {TrainersService} from '../../services/trainers/trainers.service';
 import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
 import {Title} from '@angular/platform-browser';
-import {Subscription} from "rxjs/internal/Subscription";
+import {Subscription} from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-trainers',
@@ -42,7 +41,6 @@ export class TrainersComponent {
   public subscription: Subscription;
 
   constructor(private router: Router,
-              private httpClient: HttpClient,
               private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
               private titleService: Title,

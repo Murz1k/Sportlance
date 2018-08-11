@@ -17,7 +17,7 @@
           </div>
           <div *ngIf="profile.photoUrl" class="photo-input">
             <img src="{{profile.photoUrl}}">
-            <button (click)="changePhotoAsync()">
+            <button>
               <i class="material-icons" style="display:  inherit;font-size:  36px;">wallpaper</i>
               Изменить
             </button>
@@ -50,7 +50,7 @@
       </section>
       <div class="air-card-header">
         <h3 class="pull-left">О нас</h3>
-        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+        <button class="btn btn-default btn-rnd"
                 style="position: absolute;     right: 30px;    top: 20px;">
           <i class="material-icons" style="font-size: 20px;">create</i>
         </button>

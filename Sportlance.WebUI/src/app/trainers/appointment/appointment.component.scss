@@ -1,7 +1,9 @@
+@import "../../../styles";
+
 .scheduler-container {
   position: absolute;
   left: 65px;
-  top: 34px;
+  top: 73px;
   .scheduler-item {
     position: absolute;
     border-left: 2px solid blue;
@@ -12,10 +14,95 @@
   }
 }
 
+.month {
+  height: 60px;
+  background: #f2f2f2;
+  position: relative;
+  z-index: 1;
+  width: 64px;
+  display: inline-block;
+  text-align: right;
+  padding-top: 12px;
+  padding-right: 8px;
+  vertical-align: top;
+  font-weight: 600;
+  color: $primary-dark-color;
+}
+
+.week, .scheduler-page {
+  position: relative;
+  display: inline-block;
+  transition: -webkit-transform 300ms;
+  transition: transform 300ms;
+  transition: transform 300ms, -webkit-transform 300ms;
+}
+
+.hidden {
+  display: none;
+}
+.air-scroll-left .week, .air-scroll-left .scheduler-page {
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+}
+
+.air-no-anim .week, .air-no-anim .scheduler-page {
+  transition: none;
+}
+
+.week-day {
+  display: inline-block;
+  height: 60px;
+  width: 157px;
+  text-align: center;
+  padding-top: 4px;
+  .week-number {
+    font-size: 14px;
+    padding: 10px 0;
+    display: inline-block;
+    line-height: 14px;
+    width: 34px;
+    height: 34px;
+  }
+  .week-title {
+    font-size: 12px;
+  }
+}
+
+.week-day.active {
+  .week-number {
+    font-weight: 600;
+    color: #fff;
+    border-radius: 50%;
+    background: $primary-dark-color;
+    display: initial;
+    padding: 4px;
+    padding: 10px 0;
+    display: inline-block;
+    line-height: 14px;
+    width: 34px;
+    height: 34px;
+    span {
+      vertical-align: middle;
+    }
+  }
+  .week-title {
+    font-weight: 600;
+  }
+}
+
+.week-day:not(:first-child) {
+  border-left: 1px solid #E0E0E0;
+}
+
 .scheduler-time-container {
   .scheduler-time-item {
     display: block;
     color: #666;
+    div {
+      width: 33px;
+      display: inline-block;
+      text-align: right;
+    }
   }
   .scheduler-time-item:not(:last-child) {
     height: 60px;

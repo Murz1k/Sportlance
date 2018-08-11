@@ -4,11 +4,10 @@ import {Paths} from '../../core/paths';
 import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../services/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Star} from '../../trainers/trainers/star';
 import {TeamsService} from '../../services/teams/teams.service';
 import {TrainerInfo} from '../../trainers/trainers/trainer-info';
 import {Title} from '@angular/platform-browser';
-import {Subscription} from "rxjs/internal/Subscription";
+import {Subscription} from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-teams',
@@ -17,8 +16,7 @@ import {Subscription} from "rxjs/internal/Subscription";
 })
 export class TeamsComponent {
 
-  starsNumber = 5;
-  trainers = []; // Array<TrainerInfo> = [];
+  trainers = [];
   isRendering = true;
   public isAuthorized = false;
   public Paths = Paths;
@@ -80,15 +78,6 @@ export class TeamsComponent {
         id: i.id,
         city: i.city,
         country: i.country,
-        // price: i.price,
-        // secondName: i.secondName,
-        // firstName: i.firstName,
-        // stars: this.convertAverageScoreToStars(i.score),
-        // title: i.title,
-        // reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
-        // trainingsCount: i.trainingsCount,
-        // trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
-        // sports: i.sports,
         photoUrl: i.photoUrl,
         about: this.cutAbout(i.about)
       }).forEach(item => this.trainers.push(item));
@@ -118,16 +107,7 @@ export class TeamsComponent {
           id: i.id,
           city: i.city,
           country: i.country,
-          //phoneNumber: i.phoneNumber,
-          //price: i.price,
-          //secondName: i.secondName,
-          //firstName: i.firstName,
-          //stars: this.convertAverageScoreToStars(i.score),
           title: i.title,
-          //reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
-          //trainingsCount: i.trainingsCount,
-          //trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
-          //sports: i.sports,
           photoUrl: i.photoUrl,
           about: this.cutAbout(i.about)
         });
@@ -164,63 +144,6 @@ export class TeamsComponent {
       return about;
     }
     return about.substring(0, 167) + '...';
-  }
-
-  private convertAverageScoreToStars(score: number): Array<Star> {
-    const allStars = [];
-    if (score > 4.5) {
-      for (let i = 0; i < 5; i++) {
-        allStars.push(<Star>{isFull: true});
-      }
-      return allStars;
-    }
-    if (score < 0.5) {
-      for (let i = 0; i < 5; i++) {
-        allStars.push(<Star>{isEmpty: true});
-      }
-      return allStars;
-    }
-    const fillStars = Math.trunc(score);
-    for (let i = 0; i < fillStars; i++) {
-      allStars.push(<Star>{isFull: true});
-    }
-    const halfStars = Number.isInteger(score) ? 0 : 1;
-    for (let i = 0; i < halfStars; i++) {
-      allStars.push(<Star>{isHalf: true});
-    }
-    const emptyStars = this.starsNumber - fillStars - halfStars;
-    for (let i = 0; i < emptyStars; i++) {
-      allStars.push(<Star>{isEmpty: true});
-    }
-    return allStars;
-  }
-
-  private convertTrainingsToTrainingTitle(trainingsCount: number): string {
-    let title = 'трениров';
-    const lastOneNumber = +trainingsCount.toString().slice(-1);
-    const lastTwoNumbers = +trainingsCount.toString().slice(-2);
-    if (lastOneNumber === 1) {
-      title = `${title}ка`;
-    } else if (lastOneNumber === 0 || lastTwoNumbers === 0 || (lastOneNumber >= 5 && lastTwoNumbers <= 20)) {
-      title = `${title}ок`;
-    } else {
-      title = `${title}ки`;
-    }
-    return title;
-  }
-
-  private convertReviewsToReviewTitle(feedbacksCount: number): string {
-    let title = 'отзыв';
-    const lastOneNumber = +feedbacksCount.toString().slice(-1);
-    const lastTwoNumbers = +feedbacksCount.toString().slice(-2);
-    if (lastOneNumber === 0 || lastTwoNumbers === 0 || (lastOneNumber >= 5 && lastTwoNumbers <= 20)) {
-      title = `${feedbacksCount} ${title}ов`;
-    } else if (lastOneNumber === 1) {
-      title = `${feedbacksCount} ${title}`;
-    } else {
-      title = `${feedbacksCount} ${title}а`;
-    }
-    return title;
   }
 
   public async openProfileAsync(teamId: number) {

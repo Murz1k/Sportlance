@@ -12,6 +12,7 @@
     <label for="startDate">Дата тренировки (Когда?)</label>
     <div style="position:relative; width: 180px; display: inline-block;">
       <input class="form-control" style="position:absolute; z-index:-1;" [matDatepicker]="dp"
+             [matDatepickerFilter]="filter"
              formControlName="hiddenDate"/>
       <input appDateMask placeholder="01/01/2018"
              formControlName="startDate" id="startDate" name="startDate"

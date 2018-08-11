@@ -7,4 +7,5 @@ export interface TeamProfileResponse {
   about: string;
   photoUrl: string;
   phoneNumber: string;
+  backgroundUrl: string;
 }

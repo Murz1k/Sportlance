@@ -9,7 +9,6 @@ import {InviteMemberRequest} from './requests/invite-member-request';
 import {GetTeamQuery} from './requests/get-team-query';
 import {TeamResponse} from './requests/team-response';
 import {Observable} from 'rxjs/internal/Observable';
-import {TrainerInfoResponse} from "../trainers/responses/trainer-info-response";
 
 @Injectable()
 export class TeamsService extends BaseService {
@@ -81,19 +80,6 @@ export class TeamsService extends BaseService {
     data.append('photo', photo);
     await this.http.put(`${this.baseApiUrl}/trainers/background`, data).toPromise();
   }
-
-  //
-  // setAvailabilityAsync(isAvailable: boolean) {
-  //   return this.http.post(`${this.baseApiUrl}/trainers/availability`, {isAvailable: isAvailable}).toPromise();
-  // }
-  //
-  // updateAboutAsync(about: string) {
-  //   return this.http.put(`${this.baseApiUrl}/trainers/about`, {about: about}).toPromise();
-  // }
-  //
-  // updatePaidAsync(price: number) {
-  //   return this.http.put(`${this.baseApiUrl}/trainers/price`, {price: price}).toPromise();
-  // }
 
   inviteMember(teamId: number, memberId: number) {
     return this.http.post(`${this.baseApiUrl}/teams/${teamId}/members`, <InviteMemberRequest>{memberId: memberId});

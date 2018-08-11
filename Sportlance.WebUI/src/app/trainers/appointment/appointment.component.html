@@ -1,41 +1,128 @@
 <div class="content page">
   <div class="air-card-actions">
     <button class="btn btn-default" (click)="showAddTrainingDialog()">Добавить</button>
+    <button class="btn btn-default" (click)="scrollToLeft()">Далее</button>
   </div>
-  <div class="air-card">
+  <div class="air-card"
+       [class.air-scroll-left]="scrollLeft"
+       [class.air-no-anim]="noAnim">
+    <div style="position: sticky; top: -1px;  z-index: 1; height: 60px; margin-bottom: -21px; background: #f2f2f2;
+     border-bottom: 1px solid #E0E0E0;
+     overflow: hidden;
+    white-space: nowrap;">
+      <div class="month">
+        {{currentMonth}}
+      </div>
+      <div class="week"
+           [class.hidden]="noAnim">
+        <div class="week-day" *ngFor="let day of currentWeek" [class.active]="day.active">
+          <div class="week-number">
+            <span>{{day.day}}</span>
+          </div>
+          <div class="week-title">{{day.weekDay}}</div>
+        </div>
+      </div>
+      <div class="week">
+        <div class="week-day" *ngFor="let day of nextWeek" [class.active]="day.active">
+          <div class="week-number">
+            <span>{{day.day}}</span>
+          </div>
+          <div class="week-title">{{day.weekDay}}</div>
+        </div>
+      </div>
+    </div>
     <section>
       <div class="scheduler-time-container">
-        <span class="scheduler-time-item">0:00</span>
-        <span class="scheduler-time-item">1:00</span>
-        <span class="scheduler-time-item">2:00</span>
-        <span class="scheduler-time-item">3:00</span>
-        <span class="scheduler-time-item">4:00</span>
-        <span class="scheduler-time-item">5:00</span>
-        <span class="scheduler-time-item">6:00</span>
-        <span class="scheduler-time-item">7:00</span>
-        <span class="scheduler-time-item">8:00</span>
-        <span class="scheduler-time-item">9:00</span>
-        <span class="scheduler-time-item">10:00</span>
-        <span class="scheduler-time-item">11:00</span>
-        <span class="scheduler-time-item">12:00</span>
-        <span class="scheduler-time-item">13:00</span>
-        <span class="scheduler-time-item">14:00</span>
-        <span class="scheduler-time-item">15:00</span>
-        <span class="scheduler-time-item">16:00</span>
-        <span class="scheduler-time-item">17:00</span>
-        <span class="scheduler-time-item">18:00</span>
-        <span class="scheduler-time-item">19:00</span>
-        <span class="scheduler-time-item">20:00</span>
-        <span class="scheduler-time-item">21:00</span>
-        <span class="scheduler-time-item">22:00</span>
-        <span class="scheduler-time-item">23:00</span>
-        <span class="scheduler-time-item">0:00</span>
+        <div class="scheduler-time-item">
+          <div>0:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>1:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>2:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>3:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>4:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>5:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>6:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>7:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>8:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>9:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>10:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>11:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>12:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>13:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>14:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>15:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>16:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>17:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>18:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>19:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>20:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>21:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>22:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>23:00</div>
+        </div>
+        <div class="scheduler-time-item">
+          <div>0:00</div>
+        </div>
       </div>
       <div class="scheduler-container">
-        <div *ngFor="let training of trainings"
-             [class]="'scheduler-item scheduler-day-' + getDayFromDate(training.from)"
-             [ngStyle]="getSchedulerItemStyle(training.from, training.to)">
-          {{training.label}}
+        <div class="scheduler-page">
+          <div *ngFor="let training of trainings"
+               [class]="'scheduler-item scheduler-day-' + getDayFromDate(training.from)"
+               [ngStyle]="getSchedulerItemStyle(training.from, training.to)">
+            {{training.label}}
+          </div>
+        </div>
+        <div class="scheduler-page">
+          <div *ngFor="let training of newTrainings"
+               [class]="'scheduler-item scheduler-day-' + getDayFromDate(training.from)"
+               [ngStyle]="getSchedulerItemStyle(training.from, training.to)">
+            {{training.label}}
+          </div>
         </div>
       </div>
     </section>

@@ -15,26 +15,16 @@ export class ConfirmRegisterComponent {
   constructor(private authClient: AuthApiClient,
               private activatedRoute: ActivatedRoute,
               private accountService: AccountService,
-              //private notifyService: NotifyService,
-              //public txt: TxtService,
-              //private accountService: AccountService,
               private router: Router) {
 
-    activatedRoute.params.subscribe(async (params: Params) => {
+    this.activatedRoute.params.subscribe(async (params: Params) => {
 
-      const response = await authClient.confirmEmailAsync(<ConfirmRegistrationRequest>{
+      const response = await this.authClient.confirmEmailAsync(<ConfirmRegistrationRequest>{
         token: params['token'],
         userId: params['id']
       });
       this.accountService.login(response);
-      //data => {
-      //this.notifyService.success(this.txt.registrationConfirmation.success)
-      //this.accountService.login(data);
       this.router.navigate([Paths.Root]);
-      //},
-      //err => {
-      //this.notifyService.success(this.txt.registrationConfirmation.fail)
-      // }
     });
   }
 }

@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditPhotoDialogComponent} from '../../account/edit-photo-dialog/edit-photo-dialog.component';
 import {TeamsService} from '../../services/teams/teams.service';
@@ -16,8 +15,7 @@ export class AddTeamPhotoDialogComponent {
   private teamId: number;
   public url: string;
 
-  constructor(private formBuilder: FormBuilder,
-              @Inject(MAT_DIALOG_DATA) public data: AddTeamPhotoDialogData,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: AddTeamPhotoDialogData,
               private dialogRef: MatDialogRef<EditPhotoDialogComponent>,
               private teamsService: TeamsService) {
     this.teamId = this.data.teamId;

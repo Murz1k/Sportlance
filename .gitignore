@@ -20,3 +20,5 @@ Sportlance/Sportlance/obj/
 Sportlance\.DAL\.Test/obj/
 
 Sportlance\.DAL\.Test/bin/
+
+Sportlance\.WebAPI/appsettings\.json

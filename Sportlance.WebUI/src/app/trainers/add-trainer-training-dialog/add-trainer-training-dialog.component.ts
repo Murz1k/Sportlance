@@ -17,6 +17,12 @@ export class AddTrainerTrainingDialogComponent implements OnInit {
   public trainerSports: SelectItem[] = [];
   @ViewChild('dp') datePicker: MatDatepicker<any>;
 
+  private readonly currentDate = new Date().getDate();
+
+  filter = (d: Date): boolean => {
+    return d.getDate() >= this.currentDate;
+  }
+
   constructor(private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: AddTrainerTrainingDialogData,
               private dialogRef: MatDialogRef<AddTrainerTrainingDialogComponent>,
@@ -43,7 +49,11 @@ export class AddTrainerTrainingDialogComponent implements OnInit {
     this.trainerSports = this.data.sports.map(i => <SelectItem>{label: i.name, value: i.id});
   }
 
-  private validateForm(): boolean {
+  private
+
+  validateForm()
+    :
+    boolean {
     const form = this.form;
     form.controls.sportId.markAsDirty();
     form.controls.startDate.markAsDirty();
@@ -51,7 +61,9 @@ export class AddTrainerTrainingDialogComponent implements OnInit {
     return form.controls.sportId.valid && form.controls.startDate.valid && form.controls.time.valid;
   }
 
-  public submit() {
+  public
+
+  submit() {
     if (!this.validateForm()) {
       this.form.controls.sportId.markAsDirty();
       return;
