@@ -10,7 +10,7 @@ using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Route("api/teams/{teamId}/members")]
+    [Route("teams/{teamId}/members")]
     public class TeamMemberController : Controller
     {
         private readonly  ITeamService _service;

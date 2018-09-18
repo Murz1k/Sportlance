@@ -4,34 +4,29 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 import {Observable} from 'rxjs';
 import {HeadersConstants} from '../../core/constants';
 import {isNullOrUndefined} from 'util';
-import {UserInfoStorage} from '../../core/user-info-storage';
+import {UserService} from '../user.service/user.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private userContext: UserInfoStorage) {
+  constructor(private userService: UserService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const user = this.userContext.getCurrentUser();
-    if (isNullOrUndefined(user) || isNullOrUndefined(user.token)) {
+    const token = this.userService.getToken();
+    if (isNullOrUndefined(token)) {
       return next.handle(req);
     }
 
     const headers = req.headers
-      .append(HeadersConstants.Authorization, 'Bearer ' + user.token);
+      .append(HeadersConstants.Authorization, 'Bearer ' + token);
     const request = req.clone({headers: headers});
     return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         const newJwt = event.headers.get(HeadersConstants.XNewAuthToken);
         if (!isNullOrUndefined(newJwt)) {
-          user.token = newJwt;
+          this.userService.saveToken(newJwt);
         }
-        const roles = event.headers.get(HeadersConstants.XNewRoles);
-        if (!isNullOrUndefined(roles)) {
-          user.roles = roles.split(',');
-        }
-        this.userContext.saveCurrentUser(user);
       }
     }));
   }

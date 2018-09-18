@@ -10,6 +10,7 @@ import {ResendEmailRequest} from './requests/resend-email-request';
 import {BaseService} from '../common/base-service';
 import {UpdatePasswordRequest} from './requests/update-password-request';
 import {UpdateAccountRequest} from './requests/update-account-request';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class AuthApiClient extends BaseService {
@@ -17,8 +18,8 @@ export class AuthApiClient extends BaseService {
     super();
   }
 
-  public async loginAsync(request: LoginRequest): Promise<LoginResponse> {
-    return this.http.post<LoginResponse>(this.baseApiUrl + '/auth', request).toPromise();
+  public login(request: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.baseApiUrl + '/auth', request);
   }
 
   public async registerAsync(request: RegistrationRequest): Promise<void> {

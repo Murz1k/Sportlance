@@ -1,37 +1,28 @@
 import {Injectable} from '@angular/core';
 import {LoginResponse} from './auth/responses/login-response';
-import {UserInfoStorage} from '../core/user-info-storage';
 import {User} from './user.service/user';
 import {Paths} from '../core/paths';
-import {isNullOrUndefined} from 'util';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/internal/Subscription';
+import {UserService} from './user.service/user.service';
 
 @Injectable()
 export class AccountService {
 
-  private backgroundChecker: Subscription;
-
-  constructor(private userInfoStorage: UserInfoStorage,
+  constructor(private userService: UserService,
               private router: Router) {
-    this.userInfoStorage.userInfoChanged.subscribe((user) => {
+    this.userService.userInfoChanged.subscribe((user) => {
       if (user == null) {
-        this.stopBackgroundChecker();
-        this.router.navigate([Paths.Root]);
+        return this.router.navigate([Paths.Root]);
       }
     });
   }
 
-  public async initializeAsync(): Promise<void> {
-  }
-
   get isAuthorized(): boolean {
-    return this.userInfoStorage.getCurrentUser() != null;
+    return this.userService.getToken() != null;
   }
 
   public login(userInfo: LoginResponse) {
-    this.userInfoStorage.saveCurrentUser(<User>{
-      token: userInfo.token,
+    this.userService.saveCurrentUser(<User>{
       isConfirmed: userInfo.isConfirmed,
       email: userInfo.email,
       firstName: userInfo.firstName,
@@ -41,27 +32,7 @@ export class AccountService {
   }
 
   public logout() {
-    this.userInfoStorage.deleteCurrentUser();
-  }
-
-  private stopBackgroundChecker() {
-    if (!isNullOrUndefined(this.backgroundChecker) && !this.backgroundChecker.closed) {
-      this.backgroundChecker.unsubscribe();
-    }
-  }
-  private async checkCurrentAuthStateAsync(): Promise<void> {
-    // let user = this.userContext.getCurrentUser();
-    // if (isNullOrUndefined(user)) {
-    //   this.userContext.deleteCurrentUser();
-    // }
-    //
-    // const savedSignature = this.userContext.getSignatureByAccount(currentAccount);
-    // if (await this.checkSignatureAsync(currentAccount, savedSignature)) {
-    //   user = await this.authenticateOnBackendAsync(currentAccount, savedSignature, AuthenticationService.MESSAGE_TO_SIGN);
-    //   this.userContext.saveCurrentUser(user);
-    // } else {
-    //   this.userContext.deleteCurrentUser();
-    // }
+    this.userService.deleteCurrentUser();
   }
 }
 

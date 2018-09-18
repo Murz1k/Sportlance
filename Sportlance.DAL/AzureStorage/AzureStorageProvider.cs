@@ -11,10 +11,10 @@ namespace Sportlance.DAL.AzureStorage
         private readonly string _containerName;
         private readonly CloudBlobClient _client;
 
-        protected AzureStorageProvider(AzureStorageOptions azureStorageOptions, string containerName)
+        protected AzureStorageProvider(string connectionString, string containerName)
         {
             _containerName = containerName;
-            var storageAccount = CloudStorageAccount.Parse(azureStorageOptions.StorageConnectionString);
+            var storageAccount = CloudStorageAccount.Parse(connectionString);
             _client = storageAccount.CreateCloudBlobClient();
         }
 

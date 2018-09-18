@@ -6,7 +6,7 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="logo.ico">
 
   <style>
     .loading {
@@ -16,6 +16,21 @@
       right: 0;
       left: 0;
       z-index: -1;
+    }
+
+    .big-icon {
+      width: 48px;
+      height: 48px;
+      position: relative;
+      background-size: cover;
+      display: inline-block;
+      top: 5px;
+      background-color: #37a000;;
+      -webkit-mask-size: 48px;
+    }
+
+    .icon__logo {
+      -webkit-mask-image: url(/assets/logo.svg);
     }
 
     @font-face {
@@ -107,6 +122,7 @@
 <div class="content loading">
   <div class="initial-load-animation">
     <div class="linkedin-image">
+      <div class="big-icon icon__logo"></div>
       Sportlance
     </div>
     <div class="loading-bar">

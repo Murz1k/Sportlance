@@ -17,11 +17,12 @@ namespace Sportlance.BLL.Services
         private readonly AppDBContext _appContext;
         private readonly TrainersStorageProvider _trainerStorageProvider;
 
-        public TrainerService(AppDBContext appContext,
-            TrainersStorageProvider trainerStorageProvider)
+        public TrainerService(AppDBContext appContext
+            //,TrainersStorageProvider trainerStorageProvider
+            )
         {
             _appContext = appContext;
-            _trainerStorageProvider = trainerStorageProvider;
+            //_trainerStorageProvider = trainerStorageProvider;
         }
 
         public async Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query)

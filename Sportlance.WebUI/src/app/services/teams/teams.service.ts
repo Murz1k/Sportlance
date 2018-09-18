@@ -9,6 +9,7 @@ import {InviteMemberRequest} from './requests/invite-member-request';
 import {GetTeamQuery} from './requests/get-team-query';
 import {TeamResponse} from './requests/team-response';
 import {Observable} from 'rxjs/internal/Observable';
+import {ErrorResponse} from '../../core/error-response';
 
 @Injectable()
 export class TeamsService extends BaseService {
@@ -30,8 +31,8 @@ export class TeamsService extends BaseService {
     return this.http.get<CollectionResponse<TeamResponse>>(`${this.baseApiUrl}/teams`, {params: parameters});
   }
 
-  getByIdAsync(teamId: number): Promise<TeamProfileResponse> {
-    return this.http.get<TeamProfileResponse>(`${this.baseApiUrl}/teams/${teamId}`).toPromise();
+  getById(teamId: number): Observable<TeamProfileResponse> {
+    return this.http.get<TeamProfileResponse>(`${this.baseApiUrl}/teams/${teamId}`);
   }
 
   getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse>> {

@@ -11,49 +11,7 @@ namespace Sportlance.WebAPI.Authentication
         {
             _dataProtector = dataProtectionProvider.CreateProtector(MailTokenProtectorPurpose);
         }
-
-        private static string EmailTokenString(string id, string email)
-        {
-            return id + email;
-        }
-
-        private static string CreateChangePasswordTokenString(string id, string email, string hash)
-        {
-            return id + email + hash;
-        }
-
-        public string ChangePasswordToken(string id, string email, string hash)
-        {
-            return _dataProtector.Protect(
-                CreateChangePasswordTokenString(id, email, hash));
-        }
-
-        public bool CheckChangePasswordToken(string id, string email, string hash, string token)
-        {
-            return _dataProtector.Unprotect(token) == CreateChangePasswordTokenString(id, email, hash);
-        }
-
-        public string EncryptEmailConfirmationToken(string id, string email)
-        {
-            return _dataProtector.Protect(
-                EmailTokenString(id, email));
-        }
-
-        public string Protect(string txt)
-        {
-            return _dataProtector.Protect(txt);
-        }
-
-        public string Unprotect(string txt)
-        {
-            return _dataProtector.Unprotect(txt);
-        }
-
-        public bool CheckEmailConfirmationToken(string id, string email, string token)
-        {
-            return _dataProtector.Unprotect(token) == EmailTokenString(id, email);
-        }
-
+        
         public string EncryptToken(string email)
         {
             return _dataProtector.Protect(email);

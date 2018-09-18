@@ -18,5 +18,15 @@
   text-transform: uppercase;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   border: none;
-  outline: none;
+  outline: none !important;
+}
+
+.medium-icon {
+  width: 36px;
+  height: 36px;
+  position: relative;
+  background-size: cover;
+  display: inline-block;
+  background-color: #666;
+  -webkit-mask-size: 36px;
 }

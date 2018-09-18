@@ -1,16 +1,12 @@
 <div class="content page">
   <div class="main-bar">
     <div class="air-card">
-      <div *ngIf="profile" class="background">
+      <div class="background">
         <img *ngIf="profile.backgroundUrl" src="{{profile.backgroundUrl}}">
         <div *ngIf="!profile.backgroundUrl" class="background-placeholder">
         </div>
       </div>
-      <div *ngIf="!profile" class="background">
-        <div class="background-placeholder">
-        </div>
-      </div>
-      <section *ngIf="profile">
+      <section>
         <article class="row" style="position: relative">
           <div class="empty-avatar-lg" *ngIf="!profile.photoUrl">
             <i class="material-icons">account_circle</i>
@@ -46,8 +42,6 @@
           </div>
         </article>
       </section>
-      <section *ngIf="!profile" style="position: relative; height: 175px">
-      </section>
       <div class="air-card-header">
         <h3 class="pull-left">О нас</h3>
         <button class="btn btn-default btn-rnd"
@@ -55,17 +49,14 @@
           <i class="material-icons" style="font-size: 20px;">create</i>
         </button>
       </div>
-      <section *ngIf="!profile" class="pull-left" style="position: relative; height: 240px">
-      Расскажите о себе.
-    </section>
-      <section *ngIf="profile && !profile.about" class="pull-left" style="position: relative;">
+      <section *ngIf="!profile.about" class="pull-left" style="position: relative;">
         Расскажите о себе.
       </section>
-      <section *ngIf="profile && profile.about" [class.collapsed]="!isShowAbout && profile.about.length > 500" class="pull-left"
+      <section *ngIf="profile.about" [class.collapsed]="!isShowAbout && profile.about.length > 500" class="pull-left"
                style="position: relative; text-overflow: ellipsis; overflow: hidden;">
         {{profile.about}}
       </section>
-      <button *ngIf="profile && profile.about.length > 500" (click)="showAbout()" class="air-expand-btn">
+      <button *ngIf="profile.about.length > 500" (click)="showAbout()" class="air-expand-btn">
         Развернуть
         <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
@@ -133,7 +124,7 @@
       </section>
     </div>
   </div>
-  <div *ngIf="profile" class="side-bar">
+  <div class="side-bar">
     <div *ngIf="profile.phoneNumber" class="side-bar-item">
       <a class="phone-number" href="tel:{{profile.phoneNumber}}">
         {{profile.phoneNumber}}

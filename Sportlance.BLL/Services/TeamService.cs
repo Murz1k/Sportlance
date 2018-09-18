@@ -17,19 +17,22 @@ namespace Sportlance.BLL.Services
         private readonly TeamPhotosStorageProvider _teamPhotosStorageProvider;
         private readonly TeamsStorageProvider _teamsStorageProvider;
 
-        public TeamService(AppDBContext appContext, TeamsStorageProvider teamsStorageProvider,
-            TeamPhotosStorageProvider teamPhotosStorageProvider)
+        public TeamService(AppDBContext appContext
+            //,TeamsStorageProvider teamsStorageProvider,
+            //TeamPhotosStorageProvider teamPhotosStorageProvider
+            )
         {
             _appContext = appContext;
-            _teamsStorageProvider = teamsStorageProvider;
-            _teamPhotosStorageProvider = teamPhotosStorageProvider;
+            //_teamsStorageProvider = teamsStorageProvider;
+            //_teamPhotosStorageProvider = teamPhotosStorageProvider;
         }
 
         public async Task<PagingCollection<TeamListItem>> GetAsync(TeamQuery query, long? userId = null)
         {
-            var teamQuery = from team in _appContext.Teams.Include(i=>i.TrainerTeams)
+            var teamQuery = from team in _appContext.Teams.Include(i => i.TrainerTeams)
                 where team.Status == TeamStatus.Available
-                      && (!userId.HasValue  || userId.Value == team.AuthorId || team.TrainerTeams.Any(i=>i.TrainerId == userId.Value))
+                      && (!userId.HasValue || userId.Value == team.AuthorId ||
+                          team.TrainerTeams.Any(i => i.TrainerId == userId.Value))
                 select team;
             return await (from team in teamQuery
                 select new TeamListItem
@@ -64,9 +67,10 @@ namespace Sportlance.BLL.Services
         }
 
 
-        public async Task AddAsync(long authorId,string title,string subTitle,string country,string city,string about,string phoneNumber,AzureFile photo)
+        public async Task AddAsync(long authorId, string title, string subTitle, string country, string city,
+            string about, string phoneNumber, AzureFile photo)
         {
-            var author = await _appContext.Users.FirstOrDefaultAsync(u=>u.Id == authorId);
+            var author = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
             var roleTeam = await _appContext.Roles.FirstOrDefaultAsync(r => r.Name == "Team");
             var newTeam = new Team
             {
@@ -80,14 +84,14 @@ namespace Sportlance.BLL.Services
                 CreateDateTime = DateTime.Now,
                 Status = TeamStatus.Available
             };
-            
+
             if (author.UserRoles.All(i => i.RoleId != roleTeam.Id))
             {
                 _appContext.Add(new UserRole {RoleId = roleTeam.Id, UserId = authorId});
             }
-            
+
             _appContext.Add(newTeam);
-            
+
             await _appContext.SaveChangesAsync();
 
             if (photo != null)
@@ -136,6 +140,11 @@ namespace Sportlance.BLL.Services
         {
             var team = await _appContext.Teams
                 .FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                return null;
+            }
+
             return new TeamProfile
             {
                 Id = team.Id,
@@ -175,7 +184,7 @@ namespace Sportlance.BLL.Services
 
         public async Task DeletePhotoAsync(long teamId, long photoId)
         {
-            var team = await _appContext.Teams.Include(i=>i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
+            var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
             team.DeletePhoto(photoId);
             await _appContext.SaveChangesAsync();
             var photoName = $"team-{teamId}/photo-{photoId}";
@@ -204,8 +213,8 @@ namespace Sportlance.BLL.Services
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == memberId);
-            
-            team.TrainerTeams.Add(new TrainerTeam{Trainer = trainer});
+
+            team.TrainerTeams.Add(new TrainerTeam {Trainer = trainer});
 
             await _appContext.SaveChangesAsync();
         }

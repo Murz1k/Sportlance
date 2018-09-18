@@ -2,8 +2,8 @@
 {
     public class TeamPhotosStorageProvider : AzureStorageProvider
     {
-        public TeamPhotosStorageProvider(AzureStorageOptions azureStorageOptions)
-            : base(azureStorageOptions, "team-photos")
+        public TeamPhotosStorageProvider(string connectionString)
+            : base(connectionString, "team-photos")
         {
         }
     }

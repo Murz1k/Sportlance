@@ -13,7 +13,9 @@ namespace Sportlance.WebAPI
         public static IWebHost BuildWebHost(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
+                .UseSetting("detailedErrors", "true")
                 .UseStartup<Startup>()
+                .CaptureStartupErrors(true)
                 .Build();
         }
     }

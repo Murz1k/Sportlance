@@ -20,7 +20,10 @@ namespace Sportlance.BLL.Services
 
         public Task<User> GetByIdAsync(long id)
         {
-            return Entities().FirstOrDefaultAsync(i => i.Id == id);
+            return Entities()
+                .Include(i=>i.UserRoles)
+                .ThenInclude(i=>i.Role)
+                .FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public Task<User> GetByEmailAsync(string email)

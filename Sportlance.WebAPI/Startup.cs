@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Text;
+using Amazon;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.S3;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +16,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Sportlance.BLL.Interfaces;
 using Sportlance.BLL.Services;
-using Sportlance.DAL;
 using Sportlance.DAL.AzureStorage;
 using Sportlance.DAL.Core;
 using Sportlance.WebAPI.Authentication;
@@ -35,6 +37,13 @@ namespace Sportlance.WebAPI
         {
             Configuration = configuration;
             _currentEnvironment = currentEnvironment;
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(currentEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{currentEnvironment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -53,10 +62,11 @@ namespace Sportlance.WebAPI
                 options.Filters.Add(new AppErrorsExceptionFilter());
                 options.Filters.Add(new ModelStateFilter());
             });
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
 
             JwtConfigure(services);
 
-            services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions), typeof(AzureStorageOptions));
+            services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
             services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
             services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
 
@@ -79,13 +89,21 @@ namespace Sportlance.WebAPI
             ConfigureCorsPolicy(services);
 
             services.AddDbContext<AppDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("SQLDatabase")));
 
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton(InitializeTrainersStorageProvider);
-            services.AddSingleton(InitializeTeamsStorageProvider);
-            services.AddSingleton(InitializeTeamPhotosStorageProvider);
+            //services.AddSingleton(InitializeTrainersStorageProvider);
+            //services.AddSingleton(InitializeTeamsStorageProvider);
+            //services.AddSingleton(InitializeTeamPhotosStorageProvider);
+
+            //if (_currentEnvironment.IsProduction()) {
+            services.AddDefaultAWSOptions(new AWSOptions
+            {
+                Region = RegionEndpoint.USEast1
+            });
+            services.AddAWSService<IAmazonS3>();
+            //}
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
@@ -102,17 +120,16 @@ namespace Sportlance.WebAPI
             var sp = services.BuildServiceProvider();
             var siteOptions = sp.GetService<SiteOptions>();
             var url = siteOptions.Root;
-            if (!_currentEnvironment.IsProduction()) url = "*";
+            //if (!_currentEnvironment.IsProduction())
+            url = "*";
 
             var corsPolicyBuilder = new CorsPolicyBuilder();
-            corsPolicyBuilder.WithOrigins(url);
+            //corsPolicyBuilder.WithOrigins(url);
+            corsPolicyBuilder.AllowAnyOrigin();
             corsPolicyBuilder.AllowAnyHeader();
             corsPolicyBuilder.AllowAnyMethod();
             corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
             //    Constants.Headers.XNewRoles,
-            //    Constants.Headers.XEthereumAddress,
-            //    Constants.Headers.XSignature,
-            //    Constants.Headers.XSignedText);
             corsPolicyBuilder.AllowCredentials();
 
             services.AddCors(options => { options.AddPolicy(CorsPolicyName, corsPolicyBuilder.Build()); });
@@ -120,30 +137,31 @@ namespace Sportlance.WebAPI
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            //if (env.IsDevelopment())
+            app.UseDeveloperExceptionPage();
 
             app.UseCors(CorsPolicyName);
 
             app.UseMvc();
         }
 
-        private static TeamPhotosStorageProvider InitializeTeamPhotosStorageProvider(IServiceProvider serviceProvider)
+        private TeamPhotosStorageProvider InitializeTeamPhotosStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TeamPhotosStorageProvider(serviceProvider.GetService<AzureStorageOptions>());
+            var storageProvider = new TeamPhotosStorageProvider(Configuration.GetConnectionString("AzureStorage"));
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
-        private static TrainersStorageProvider InitializeTrainersStorageProvider(IServiceProvider serviceProvider)
+        private TrainersStorageProvider InitializeTrainersStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TrainersStorageProvider(serviceProvider.GetService<AzureStorageOptions>());
+            var storageProvider = new TrainersStorageProvider(Configuration.GetConnectionString("AzureStorage"));
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
-        private static TeamsStorageProvider InitializeTeamsStorageProvider(IServiceProvider serviceProvider)
+        private TeamsStorageProvider InitializeTeamsStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TeamsStorageProvider(serviceProvider.GetService<AzureStorageOptions>());
+            var storageProvider = new TeamsStorageProvider(Configuration.GetConnectionString("AzureStorage"));
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }

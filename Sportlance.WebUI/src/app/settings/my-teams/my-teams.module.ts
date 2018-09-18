@@ -5,6 +5,7 @@ import {MyTeamsRoutingModule} from './my-teams-routing.module';
 import {MyTeamsComponent} from './my-teams.component';
 import {CreateTeamComponent} from './create-team/create-team.component';
 import {PhoneMaskModule} from '../../core/phone-mask/phone-mask.module';
+import {TeamsResolver} from './teams.resolver';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,9 @@ import {PhoneMaskModule} from '../../core/phone-mask/phone-mask.module';
     MyTeamsRoutingModule,
     PhoneMaskModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    TeamsResolver
   ]
 })
 export class MyTeamsModule {

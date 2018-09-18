@@ -11,6 +11,7 @@
         ServerError,
         UserNotFound,
         UpdateInProgress,
-        TxIsInvalid
+        TxIsInvalid,
+        TeamNotFound
     }
 }

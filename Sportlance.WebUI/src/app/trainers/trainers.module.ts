@@ -15,6 +15,8 @@ import {SelectModule} from '../core/select/select.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
 import {MyDateAdapter} from '../core/my-date-adapter';
+import {FormatDateModule} from '../core/format-date-pipe/format-date.module';
+import {RedirectTrainerProfileResolver} from './profile/redirect-trainer-profile.resolver';
 
 @NgModule({
   imports: [
@@ -29,7 +31,8 @@ import {MyDateAdapter} from '../core/my-date-adapter';
     MatNativeDateModule,
     TimeMaskModule,
     MatDatepickerModule,
-    SelectModule
+    SelectModule,
+    FormatDateModule
   ],
   entryComponents: [
     InviteTrainerDialogComponent,
@@ -43,7 +46,8 @@ import {MyDateAdapter} from '../core/my-date-adapter';
     AppointmentComponent
   ],
   providers: [
-    {provide: DateAdapter, useClass: MyDateAdapter}
+    {provide: DateAdapter, useClass: MyDateAdapter},
+    RedirectTrainerProfileResolver
   ]
 })
 export class TrainersModule {

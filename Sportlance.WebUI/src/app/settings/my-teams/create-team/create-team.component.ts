@@ -35,7 +35,7 @@ export class CreateTeamComponent {
       this.form.controls['about'].value,
       null
     ).subscribe(() => {
-      this.router.navigate([`${Paths.Settings}/my-teams`]);
+      return this.router.navigate([Paths.Settings, 'my-teams']);
     });
   }
 }

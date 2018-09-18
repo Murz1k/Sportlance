@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../../services/user.service/user';
-import {UserInfoStorage} from '../../../core/user-info-storage';
 import {AuthApiClient} from '../../../services/auth/auth-api-client';
 import {MatDialogRef} from '@angular/material';
 import {AccountService} from '../../../services/account-service';
+import {UserService} from '../../../services/user.service/user.service';
 
 @Component({
   selector: 'app-edit-trainer-paid-dialog',
@@ -17,14 +17,14 @@ export class EditAccountInfoDialogComponent implements OnInit {
   private account: User;
 
   constructor(private formBuilder: FormBuilder,
-              private userContext: UserInfoStorage,
+              private userService: UserService,
               private authApiClient: AuthApiClient,
               private accountService: AccountService,
               private dialogRef: MatDialogRef<EditAccountInfoDialogComponent>) {
   }
 
   ngOnInit() {
-    this.account = this.userContext.getCurrentUser();
+    this.account = this.userService.getCurrent();
     this.form = this.formBuilder.group({
       firstName: [this.account.firstName],
       secondName: [this.account.secondName],

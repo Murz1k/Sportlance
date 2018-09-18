@@ -7,8 +7,7 @@ using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/user")]
+    [Route("user")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;

@@ -4,8 +4,6 @@ export class User {
 
   secondName: string;
 
-  token: string;
-
   roles: string[];
 
   email: string;
@@ -14,10 +12,9 @@ export class User {
 
   isConfirmed: boolean;
 
-  constructor(firstName: string, secondName: string, token: string, roles: string[], email: string, isConfirmed: boolean, photoUrl: string) {
+  constructor(firstName: string, secondName: string, roles: string[], email: string, isConfirmed: boolean, photoUrl: string) {
     this.firstName = firstName;
     this.secondName = secondName;
-    this.token = token;
     this.roles = roles;
     this.email = email;
     this.isConfirmed = isConfirmed;
@@ -25,14 +22,14 @@ export class User {
   }
 
   get isTrainer(): boolean {
-    return this.roles.some(r => r === 'Trainer');
+    return this.roles ? this.roles.some(r => r === 'Trainer') : false;
   }
 
   get isAdmin(): boolean {
-    return this.roles.some(r => r === 'Admin');
+    return this.roles ? this.roles.some(r => r === 'Admin') : false;
   }
 
   get isTeam(): boolean {
-    return this.roles.some(r => r === 'Team');
+    return this.roles ? this.roles.some(r => r === 'Team') : false;
   }
 }

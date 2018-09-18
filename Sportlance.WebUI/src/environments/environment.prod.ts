@@ -1,4 +1,4 @@
 export const environment = {
-  baseUrl: 'http://localhost:5000',
+  baseUrl: 'http://sportlance.us-east-1.elasticbeanstalk.com',
   production: true
 };

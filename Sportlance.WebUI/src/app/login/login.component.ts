@@ -4,9 +4,9 @@ import {LoginRequest} from '../services/auth/requests/login-request';
 import {ErrorCode} from '../core/error-code';
 import {Router} from '@angular/router';
 import {Paths} from '../core/paths';
-import {AccountService} from '../services/account-service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {UserService} from '../services/user.service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -26,14 +26,10 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private authClient: AuthApiClient,
-              private accountService: AccountService) {
-    this.createForm();
+              private userService: UserService) {
   }
 
   ngOnInit() {
-  }
-
-  private createForm() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(20)]],
       password: ['', Validators.required],
@@ -57,26 +53,29 @@ export class LoginComponent implements OnInit {
 
   }
 
-  async loginAsync(): Promise<void> {
+  login(): void {
     this.isDisabled = true;
     try {
       const form = this.loginForm.value;
-      const response = await this.authClient.loginAsync(<LoginRequest>{
+      this.authClient.login(<LoginRequest>{
         email: form.email,
         password: form.password,
         rememberMe: form.rememberMe
+      }).subscribe((response) => {
+        this.userService.saveToken(response.token);
+        this.isDisabled = false;
+        return this.router.navigate([Paths.Root]);
       });
-      this.accountService.login(response);
-      this.isDisabled = false;
-      await this.router.navigate([Paths.Root]);
     } catch (e) {
       switch (e.error.errorCode) {
         case ErrorCode.IncorrectPassword:
           this.showPasswordError = true;
           this.isDisabled = false;
+          break;
         case ErrorCode.IncorrectValidation:
           this.showPasswordError = true;
           this.isDisabled = false;
+          break;
       }
     }
   }
@@ -97,7 +96,7 @@ export class LoginComponent implements OnInit {
 
   ckechKeyDownPassword(e): void {
     if (e.keyCode === 13) {
-      this.loginAsync();
+      this.login();
     }
   }
 
@@ -119,8 +118,10 @@ export class LoginComponent implements OnInit {
       switch (e.error.errorCode) {
         case ErrorCode.UserNotFound:
           this.showLoginError = true;
+          break;
         case ErrorCode.IncorrectValidation:
           this.showLoginError = true;
+          break;
       }
     }
     this.isDisabled = false;

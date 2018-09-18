@@ -19,7 +19,6 @@ import {MatDialog} from '@angular/material';
 export class ProfileComponent implements OnInit {
 
   trainer: TrainerInfo;
-  isRendering = false;
   starsNumber = 5;
   trainerId: number;
   public account: User;
@@ -38,15 +37,26 @@ export class ProfileComponent implements OnInit {
               private dialog: MatDialog,
               private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
-    this.account = this.userService.getCurrent();
   }
 
   async ngOnInit() {
+    this.account = this.userService.getCurrent();
+    this.trainer = <TrainerInfo>{
+      firstName: this.route.snapshot.data['profile'].firstName,
+      secondName: this.route.snapshot.data['profile'].secondName,
+      trainingsCount: this.route.snapshot.data['profile'].trainingsCount,
+      price: this.route.snapshot.data['profile'].price,
+      city: this.route.snapshot.data['profile'].city,
+      about: this.route.snapshot.data['profile'].about,
+      title: this.route.snapshot.data['profile'].title,
+      country: this.route.snapshot.data['profile'].country,
+      stars: this.convertAverageScoreToStars(this.route.snapshot.data['profile'].score),
+      sports: this.route.snapshot.data['profile'].sports
+    };
     await this.route.params.forEach(async params => {
       this.trainerId = params['id'];
-      this.updateData(this.trainerId);
       this.updateFeedbacks(this.trainerId);
-      if (this.account.isTeam) {
+      if (this.account && this.account.isTeam) {
         this.trainerService.canInviteTrainer(params['id']).subscribe((canInvited) => {
           this.canInvited = canInvited;
         });
@@ -88,26 +98,6 @@ export class ProfileComponent implements OnInit {
           description: i.description,
           photoUrl: i.photoUrl
         }).forEach(item => this.feedbacks.push(item));
-      });
-  }
-
-  updateData(id: number) {
-    this.isRendering = false;
-    this.trainerService.getById(id)
-      .subscribe((response) => {
-        this.trainer = <TrainerInfo>{
-          firstName: response.firstName,
-          secondName: response.secondName,
-          trainingsCount: response.trainingsCount,
-          price: response.price,
-          city: response.city,
-          about: response.about,
-          title: response.title,
-          country: response.country,
-          stars: this.convertAverageScoreToStars(response.score),
-          sports: response.sports
-        };
-        this.isRendering = true;
       });
   }
 

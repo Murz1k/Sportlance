@@ -9,7 +9,7 @@ using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ProfileController : Controller
     {
         private readonly IUserService _userService;

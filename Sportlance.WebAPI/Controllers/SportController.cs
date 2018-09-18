@@ -6,7 +6,7 @@ using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Route("api/sport")]
+    [Route("sport")]
     public class SportController : Controller
     {
         private readonly ISportService _service;

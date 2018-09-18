@@ -11,13 +11,13 @@ namespace Sportlance.WebAPI.Errors
         {
             ErrorCode = errorCode.ToString();
             Fields = fields ?? new Dictionary<string, List<string>>();
-            Message = message;
+            ErrorMsg = message;
         }
 
         public string ErrorCode { get; }
 
         public Dictionary<string, List<string>> Fields { get; }
 
-        public string Message { get; }
+        public string ErrorMsg { get; }
     }
 }

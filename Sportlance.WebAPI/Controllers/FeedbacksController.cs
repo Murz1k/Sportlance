@@ -26,7 +26,7 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/trainers/{trainerId}/feedbacks")]
+        [Route("trainers/{trainerId}/feedbacks")]
         public async Task<PartialCollectionResponse<ReviewInfo>> GetTrainerFeedbacks(int trainerId, [FromQuery] GetFeedbacksQueryRequest request)
         {
             var feedbacks = await _service.GetTrainerFeedbacksAsync(trainerId, request.Offset, request.Count);
@@ -36,7 +36,7 @@ namespace Sportlance.WebAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        [Route("api/trainers/self/feedbacks")]
+        [Route("trainers/self/feedbacks")]
         public async Task<PartialCollectionResponse<ReviewInfo>> GetTrainerFeedbacks([FromQuery] GetFeedbacksQueryRequest request)
         {
             var feedbacks = await _service.GetTrainerFeedbacksAsync(User.GetUserId(), request.Offset, request.Count);

@@ -16,7 +16,7 @@ using Sportlance.WebAPI.Validation;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class AuthController : Controller
     {
         private readonly AuthService _authService;
@@ -69,10 +69,10 @@ namespace Sportlance.WebAPI.Controllers
             {
                 FirstName = user.FirstName,
                 SecondName = user.LastName,
-                Token = await _authService.GenerateAccessTokenAsync(user),
+                Token = _authService.GenerateAccessToken(user),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
-                Roles = user.UserRoles.Select(i=>i.Role).Select(i => i.Name)
+                Roles = user.UserRoles.Select(i => i.Role).Select(i => i.Name)
             };
         }
 
@@ -88,11 +88,11 @@ namespace Sportlance.WebAPI.Controllers
                 FirstName = user.FirstName,
                 SecondName = user.LastName,
                 Token = user.IsEmailConfirm
-                    ? await _authService.GenerateAccessTokenAsync(user, request.RememberMe)
+                    ? _authService.GenerateAccessToken(user, request.RememberMe)
                     : _mailTokenService.EncryptToken(user.Email),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
-                Roles = user.UserRoles.Select(i=>i.Role).Select(i => i.Name)
+                Roles = user.UserRoles.Select(i => i.Role).Select(i => i.Name)
             };
         }
 
@@ -114,7 +114,7 @@ namespace Sportlance.WebAPI.Controllers
 
             return new RegistrationResponse
             {
-                Token = _mailTokenService.EncryptToken(user.Email)
+                Token = _authService.GenerateAccessToken(user)
             };
         }
 
@@ -124,7 +124,8 @@ namespace Sportlance.WebAPI.Controllers
         {
             var user = await _userService.GetByIdAsync(data.UserId);
             if (user == null ||
-                !_mailTokenService.CheckEmailConfirmationToken(user.Id.ToString(), user.Email, data.Token))
+                user.Email != _mailTokenService.DecryptToken(data.Token)
+            )
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
 
             user.IsEmailConfirm = true;
@@ -135,10 +136,10 @@ namespace Sportlance.WebAPI.Controllers
             {
                 FirstName = user.FirstName,
                 SecondName = user.LastName,
-                Token = await _authService.GenerateAccessTokenAsync(user),
+                Token = _authService.GenerateAccessToken(user),
                 Email = user.Email,
                 IsConfirmed = user.IsEmailConfirm,
-                Roles = user.UserRoles.Select(i=>i.Role).Select(i => i.Name)
+                Roles = user.UserRoles.Select(i => i.Role).Select(i => i.Name)
             };
         }
 
@@ -198,7 +199,7 @@ namespace Sportlance.WebAPI.Controllers
         {
             var user = await _userService.GetByIdAsync(_authService.UserId);
 
-            user.Email = _mailTokenService.Unprotect(token);
+            user.Email = _mailTokenService.DecryptToken(token);
 
             await _userService.SaveChangesAsync();
 
@@ -210,10 +211,10 @@ namespace Sportlance.WebAPI.Controllers
         public async Task<EmptyResponse> UpdatePassword([FromBody] UpdatePasswordRequest data)
         {
             var user = await _userService.GetByIdAsync(_authService.UserId);
-            if (user == null 
+            if (user == null
                 //|| !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash, data.Token)
                 || !HashUtils.CheckHash(user.PasswordHash, data.OldPassword)
-                )
+            )
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
             user.PasswordHash = HashUtils.CreateHash(data.Password);
             user.IsEmailConfirm = true;

@@ -2,8 +2,8 @@
 {
     public class TrainersStorageProvider : AzureStorageProvider
     {
-        public TrainersStorageProvider(AzureStorageOptions azureStorageOptions)
-            : base(azureStorageOptions, "trainers")
+        public TrainersStorageProvider(string connectionString)
+            : base(connectionString, "trainers")
         {
         }
     }

@@ -8,6 +8,7 @@ import {TeamProfileComponent} from './team-profile/team-profile.component';
 import {NumberOnlyModule} from '../core/number-only/number-only.module';
 import {MatDialogModule} from '@angular/material';
 import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
+import {RedirectTeamProfileResolver} from './team-profile/redirect-team-profile.resolver';
 
 @NgModule({
   imports: [
@@ -26,6 +27,9 @@ import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-phot
     TeamsComponent,
     AddTeamPhotoDialogComponent,
     TeamProfileComponent
+  ],
+  providers: [
+    RedirectTeamProfileResolver
   ]
 })
 export class TeamsModule {

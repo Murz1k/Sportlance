@@ -7,6 +7,7 @@ import {Paths} from '../core/paths';
 import {Router} from '@angular/router';
 import {LoginRequest} from '../services/auth/requests/login-request';
 import {AccountService} from '../services/account-service';
+import {UserService} from '../services/user.service/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,8 @@ export class SignupComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private accountService: AccountService,
-              private authClient: AuthApiClient) {
+              private authClient: AuthApiClient,
+              private userService: UserService) {
     this.isEmailExist = false;
     this.createForm();
   }
@@ -80,13 +82,12 @@ export class SignupComponent implements OnInit {
       password: form.password,
       firstName: form.firstName
     });
-
-    const response = await this.authClient.loginAsync(<LoginRequest>{
+    this.authClient.login(<LoginRequest>{
       email: form.email,
       password: form.password
+    }).subscribe((response) => {
+      this.userService.saveToken(response.token);
+      return this.router.navigate([Paths.EmailVerify]);
     });
-    this.accountService.login(response);
-
-    this.router.navigate([Paths.EmailVerify]);
   }
 }

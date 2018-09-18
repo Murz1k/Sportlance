@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthApiClient} from '../services/auth/auth-api-client';
-import {UserInfoStorage} from '../core/user-info-storage';
+import {UserService} from '../services/user.service/user.service';
 
 @Component({
   selector: 'app-email-verify',
@@ -12,15 +12,14 @@ export class EmailVerifyComponent implements OnInit {
   public email: string;
 
   constructor(private authApiClient: AuthApiClient,
-              private userInfoStorage: UserInfoStorage) {
+              private userService: UserService) {
   }
 
   ngOnInit() {
-    this.email = this.userInfoStorage.getCurrentUser().email;
+    this.email = this.userService.getCurrent().email;
   }
 
   async resendEmailAsync(): Promise<void> {
-    const token = this.userInfoStorage.getCurrentUser().token;
-    await this.authApiClient.reSendEmailAsync(token);
+    await this.authApiClient.reSendEmailAsync(this.userService.getToken());
   }
 }

@@ -1,35 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {User} from '../../services/user.service/user';
-import {UserService} from '../../services/user.service/user.service';
-import {Paths} from '../../core/paths';
+import {Component} from '@angular/core';
 import {TeamResponse} from '../../services/teams/requests/team-response';
-import {TeamsService} from '../../services/teams/teams.service';
-import {GetTeamQuery} from '../../services/teams/requests/get-team-query';
+import {ActivatedRoute} from '@angular/router';
+import {CollectionResponse} from '../../services/common/collection-response';
+import {Paths} from '../../core/paths';
 
 @Component({
   selector: 'app-my-teams',
   templateUrl: './my-teams.component.html',
   styleUrls: ['./my-teams.component.scss']
 })
-export class MyTeamsComponent implements OnInit {
+export class MyTeamsComponent {
 
-  public account: User;
-  public Paths = Paths;
+  Paths = Paths;
   public teams: TeamResponse[] = [];
 
-  constructor(private userService: UserService,
-              private teamService: TeamsService) {
-    this.account = this.userService.getCurrent();
-  }
-
-  ngOnInit() {
-    if (this.account.isTrainer || this.account.isTeam) {
-      this.teamService.getSelf(<GetTeamQuery>{
-        count: 10,
-        offset: 0
-      }).subscribe((response) => {
-        this.teams = response.items;
-      });
-    }
+  constructor(private route: ActivatedRoute) {
+    this.teams = (this.route.snapshot.data['teams'] as CollectionResponse<TeamResponse>).items;
   }
 }

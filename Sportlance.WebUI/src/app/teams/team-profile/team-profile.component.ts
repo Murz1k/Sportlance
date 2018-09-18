@@ -31,11 +31,11 @@ export class TeamProfileComponent implements OnInit {
               private dialog: MatDialog,
               private trainersService: TrainersService,
               private teamService: TeamsService) {
+    this.profile = this.route.snapshot.data['profile'];
   }
 
   async ngOnInit() {
     await this.route.params.forEach(async params => {
-      this.updateInfoAsync(params['id']);
       this.updatePhotos(params['id']);
       this.upadteTeamMembers(params['id']);
     });
@@ -54,11 +54,6 @@ export class TeamProfileComponent implements OnInit {
           }
         }
       );
-  }
-
-  private async updateInfoAsync(teamId: number) {
-    this.profile = await this.teamService.getByIdAsync(teamId);
-    this.titleService.setTitle(`${this.profile.title} | Sportlance`);
   }
 
   public deletePhoto(photoId: number) {

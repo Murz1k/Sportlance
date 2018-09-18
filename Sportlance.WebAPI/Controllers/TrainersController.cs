@@ -11,7 +11,7 @@ using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Controllers
 {
-    [Route("api/trainers")]
+    [Route("trainers")]
     public class TrainersController : Controller
     {
         private readonly ITrainerService _service;

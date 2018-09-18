@@ -21,14 +21,13 @@ namespace Sportlance.WebAPI.Filters
 
             await next();
 
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(context.HttpContext.User.Identity.Name))
+            if (string.IsNullOrEmpty(token))
                 return;
 
             if (_authenticationService.ShouldRefreshToken(token))
             {
-                var identity = await _authenticationService.RefreshAccessToken();
-
-                context.HttpContext.Response.Headers.Add(Headers.XNewAuthToken, identity.Token);
+                context.HttpContext.Response.Headers.Add(Headers.XNewAuthToken,
+                    await _authenticationService.RefreshAccessToken());
             }
         }
     }

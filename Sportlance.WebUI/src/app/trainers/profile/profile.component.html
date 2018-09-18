@@ -1,16 +1,12 @@
 <div class="content page">
   <div class="main-bar">
     <div class="air-card">
-      <div *ngIf="trainer" class="background">
+      <div class="background">
         <img *ngIf="trainer.backgroundUrl" src="{{trainer.backgroundUrl}}">
         <div class="background-placeholder" *ngIf="!trainer.backgroundUrl">
         </div>
       </div>
-      <div *ngIf="!trainer" class="background">
-        <div class="background-placeholder">
-        </div>
-      </div>
-      <section *ngIf="trainer">
+      <section>
         <article class="row" style="position: relative">
           <div class="empty-avatar-lg" *ngIf="!trainer.photoUrl">
             <i class="material-icons">account_circle</i>
@@ -40,22 +36,17 @@
           </div>
         </article>
       </section>
-      <section *ngIf="!trainer" style="position: relative; height: 175px">
-      </section>
       <div class="air-card-header">
         <h3 class="pull-left">О себе</h3>
       </div>
-      <section *ngIf="!trainer" class="pull-left" style="position: relative; height: 240px">
+      <section *ngIf="!trainer.about" class="pull-left" style="position: relative;">
         Расскажите о себе.
       </section>
-      <section *ngIf="trainer && !trainer.about" class="pull-left" style="position: relative;">
-        Расскажите о себе.
-      </section>
-      <section *ngIf="trainer && trainer.about" [class.collapsed]="!isShowAbout && trainer.about.length > 500" class="pull-left"
+      <section *ngIf="trainer.about" [class.collapsed]="!isShowAbout && trainer.about.length > 500" class="pull-left"
                style="position: relative; text-overflow: ellipsis; overflow: hidden;">
         {{trainer.about}}
       </section>
-      <button *ngIf="trainer && trainer.about.length > 500" (click)="showAbout()" class="air-expand-btn">
+      <button *ngIf="trainer.about.length > 500" (click)="showAbout()" class="air-expand-btn">
         Развернуть
         <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
@@ -67,9 +58,7 @@
           Навыки
         </h3>
       </div>
-      <section *ngIf="!trainer" style="position: relative; height: 80px">
-      </section>
-      <section *ngIf="trainer">
+      <section>
         <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
           {{sport.name}}
         </a>
@@ -81,9 +70,7 @@
           Отзывы
         </h3>
       </div>
-      <section *ngIf="!trainer" style="position: relative; height: 80px">
-      </section>
-      <section *ngIf="trainer" class="pull-left">
+      <section class="pull-left">
         <ul class="feedbacks">
           <li *ngFor="let review of feedbacks">
             <div class="row" style="padding-bottom: 1em;">
@@ -97,7 +84,7 @@
               {{review.description}}
             </div>
             <div class="row text-muted">
-              {{review.clientName}} {{review.createDate}}
+              {{review.clientName}} {{review.createDate | formatDate}}
             </div>
           </li>
         </ul>
@@ -110,7 +97,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="trainer" class="side-bar">
+  <div class="side-bar">
     <div *ngIf="teams.length > 0" class="side-bar-item">
       <h4>Работает в</h4>
       <!-- список клубов -->
