@@ -32,29 +32,22 @@ namespace Sportlance.WebAPI.Authentication
         }
 
         public long UserId => long.Parse(_httpContextAccessor.HttpContext
-            .User.FindFirstValue(ClaimTypes.NameIdentifier));
+            .User.FindFirstValue("userId"));
 
-        private ClaimsIdentity CreateClaimsIdentity(User user)
+        private JwtPayload CreateJwtPayload(User user)
         {
-            var claimsIdentity = new ClaimsIdentity("Token");
-            claimsIdentity.AddClaim(new Claim("email", user.Email));
-            claimsIdentity.AddClaim(new Claim("userId", user.Id.ToString()));
-            claimsIdentity.AddClaim(new Claim("firstName", user.FirstName));
-            claimsIdentity.AddClaim(new Claim("secondName", user.LastName));
-            claimsIdentity.AddClaim(new Claim("isConfirmed", user.IsEmailConfirm.ToString()));
-            claimsIdentity.AddClaim(new Claim("photoUrl", user.PhotoUrl ?? ""));
+            var payload = new JwtPayload();
+            payload.AddClaim(new Claim("email", user.Email));
+            payload.AddClaim(new Claim("userId", user.Id.ToString()));
+            payload.AddClaim(new Claim("firstName", user.FirstName));
+            payload.AddClaim(new Claim("secondName", user.LastName));
+            payload.AddClaim(new Claim("isConfirmed", user.IsEmailConfirm.ToString()));
+            payload.AddClaim(new Claim("photoUrl", user.PhotoUrl ?? ""));
 
-            if (user.UserRoles.Count > 0)
-            {
-                foreach (var role in user.UserRoles.Select(i => i.Role))
-                    claimsIdentity.AddClaim(new Claim("roles", role.ToString()));
-            }
-            else
-            {
-                claimsIdentity.AddClaim(new Claim("roles", "[]"));
-            }
+            payload.Add("roles",
+                user.UserRoles.Count > 0 ? user.UserRoles.Select(i => i.Role.ToString()) : new string[0]);
 
-            return claimsIdentity;
+            return payload;
         }
 
         public async Task<string> RefreshAccessToken()
@@ -77,11 +70,11 @@ namespace Sportlance.WebAPI.Authentication
 
         public string GenerateAccessToken(User user, bool rememberMe = false)
         {
-            var identity = CreateClaimsIdentity(user);
+            var payload = CreateJwtPayload(user);
             var accessToken = new JwtSecurityToken(
                 _jwtOptions.Issuer,
                 _jwtOptions.Audience,
-                identity.Claims,
+                payload.Claims,
                 _jwtOptions.NotBefore,
                 rememberMe ? DateTime.UtcNow.AddDays(30) : _jwtOptions.Expiration,
                 _jwtOptions.SigningCredentials) {Payload = {["iat"] = _dateTime.UtcNow.ToUnixTimeSeconds()}};

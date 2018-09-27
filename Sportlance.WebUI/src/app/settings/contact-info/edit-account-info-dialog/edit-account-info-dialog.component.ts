@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../../services/user.service/user';
 import {AuthApiClient} from '../../../services/auth/auth-api-client';
 import {MatDialogRef} from '@angular/material';
-import {AccountService} from '../../../services/account-service';
 import {UserService} from '../../../services/user.service/user.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class EditAccountInfoDialogComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
               private authApiClient: AuthApiClient,
-              private accountService: AccountService,
               private dialogRef: MatDialogRef<EditAccountInfoDialogComponent>) {
   }
 
@@ -36,8 +34,9 @@ export class EditAccountInfoDialogComponent implements OnInit {
     if (result) {
       await this.changeAccountInfoAsync();
       this.dialogRef.close(true);
+      return;
     }
-    this.dialogRef.close(null);
+    this.dialogRef.close(false);
   }
 
   private async changeAccountInfoAsync() {
@@ -45,7 +44,7 @@ export class EditAccountInfoDialogComponent implements OnInit {
       || this.form.value.secondName !== this.account.secondName
       || this.form.value.email !== this.account.email) {
       const response = await this.authApiClient.updateAccountAsync(this.form.value.firstName, this.form.value.secondName, this.form.value.email);
-      this.accountService.login(response);
+      this.userService.saveToken(response.token);
     }
   }
 }

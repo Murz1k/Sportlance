@@ -28,12 +28,12 @@ export class AuthApiClient {
     await this.http.post('/auth/re-send', <ResendEmailRequest> {token: token}).toPromise();
   }
 
-  public async updatePasswordAsync(oldPassword: string, password: string, confirmPassword: string): Promise<void> {
-    await this.http.put('/auth/password', <UpdatePasswordRequest> {
+  public updatePassword(oldPassword: string, password: string, confirmPassword: string): Observable<Object> {
+    return this.http.put('/auth/password', <UpdatePasswordRequest> {
       oldPassword: oldPassword,
       password: password,
       confirmPassword: confirmPassword
-    }).toPromise();
+    });
   }
 
   public async updateAccountAsync(firstName: string, secondName: string, email: string): Promise<LoginResponse> {

@@ -20,7 +20,7 @@ export class ContactInfoComponent {
 
   changeAccountInfo() {
     this.dialog.open(EditAccountInfoDialogComponent)
-      .afterClosed()
+      .beforeClose()
       .subscribe((result) => {
         if (result) {
           this.account = this.userService.getCurrent();

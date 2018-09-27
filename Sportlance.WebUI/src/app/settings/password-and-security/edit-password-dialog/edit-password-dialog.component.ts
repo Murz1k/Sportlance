@@ -25,19 +25,27 @@ export class EditPasswordDialogComponent implements OnInit {
     });
   }
 
-  public async submitAsync(result): Promise<void> {
+  public submit(result): void {
     if (result) {
-      await this.changePasswordAsync();
-      this.dialogRef.close(true);
+      this.changePassword();
+      return;
     }
-    this.dialogRef.close(null);
+    this.dialogRef.close(false);
   }
 
-  private async changePasswordAsync() {
+  private changePassword() {
     if (this.form.value.newPassword === this.form.value.confirmPassword
       && this.form.controls['newPassword'].valid
       && this.form.value.newPassword !== this.form.value.oldPassword) {
-      await this.authApiClient.updatePasswordAsync(this.form.value.oldPassword, this.form.value.controls['newPassword'].value, this.form.value.confirmPassword);
+      this.authApiClient.updatePassword(
+        this.form.value.oldPassword,
+        this.form.value.newPassword,
+        this.form.value.confirmPassword
+      ).subscribe((response) => {
+        if (!response.error) {
+          this.dialogRef.close(true);
+        }
+      });
     }
   }
 }

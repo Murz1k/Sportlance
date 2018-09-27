@@ -3,7 +3,7 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import {Paths} from '../core/paths';
 import {AuthApiClient} from '../services/auth/auth-api-client';
 import {ConfirmRegistrationRequest} from '../services/auth/requests/confirm-registration-request';
-import {AccountService} from '../services/account-service';
+import {UserService} from '../services/user.service/user.service';
 
 @Component({
   selector: 'app-confirm-register',
@@ -14,7 +14,7 @@ export class ConfirmRegisterComponent {
 
   constructor(private authClient: AuthApiClient,
               private activatedRoute: ActivatedRoute,
-              private accountService: AccountService,
+              private userService: UserService,
               private router: Router) {
 
     this.activatedRoute.params.subscribe(async (params: Params) => {
@@ -23,7 +23,7 @@ export class ConfirmRegisterComponent {
         token: params['token'],
         userId: params['id']
       });
-      this.accountService.login(response);
+      this.userService.saveToken(response.token);
       this.router.navigate([Paths.Root]);
     });
   }

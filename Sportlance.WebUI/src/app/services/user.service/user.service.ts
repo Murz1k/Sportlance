@@ -32,9 +32,6 @@ export class UserService {
   }
 
   public saveToken(token: string) {
-    //if (this.isCurrentUserEquals(token)) {
-    //  return;
-    //}
     localStorage.setItem(this.accessTokenKey, token);
     this.userInfoChanged.emit(this.decodeToken(token));
   }
@@ -43,28 +40,9 @@ export class UserService {
     return localStorage.getItem(this.accessTokenKey);
   }
 
-  public saveCurrentUser(user: User) {
-    if (this.isCurrentUserEquals(user)) {
-      return;
-    }
-    localStorage.setItem(this.accessTokenKey, JSON.stringify(user));
-    this.userInfoChanged.emit(user);
-  }
-
   public deleteCurrentUser() {
     localStorage.removeItem(this.accessTokenKey);
     this.userInfoChanged.emit(null);
-  }
-
-  private isCurrentUserEquals(user: User): boolean {
-    const currentUser = this.getCurrent();
-    if (currentUser != null && user.firstName === currentUser.firstName
-      && user.secondName === currentUser.secondName
-      && user.roles.length === currentUser.roles.length
-      && user.roles.every((v, i) => v === currentUser.roles[i])) {
-      return true;
-    }
-    return false;
   }
 
   private urlBase64Decode(str: string) {

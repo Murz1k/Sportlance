@@ -21,16 +21,6 @@ export class AccountService {
     return this.userService.getToken() != null;
   }
 
-  public login(userInfo: LoginResponse) {
-    this.userService.saveCurrentUser(<User>{
-      isConfirmed: userInfo.isConfirmed,
-      email: userInfo.email,
-      firstName: userInfo.firstName,
-      secondName: userInfo.secondName,
-      roles: userInfo.roles
-    });
-  }
-
   public logout() {
     this.userService.deleteCurrentUser();
   }
