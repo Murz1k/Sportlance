@@ -35,8 +35,6 @@ namespace Sportlance.WebAPI.Controllers
         [Route("{teamId}")]
         public async Task<IActionResult> GetById(long teamId)
         {
-            try
-            {
                 var profile = await _service.GetById(teamId);
                 if (profile == null)
                 {
@@ -44,11 +42,6 @@ namespace Sportlance.WebAPI.Controllers
                 }
 
                 return Ok(profile);
-            }
-            catch (AppErrorException error)
-            {
-                return Ok(new ErrorResponse(error));
-            }
         }
 
         [HttpPost]

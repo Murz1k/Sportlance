@@ -55,29 +55,30 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.isDisabled = true;
-    try {
-      const form = this.loginForm.value;
-      this.authClient.login(<LoginRequest>{
-        email: form.email,
-        password: form.password,
-        rememberMe: form.rememberMe
-      }).subscribe((response) => {
-        this.userService.saveToken(response.token);
-        this.isDisabled = false;
-        return this.router.navigate([Paths.Root]);
-      });
-    } catch (e) {
-      switch (e.error.errorCode) {
-        case ErrorCode.IncorrectPassword:
-          this.showPasswordError = true;
-          this.isDisabled = false;
-          break;
-        case ErrorCode.IncorrectValidation:
-          this.showPasswordError = true;
-          this.isDisabled = false;
-          break;
+
+    const form = this.loginForm.value;
+    this.authClient.login(<LoginRequest>{
+      email: form.email,
+      password: form.password,
+      rememberMe: form.rememberMe
+    }).subscribe((response) => {
+      if (response.error) {
+        switch (response.error.code) {
+          case ErrorCode.IncorrectPassword:
+            this.showPasswordError = true;
+            this.isDisabled = false;
+            break;
+          case ErrorCode.IncorrectValidation:
+            this.showPasswordError = true;
+            this.isDisabled = false;
+            break;
+        }
+        return;
       }
-    }
+      this.userService.saveToken(response.token);
+      this.isDisabled = false;
+      return this.router.navigate([Paths.Root]);
+    });
   }
 
   hideLoginError(): void {

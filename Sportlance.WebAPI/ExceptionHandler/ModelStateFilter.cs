@@ -19,7 +19,7 @@ namespace Sportlance.WebAPI.ExceptionHandler
                     key => key,
                     key => context.ModelState[key].Errors.Select(x => x.ErrorMessage).ToList());
 
-            throw new AppErrorException(new AppError(ErrorCode.IncorrectValidation, fieldErrors));
+            throw new AppErrorException(new AppError(ErrorCode.IncorrectValidation));
         }
     }
 }

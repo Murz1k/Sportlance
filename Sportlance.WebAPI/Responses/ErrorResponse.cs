@@ -1,20 +1,14 @@
-﻿using System.Collections.Generic;
-using Sportlance.WebAPI.Exceptions;
+﻿using Sportlance.WebAPI.Errors;
 
 namespace Sportlance.WebAPI.Responses
 {
     public class ErrorResponse
     {
-        public ErrorResponse(AppErrorException error)
+        public ErrorResponse(AppError error)
         {
-            ErrorCode = error.Error.ErrorCode;
-            ErrorMsg = error.Error.ErrorMsg;
+            Error = error;
         }
-        
-        public string ErrorCode { get; }
 
-        public Dictionary<string, List<string>> Fields { get; }
-
-        public string ErrorMsg { get; }
+        public AppError Error { get; }
     }
 }

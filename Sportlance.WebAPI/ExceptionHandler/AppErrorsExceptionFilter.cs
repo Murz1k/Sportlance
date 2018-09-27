@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
+using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.ExceptionHandler
 {
@@ -11,13 +12,13 @@ namespace Sportlance.WebAPI.ExceptionHandler
         public override void OnException(ExceptionContext context)
         {
             if (context.Exception is AppErrorException appErrorsException)
-                context.Result = new ObjectResult(appErrorsException.Error)
+                context.Result = new ObjectResult(new ErrorResponse(appErrorsException.Error) )
                 {
-                    StatusCode = (int) HttpStatusCode.BadRequest
+                    StatusCode = (int) HttpStatusCode.OK
                 };
             else
                 context.Result =
-                    new ObjectResult(new AppError(ErrorCode.ServerError, message: context.Exception.ToString()))
+                    new ObjectResult(new ErrorResponse(new AppError(ErrorCode.ServerError, context.Exception.ToString())))
                     {
                         StatusCode = (int) HttpStatusCode.InternalServerError
                     };

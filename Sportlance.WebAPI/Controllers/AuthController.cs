@@ -67,12 +67,7 @@ namespace Sportlance.WebAPI.Controllers
 
             return new LoginResponse
             {
-                FirstName = user.FirstName,
-                SecondName = user.LastName,
-                Token = _authService.GenerateAccessToken(user),
-                Email = user.Email,
-                IsConfirmed = user.IsEmailConfirm,
-                Roles = user.UserRoles.Select(i => i.Role).Select(i => i.Name)
+                Token = _authService.GenerateAccessToken(user)
             };
         }
 
@@ -85,14 +80,9 @@ namespace Sportlance.WebAPI.Controllers
 
             return new LoginResponse
             {
-                FirstName = user.FirstName,
-                SecondName = user.LastName,
                 Token = user.IsEmailConfirm
                     ? _authService.GenerateAccessToken(user, request.RememberMe)
-                    : _mailTokenService.EncryptToken(user.Email),
-                Email = user.Email,
-                IsConfirmed = user.IsEmailConfirm,
-                Roles = user.UserRoles.Select(i => i.Role).Select(i => i.Name)
+                    : _mailTokenService.EncryptToken(user.Email)
             };
         }
 
@@ -134,12 +124,7 @@ namespace Sportlance.WebAPI.Controllers
 
             return new LoginResponse
             {
-                FirstName = user.FirstName,
-                SecondName = user.LastName,
-                Token = _authService.GenerateAccessToken(user),
-                Email = user.Email,
-                IsConfirmed = user.IsEmailConfirm,
-                Roles = user.UserRoles.Select(i => i.Role).Select(i => i.Name)
+                Token = _authService.GenerateAccessToken(user)
             };
         }
 

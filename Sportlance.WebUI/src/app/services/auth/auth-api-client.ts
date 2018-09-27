@@ -7,31 +7,29 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {CheckUserResponse} from './responses/check-user-response';
 import {ResendEmailRequest} from './requests/resend-email-request';
-import {BaseService} from '../common/base-service';
 import {UpdatePasswordRequest} from './requests/update-password-request';
 import {UpdateAccountRequest} from './requests/update-account-request';
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 @Injectable()
-export class AuthApiClient extends BaseService {
+export class AuthApiClient {
   constructor(private http: HttpClient) {
-    super();
   }
 
   public login(request: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.baseApiUrl + '/auth', request);
+    return this.http.post<LoginResponse>('/auth', request);
   }
 
   public async registerAsync(request: RegistrationRequest): Promise<void> {
-    await this.http.post(this.baseApiUrl + '/auth/register', request).toPromise();
+    await this.http.post('/auth/register', request).toPromise();
   }
 
   public async reSendEmailAsync(token: string): Promise<void> {
-    await this.http.post(this.baseApiUrl + '/auth/re-send', <ResendEmailRequest> {token: token}).toPromise();
+    await this.http.post('/auth/re-send', <ResendEmailRequest> {token: token}).toPromise();
   }
 
   public async updatePasswordAsync(oldPassword: string, password: string, confirmPassword: string): Promise<void> {
-    await this.http.put(this.baseApiUrl + '/auth/password', <UpdatePasswordRequest> {
+    await this.http.put('/auth/password', <UpdatePasswordRequest> {
       oldPassword: oldPassword,
       password: password,
       confirmPassword: confirmPassword
@@ -39,7 +37,7 @@ export class AuthApiClient extends BaseService {
   }
 
   public async updateAccountAsync(firstName: string, secondName: string, email: string): Promise<LoginResponse> {
-    return this.http.put<LoginResponse>(this.baseApiUrl + '/auth', <UpdateAccountRequest> {
+    return this.http.put<LoginResponse>('/auth', <UpdateAccountRequest> {
       firstName: firstName,
       secondName: secondName,
       email: email
@@ -47,10 +45,10 @@ export class AuthApiClient extends BaseService {
   }
 
   public async confirmEmailAsync(request: ConfirmRegistrationRequest): Promise<LoginResponse> {
-    return this.http.put<LoginResponse>(this.baseApiUrl + '/auth/confirm', request).toPromise();
+    return this.http.put<LoginResponse>('/auth/confirm', request).toPromise();
   }
 
   public async checkUserAsync(email: string): Promise<CheckUserResponse> {
-    return this.http.post<CheckUserResponse>(this.baseApiUrl + '/auth/check', <CheckUserRequest> {email: email}).toPromise();
+    return this.http.post<CheckUserResponse>('/auth/check', <CheckUserRequest> {email: email}).toPromise();
   }
 }

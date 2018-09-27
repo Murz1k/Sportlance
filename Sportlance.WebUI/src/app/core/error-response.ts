@@ -1,6 +1,5 @@
-import {ErrorCode} from './error-code';
+import {AppError} from './app-error';
 
 export interface ErrorResponse {
-  errorCode: ErrorCode;
-  errorMsg: string;
+  error: AppError;
 }

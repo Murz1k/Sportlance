@@ -28,7 +28,7 @@ namespace Sportlance.WebAPI.Authentication
                     $"https://www.google.com/recaptcha/api/siteverify?secret={_secretKey}&response={token}");
 
             if (!googleReply.IsSuccessStatusCode)
-                throw new AppErrorException(new AppError(ErrorCode.ServerError, null, Txt.NoResponseFromGoogleApi));
+                throw new AppErrorException(new AppError(ErrorCode.ServerError, Txt.NoResponseFromGoogleApi));
             var replyAsString = await googleReply.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<RecaptchaResponse>(replyAsString).Success;

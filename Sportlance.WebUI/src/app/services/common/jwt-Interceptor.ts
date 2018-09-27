@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {HeadersConstants} from '../../core/constants';
 import {isNullOrUndefined} from 'util';
 import {UserService} from '../user.service/user.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -12,15 +13,20 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    let request;
+    const url = environment.baseUrl;
+    //req = req.clone({url: `/api${req.url}`});
+    req = req.clone({url: `${url}${req.url}`});
+    
     const token = this.userService.getToken();
     if (isNullOrUndefined(token)) {
-      return next.handle(req);
+      request = req;
+    } else {
+      const headers = req.headers
+        .append(HeadersConstants.Authorization, 'Bearer ' + token);
+      request = req.clone({headers: headers});
     }
 
-    const headers = req.headers
-      .append(HeadersConstants.Authorization, 'Bearer ' + token);
-    const request = req.clone({headers: headers});
     return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         const newJwt = event.headers.get(HeadersConstants.XNewAuthToken);

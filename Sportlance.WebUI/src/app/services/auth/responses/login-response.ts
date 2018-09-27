@@ -1,4 +1,6 @@
-export interface LoginResponse {
+import {ErrorResponse} from '../../../core/error-response';
+
+export interface LoginResponse extends ErrorResponse {
   firstName: string;
 
   secondName: string;

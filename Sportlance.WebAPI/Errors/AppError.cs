@@ -1,23 +1,17 @@
-﻿using System.Collections.Generic;
-
-namespace Sportlance.WebAPI.Errors
+﻿namespace Sportlance.WebAPI.Errors
 {
     public class AppError
     {
         public AppError(
             ErrorCode errorCode,
-            Dictionary<string, List<string>> fields = null,
             string message = null)
         {
-            ErrorCode = errorCode.ToString();
-            Fields = fields ?? new Dictionary<string, List<string>>();
-            ErrorMsg = message;
+            Code = errorCode.ToString();
+            Message = message;
         }
 
-        public string ErrorCode { get; }
+        public string Code { get; }
 
-        public Dictionary<string, List<string>> Fields { get; }
-
-        public string ErrorMsg { get; }
+        public string Message { get; }
     }
 }

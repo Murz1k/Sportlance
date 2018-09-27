@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {TrainerInfoResponse} from './responses/trainer-info-response';
-import {BaseService} from '../common/base-service';
 import {TrainerProfileResponse} from './responses/trainer-profile-response';
 import {CollectionResponse} from '../common/collection-response';
 import {GetTrainersQuery} from './get-trainers-query';
@@ -10,9 +9,8 @@ import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from './responses/training-response';
 
 @Injectable()
-export class TrainersService extends BaseService {
+export class TrainersService {
   constructor(private http: HttpClient) {
-    super();
   }
 
   get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerInfoResponse>> {
@@ -30,43 +28,43 @@ export class TrainersService extends BaseService {
       .append('teamId', checkParam(query.teamId))
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
-    return this.http.get<CollectionResponse<TrainerInfoResponse>>(`${this.baseApiUrl}/trainers`, {params: parameters});
+    return this.http.get<CollectionResponse<TrainerInfoResponse>>(`/trainers`, {params: parameters});
   }
 
   canInviteTrainer(trainerId: number): Observable<boolean> {
-    return this.http.get<boolean>(`${this.baseApiUrl}/trainers/${trainerId}/canInvite`);
+    return this.http.get<boolean>(`/trainers/${trainerId}/canInvite`);
   }
 
   getById(trainerId: number): Observable<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/${trainerId}`);
+    return this.http.get<TrainerProfileResponse>(`/trainers/${trainerId}`);
   }
 
   getSelfAsync(): Promise<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`${this.baseApiUrl}/trainers/self`).toPromise();
+    return this.http.get<TrainerProfileResponse>(`/trainers/self`).toPromise();
   }
 
   async uploadPhotoAsync(photo: Blob): Promise<void> {
     const data = new FormData();
     data.append('photo', photo);
-    await this.http.put(`${this.baseApiUrl}/trainers/photo`, data).toPromise();
+    await this.http.put(`/trainers/photo`, data).toPromise();
   }
 
   async uploadBackgorundImageAsync(photo: Blob): Promise<void> {
     const data = new FormData();
     data.append('photo', photo);
-    await this.http.put(`${this.baseApiUrl}/trainers/background`, data).toPromise();
+    await this.http.put(`/trainers/background`, data).toPromise();
   }
 
   setAvailabilityAsync(isAvailable: boolean) {
-    return this.http.post(`${this.baseApiUrl}/trainers/availability`, {isAvailable: isAvailable}).toPromise();
+    return this.http.post(`/trainers/availability`, {isAvailable: isAvailable}).toPromise();
   }
 
   updateAboutAsync(about: string) {
-    return this.http.put(`${this.baseApiUrl}/trainers/about`, {about: about}).toPromise();
+    return this.http.put(`/trainers/about`, {about: about}).toPromise();
   }
 
   updatePaidAsync(price: number) {
-    return this.http.put(`${this.baseApiUrl}/trainers/price`, {price: price}).toPromise();
+    return this.http.put(`/trainers/price`, {price: price}).toPromise();
   }
 
   getTrainings(trainerId: number, startDate: string, endDate: string): Observable<CollectionResponse<TrainingResponse>> {
@@ -74,11 +72,11 @@ export class TrainersService extends BaseService {
     const parameters = new HttpParams()
       .append('startDate', checkParam(startDate))
       .append('endDate', checkParam(endDate));
-    return this.http.get<CollectionResponse<TrainingResponse>>(`${this.baseApiUrl}/trainers/${trainerId}/trainings`, {params: parameters});
+    return this.http.get<CollectionResponse<TrainingResponse>>(`/trainers/${trainerId}/trainings`, {params: parameters});
   }
 
   addTraining(trainerId: number, startDate: string, sportId: number): Observable<Object> {
-    return this.http.post(`${this.baseApiUrl}/trainers/${trainerId}/trainings`, {
+    return this.http.post(`/trainers/${trainerId}/trainings`, {
       startDate: startDate,
       sportId: sportId
     });
