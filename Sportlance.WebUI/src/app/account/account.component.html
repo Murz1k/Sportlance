@@ -9,11 +9,18 @@
         Изменить
       </button>
     </div>
+    <div *ngIf="!isTrainer" class="background">
+      <div class="background-placeholder">
+      </div>
+    </div>
     <div class="air-card">
-      <section *ngIf="isTrainer">
-        <article class="row">
-          <div class="photo-input">
-            <img src="{{trainer.photoUrl}}">
+      <section>
+        <article class="row" style="position: relative">
+          <div class="empty-avatar-lg" *ngIf="!account.photoUrl">
+            <i class="material-icons">account_circle</i>
+          </div>
+          <div *ngIf="account.photoUrl" class="photo-input">
+            <img src="{{account.photoUrl}}">
             <button (click)="changePhoto()">
               <i class="material-icons" style="display: inherit; font-size: 36px;">wallpaper</i>
               Изменить
@@ -21,42 +28,48 @@
           </div>
           <div style="margin-left: 174px;">
             <h4 class="name">
-              {{trainer.firstName}} {{trainer.secondName}}
+              {{account.firstName}} {{account.secondName}}
             </h4>
-            <h4 class="title">{{trainer.title}}</h4>
-            <div class="info-list">
-              <div class="info-list-item" (click)="changePaid()">
-                <h3>{{trainer.price}}₽</h3>
-                <div class="text-muted">Часовая ставка</div>
+            <ng-container *ngIf="isTrainer">
+              <h4 class="title">{{trainer.title}}</h4>
+              <div class="info-list">
+                <div class="info-list-item" (click)="changePaid()">
+                  <h3>{{trainer.price}}₽</h3>
+                  <div class="text-muted">Часовая ставка</div>
+                </div>
+                <div class="info-list-item">
+                  <h3>{{trainer.trainingsCount}}</h3>
+                  <div class="text-muted">Проведено тренировок</div>
+                </div>
               </div>
-              <div class="info-list-item">
-                <h3>{{trainer.trainingsCount}}</h3>
-                <div class="text-muted">Проведено тренировок</div>
-              </div>
+            </ng-container>
+          </div>
+          <ng-container *ngIf="isTrainer">
+            <div *ngIf="trainer.country && trainer.city" style="margin-left: auto;">
+              <i class="material-icons position-icon text-muted">place</i>
+              <strong>{{trainer.country}}, {{trainer.city}} </strong>
             </div>
-          </div>
-          <div *ngIf="trainer.country && trainer.city" style="margin-left: auto;">
-            <i class="material-icons position-icon text-muted">place</i>
-            <strong>{{trainer.country}}, {{trainer.city}} </strong>
-          </div>
+          </ng-container>
         </article>
       </section>
-      <section class="pull-left" *ngIf="isTrainer && !trainer.about" style="position: relative;">
-        <h3 style="margin-bottom:30px;"> О себе </h3>
-        Расскажите о себе.
-        <button (click)="changeAbout()" class="btn btn-default btn-rnd"
-                style="position: absolute;     right: 30px;    top: 20px;">
-          <i class="material-icons" style="font-size: 20px;">create</i>
-        </button>
-      </section>
-      <section *ngIf="isTrainer && trainer.about" class="pull-left" style="position: relative;">
-        <h3 style="margin-bottom:30px;"> О себе </h3>
-        {{trainer.about}}
-        <button (click)="changeAbout()" class="btn btn-default btn-rnd"
-                style="position: absolute;     right: 30px;    top: 20px;">
-          <i class="material-icons" style="font-size: 20px;">create</i>
-        </button>
-      </section>
+      <ng-container *ngIf="isTrainer">
+        <section class="pull-left" *ngIf="!trainer.about" style="position: relative;">
+          <h3 style="margin-bottom:30px;"> О себе </h3>
+          Расскажите о себе.
+          <button (click)="changeAbout()" class="btn btn-default btn-rnd"
+                  style="position: absolute;     right: 30px;    top: 20px;">
+            <i class="material-icons" style="font-size: 20px;">create</i>
+          </button>
+        </section>
+        <section *ngIf="trainer.about" class="pull-left" style="position: relative;">
+          <h3 style="margin-bottom:30px;"> О себе </h3>
+          {{trainer.about}}
+          <button (click)="changeAbout()" class="btn btn-default btn-rnd"
+                  style="position: absolute;     right: 30px;    top: 20px;">
+            <i class="material-icons" style="font-size: 20px;">create</i>
+          </button>
+        </section>
+      </ng-container>
     </div>
     <div *ngIf="isTrainer" class="air-card">
       <div class="air-card-header">
