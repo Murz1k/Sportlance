@@ -3,9 +3,12 @@
     <div class="user-name">
       {{currentUser.firstName}}
     </div>
-    <img
-      [src]="currentUser.photoUrl"
-      style="border-radius: 50%; -o-object-fit: cover; object-fit: cover; width: 33px; height: 33px; margin-top: 7px; margin-bottom: 7px;">
+    <div class="user-avatar">
+      <img *ngIf="currentUser.photoUrl"
+           [src]="currentUser.photoUrl"
+           style="border-radius: 50%; -o-object-fit: cover; object-fit: cover; width: 33px; height: 33px; margin-top: 7px; margin-bottom: 7px;">
+      <i *ngIf="!currentUser.photoUrl" class="material-icons">account_circle</i>
+    </div>
   </div>
   <ul class="menu-container" *ngIf="isOpen">
     <li class="menu-list-group">

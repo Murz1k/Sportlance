@@ -32,6 +32,27 @@
   }
 }
 
+.user-avatar {
+  vertical-align: middle;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 12px;
+  color: #666 !important;
+  align-items: center;
+  font-weight: bold;
+  height: 46px !important;
+  display: inline-flex;
+  i {
+    font-size: 36px;
+    border-radius: 50%;
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+    user-select: none;
+    outline: none;
+    background-color: white !important;
+    color: #6c757c;
+  }
+}
+
 .profile-container:hover {
   cursor: pointer;
   .user-name {
