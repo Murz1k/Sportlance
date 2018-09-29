@@ -1,5 +1,7 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {User} from './user';
+import {Router} from '@angular/router';
+import {Paths} from '../../core/paths';
 
 @Injectable()
 export class UserService {
@@ -8,7 +10,7 @@ export class UserService {
 
   readonly accessTokenKey = 'access-token';
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   public getCurrent(): User {
@@ -43,6 +45,7 @@ export class UserService {
   public deleteCurrentUser() {
     localStorage.removeItem(this.accessTokenKey);
     this.userInfoChanged.emit(null);
+    this.router.navigate([Paths.Login]);
   }
 
   private urlBase64Decode(str: string) {

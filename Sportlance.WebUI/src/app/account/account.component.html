@@ -4,7 +4,7 @@
       <img *ngIf="trainer.backgroundUrl" src="{{trainer.backgroundUrl}}">
       <div class="background-placeholder" *ngIf="!trainer.backgroundUrl">
       </div>
-      <button (click)="changeBackgroundAsync()">
+      <button (click)="changeBackground()">
         <i class="material-icons" style="display: inherit; font-size: 36px;">wallpaper</i>
         Изменить
       </button>
@@ -14,7 +14,7 @@
         <article class="row">
           <div class="photo-input">
             <img src="{{trainer.photoUrl}}">
-            <button (click)="changePhotoAsync()">
+            <button (click)="changePhoto()">
               <i class="material-icons" style="display: inherit; font-size: 36px;">wallpaper</i>
               Изменить
             </button>
@@ -25,7 +25,7 @@
             </h4>
             <h4 class="title">{{trainer.title}}</h4>
             <div class="info-list">
-              <div class="info-list-item" (click)="changePaidAsync()">
+              <div class="info-list-item" (click)="changePaid()">
                 <h3>{{trainer.price}}₽</h3>
                 <div class="text-muted">Часовая ставка</div>
               </div>
@@ -44,7 +44,7 @@
       <section class="pull-left" *ngIf="isTrainer && !trainer.about" style="position: relative;">
         <h3 style="margin-bottom:30px;"> О себе </h3>
         Расскажите о себе.
-        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+        <button (click)="changeAbout()" class="btn btn-default btn-rnd"
                 style="position: absolute;     right: 30px;    top: 20px;">
           <i class="material-icons" style="font-size: 20px;">create</i>
         </button>
@@ -52,7 +52,7 @@
       <section *ngIf="isTrainer && trainer.about" class="pull-left" style="position: relative;">
         <h3 style="margin-bottom:30px;"> О себе </h3>
         {{trainer.about}}
-        <button (click)="changeAboutAsync()" class="btn btn-default btn-rnd"
+        <button (click)="changeAbout()" class="btn btn-default btn-rnd"
                 style="position: absolute;     right: 30px;    top: 20px;">
           <i class="material-icons" style="font-size: 20px;">create</i>
         </button>
@@ -81,7 +81,7 @@
       </div>
       <section class="pull-left">
         <ul class="feedbacks">
-          <li *ngFor="let review of feedbacks">
+          <li *ngFor="let review of (feedbacks| async)">
             <div class="row" style="padding-bottom: 1em;">
               <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
                 {{scoreStar.isFull ? 'star' : ''}}
@@ -113,7 +113,7 @@
       <h4>Доступность</h4>
       <div [ngSwitch]="trainer.status">
         <mat-checkbox class="form-control no-border"
-                      (change)="changeStatusAsync($event)"
+                      (change)="changeStatus($event)"
                       [ngModel]="trainer.status === TrainerStatus.Available">
           <span *ngSwitchCase="TrainerStatus.Available">Доступен</span>
           <span *ngSwitchCase="TrainerStatus.NotAvailable">Недоступен</span>

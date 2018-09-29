@@ -20,8 +20,8 @@ export class AuthApiClient {
     return this.http.post<LoginResponse>('/auth', request);
   }
 
-  public async registerAsync(request: RegistrationRequest): Promise<void> {
-    await this.http.post('/auth/register', request).toPromise();
+  public register(request: RegistrationRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('/auth/register', request);
   }
 
   public async reSendEmailAsync(token: string): Promise<void> {
@@ -44,11 +44,11 @@ export class AuthApiClient {
     }).toPromise();
   }
 
-  public async confirmEmailAsync(request: ConfirmRegistrationRequest): Promise<LoginResponse> {
-    return this.http.put<LoginResponse>('/auth/confirm', request).toPromise();
+  public confirmEmail(request: ConfirmRegistrationRequest): Observable<LoginResponse> {
+    return this.http.put<LoginResponse>('/auth/confirm', request);
   }
 
-  public async checkUserAsync(email: string): Promise<CheckUserResponse> {
-    return this.http.post<CheckUserResponse>('/auth/check', <CheckUserRequest> {email: email}).toPromise();
+  public checkUser(email: string): Observable<CheckUserResponse> {
+    return this.http.post<CheckUserResponse>('/auth/check', <CheckUserRequest> {email: email});
   }
 }

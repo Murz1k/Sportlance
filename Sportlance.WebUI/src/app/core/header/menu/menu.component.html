@@ -9,10 +9,10 @@
   </div>
   <ul class="menu-container" *ngIf="isOpen">
     <li class="menu-list-group">
-      <a class="menu-list-item" [routerLink]="Paths.Account">Профиль</a>
+      <a class="menu-list-item" [routerLink]="['/', Paths.Account]">Профиль</a>
     </li>
     <li class="menu-list-group">
-      <a class="menu-list-item" [routerLink]="Paths.Settings">Настройки</a>
+      <a class="menu-list-item" [routerLink]="['/', Paths.Settings]">Настройки</a>
       <button (click)="logout()" class="btn-link menu-list-item" style="font-weight: bold;">
         Выйти
       </button>
@@ -20,6 +20,6 @@
   </ul>
 </div>
 <div *ngIf="!isAuthorized;" style="display: flex;">
-  <a class="btn-btn-link" [routerLink]="Paths.Login">Войти</a>
-  <a class="btn-btn-link" [routerLink]="Paths.SignUp">Регистрация</a>
+  <a class="btn-btn-link" [routerLink]="['/', Paths.Login]">Войти</a>
+  <a class="btn-btn-link" [routerLink]="['/', Paths.SignUp]">Регистрация</a>
 </div>

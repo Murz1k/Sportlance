@@ -6,6 +6,7 @@ import {HeadersConstants} from '../../core/constants';
 import {isNullOrUndefined} from 'util';
 import {UserService} from '../user.service/user.service';
 import {environment} from '../../../environments/environment';
+import {ErrorCode} from '../../core/error-code';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -17,7 +18,7 @@ export class JwtInterceptor implements HttpInterceptor {
     const url = environment.baseUrl;
     //req = req.clone({url: `/api${req.url}`});
     req = req.clone({url: `${url}${req.url}`});
-    
+
     const token = this.userService.getToken();
     if (isNullOrUndefined(token)) {
       request = req;
@@ -29,6 +30,10 @@ export class JwtInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
+        if (event.body && event.body.error && event.body.error.code === ErrorCode.AuthenticationError) {
+          this.userService.deleteCurrentUser();
+          return;
+        }
         const newJwt = event.headers.get(HeadersConstants.XNewAuthToken);
         if (!isNullOrUndefined(newJwt)) {
           this.userService.saveToken(newJwt);

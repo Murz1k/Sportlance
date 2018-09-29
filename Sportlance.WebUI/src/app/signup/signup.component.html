@@ -1,107 +1,105 @@
 <header [isEmpty]="true"></header>
 <div class="content page">
-  <form [formGroup]="submitForm" (ngSubmit)="signupAsync()">
-    <div *ngIf="!isEmailExist; else emailNotExist" class="air-card">
+  <form [formGroup]="submitForm" (ngSubmit)="signUp()">
+    <div class="air-card">
       <div class="text-center" style="padding-top: 24px; padding-bottom: 24px; width: 260px; margin: auto;">
-        <div class="title">
-          Регистрация
-        </div>
-        <div class="form-group" style="margin-bottom: 24px; position: relative;">
-          <input type="text" formControlName="firstName" id="FirstName" name="FirstName"
-                 class="form-input form-control" placeholder="Имя" required>
-          <i class="material-icons input-icon">person</i>
-          <span *ngIf="submitForm.controls.firstName.invalid
+      <ng-container *ngIf="!isEmailExist; else emailNotExist">
+          <div class="title">
+            Регистрация
+          </div>
+          <div class="form-group" style="margin-bottom: 24px; position: relative;">
+            <input type="text" formControlName="firstName" id="FirstName" name="FirstName"
+                   class="form-input form-control" placeholder="Имя" required>
+            <i class="material-icons input-icon">person</i>
+            <span *ngIf="submitForm.controls.firstName.invalid
                       && (submitForm.controls.firstName.dirty || submitForm.controls.firstName.touched)"
-                class="form-message form-error">
+                  class="form-message form-error">
                           FirstName is required
                       </span>
-        </div>
-        <div class="form-group" style="margin-bottom: 24px; position: relative;">
-          <input type="text" formControlName="lastName" id="LastName" name="LastName" placeholder="Фамилия"
-                 class="form-input form-control">
-          <i class="material-icons input-icon">person</i>
-          <span *ngIf="submitForm.controls.lastName.invalid
+          </div>
+          <div class="form-group" style="margin-bottom: 24px; position: relative;">
+            <input type="text" formControlName="lastName" id="LastName" name="LastName" placeholder="Фамилия"
+                   class="form-input form-control">
+            <i class="material-icons input-icon">person</i>
+            <span *ngIf="submitForm.controls.lastName.invalid
                       && (submitForm.controls.lastName.dirty || submitForm.controls.lastName.touched)"
-                class="form-message form-error">
+                  class="form-message form-error">
                           LastName is required
                       </span>
-        </div>
-        <div class="form-group" style="margin-bottom: 24px; position: relative;">
-          <input type="email" formControlName="email" class="form-input form-control" placeholder="Email">
-          <i class="material-icons input-icon">email</i>
-          <span *ngIf="submitForm.controls.email.invalid
+          </div>
+          <div class="form-group" style="margin-bottom: 24px; position: relative;">
+            <input type="email" formControlName="email" class="form-input form-control" placeholder="Email">
+            <i class="material-icons input-icon">email</i>
+            <span *ngIf="submitForm.controls.email.invalid
                       && (submitForm.controls.email.dirty || submitForm.controls.email.touched)"
-                class="form-message form-error">
+                  class="form-message form-error">
                           Email is required
                       </span>
-          <label *ngIf="emailAlreadyExist" class="form-message form-error">
-            Эта почта уже исползуется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
-          </label>
-        </div>
-        <div class="text-center">
-          <button type="button" class="btn btn-primary" style="width: 260px; margin: auto;"
-                  (click)="checkUserEmailAsync()">
-            <i class="glyphicon glyphicon-md air-icon-loading"></i>
-            Продолжить
-          </button>
-        </div>
+            <label *ngIf="emailAlreadyExist" class="form-message form-error">
+              Эта почта уже исползуется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
+            </label>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" style="width: 260px; margin: auto;"
+                    (click)="checkUserEmailAsync()">
+              <i class="glyphicon glyphicon-md air-icon-loading"></i>
+              Продолжить
+            </button>
+          </div>
+      </ng-container>
       </div>
     </div>
     <ng-template #emailNotExist>
-      <div class="air-card">
-        <div class="text-center" style="padding-top: 24px; padding-bottom: 24px; width: 260px; margin: auto;">
-          <div class="title">
-            Регистрация
-            <div style="font-size: 12px;">{{submitForm.value.email}}</div>
-          </div>
-          <div class="form-group">
-            <input type="password" formControlName="password" class="form-control form-input"
-                   placeholder="Введите пароль">
-            <i class="material-icons input-icon">lock</i>
-          </div>
-          <div class="form-group">
-            <div class="checkbox m-xs-bottom">
-              <label>
-                <input type="checkbox" name="promotionalEmailOptIn">
-                <span class="checkbox-replacement-helper">
+      <div class="title">
+        Регистрация
+        <div style="font-size: 12px;">{{submitForm.value.email}}</div>
+      </div>
+      <div class="form-group">
+        <input type="password" formControlName="password" class="form-control form-input"
+               placeholder="Введите пароль">
+        <i class="material-icons input-icon">lock</i>
+      </div>
+      <div class="form-group">
+        <div class="checkbox m-xs-bottom">
+          <label>
+            <input type="checkbox" name="promotionalEmailOptIn">
+            <span class="checkbox-replacement-helper">
                             <span aria-hidden="true" class="glyphicon air-icon-check"></span>
                           </span>
-                <small>
-                  Yes! Send me genuinely useful emails every now and then to help me get the most out of
-                  Upwork.
-                </small>
-              </label>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="checkbox m-xs-bottom">
-              <label>
-                <input type="checkbox" class="">
-                <span class="checkbox-replacement-helper">
+            <small>
+              Yes! Send me genuinely useful emails every now and then to help me get the most out of
+              Upwork.
+            </small>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="checkbox m-xs-bottom">
+          <label>
+            <input type="checkbox" class="">
+            <span class="checkbox-replacement-helper">
                               <span aria-hidden="true" class="glyphicon air-icon-check"></span>
                             </span>
-                <small>
-                  Yes, I understand and agree to the
-                  <a href="https://www.upwork.com/info/terms/" target="_blank">Upwork Terms of Service</a>,
-                  including the
-                  <a href="https://www.upwork.com/info/terms/" target="_blank">User Agreement</a> and
-                  <a href="https://www.upwork.com/info/terms/privacy/" target="_blank">Privacy Policy</a>.
-                </small>
-              </label>
-            </div>
-            <span class="o-signup-form-errors text-left">
+            <small>
+              Yes, I understand and agree to the
+              <a href="https://www.upwork.com/info/terms/" target="_blank">Upwork Terms of Service</a>,
+              including the
+              <a href="https://www.upwork.com/info/terms/" target="_blank">User Agreement</a> and
+              <a href="https://www.upwork.com/info/terms/privacy/" target="_blank">Privacy Policy</a>.
+            </small>
+          </label>
+        </div>
+        <span class="o-signup-form-errors text-left">
                           <label class="form-message form-error">
                             Please accept the Upwork Terms of Service before continuing
                           </label>
                       </span>
-          </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-md btn-primary o-signup-submit">
-              <i class="glyphicon air-icon-loading" aria-hidden="true"></i>
-              <span class="">Next</span>
-            </button>
-          </div>
-        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-md btn-primary o-signup-submit">
+          <i class="glyphicon air-icon-loading" aria-hidden="true"></i>
+          <span class="">Next</span>
+        </button>
       </div>
     </ng-template>
   </form>

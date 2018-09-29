@@ -5,8 +5,9 @@ import {TeamProfileComponent} from './team-profile/team-profile.component';
 import {RedirectTeamProfileResolver} from './team-profile/redirect-team-profile.resolver';
 
 const routes: Routes = [
-  {path: '', component: TeamsComponent},
-  {path: ':id', component: TeamProfileComponent, resolve: {profile: RedirectTeamProfileResolver}}
+  {path: '', pathMatch: 'full', component: TeamsComponent},
+  {path: ':id', pathMatch: 'full', component: TeamProfileComponent, resolve: {profile: RedirectTeamProfileResolver}},
+  {path: '**', redirectTo: ''}
 ];
 
 @NgModule({

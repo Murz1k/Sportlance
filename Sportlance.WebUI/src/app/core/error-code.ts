@@ -3,5 +3,6 @@ export enum ErrorCode {
   UserNotFound = 'UserNotFound',
   IncorrectPassword = 'IncorrectPassword',
   IncorrectValidation = 'IncorrectValidation',
-  TeamNotFound = 'TeamNotFound'
+  TeamNotFound = 'TeamNotFound',
+  AuthenticationError = 'AuthenticationError'
 }

@@ -19,6 +19,8 @@ import {EditPhotoDialogData} from './edit-photo-dialog/edit-photo-dialog-data';
 import {EditPhotoDialogComponent} from './edit-photo-dialog/edit-photo-dialog.component';
 import {EditBackgroundDialogComponent} from './edit-background-dialog/edit-background-dialog.component';
 import {EditBackgroundDialogData} from './edit-background-dialog/edit-background-dialog-data';
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-account',
@@ -39,7 +41,7 @@ export class AccountComponent implements OnInit {
   private offset = 0;
   private count = 10;
 
-  public feedbacks: Array<ReviewInfo> = [];
+  public feedbacks: Observable<ReviewInfo[]>;
 
   constructor(private userService: UserService,
               private titleService: Title,
@@ -52,54 +54,58 @@ export class AccountComponent implements OnInit {
 
   async ngOnInit() {
     if (this.account.isTrainer) {
-      await Promise.all([this.updateFeedbacksAsync, this.updateDataAsync]);
+      this.updateFeedbacks();
+      this.updateData();
     }
   }
 
-  private async updateFeedbacksAsync() {
-    const response = await this.feedbackService.getSelfTrainerFeedbacksAsync(this.offset, this.count);
-    this.feedbacks = response.items.map(i => <ReviewInfo>{
-      stars: this.convertAverageScoreToStars(i.score),
-      clientName: i.clientName,
-      createDate: i.createDate,
-      description: i.description,
-      photoUrl: i.photoUrl
-    });
+  private updateFeedbacks() {
+    this.feedbacks = this.feedbackService.getSelfTrainerFeedbacks(this.offset, this.count)
+      .pipe(map((response) => {
+        return response.items.map(i => <ReviewInfo>{
+          stars: this.convertAverageScoreToStars(i.score),
+          clientName: i.clientName,
+          createDate: i.createDate,
+          description: i.description,
+          photoUrl: i.photoUrl
+        });
+      }));
   }
 
-  private async updateDataAsync() {
+  private updateData() {
     this.isRendering = false;
-    const response = await this.trainerService.getSelfAsync();
-    this.trainer = <TrainerInfo>{
-      firstName: response.firstName,
-      secondName: response.secondName,
-      trainingsCount: response.trainingsCount,
-      price: response.price,
-      city: response.city,
-      about: response.about,
-      title: response.title,
-      country: response.country,
-      stars: this.convertAverageScoreToStars(response.score),
-      sports: response.sports,
-      status: response.status,
-      id: response.id,
-      photoUrl: response.photoUrl,
-      backgroundUrl: response.backgroundUrl
-    };
-    this.isTrainer = this.account.isTrainer && !isNullOrUndefined(this.trainer);
-
-    this.isRendering = true;
+    this.trainerService.getSelf()
+      .pipe(map((response) => {
+        this.trainer = <TrainerInfo>{
+          firstName: response.firstName,
+          secondName: response.secondName,
+          trainingsCount: response.trainingsCount,
+          price: response.price,
+          city: response.city,
+          about: response.about,
+          title: response.title,
+          country: response.country,
+          stars: this.convertAverageScoreToStars(response.score),
+          sports: response.sports,
+          status: response.status,
+          id: response.id,
+          photoUrl: response.photoUrl,
+          backgroundUrl: response.backgroundUrl
+        };
+        this.isTrainer = this.account.isTrainer && !isNullOrUndefined(this.trainer);
+        this.isRendering = true;
+      }));
   }
 
-  public async changeStatusAsync(event: MatCheckboxChange) {
+  public changeStatus(event: MatCheckboxChange) {
     if (this.trainer.status === TrainerStatus.Banned || this.trainer.status === TrainerStatus.Deleted) {
       return;
     }
     if (event.checked) {
-      await this.trainerService.setAvailabilityAsync(true);
+      this.trainerService.setAvailability(true);
       this.trainer.status = TrainerStatus.Available;
     } else {
-      await this.trainerService.setAvailabilityAsync(false);
+      this.trainerService.setAvailability(false);
       this.trainer.status = TrainerStatus.NotAvailable;
     }
   }
@@ -133,42 +139,42 @@ export class AccountComponent implements OnInit {
     return allStars;
   }
 
-  async changeAboutAsync() {
+  changeAbout() {
     this.dialog.open(EditTrainerAboutDialogComponent, {data: <EditTrainerAboutDialogData>{about: this.trainer.about}})
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.updateDataAsync();
+          this.updateData();
         }
       });
   }
 
-  async changePaidAsync() {
+  changePaid() {
     this.dialog.open(EditTrainerPaidDialogComponent, {data: <EditTrainerPaidDialogData>{paid: this.trainer.price}})
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.updateDataAsync();
+          this.updateData();
         }
       });
   }
 
-  async changePhotoAsync() {
+  changePhoto() {
     this.dialog.open(EditPhotoDialogComponent, {data: <EditPhotoDialogData>{url: this.trainer.photoUrl}})
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.updateDataAsync();
+          this.updateData();
         }
       });
   }
 
-  async changeBackgroundAsync() {
+  changeBackground() {
     this.dialog.open(EditBackgroundDialogComponent, {data: <EditBackgroundDialogData>{url: this.trainer.backgroundUrl}})
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.updateDataAsync();
+          this.updateData();
         }
       });
   }

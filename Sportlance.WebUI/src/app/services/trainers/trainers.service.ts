@@ -39,8 +39,8 @@ export class TrainersService {
     return this.http.get<TrainerProfileResponse>(`/trainers/${trainerId}`);
   }
 
-  getSelfAsync(): Promise<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`/trainers/self`).toPromise();
+  getSelf(): Observable<TrainerProfileResponse> {
+    return this.http.get<TrainerProfileResponse>(`/trainers/self`);
   }
 
   async uploadPhotoAsync(photo: Blob): Promise<void> {
@@ -55,8 +55,8 @@ export class TrainersService {
     await this.http.put(`/trainers/background`, data).toPromise();
   }
 
-  setAvailabilityAsync(isAvailable: boolean) {
-    return this.http.post(`/trainers/availability`, {isAvailable: isAvailable}).toPromise();
+  setAvailability(isAvailable: boolean) {
+    return this.http.post(`/trainers/availability`, {isAvailable: isAvailable});
   }
 
   updateAboutAsync(about: string) {

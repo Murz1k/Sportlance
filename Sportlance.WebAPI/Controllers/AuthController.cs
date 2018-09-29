@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.BLL.Interfaces;
@@ -8,7 +7,6 @@ using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
-using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 using Sportlance.WebAPI.Utilities;
@@ -88,7 +86,7 @@ namespace Sportlance.WebAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest request)
+        public async Task<LoginResponse> Registration([FromBody] RegistrationRequest request)
         {
             var user = new User
             {
@@ -102,7 +100,7 @@ namespace Sportlance.WebAPI.Controllers
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
 
-            return new RegistrationResponse
+            return new LoginResponse
             {
                 Token = _authService.GenerateAccessToken(user)
             };
@@ -143,30 +141,26 @@ namespace Sportlance.WebAPI.Controllers
         }
 
         [HttpPut(nameof(SendChangePassword))]
-        public async Task<EmptyResponse> SendChangePassword([FromBody] SendChangePasswordRequest data)
+        public async Task SendChangePassword([FromBody] SendChangePasswordRequest data)
         {
             var user = await _userService.GetByEmailAsync(data.Email);
             if (user == null) throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
 
             await _mailService.SendChangePassword(user.Id, user.Email, user.PasswordHash);
-
-            return new EmptyResponse();
         }
 
         [Authorize]
         [HttpPut(nameof(SendChangePasswordForUser))]
-        public async Task<EmptyResponse> SendChangePasswordForUser()
+        public async Task SendChangePasswordForUser()
         {
             var user = await _userService.GetByIdAsync(_authService.UserId);
 
             await _mailService.SendChangePassword(user.Id, user.Email, user.PasswordHash);
-
-            return new EmptyResponse();
         }
 
         [Authorize]
         [HttpPut(nameof(SendUpdateEmailForUser))]
-        public async Task<EmptyResponse> SendUpdateEmailForUser([FromBody] UpdateEmailRequest data)
+        public async Task<LoginResponse> SendUpdateEmailForUser([FromBody] UpdateEmailRequest data)
         {
             var user = await _userService.GetByIdAsync(_authService.UserId);
 
@@ -175,12 +169,15 @@ namespace Sportlance.WebAPI.Controllers
 
             await _mailService.SendUpdateEmail(user.Email, data.NewEmail);
 
-            return new EmptyResponse();
+            return new LoginResponse
+            {
+                Token = _authService.GenerateAccessToken(user)
+            };
         }
 
         [Authorize]
         [HttpPut("email")]
-        public async Task<EmptyResponse> UpdateUserEmail(string token)
+        public async Task<LoginResponse> UpdateUserEmail(string token)
         {
             var user = await _userService.GetByIdAsync(_authService.UserId);
 
@@ -188,7 +185,10 @@ namespace Sportlance.WebAPI.Controllers
 
             await _userService.SaveChangesAsync();
 
-            return new EmptyResponse();
+            return new LoginResponse
+            {
+                Token = _authService.GenerateAccessToken(user)
+            };
         }
 
         [Authorize]

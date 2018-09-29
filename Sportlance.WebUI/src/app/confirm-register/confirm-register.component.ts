@@ -16,15 +16,14 @@ export class ConfirmRegisterComponent {
               private activatedRoute: ActivatedRoute,
               private userService: UserService,
               private router: Router) {
-
     this.activatedRoute.params.subscribe(async (params: Params) => {
-
-      const response = await this.authClient.confirmEmailAsync(<ConfirmRegistrationRequest>{
+      this.authClient.confirmEmail(<ConfirmRegistrationRequest>{
         token: params['token'],
         userId: params['id']
+      }).subscribe((response) => {
+        this.userService.saveToken(response.token);
+        this.router.navigate([Paths.Root]);
       });
-      this.userService.saveToken(response.token);
-      this.router.navigate([Paths.Root]);
     });
   }
 }

@@ -9,7 +9,7 @@ namespace Sportlance.WebAPI.Extensions
     {
         public static long GetUserId(this ClaimsPrincipal user)
         {
-            var userIdClaim = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userIdClaim = user.FindFirstValue("userId");
             if (userIdClaim == null)
                 throw new AppErrorException(ErrorCode.AuthenticationError);
             return Convert.ToInt64(userIdClaim);

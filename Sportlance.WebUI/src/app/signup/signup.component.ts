@@ -5,7 +5,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ErrorCode} from '../core/error-code';
 import {Paths} from '../core/paths';
 import {Router} from '@angular/router';
-import {LoginRequest} from '../services/auth/requests/login-request';
 import {AccountService} from '../services/account-service';
 import {UserService} from '../services/user.service/user.service';
 
@@ -34,21 +33,23 @@ export class SignupComponent implements OnInit {
     if (!this.validateLogin()) {
       return;
     }
-    try {
-      const response = await this.authClient.checkUserAsync(this.submitForm.value.email);
-      if (response.email.toUpperCase() === this.submitForm.value.email.toUpperCase()) {
-        this.emailAlreadyExist = true;
-      }
-    } catch (e) {
-      switch (e.error.errorCode) {
-        case ErrorCode.UserNotFound:
-          this.isEmailExist = true;
-          break;
-        case ErrorCode.EmailIsNotConfirmed:
+
+    this.authClient.checkUser(this.submitForm.value.email)
+      .subscribe((response) => {
+        if (response.error) {
+          if (response.error.code === ErrorCode.UserNotFound) {
+            this.isEmailExist = true;
+            return;
+          }
+          if (response.error.code === ErrorCode.EmailIsNotConfirmed) {
+            this.emailAlreadyExist = true;
+            return;
+          }
+        }
+        if (response.email.toUpperCase() === this.submitForm.value.email.toUpperCase()) {
           this.emailAlreadyExist = true;
-          break;
-      }
-    }
+        }
+      });
   }
 
   private validateLogin(): boolean {
@@ -71,23 +72,19 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  async signupAsync(): Promise<void> {
+  signUp(): void {
     if (this.submitForm.invalid) {
       return;
     }
     const form = this.submitForm.value;
-    await this.authClient.registerAsync(<RegistrationRequest>{
+    this.authClient.register(<RegistrationRequest>{
       email: form.email,
       lastName: form.lastName,
       password: form.password,
       firstName: form.firstName
-    });
-    this.authClient.login(<LoginRequest>{
-      email: form.email,
-      password: form.password
     }).subscribe((response) => {
       this.userService.saveToken(response.token);
-      return this.router.navigate([Paths.EmailVerify]);
+      this.router.navigate([Paths.EmailVerify]);
     });
   }
 }

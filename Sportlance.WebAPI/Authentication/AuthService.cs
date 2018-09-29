@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Sportlance.BLL.Interfaces;
 using Sportlance.DAL.Entities;
+using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
 
@@ -31,8 +32,8 @@ namespace Sportlance.WebAPI.Authentication
             _jwtOptions = jwtOptions.Value;
         }
 
-        public long UserId => long.Parse(_httpContextAccessor.HttpContext
-            .User.FindFirstValue("userId"));
+        public long UserId => _httpContextAccessor.HttpContext
+            .User.GetUserId();
 
         private JwtPayload CreateJwtPayload(User user)
         {

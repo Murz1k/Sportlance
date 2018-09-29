@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
 
   ckechKeyDownLogin(e): void {
     if (e.keyCode === 13) {
-      this.checkLoginAsync();
+      this.checkLogin();
     }
   }
 
@@ -101,30 +101,34 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  async checkLoginAsync(): Promise<void> {
+  checkLogin(): Promise<void> {
     this.isDisabled = true;
-    try {
-      const form = this.loginForm.value;
-      if (isNullOrUndefined(form.email) || form.email === '') {
-        form.email = '';
-        this.showLoginError = true;
-        this.isDisabled = false;
-        return;
-      }
-      const response = await this.authClient.checkUserAsync(form.email);
-      if (response.email.toUpperCase() === form.email.toUpperCase()) {
-        this.isLoginPage = false;
-      }
-    } catch (e) {
-      switch (e.error.errorCode) {
-        case ErrorCode.UserNotFound:
-          this.showLoginError = true;
-          break;
-        case ErrorCode.IncorrectValidation:
-          this.showLoginError = true;
-          break;
-      }
+
+    const form = this.loginForm.value;
+    if (isNullOrUndefined(form.email) || form.email === '') {
+      form.email = '';
+      this.showLoginError = true;
+      this.isDisabled = false;
+      return;
     }
+    this.authClient.checkUser(form.email)
+      .subscribe((response) => {
+        if (response.error) {
+          switch (response.error.code) {
+            case ErrorCode.UserNotFound:
+              this.showLoginError = true;
+              break;
+            case ErrorCode.IncorrectValidation:
+              this.showLoginError = true;
+              break;
+          }
+          return;
+        }
+        if (response.email.toUpperCase() === form.email.toUpperCase()) {
+          this.isLoginPage = false;
+        }
+      });
+
     this.isDisabled = false;
   }
 }

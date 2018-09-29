@@ -20,11 +20,11 @@ export class FeedbacksService {
     return this.http.get<CollectionResponse<ReviewInfoResponse>>(`/trainers/${trainerId}/feedbacks`, {params: parameters});
   }
 
-  getSelfTrainerFeedbacksAsync(offset: number, count: number): Promise<CollectionResponse<ReviewInfoResponse>> {
+  getSelfTrainerFeedbacks(offset: number, count: number): Observable<CollectionResponse<ReviewInfoResponse>> {
     const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
       .append('offset', checkParam(offset))
       .append('count', checkParam(count));
-    return this.http.get<CollectionResponse<ReviewInfoResponse>>(`/trainers/self/feedbacks`, {params: parameters}).toPromise();
+    return this.http.get<CollectionResponse<ReviewInfoResponse>>(`/trainers/self/feedbacks`, {params: parameters});
   }
 }
