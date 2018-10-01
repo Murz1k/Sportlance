@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthApiClient} from '../services/auth/auth-api-client';
 import {LoginRequest} from '../services/auth/requests/login-request';
 import {ErrorCode} from '../core/error-code';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Paths} from '../core/paths';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
@@ -21,10 +21,13 @@ export class LoginComponent implements OnInit {
 
   public isDisabled = false;
 
+  public redirectUrl = '';
+
   public loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
+              private activatedRoute: ActivatedRoute,
               private authClient: AuthApiClient,
               private userService: UserService) {
   }
@@ -34,6 +37,9 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(20)]],
       password: ['', Validators.required],
       rememberMe: [false, [Validators.required]]
+    });
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.redirectUrl = params['redirectUrl'];
     });
   }
 
@@ -77,7 +83,7 @@ export class LoginComponent implements OnInit {
       }
       this.userService.saveToken(response.token);
       this.isDisabled = false;
-      return this.router.navigate([Paths.Root]);
+      return this.router.navigate([`${Paths.Root}${this.redirectUrl}`]);
     });
   }
 

@@ -7,10 +7,11 @@ import {isNullOrUndefined} from 'util';
 import {UserService} from '../user.service/user.service';
 import {environment} from '../../../environments/environment';
 import {ErrorCode} from '../../core/error-code';
+import {Router} from "@angular/router";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private userService: UserService) {
+  constructor(private router: Router, private userService: UserService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -23,15 +24,16 @@ export class JwtInterceptor implements HttpInterceptor {
     if (isNullOrUndefined(token)) {
       request = req;
     } else {
-      const headers = req.headers
-        .append(HeadersConstants.Authorization, 'Bearer ' + token);
-      request = req.clone({headers: headers});
+      request = req.clone({
+        headers: req.headers
+          .append(HeadersConstants.Authorization, 'Bearer ' + token)
+      });
     }
 
     return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         if (event.body && event.body.error && event.body.error.code === ErrorCode.AuthenticationError) {
-          this.userService.deleteCurrentUser();
+          this.userService.deleteCurrentUser(this.router.url);
           return;
         }
         const newJwt = event.headers.get(HeadersConstants.XNewAuthToken);
