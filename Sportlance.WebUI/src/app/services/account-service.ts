@@ -22,7 +22,7 @@ export class AccountService {
   }
 
   public logout() {
-    this.userService.deleteCurrentUser();
+    this.userService.deleteCurrentUser('');
   }
 }
 

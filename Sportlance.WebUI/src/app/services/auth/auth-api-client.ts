@@ -10,6 +10,7 @@ import {ResendEmailRequest} from './requests/resend-email-request';
 import {UpdatePasswordRequest} from './requests/update-password-request';
 import {UpdateAccountRequest} from './requests/update-account-request';
 import {Observable} from 'rxjs';
+import {ErrorResponse} from '../../core/error-response';
 
 @Injectable()
 export class AuthApiClient {
@@ -28,8 +29,8 @@ export class AuthApiClient {
     await this.http.post('/auth/re-send', <ResendEmailRequest> {token: token}).toPromise();
   }
 
-  public updatePassword(oldPassword: string, password: string, confirmPassword: string): Observable<Object> {
-    return this.http.put('/auth/password', <UpdatePasswordRequest> {
+  public updatePassword(oldPassword: string, password: string, confirmPassword: string): Observable<ErrorResponse> {
+    return this.http.put<ErrorResponse>('/auth/password', <UpdatePasswordRequest> {
       oldPassword: oldPassword,
       password: password,
       confirmPassword: confirmPassword
