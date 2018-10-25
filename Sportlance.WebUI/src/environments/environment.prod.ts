@@ -1,4 +1,4 @@
 export const environment = {
-  baseUrl: 'http://sportlance.us-east-1.elasticbeanstalk.com',
+  baseUrl: 'https://api.sportlance.com',
   production: true
 };

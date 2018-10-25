@@ -6,6 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
+    "build&deploy": "npm run build & npm run deploy",
+    "deploy": "deploy-aws-s3.bat",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
