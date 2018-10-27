@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
-namespace Sportlance.DAL.Migrations
+namespace Sportlance.WebAPI.Migrations
 {
     public partial class AddTeam : Migration
     {

@@ -1,4 +1,4 @@
-﻿namespace Sportlance.BLL.Entities
+﻿namespace Sportlance.WebAPI.Entities
 {
     public class TrainersQuery
     {

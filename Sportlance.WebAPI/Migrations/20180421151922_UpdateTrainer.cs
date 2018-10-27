@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Sportlance.DAL.Migrations
+namespace Sportlance.WebAPI.Migrations
 {
     public partial class UpdateTrainer : Migration
     {

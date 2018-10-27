@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Sportlance.DAL.Migrations
+namespace Sportlance.WebAPI.Migrations
 {
     public partial class UpdateTrainerClass : Migration
     {
