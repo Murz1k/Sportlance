@@ -14,17 +14,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Sportlance.BLL.Interfaces;
-using Sportlance.BLL.Services;
-using Sportlance.DAL.AzureStorage;
-using Sportlance.DAL.Core;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.ExceptionHandler;
 using Sportlance.WebAPI.Filters;
-using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Options;
+using Sportlance.WebAPI.Teams;
+using Sportlance.WebAPI.Trainers;
 using Sportlance.WebAPI.Utilities;
+using Sportlance.WebAPI.Services;
+using Sportlance.WebAPI.Interfaces;
+using Sportlance.WebAPI.Sports;
 
 namespace Sportlance.WebAPI
 {
@@ -88,7 +88,7 @@ namespace Sportlance.WebAPI
 
             ConfigureCorsPolicy(services);
 
-            services.AddDbContext<AppDBContext>(options =>
+            services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SQLDatabase")));
 
             services.AddTransient<IDateTime, UtcDateTime>();
@@ -107,9 +107,9 @@ namespace Sportlance.WebAPI
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
-            services.AddTransient<ITrainerService, TrainerService>();
+            services.AddTransient<ITrainerService, TrainersService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
-            services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<ITeamService, TeamsService>();
             services.AddTransient<AuthService, AuthService>();
             services.AddTransient<MailService, MailService>();
             services.AddTransient<MailTokenService, MailTokenService>();

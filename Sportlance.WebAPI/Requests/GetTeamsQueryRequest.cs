@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Sportlance.BLL.Entities;
+using TeamQuery = Sportlance.WebAPI.Entities.TeamQuery;
 
 namespace Sportlance.WebAPI.Requests
 {

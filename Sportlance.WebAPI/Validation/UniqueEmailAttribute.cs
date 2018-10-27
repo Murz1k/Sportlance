@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Sportlance.BLL.Services;
 using Sportlance.WebAPI.Errors;
+using UserService = Sportlance.WebAPI.Services.UserService;
 
 namespace Sportlance.WebAPI.Validation
 {

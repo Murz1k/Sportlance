@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Sportlance.BLL.Entities;
+using TrainersQuery = Sportlance.WebAPI.Entities.TrainersQuery;
 
 namespace Sportlance.WebAPI.Requests
 {

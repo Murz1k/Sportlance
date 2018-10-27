@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.BLL.Interfaces;
-using Sportlance.DAL.Entities;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Errors;
@@ -11,6 +9,9 @@ using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 using Sportlance.WebAPI.Utilities;
 using Sportlance.WebAPI.Validation;
+using Sportlance.WebAPI.Trainers;
+using Sportlance.WebAPI.Interfaces;
+using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Controllers
 {
@@ -37,6 +38,22 @@ namespace Sportlance.WebAPI.Controllers
             _authService = authService;
             _trainerService = trainerService;
         }
+        
+//        Зашел на сайт
+//            Зарегистрировался
+//        На почту отправилось письмо
+//        Перешел по ссылке в почте
+//            Аккаунт подтвержден
+//            Вход
+//        Получение токена.
+//
+//            Вход если аккаунт не подтвержден
+//        ok 200 error: Аккаунт не подтвержден
+//            Переход на страницу "Аккаунт не подтвержден", где можно повторно отправить письмо
+//            или перейти на страницу логина (поменять аккаунт)
+//
+//        Регистрация если такой аккаунт есть
+//            ok 200 error: Такой аккаунт уже существует. Войти?
 
         [HttpPost]
         [Route("check")]
@@ -76,19 +93,25 @@ namespace Sportlance.WebAPI.Controllers
             if (user == null || !HashUtils.CheckHash(user.PasswordHash, request.Password))
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectPassword));
 
+//            if (user.IsEmailConfirm)
+//                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
+
             return new LoginResponse
             {
-                Token = user.IsEmailConfirm
-                    ? _authService.GenerateAccessToken(user, request.RememberMe)
-                    : _mailTokenService.EncryptToken(user.Email)
+                Token = _authService.GenerateAccessToken(user, request.RememberMe)
             };
         }
 
         [HttpPost]
         [Route("register")]
-        public async Task<LoginResponse> Registration([FromBody] RegistrationRequest request)
+        public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest request)
         {
-            var user = new User
+            var user = await _userService.GetByEmailAsync(request.Email);
+
+            if (user != null)
+                throw new AppErrorException(new AppError(ErrorCode.UserAlreadyExist));
+
+            user = new User
             {
                 Email = request.Email,
                 PasswordHash = HashUtils.CreateHash(request.Password),
@@ -100,9 +123,11 @@ namespace Sportlance.WebAPI.Controllers
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
 
-            return new LoginResponse
+            return new RegistrationResponse
             {
-                Token = _authService.GenerateAccessToken(user)
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
         }
 
@@ -133,7 +158,9 @@ namespace Sportlance.WebAPI.Controllers
             var token = _mailTokenService.DecryptToken(request.Token);
             var user = await _userService.GetByEmailAsync(token);
 
-            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
+            if (user == null)
+                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
+
             if (user.IsEmailConfirm)
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
 

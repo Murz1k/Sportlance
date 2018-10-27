@@ -2,6 +2,12 @@
 {
     public class RegistrationResponse
     {
-        public string Token { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Email { get; set; }
+
+        public string IsEmailConfirm { get; set; }
     }
 }

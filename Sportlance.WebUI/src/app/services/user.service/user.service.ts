@@ -42,7 +42,7 @@ export class UserService {
     return localStorage.getItem(this.accessTokenKey);
   }
 
-  public deleteCurrentUser(redirectUrl: string) {
+  public deleteCurrentUser(redirectUrl = '') {
     localStorage.removeItem(this.accessTokenKey);
     this.userInfoChanged.emit(null);
     this.router.navigate([Paths.Login], {queryParams: {redirectUrl: redirectUrl}});

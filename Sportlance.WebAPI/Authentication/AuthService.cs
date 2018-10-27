@@ -2,15 +2,14 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Sportlance.BLL.Interfaces;
-using Sportlance.DAL.Entities;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
+using IUserService = Sportlance.WebAPI.Interfaces.IUserService;
+using User = Sportlance.WebAPI.Entities.User;
 
 namespace Sportlance.WebAPI.Authentication
 {

@@ -59,32 +59,42 @@ export class LoginComponent implements OnInit {
 
   }
 
-  login(): void {
+  async login(): Promise<void> {
     this.isDisabled = true;
 
     const form = this.loginForm.value;
-    this.authClient.login(<LoginRequest>{
+    const response = await this.authClient.login(<LoginRequest>{
       email: form.email,
       password: form.password,
       rememberMe: form.rememberMe
-    }).subscribe((response) => {
-      if (response.error) {
-        switch (response.error.code) {
-          case ErrorCode.IncorrectPassword:
-            this.showPasswordError = true;
-            this.isDisabled = false;
-            break;
-          case ErrorCode.IncorrectValidation:
-            this.showPasswordError = true;
-            this.isDisabled = false;
-            break;
-        }
-        return;
+    }).toPromise();
+
+    if (response.error) {
+      switch (response.error.code) {
+        case ErrorCode.IncorrectPassword:
+          this.showPasswordError = true;
+          this.isDisabled = false;
+          break;
+        case ErrorCode.IncorrectValidation:
+          this.showPasswordError = true;
+          this.isDisabled = false;
+          break;
+        // case ErrorCode.EmailIsNotConfirmed:
+        //   this.router.navigate([Paths.ConfirmRegistration]);
+        //   break;
       }
-      this.userService.saveToken(response.token);
-      this.isDisabled = false;
-      return this.router.navigate([`${Paths.Root}${this.redirectUrl}`]);
-    });
+      return;
+    }
+    this.userService.saveToken(response.token);
+
+    const user = this.userService.getCurrent();
+    if (!user.isConfirmed) {
+      this.router.navigate([Paths.EmailVerify]);
+      return;
+    }
+
+    this.isDisabled = false;
+    this.router.navigate([`${Paths.Root}${this.redirectUrl}`]);
   }
 
   hideLoginError(): void {

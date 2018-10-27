@@ -1,18 +1,18 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.BLL.Entities;
-using Sportlance.BLL.Interfaces;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
+using Sportlance.WebAPI.Trainers;
+using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Controllers
 {
     [Route("trainers/{trainerId}/trainings")]
     public class TrainerTrainingsController : Controller
     {
-        private readonly  ITrainerService _service;
+        private readonly ITrainerService _service;
 
         public TrainerTrainingsController(ITrainerService service)
         {

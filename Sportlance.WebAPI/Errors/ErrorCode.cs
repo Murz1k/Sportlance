@@ -12,6 +12,7 @@
         UserNotFound,
         UpdateInProgress,
         TxIsInvalid,
-        TeamNotFound
+        TeamNotFound,
+        UserAlreadyExist
     }
 }

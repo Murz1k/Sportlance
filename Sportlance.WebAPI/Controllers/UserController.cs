@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.BLL.Interfaces;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Responses;
+using IUserService = Sportlance.WebAPI.Interfaces.IUserService;
 
 namespace Sportlance.WebAPI.Controllers
 {

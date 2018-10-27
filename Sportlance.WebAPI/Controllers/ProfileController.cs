@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.BLL.Interfaces;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Responses;
+using Sportlance.WebAPI.Interfaces;
 
 namespace Sportlance.WebAPI.Controllers
 {

@@ -1,5 +1,5 @@
 <header [isEmpty]="true"></header>
-<div class="content" style="background-color: #f2f2f2;">
+<div class="content">
   <div class="text-center">
     <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="145px" height="130px"
          viewBox="0 0 145 130">
@@ -42,69 +42,22 @@
   </div>
   <div class="row o-please-verify-heading text-center">
     <div class="col-md-12">
-      <h2 class="text-muted">Verify your email to proceed</h2>
+      <h2 class="text-muted">Подтверди регистрацию</h2>
       <div class="fs-lg hidden-xs"></div>
     </div>
   </div>
   <div class="row o-signup-please-verify-email">
     <div class="m-lg-bottom center-block col-md-7 p-xs-left-right">
       <div class="text-center text-muted">
-        We’ve just sent an email to your address: <span data-ng-bind="currentEmail" class="ng-binding">{{email}}</span>
+        Мы отправили письмо на твой email: <span data-ng-bind="currentEmail" class="ng-binding">{{email}}</span>
       </div>
       <div class="text-center text-muted m-md-bottom">
-        Please check your email and click on the link provided to verify your address.
+        Пожалуйста, проверь свой email и перейди по ссылке внутри для подтверждения регистрации.
       </div>
       <div>
-        <a href="#" data-ng-click="collapse.updateEmail = !collapse.updateEmail" class="m-sm-bottom">Change
-          email</a>
-        <div class="m-md-left collapse" data-eo-collapse="collapse.updateEmail" style="height: 0px;">
-          <form name="change_email_form"
-                class="form-inline ng-pristine ng-invalid ng-invalid-required ng-valid-pattern ng-valid-minlength ng-valid-maxlength ng-valid-server-error ng-valid-email-blacklist"
-                data-ng-submit="updateEmail()" novalidate="">
-            <div class="form-group m-lg-right">
-              <input type="text" name="email" id="email_72416"
-                     class="form-control has-form-message eo-email-ptc ng-isolate-scope ng-pristine ng-untouched ng-scope ng-empty ng-invalid ng-invalid-required ng-valid-pattern ng-valid-minlength ng-valid-maxlength ng-valid-server-error ng-valid-email-blacklist"
-                     placeholder="Email" data-ng-model="userAccount.email" data-eo-server-error=""
-                     email-blacklist-validator="" ng-required="true" ng-minlength="6" ng-maxlength="100"
-                     ng-pattern="/^(([a-z\d+_\-][a-z\d+\'\._\-]*[a-z\d+_\-])|([a-z\d+_\-]{1,2}))@((([a-z\d][a-z\d\-]{0,62}[a-z\d])|([a-z\d]))\.)+[a-z]{2,}$/i"
-                     required="required"><!-- ngIf: ptc -->
-
-              <span data-ng-show="(change_email_form.email.$modelValue || change_email_form.email.$dirty)
-        &amp;&amp; change_email_form.email.$invalid
-            " class="o-signup-form-errors  ng-hide text-left">
-        <span data-ng-messages="change_email_form.email.$error" class="ng-active">
-           <label data-ng-message="required" class="form-message form-error ng-binding ng-scope">
-                Email is required
-            </label>
-        </span>
-    </span>
-
-            </div>
-            <div class="form-group o-change-email-btn">
-              <button class="btn btn-default" data-ng-disabled="updatingEmail">
-                <i class="glyphicon air-icon-loading m-0-left ng-hide" aria-hidden="true"
-                   data-ng-show="updatingEmail"></i>
-                Update &amp; Re-Send
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div>
-        <a href="#" data-ng-click="collapse.help = !collapse.help">I need help verifying my email</a>
-        <div class="m-md-left collapse" data-eo-collapse="collapse.help" style="height: 0px;">
-          <strong>Why we ask for email confirmation?</strong>
-          <p class="m-sm-bottom">Email confirmation is an important security check that helps prevent other people
-            from signing up for an Upwork account using your email address.</p>
-          <strong>How do I confirm my email address?</strong>
-          <p class="m-sm-bottom">We sent you an email with a link to click on. If you aren't able to click the
-            link, copy the full URL from the email and paste it into a new web browser window.</p>
-          <strong>If you haven't received the confirmation email, please:</strong>
-          <p class="m-sm-bottom">
-            Check the junk mail folder or spam filter in your email account.<br>
-            Make sure your email address is entered correctly.
-          </p>
-        </div>
+        <a (click)="changeEmail()" class="m-sm-bottom">
+          Изменить email
+        </a>
       </div>
       <div>
         <span aria-hidden="true"
@@ -112,7 +65,7 @@
         </span>
         <a (click)="resendEmailAsync()"
            data-ng-click="resendingEmail || (collapse.emailResent = !collapse.emailResent)">
-          Please re-send that verification email
+          Пожалуйста, перешлите email
         </a>
       </div>
     </div>
