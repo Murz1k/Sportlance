@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TeamResponse} from '../../services/teams/requests/team-response';
+import {TeamResponse} from '../../shared/teams/requests/team-response';
 import {ActivatedRoute} from '@angular/router';
 import {CollectionResponse} from '../../services/common/collection-response';
 import {Paths} from '../../core/paths';

@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {TrainersService} from '../../services/trainers/trainers.service';
+import {TrainersService} from '../trainers.service';
 import {ActivatedRoute} from '@angular/router';
-import {TrainerProfileResponse} from '../../services/trainers/responses/trainer-profile-response';
+import {TrainerProfileResponse} from '../../shared/trainers/responses/trainer-profile-response';
 import {SchedulerItem} from './scheduler-item';
 import {isNullOrUndefined} from 'util';
 import {MatDialog} from '@angular/material';
-import {AddTrainerTrainingDialogComponent} from '../add-trainer-training-dialog/add-trainer-training-dialog.component';
-import {AddTrainerTrainingDialogData} from '../add-trainer-training-dialog/add-trainer-training-dialog-data';
+import {AddTrainerTrainingDialogComponent} from '../trainer-details/add-trainer-training-dialog/add-trainer-training-dialog.component';
+import {AddTrainerTrainingDialogData} from '../trainer-details/add-trainer-training-dialog/add-trainer-training-dialog-data';
 import * as moment from 'moment';
 
 @Component({

@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TeamsService} from '../../../services/teams/teams.service';
 import {Paths} from '../../../core/paths';
 import {Router} from '@angular/router';
+import {MyTeamsService} from '../my-teams.service';
 
 @Component({
   selector: 'app-create-team',
@@ -14,7 +14,7 @@ export class CreateTeamComponent {
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
-              private teamsService: TeamsService) {
+              private teamsService: MyTeamsService) {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       subtitle: ['', Validators.required],

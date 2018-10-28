@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TrainersComponent} from './trainers/trainers.component';
-import {ProfileComponent} from './profile/profile.component';
+import {TrainerListComponent} from './trainer-list/trainer-list.component';
+import {TrainerDetailsComponent} from './trainer-details/trainer-details.component';
 import {AppointmentComponent} from './appointment/appointment.component';
-import {RedirectTrainerProfileResolver} from './profile/redirect-trainer-profile.resolver';
+import {RedirectTrainerProfileResolver} from './trainer-details/redirect-trainer-profile.resolver';
 
 const routes: Routes = [
-  {path: '', component: TrainersComponent},
-  {path: ':id', component: ProfileComponent, resolve: {profile: RedirectTrainerProfileResolver}},
+  {path: '', component: TrainerListComponent},
+  {path: ':id', component: TrainerDetailsComponent, resolve: {profile: RedirectTrainerProfileResolver}},
   {path: ':id/appointment', component: AppointmentComponent}
 ];
 

@@ -6,6 +6,7 @@ import {MyTeamsComponent} from './my-teams.component';
 import {CreateTeamComponent} from './create-team/create-team.component';
 import {PhoneMaskModule} from '../../core/phone-mask/phone-mask.module';
 import {TeamsResolver} from './teams.resolver';
+import {MyTeamsService} from './my-teams.service';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {TeamsResolver} from './teams.resolver';
     ReactiveFormsModule
   ],
   providers: [
+    MyTeamsService,
     TeamsResolver
   ]
 })

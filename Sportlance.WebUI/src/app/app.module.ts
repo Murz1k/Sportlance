@@ -3,14 +3,13 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
 import {RootComponent} from './root/root.component';
 import {AuthApiClient} from './services/auth/auth-api-client';
-import {TrainersService} from './services/trainers/trainers.service';
+import {TrainersService} from './trainers/trainers.service';
 import {AccountService} from './services/account-service';
 import {AppRoutingModule} from './app-routing.module';
 import {LandingComponent} from './landing/landing.component';
 import {UserService} from './services/user.service/user.service';
 import {JwtInterceptor} from './services/common/jwt-Interceptor';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TeamsService} from './services/teams/teams.service';
 import {FeedbacksService} from './services/feedbacks/feedbacks.service';
 import {FooterModule} from './core/footer/footer.module';
 import {HeaderModule} from './core/header/header.module';
@@ -42,7 +41,6 @@ import {BrowserModule} from '@angular/platform-browser';
     AccountService,
     AuthApiClient,
     FeedbacksService,
-    TeamsService,
     UserService
   ],
   bootstrap: [AppComponent]

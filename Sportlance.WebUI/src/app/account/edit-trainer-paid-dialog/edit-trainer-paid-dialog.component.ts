@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditTrainerPaidDialogData} from './edit-trainer-paid-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TrainersService} from "../../services/trainers/trainers.service";
+import {TrainersService} from "../../trainers/trainers.service";
 
 @Component({
   selector: 'app-edit-trainer-paid-dialog',

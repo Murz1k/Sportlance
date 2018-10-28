@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../services/user.service/user';
 import {UserService} from '../services/user.service/user.service';
-import {TrainerInfo} from '../trainers/trainers/trainer-info';
-import {TrainersService} from '../services/trainers/trainers.service';
-import {Star} from '../trainers/trainers/star';
-import {ReviewInfo} from '../trainers/profile/review-info';
-import {TrainerStatus} from '../services/trainers/trainer-status';
+import {TrainerInfo} from '../trainers/trainer-list/trainer-info';
+import {TrainersService} from '../trainers/trainers.service';
+import {Star} from '../trainers/trainer-list/star';
+import {ReviewInfo} from '../trainers/trainer-details/review-info';
+import {TrainerStatus} from '../shared/trainers/trainer-status';
 import {MatCheckboxChange, MatDialog} from '@angular/material';
 import {Paths} from '../core/paths';
 import {Title} from '@angular/platform-browser';

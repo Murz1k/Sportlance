@@ -1,22 +1,22 @@
 import {NgModule} from '@angular/core';
 import {TrainersRoutingModule} from './trainers-routing.module';
-import {TrainersComponent} from './trainers/trainers.component';
-import {ProfileComponent} from './profile/profile.component';
+import {TrainerListComponent} from './trainer-list/trainer-list.component';
+import {TrainerDetailsComponent} from './trainer-details/trainer-details.component';
 import {CommonModule} from '@angular/common';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppointmentComponent} from './appointment/appointment.component';
 import {NumberOnlyModule} from '../core/number-only/number-only.module';
 import {DateAdapter, MatDialogModule, MatNativeDateModule} from '@angular/material';
-import {AddTrainerTrainingDialogComponent} from './add-trainer-training-dialog/add-trainer-training-dialog.component';
+import {AddTrainerTrainingDialogComponent} from './trainer-details/add-trainer-training-dialog/add-trainer-training-dialog.component';
 import {DateMaskModule} from '../core/date-mask/date-mask.module';
 import {TimeMaskModule} from '../core/time-mask/time-mask.module';
 import {SelectModule} from '../core/select/select.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
+import {InviteTrainerDialogComponent} from './trainer-details/invite-trainer-dialog/invite-trainer-dialog.component';
 import {MyDateAdapter} from '../core/my-date-adapter';
 import {FormatDateModule} from '../core/format-date-pipe/format-date.module';
-import {RedirectTrainerProfileResolver} from './profile/redirect-trainer-profile.resolver';
+import {RedirectTrainerProfileResolver} from './trainer-details/redirect-trainer-profile.resolver';
 
 @NgModule({
   imports: [
@@ -39,8 +39,8 @@ import {RedirectTrainerProfileResolver} from './profile/redirect-trainer-profile
     AddTrainerTrainingDialogComponent
   ],
   declarations: [
-    TrainersComponent,
-    ProfileComponent,
+    TrainerListComponent,
+    TrainerDetailsComponent,
     InviteTrainerDialogComponent,
     AddTrainerTrainingDialogComponent,
     AppointmentComponent

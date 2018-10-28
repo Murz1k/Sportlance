@@ -3,12 +3,11 @@ import {TeamsRoutingModule} from './teams-routing.module';
 import {CommonModule} from '@angular/common';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {TeamsComponent} from './teams/teams.component';
-import {TeamProfileComponent} from './team-profile/team-profile.component';
+import {TeamListComponent} from './team-list/team-list.component';
 import {NumberOnlyModule} from '../core/number-only/number-only.module';
 import {MatDialogModule} from '@angular/material';
-import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
-import {RedirectTeamProfileResolver} from './team-profile/redirect-team-profile.resolver';
+import {RedirectTeamProfileResolver} from './team-details/redirect-team-profile.resolver';
+import {TeamsService} from './teams.service';
 
 @NgModule({
   imports: [
@@ -20,15 +19,11 @@ import {RedirectTeamProfileResolver} from './team-profile/redirect-team-profile.
     NumberOnlyModule,
     MatDialogModule
   ],
-  entryComponents: [
-    AddTeamPhotoDialogComponent
-  ],
   declarations: [
-    TeamsComponent,
-    AddTeamPhotoDialogComponent,
-    TeamProfileComponent
+    TeamListComponent
   ],
   providers: [
+    TeamsService,
     RedirectTeamProfileResolver
   ]
 })
