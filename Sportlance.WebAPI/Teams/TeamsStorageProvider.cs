@@ -1,9 +1,10 @@
-﻿namespace Sportlance.WebAPI.Teams
+﻿using Amazon.S3;
+
+namespace Sportlance.WebAPI.Teams
 {
-    public class TeamsStorageProvider : WebAPI.Core.AzureStorageProvider
+    public class TeamsStorageProvider : Core.AmazonStorageProvider
     {
-        public TeamsStorageProvider(string connectionString)
-            : base(connectionString, "teams")
+        public TeamsStorageProvider(IAmazonS3 client): base(client, "sportlance-teams")
         {
         }
     }

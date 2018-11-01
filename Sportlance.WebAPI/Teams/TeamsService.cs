@@ -14,13 +14,13 @@ namespace Sportlance.WebAPI.Teams
         private readonly TeamsStorageProvider _teamsStorageProvider;
 
         public TeamsService(AppDbContext appContext
-            //,TeamsStorageProvider teamsStorageProvider,
-            //TeamPhotosStorageProvider teamPhotosStorageProvider
-            )
+            , TeamsStorageProvider teamsStorageProvider,
+            TeamPhotosStorageProvider teamPhotosStorageProvider
+        )
         {
             _appContext = appContext;
-            //_teamsStorageProvider = teamsStorageProvider;
-            //_teamPhotosStorageProvider = teamPhotosStorageProvider;
+            _teamsStorageProvider = teamsStorageProvider;
+            _teamPhotosStorageProvider = teamPhotosStorageProvider;
         }
 
         public async Task<PagingCollection<TeamListItem>> GetAsync(TeamQuery query, long? userId = null)
@@ -53,7 +53,7 @@ namespace Sportlance.WebAPI.Teams
                     var item = new TeamPhotoItem
                     {
                         Id = photo.Id,
-                        File =  null//await _teamPhotosStorageProvider.DowndloadAsync($"team-{teamId}/photo-{photo.Id}")
+                        File = await _teamPhotosStorageProvider.DowndloadAsync($"team-{teamId}/photo-{photo.Id}")
                     };
                     return item;
                 })),

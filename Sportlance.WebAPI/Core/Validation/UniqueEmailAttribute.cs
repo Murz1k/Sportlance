@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Sportlance.WebAPI.Errors;
-using UserService = Sportlance.WebAPI.Services.UserService;
+using Sportlance.WebAPI.Users;
 
 namespace Sportlance.WebAPI.Validation
 {

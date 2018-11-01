@@ -12,7 +12,7 @@ using Sportlance.WebAPI.Utilities;
 
 namespace Sportlance.WebAPI.Authentication
 {
-    public class MailService
+    public class MailService : IMailService
     {
         private readonly IHostingEnvironment _env;
         private readonly IAmazonS3 _s3Client;
@@ -22,7 +22,7 @@ namespace Sportlance.WebAPI.Authentication
         private readonly string _root;
 
         public MailService(IAmazonS3 s3Client,
-        IOptions<SmtpOptions> smtpOptions,
+            IOptions<SmtpOptions> smtpOptions,
             IOptions<SiteOptions> frontendOptions,
             MailTokenService mailTokenService,
             IHostingEnvironment env)
@@ -42,7 +42,7 @@ namespace Sportlance.WebAPI.Authentication
             message.To.Add(new MailboxAddress(to));
             message.Subject = subject;
 
-            var bodyBuilder = new BodyBuilder { HtmlBody = body };
+            var bodyBuilder = new BodyBuilder {HtmlBody = body};
             message.Body = bodyBuilder.ToMessageBody();
 
             using (var client = new SmtpClient())
@@ -66,8 +66,8 @@ namespace Sportlance.WebAPI.Authentication
             var token = _mailTokenService.EncryptToken(email);
 
             var template = _env.IsDevelopment()
-                ? await ReadEmailTemplate()
-                : await ReadObjectFromS3("sportlance-emails-templates", "confirm-registration-mail.html")
+                    ? await ReadEmailTemplate()
+                    : await ReadObjectFromS3("sportlance-emails-templates", "confirm-registration-mail.html")
                 ;
 
             template = template
@@ -75,7 +75,7 @@ namespace Sportlance.WebAPI.Authentication
                 .Replace("{CONFIRMLINK}", _siteUrls.GetConfirmRegistration(userId, token));
 
             await SendMessage(email, "Подтверждение регистрации", template);
-                
+
             return token;
         }
 

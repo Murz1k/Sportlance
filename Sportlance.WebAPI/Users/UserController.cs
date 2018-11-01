@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Responses;
-using IUserService = Sportlance.WebAPI.Interfaces.IUserService;
 
-namespace Sportlance.WebAPI.Controllers
+namespace Sportlance.WebAPI.Users
 {
     [Route("user")]
     public class UserController : Controller

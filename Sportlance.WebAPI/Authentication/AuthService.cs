@@ -8,31 +8,26 @@ using Microsoft.Extensions.Options;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
-using IUserService = Sportlance.WebAPI.Interfaces.IUserService;
-using User = Sportlance.WebAPI.Entities.User;
+using Sportlance.WebAPI.Users;
+using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Authentication
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly IDateTime _dateTime;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly JwtSecurityTokenHandler _tokenHandler;
         private readonly IUserService _userService;
 
-        public AuthService(IHttpContextAccessor httpContextAccessor, IDateTime dateTime,
+        public AuthService(IDateTime dateTime,
             IOptions<JwtIssuerOptions> jwtOptions, IUserService userService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _dateTime = dateTime;
             _userService = userService;
             _tokenHandler = new JwtSecurityTokenHandler();
             _jwtOptions = jwtOptions.Value;
         }
-
-        public long UserId => _httpContextAccessor.HttpContext
-            .User.GetUserId();
 
         private JwtPayload CreateJwtPayload(User user)
         {
@@ -48,13 +43,6 @@ namespace Sportlance.WebAPI.Authentication
                 user.UserRoles.Count > 0 ? user.UserRoles.Select(i => i.Role.ToString()) : new string[0]);
 
             return payload;
-        }
-
-        public async Task<string> RefreshAccessToken()
-        {
-            var user = await _userService.GetByIdAsync(UserId);
-
-            return GenerateAccessToken(user);
         }
 
         public bool ShouldRefreshToken(string encodedToken)

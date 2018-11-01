@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.WebAPI.Entities;
 
-namespace Sportlance.WebAPI.Interfaces
+namespace Sportlance.WebAPI.Users
 {
     public interface IUserService
     {

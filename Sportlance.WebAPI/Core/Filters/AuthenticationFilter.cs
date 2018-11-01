@@ -2,17 +2,20 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Sportlance.WebAPI.Authentication;
-using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Extensions;
+using Sportlance.WebAPI.Users;
 
-namespace Sportlance.WebAPI.Filters
+namespace Sportlance.WebAPI.Core.Filters
 {
     public class AuthenticationFilter : IAsyncActionFilter
     {
-        private readonly AuthService _authenticationService;
+        private readonly IAuthService _authenticationService;
+        private readonly IUserService _userService;
 
-        public AuthenticationFilter(AuthService authenticationService)
+        public AuthenticationFilter(IAuthService authenticationService, IUserService userService)
         {
             _authenticationService = authenticationService;
+            _userService = userService;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -26,8 +29,9 @@ namespace Sportlance.WebAPI.Filters
 
             if (_authenticationService.ShouldRefreshToken(token))
             {
+                var user = await _userService.GetByIdAsync(context.HttpContext.User.GetUserId());
                 context.HttpContext.Response.Headers.Add(Headers.XNewAuthToken,
-                    await _authenticationService.RefreshAccessToken());
+                    _authenticationService.GenerateAccessToken(user));
             }
         }
     }

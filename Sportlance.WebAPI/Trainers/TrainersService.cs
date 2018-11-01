@@ -14,11 +14,11 @@ namespace Sportlance.WebAPI.Trainers
         private readonly TrainersStorageProvider _trainerStorageProvider;
 
         public TrainersService(AppDbContext appContext
-            //,TrainersStorageProvider trainerStorageProvider
+            ,TrainersStorageProvider trainerStorageProvider
             )
         {
             _appContext = appContext;
-            //_trainerStorageProvider = trainerStorageProvider;
+            _trainerStorageProvider = trainerStorageProvider;
         }
 
         public async Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query)
@@ -179,7 +179,7 @@ namespace Sportlance.WebAPI.Trainers
 
         private async Task<TrainerListItem> AddPhotoToTrainerAsync(TrainerListItem trainer)
         {
-            //trainer.Photo = await _trainerStorageProvider.DowndloadAsync($"trainer-{trainer.Id}/main");
+            trainer.Photo = await _trainerStorageProvider.DowndloadAsync($"trainer-{trainer.Id}/main");
             return trainer;
         }
     }

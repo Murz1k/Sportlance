@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
@@ -9,34 +8,34 @@ using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
 using Sportlance.WebAPI.Utilities;
 using Sportlance.WebAPI.Validation;
-using Sportlance.WebAPI.Trainers;
-using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Entities;
+using Sportlance.WebAPI.Extensions;
+using Sportlance.WebAPI.Users;
 
-namespace Sportlance.WebAPI.Controllers
+namespace Sportlance.WebAPI.Authentication
 {
     [Route("[controller]")]
     public class AuthController : Controller
     {
-        private readonly AuthService _authService;
-        private readonly MailService _mailService;
+        private readonly IAuthService _authService;
+        private readonly IMailService _mailService;
         private readonly MailTokenService _mailTokenService;
-        private readonly ITrainerService _trainerService;
         private readonly IUserService _userService;
+
+        private long UserId => HttpContext
+            .User.GetUserId();
 
         public AuthController(
             IUserService userService,
-            ITrainerService trainerService,
-            MailService mailService,
+            IMailService mailService,
             MailTokenService mailTokenService,
-            AuthService authService
+            IAuthService authService
         )
         {
             _userService = userService;
             _mailService = mailService;
             _mailTokenService = mailTokenService;
             _authService = authService;
-            _trainerService = trainerService;
         }
         
 //        Зашел на сайт
@@ -72,7 +71,7 @@ namespace Sportlance.WebAPI.Controllers
         [HttpPut]
         public async Task<LoginResponse> PutAsync([FromBody] UpdateAccountRequest request)
         {
-            var user = await _userService.GetByIdAsync(_authService.UserId);
+            var user = await _userService.GetByIdAsync(UserId);
             if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             user.FirstName = request.FirstName;
@@ -104,7 +103,7 @@ namespace Sportlance.WebAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<RegistrationResponse> Registration([FromBody] RegistrationRequest request)
+        public async Task<RegistrationResponse> RegistrationAsync([FromBody] RegistrationRequest request)
         {
             var user = await _userService.GetByEmailAsync(request.Email);
 
@@ -180,7 +179,7 @@ namespace Sportlance.WebAPI.Controllers
         [HttpPut(nameof(SendChangePasswordForUser))]
         public async Task SendChangePasswordForUser()
         {
-            var user = await _userService.GetByIdAsync(_authService.UserId);
+            var user = await _userService.GetByIdAsync(UserId);
 
             await _mailService.SendChangePassword(user.Id, user.Email, user.PasswordHash);
         }
@@ -189,7 +188,7 @@ namespace Sportlance.WebAPI.Controllers
         [HttpPut(nameof(SendUpdateEmailForUser))]
         public async Task<LoginResponse> SendUpdateEmailForUser([FromBody] UpdateEmailRequest data)
         {
-            var user = await _userService.GetByIdAsync(_authService.UserId);
+            var user = await _userService.GetByIdAsync(UserId);
 
             if (!HashUtils.CheckHash(user.PasswordHash, data.Password))
                 throw new AppErrorException(ErrorCode.IncorrectValidation);
@@ -206,7 +205,7 @@ namespace Sportlance.WebAPI.Controllers
         [HttpPut("email")]
         public async Task<LoginResponse> UpdateUserEmail(string token)
         {
-            var user = await _userService.GetByIdAsync(_authService.UserId);
+            var user = await _userService.GetByIdAsync(UserId);
 
             user.Email = _mailTokenService.DecryptToken(token);
 
@@ -222,7 +221,7 @@ namespace Sportlance.WebAPI.Controllers
         [HttpPut("password")]
         public async Task<EmptyResponse> UpdatePassword([FromBody] UpdatePasswordRequest data)
         {
-            var user = await _userService.GetByIdAsync(_authService.UserId);
+            var user = await _userService.GetByIdAsync(UserId);
             if (user == null
                 //|| !_mailTokenService.CheckChangePasswordToken(user.Id.ToString(), user.Email, user.PasswordHash, data.Token)
                 || !HashUtils.CheckHash(user.PasswordHash, data.OldPassword)

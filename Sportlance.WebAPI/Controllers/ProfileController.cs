@@ -5,7 +5,7 @@ using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Responses;
-using Sportlance.WebAPI.Interfaces;
+using Sportlance.WebAPI.Users;
 
 namespace Sportlance.WebAPI.Controllers
 {

@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Sportlance.WebAPI.Authentication;
+using Sportlance.WebAPI.Users;
 
-namespace Sportlance.WebAPI.Filters
+namespace Sportlance.WebAPI.Core.Filters
 {
     public class AuthenticationFilterFactory : IFilterFactory
     {
@@ -10,8 +12,10 @@ namespace Sportlance.WebAPI.Filters
 
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            var authService = (AuthService) serviceProvider.GetService(typeof(AuthService));
-            return new AuthenticationFilter(authService);
+            return new AuthenticationFilter(
+                serviceProvider.GetService<IAuthService>(),
+                serviceProvider.GetService<IUserService>()
+                );
         }
     }
 }

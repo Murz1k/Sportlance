@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Sportlance.WebAPI.Core
 {
-    public abstract class AzureStorageProvider
+    public abstract class AzureStorageProvider : IStorageProvider
     {
         private readonly string _containerName;
         private readonly CloudBlobClient _client;

@@ -1,11 +1,11 @@
-﻿using AzureStorageProvider = Sportlance.WebAPI.Core.AzureStorageProvider;
+﻿using Amazon.S3;
+using Sportlance.WebAPI.Core;
 
 namespace Sportlance.WebAPI.Trainers
 {
-    public class TrainersStorageProvider : AzureStorageProvider
+    public class TrainersStorageProvider : AmazonStorageProvider
     {
-        public TrainersStorageProvider(string connectionString)
-            : base(connectionString, "trainers")
+        public TrainersStorageProvider(IAmazonS3 client): base(client, "sportlance-trainers")
         {
         }
     }
