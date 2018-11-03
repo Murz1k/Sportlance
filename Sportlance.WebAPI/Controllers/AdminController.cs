@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Amazon.S3;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,22 +13,25 @@ namespace Sportlance.WebAPI.Controllers
     {
         private IHostingEnvironment _currentEnvironment;
         private IConfiguration _configuration;
-        private MailService _mailService;
+        private IMailService _mailService;
+        private IAmazonS3 _amazon;
 
         public AdminController(IConfiguration configuration, 
             IHostingEnvironment currentEnvironment,
-            MailService mailService)
+            IAmazonS3 amazon,
+            IMailService mailService)
         {
             _currentEnvironment = currentEnvironment;
             _configuration = configuration;
             _mailService = mailService;
+            _amazon = amazon;
         }
         // GET: api/Admin
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            await _mailService.SendConfirmRegistration(1, "max89701@gmail.com");
-            return Ok("");
+            //await _mailService.SendConfirmRegistration(1, "max89701@gmail.com");
+            return Ok();
         }
 
         [HttpGet("config")]

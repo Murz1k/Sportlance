@@ -11,6 +11,8 @@ import {Paths} from '../../core/paths';
 import {MatDialog} from '@angular/material';
 import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
 import {AddTeamPhotoDialogData} from './add-team-photo-dialog/add-team-photo-dialog-data';
+import {catchError, map} from 'rxjs/operators';
+import {throwError} from 'rxjs';
 
 @Component({
   selector: 'app-team-details',
@@ -20,10 +22,11 @@ import {AddTeamPhotoDialogData} from './add-team-photo-dialog/add-team-photo-dia
 export class TeamDetailsComponent implements OnInit {
 
   public profile: TeamProfileResponse;
-  public photos: TeamPhotoResponse[][];
+  public photos: TeamPhotoResponse[];
   public teamMembers: TrainerInfoResponse[][];
   public Paths = Paths;
   public isShowAbout = false;
+  public isLoadingPhotos = false;
 
   constructor(private route: ActivatedRoute,
               private sanitizer: DomSanitizer,
@@ -34,8 +37,8 @@ export class TeamDetailsComponent implements OnInit {
     this.profile = this.route.snapshot.data['profile'];
   }
 
-  async ngOnInit() {
-    await this.route.params.forEach(async params => {
+  ngOnInit() {
+    this.route.params.subscribe(params => {
       this.updatePhotos(params['id']);
       this.upadteTeamMembers(params['id']);
     });
@@ -61,16 +64,20 @@ export class TeamDetailsComponent implements OnInit {
   }
 
   private updatePhotos(teamId: number) {
-    return this.teamService.getPhotosByTeamId(teamId).subscribe((response) => {
-      const allPhotos = response.items.map(i => <TeamPhotoResponse>{
-        id: i.id,
-        file: `data:image/jpg;base64,${i.file.data}`
-      });
-      this.photos = [];
-      for (let i = 0; i < allPhotos.length; i += 6) {
-        this.photos.push(allPhotos.slice(i, i + 6));
-      }
-    });
+    this.isLoadingPhotos = true;
+    return this.teamService.getPhotosByTeamId(teamId).pipe(
+      map((response) => {
+        this.photos = response.items.map(i => <TeamPhotoResponse>{
+          id: i.id,
+          file: i.file !== null ? `data:image/jpg;base64,${i.file.data}` : null
+        });
+        this.isLoadingPhotos = false;
+      }),
+      catchError((error) => {
+        this.isLoadingPhotos = false;
+        return throwError(error);
+      }))
+      .subscribe();
   }
 
   private upadteTeamMembers(teamId: number) {

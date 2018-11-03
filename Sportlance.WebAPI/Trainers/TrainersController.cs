@@ -29,6 +29,15 @@ namespace Sportlance.WebAPI.Trainers
 
             return trainers.ToPartialCollectionResponse();
         }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> BeTrainerAsync()
+        {
+            await _service.AddAsync(User.GetUserId());
+
+            return NoContent();
+        }
 
         [HttpGet]
         [Authorize]

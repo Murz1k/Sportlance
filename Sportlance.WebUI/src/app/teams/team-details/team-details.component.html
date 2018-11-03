@@ -63,6 +63,7 @@
       </button>
     </div>
     <div class="air-card">
+      <div *ngIf="isLoadingPhotos" class="loading-container"></div>
       <div class="air-card-header">
         <h3 class="pull-left">
           Галерея
@@ -82,13 +83,11 @@
         </div>
       </section>
       <section *ngIf="photos" class="photo-collection">
-        <div class="photo-row" *ngFor="let photoRow of photos">
-          <div class="photo-container" *ngFor="let photo of photoRow">
-            <button (click)="deletePhoto(photo.id)" class="remove-button">
-              <i class="material-icons">clear</i>
-            </button>
-            <img src="{{photo.file}}">
-          </div>
+        <div class="photo-container" *ngFor="let photo of photos">
+          <button (click)="deletePhoto(photo.id)" class="remove-button">
+            <i class="material-icons">clear</i>
+          </button>
+          <img src="{{photo.file}}">
         </div>
       </section>
     </div>

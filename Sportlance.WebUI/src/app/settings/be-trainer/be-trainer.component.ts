@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {TrainersService} from '../../trainers/trainers.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-be-trainer',
@@ -7,5 +9,10 @@ import { Component } from '@angular/core';
 })
 export class BeTrainerComponent {
 
-  constructor() { }
+  constructor(private service: TrainersService, private router: Router) {
+  }
+
+  beTranier() {
+    this.service.beTrainer().subscribe(() => this.router.navigate(['/', 'trainers']));
+  }
 }

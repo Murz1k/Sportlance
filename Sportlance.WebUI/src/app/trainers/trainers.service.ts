@@ -55,6 +55,10 @@ export class TrainersService {
     await this.http.put(`/trainers/background`, data).toPromise();
   }
 
+  beTrainer() {
+    return this.http.post(`/trainers`, {});
+  }
+
   setAvailability(isAvailable: boolean) {
     return this.http.post(`/trainers/availability`, {isAvailable: isAvailable});
   }

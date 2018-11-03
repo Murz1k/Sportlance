@@ -2,13 +2,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
-using Sportlance.WebAPI.Users;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Authentication
@@ -18,13 +14,11 @@ namespace Sportlance.WebAPI.Authentication
         private readonly IDateTime _dateTime;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly JwtSecurityTokenHandler _tokenHandler;
-        private readonly IUserService _userService;
 
         public AuthService(IDateTime dateTime,
-            IOptions<JwtIssuerOptions> jwtOptions, IUserService userService)
+            IOptions<JwtIssuerOptions> jwtOptions)
         {
             _dateTime = dateTime;
-            _userService = userService;
             _tokenHandler = new JwtSecurityTokenHandler();
             _jwtOptions = jwtOptions.Value;
         }
@@ -32,15 +26,17 @@ namespace Sportlance.WebAPI.Authentication
         private JwtPayload CreateJwtPayload(User user)
         {
             var payload = new JwtPayload();
-            payload.AddClaim(new Claim("email", user.Email));
+            payload.AddClaim(new Claim("email", user.Email, ClaimValueTypes.Email));
             payload.AddClaim(new Claim("userId", user.Id.ToString()));
             payload.AddClaim(new Claim("firstName", user.FirstName));
             payload.AddClaim(new Claim("secondName", user.LastName));
-            payload.AddClaim(new Claim("isConfirmed", user.IsEmailConfirm.ToString()));
+            payload.AddClaim(new Claim("isConfirmed", user.IsEmailConfirm.ToString(), ClaimValueTypes.Boolean));
             payload.AddClaim(new Claim("photoUrl", user.PhotoUrl ?? ""));
 
-            payload.Add("roles",
-                user.UserRoles.Count > 0 ? user.UserRoles.Select(i => i.Role.ToString()) : new string[0]);
+            foreach (var role in user.UserRoles.Select(i => i.Role.ToString()))
+            {
+                payload.Add(ClaimTypes.Role, role);
+            }
 
             return payload;
         }
@@ -66,7 +62,6 @@ namespace Sportlance.WebAPI.Authentication
                 _jwtOptions.NotBefore,
                 rememberMe ? DateTime.UtcNow.AddDays(30) : _jwtOptions.Expiration,
                 _jwtOptions.SigningCredentials) {Payload = {["iat"] = _dateTime.UtcNow.ToUnixTimeSeconds()}};
-
 
             return _tokenHandler.WriteToken(accessToken);
         }

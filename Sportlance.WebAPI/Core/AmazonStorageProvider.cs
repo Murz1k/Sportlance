@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Amazon.Extensions.NETCore.Setup;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
@@ -83,7 +82,13 @@ namespace Sportlance.WebAPI.Core
                     await fileTransferUtility.UploadAsync(stream, _bucketName, fileName);
                 }
 
-                return $"{_bucketName}.s3.amazonaws.com/{fileName}";
+                var request = new GetPreSignedUrlRequest
+                {
+                    BucketName = _bucketName,
+                    Key = fileName,
+                    Protocol = Protocol.HTTPS
+                };
+                return _client.GetPreSignedURL(request);
             }
             catch (AmazonS3Exception e)
             {

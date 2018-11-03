@@ -12,10 +12,15 @@ export class User {
 
   isConfirmed: boolean;
 
-  constructor(firstName: string, secondName: string, roles: string[], email: string, isConfirmed: boolean, photoUrl: string) {
+  constructor(firstName: string, secondName: string, roles: any, email: string, isConfirmed: boolean, photoUrl: string) {
     this.firstName = firstName;
     this.secondName = secondName;
-    this.roles = roles;
+    if (roles instanceof Array) {
+      this.roles = roles;
+    }
+    if (typeof roles === 'string') {
+      this.roles = [roles];
+    }
     this.email = email;
     this.isConfirmed = isConfirmed;
     this.photoUrl = photoUrl;
