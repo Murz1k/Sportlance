@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Sportlance.WebAPI.Options
+namespace Sportlance.WebAPI.Core.Options
 {
     public class JwtIssuerOptions
     {

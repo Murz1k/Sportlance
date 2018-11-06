@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Sportlance.WebAPI.Core.Options;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
 using Sportlance.WebAPI.Entities;
@@ -35,7 +38,7 @@ namespace Sportlance.WebAPI.Authentication
 
             foreach (var role in user.UserRoles.Select(i => i.Role.ToString()))
             {
-                payload.Add(ClaimTypes.Role, role);
+                payload.Add("roles", role);
             }
 
             return payload;
@@ -52,7 +55,7 @@ namespace Sportlance.WebAPI.Authentication
                    _jwtOptions.AccessTokenRefreshInterval.TotalMinutes;
         }
 
-        public string GenerateAccessToken(User user, bool rememberMe = false)
+        public string GenerateRefreshToken(User user)
         {
             var payload = CreateJwtPayload(user);
             var accessToken = new JwtSecurityToken(
@@ -60,7 +63,21 @@ namespace Sportlance.WebAPI.Authentication
                 _jwtOptions.Audience,
                 payload.Claims,
                 _jwtOptions.NotBefore,
-                rememberMe ? DateTime.UtcNow.AddDays(30) : _jwtOptions.Expiration,
+                DateTime.UtcNow.AddDays(30),
+                _jwtOptions.SigningCredentials) {Payload = {["iat"] = _dateTime.UtcNow.ToUnixTimeSeconds()}};
+
+            return _tokenHandler.WriteToken(accessToken);
+        }
+
+        public string GenerateAccessToken(User user)
+        {
+            var payload = CreateJwtPayload(user);
+            var accessToken = new JwtSecurityToken(
+                _jwtOptions.Issuer,
+                _jwtOptions.Audience,
+                payload.Claims,
+                _jwtOptions.NotBefore,
+                _jwtOptions.Expiration,
                 _jwtOptions.SigningCredentials) {Payload = {["iat"] = _dateTime.UtcNow.ToUnixTimeSeconds()}};
 
             return _tokenHandler.WriteToken(accessToken);

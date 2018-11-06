@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthApiClient} from '../services/auth/auth-api-client';
-import {UserService} from '../services/user.service/user.service';
-import {Router} from '@angular/router';
+import {AuthService} from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-email-verify',
@@ -12,20 +10,18 @@ export class EmailVerifyComponent implements OnInit {
 
   public email: string;
 
-  constructor(private authApiClient: AuthApiClient,
-              private router: Router,
-              private userService: UserService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.email = this.userService.getCurrent().email;
+    this.email = this.authService.getCurrent().email;
   }
 
   async resendEmailAsync(): Promise<void> {
-    await this.authApiClient.reSendEmailAsync(this.userService.getToken());
+    await this.authService.reSendEmailAsync(this.authService.accessToken);
   }
 
   changeEmail(): void {
-    this.userService.deleteCurrentUser();
+    this.authService.logout();
   }
 }

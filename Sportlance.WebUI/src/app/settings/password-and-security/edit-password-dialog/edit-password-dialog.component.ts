@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthApiClient} from '../../../services/auth/auth-api-client';
 import {MatDialogRef} from '@angular/material';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-edit-password-dialog',
@@ -13,7 +13,7 @@ export class EditPasswordDialogComponent implements OnInit {
   public form: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private authApiClient: AuthApiClient,
+              private authService: AuthService,
               private dialogRef: MatDialogRef<EditPasswordDialogComponent>) {
   }
 
@@ -37,7 +37,7 @@ export class EditPasswordDialogComponent implements OnInit {
     if (this.form.value.newPassword === this.form.value.confirmPassword
       && this.form.controls['newPassword'].valid
       && this.form.value.newPassword !== this.form.value.oldPassword) {
-      this.authApiClient.updatePassword(
+      this.authService.updatePassword(
         this.form.value.oldPassword,
         this.form.value.newPassword,
         this.form.value.confirmPassword

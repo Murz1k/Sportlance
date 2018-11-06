@@ -1,9 +1,8 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {User} from '../../../services/user.service/user';
 import {Router} from '@angular/router';
-import {AccountService} from '../../../services/account-service';
 import {Paths} from '../../paths';
-import {UserService} from '../../../services/user.service/user.service';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -18,9 +17,7 @@ export class MenuComponent implements OnInit {
   public Paths = Paths;
 
   constructor(private router: Router,
-              private userService: UserService,
-              private accountService: AccountService) {
-    this.userService.userInfoChanged.subscribe(async () => await this.updateUserAsync());
+              private authService: AuthService) {
   }
 
   @HostListener('document:click', ['$event']) clickedOutside() {
@@ -38,8 +35,8 @@ export class MenuComponent implements OnInit {
   }
 
   public async updateUserAsync(): Promise<void> {
-    if (this.accountService.isAuthorized) {
-      this.currentUser = await this.userService.getCurrent();
+    if (this.authService.isAuthorized) {
+      this.currentUser = await this.authService.getCurrent();
       this.isAuthorized = true;
     } else {
       this.currentUser = null;
@@ -48,7 +45,6 @@ export class MenuComponent implements OnInit {
   }
 
   logout() {
-    this.accountService.logout();
-    this.router.navigate([Paths.Login]);
+    this.authService.logout();
   }
 }

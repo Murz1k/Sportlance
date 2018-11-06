@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../services/user.service/user';
-import {UserService} from '../services/user.service/user.service';
 import {TrainerInfo} from '../trainers/trainer-list/trainer-info';
 import {TrainersService} from '../trainers/trainers.service';
 import {Star} from '../trainers/trainer-list/star';
@@ -21,6 +20,7 @@ import {EditBackgroundDialogComponent} from './edit-background-dialog/edit-backg
 import {EditBackgroundDialogData} from './edit-background-dialog/edit-background-dialog-data';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {AuthService} from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -43,12 +43,12 @@ export class AccountComponent implements OnInit {
 
   public feedbacks: Observable<ReviewInfo[]>;
 
-  constructor(private userService: UserService,
+  constructor(private authService: AuthService,
               private titleService: Title,
               private dialog: MatDialog,
               private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
-    this.account = this.userService.getCurrent();
+    this.account = this.authService.getCurrent();
     this.titleService.setTitle(`${this.account.firstName} ${this.account.secondName} | Sportlance`);
   }
 

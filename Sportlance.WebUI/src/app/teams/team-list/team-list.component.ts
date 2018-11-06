@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {isNullOrUndefined} from 'util';
 import {Paths} from '../../core/paths';
-import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../shared/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {TeamsService} from '../teams.service';
 import {TrainerInfo} from '../../trainers/trainer-list/trainer-info';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-team-list',
@@ -38,13 +38,13 @@ export class TeamListComponent {
   public subscription: Subscription;
 
   constructor(private router: Router,
-              private accountService: AccountService,
+              private authService: AuthService,
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
               private teamsService: TeamsService) {
     this.titleService.setTitle(`Команды | Sportlance`);
 
-    this.isAuthorized = this.accountService.isAuthorized;
+    this.isAuthorized = this.authService.isAuthorized;
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.searchString = params['q'];
       this.country = params['country'];

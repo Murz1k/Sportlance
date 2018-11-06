@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {User} from '../../services/user.service/user';
-import {UserService} from '../../services/user.service/user.service';
 import {MatDialog} from '@angular/material';
 import {EditAccountInfoDialogComponent} from './edit-account-info-dialog/edit-account-info-dialog.component';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-contact-info',
@@ -13,9 +13,9 @@ export class ContactInfoComponent {
 
   public account: User;
 
-  constructor(private userService: UserService,
+  constructor(private authService: AuthService,
               private dialog: MatDialog) {
-    this.account = this.userService.getCurrent();
+    this.account = this.authService.getCurrent();
   }
 
   changeAccountInfo() {
@@ -23,7 +23,7 @@ export class ContactInfoComponent {
       .beforeClose()
       .subscribe((result) => {
         if (result) {
-          this.account = this.userService.getCurrent();
+          this.account = this.authService.getCurrent();
         }
       }
     );

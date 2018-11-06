@@ -4,7 +4,8 @@ namespace Sportlance.WebAPI.Authentication
 {
     public interface IAuthService
     {
-        string GenerateAccessToken(User user, bool rememberMe = false);
+        string GenerateAccessToken(User user);
+        string GenerateRefreshToken(User user);
         bool ShouldRefreshToken(string encodedToken);
     }
 }

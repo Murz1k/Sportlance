@@ -5,11 +5,11 @@ import {TrainerInfo} from '../trainer-list/trainer-info';
 import {TrainersService} from '../trainers.service';
 import {ReviewInfo} from './review-info';
 import {FeedbacksService} from '../../services/feedbacks/feedbacks.service';
-import {UserService} from '../../services/user.service/user.service';
 import {User} from '../../services/user.service/user';
 import {InviteTrainerDialogData} from './invite-trainer-dialog/invite-trainer-dialog-data';
 import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
 import {MatDialog} from '@angular/material';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-trainer-details',
@@ -32,7 +32,7 @@ export class TrainerDetailsComponent implements OnInit {
   public teams = [];
   public finished = false;
 
-  constructor(private userService: UserService,
+  constructor(private authService: AuthService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
               private feedbackService: FeedbacksService,
@@ -40,7 +40,7 @@ export class TrainerDetailsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.account = this.userService.getCurrent();
+    this.account = this.authService.getCurrent();
     this.trainer = <TrainerInfo>{
       firstName: this.route.snapshot.data['profile'].firstName,
       secondName: this.route.snapshot.data['profile'].secondName,

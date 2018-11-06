@@ -1,32 +1,40 @@
 <header [isEmpty]="true"></header>
 <div class="content page">
   <form [formGroup]="loginForm" class="air-card">
-    <div *ngIf="isLoginPage; else enterPassword" class="text-center" style="padding-top: 24px; padding-bottom: 24px;">
-      <div class="title">
-        Войди и начни заниматься
-      </div>
-      <div [ngClass]="showLoginError ? 'ng-invalid' : ''" style="width: 260px; margin: auto;">
-        <div style="margin-bottom: 24px; position: relative;">
-          <input id="Email" formControlName="email" name="email" type="text"
-                 class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
-                 (keydown)="ckechKeyDownLogin($event)">
-          <i class="material-icons input-icon">person</i>
-          <div class="error" *ngIf="showLoginError;">
-            <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-            <label *ngIf="loginForm.value.email !== ''" class="error__message">
-              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-              Ой! Неправильный email.</label>
-            <label *ngIf="loginForm.value.email === ''" class="error__message">
-              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-              Обязательное поле.</label>
-          </div>
+    <ng-container *ngIf="isLoginPage; else enterPassword">
+      <div class="text-center" style="padding-top: 24px; padding-bottom: 24px;">
+        <div class="title">
+          Войди и начни заниматься
         </div>
-        <button (click)="checkLogin()" [disabled]="isDisabled" class="btn btn-primary"
-                style="width: 260px; margin: auto;">
-          Продолжить
-        </button>
+        <div [ngClass]="showLoginError ? 'ng-invalid' : ''" style="width: 260px; margin: auto;">
+          <div style="margin-bottom: 24px; position: relative;">
+            <input id="Email" formControlName="email" name="email" type="text"
+                   class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
+                   (keydown)="ckechKeyDownLogin($event)">
+            <i class="material-icons input-icon">person</i>
+            <div class="error" *ngIf="showLoginError;">
+              <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+              <label *ngIf="loginForm.value.email !== ''" class="error__message">
+                <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+                Ой! Неправильный email.</label>
+              <label *ngIf="loginForm.value.email === ''" class="error__message">
+                <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+                Обязательное поле.</label>
+            </div>
+          </div>
+          <button (click)="checkLogin()" [disabled]="isDisabled" class="btn btn-primary"
+                  style="width: 180px; margin: auto;">
+            Продолжить
+          </button>
+        </div>
       </div>
-    </div>
+      <footer class="text-center">
+        <div class="line-heading text-muted">Первый раз на Sportlance?</div>
+        <button (click)="navigateToRegister()" class="btn btn-default" style=" width: 180px; margin: 24px auto auto;">
+          Регистрация
+        </button>
+      </footer>
+    </ng-container>
     <ng-template #enterPassword>
       <div style="padding-bottom: 24px; padding-top: 24px;" class="text-center">
         <div class="text-center title">
@@ -46,13 +54,18 @@
               <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
               Ой! Неправильный пароль.</label>
           </div>
-          <div class="checkbox">
-            <mat-checkbox class="form-control no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
+          <div style="display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;">
+            <div class="checkbox">
+              <mat-checkbox class="form-control no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
+            </div>
+            <button (click)="forgotPassword()" class="btn-link">
+              Забыли пароль?
+            </button>
           </div>
-          <button (click)="forgotPassword()" class="btn-link" style="padding-right: 0;">
-            Забыли пароль?
-          </button>
-          <button (click)="login()" [disabled]="isDisabled" class="btn btn-primary" style="margin-bottom: 24px; width: 260px;">
+          <button (click)="login()" [disabled]="isDisabled" class="btn btn-primary"
+                  style="margin: 0 25px 24px; width: 180px;">
             Войти
           </button>
           <button (click)="hidePasswordPage()" class="btn-link">
@@ -61,12 +74,6 @@
         </div>
       </div>
     </ng-template>
-    <footer class="text-center">
-      <div class="line-heading text-muted">Первый раз на Sportlance?</div>
-      <button (click)="navigateToRegister()" class="btn btn-default" style=" width: 260px; margin: 24px auto auto;">
-        Регистрация
-      </button>
-    </footer>
   </form>
 </div>
 <app-footer [isEmpty]="true"></app-footer>

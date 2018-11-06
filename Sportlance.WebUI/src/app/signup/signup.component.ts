@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthApiClient} from '../services/auth/auth-api-client';
 import {RegistrationRequest} from '../services/auth/requests/registration-request';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ErrorCode} from '../core/error-code';
 import {Paths} from '../core/paths';
 import {Router} from '@angular/router';
-import {AccountService} from '../services/account-service';
-import {UserService} from '../services/user.service/user.service';
+import {AuthService} from "../services/auth/auth.service";
 
 @Component({
   selector: 'app-signup',
@@ -22,9 +20,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private accountService: AccountService,
-              private authClient: AuthApiClient,
-              private userService: UserService) {
+              private authService: AuthService) {
     this.isEmailExist = false;
     this.createForm();
   }
@@ -34,7 +30,7 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    this.authClient.checkUser(this.submitForm.value.email)
+    this.authService.checkUser(this.submitForm.value.email)
       .subscribe((response) => {
         if (response.error) {
           if (response.error.code === ErrorCode.UserNotFound) {
@@ -77,14 +73,11 @@ export class SignupComponent implements OnInit {
       return;
     }
     const form = this.submitForm.value;
-    this.authClient.register(<RegistrationRequest>{
+    this.authService.register(<RegistrationRequest>{
       email: form.email,
       lastName: form.lastName,
       password: form.password,
       firstName: form.firstName
-    }).subscribe((response) => {
-      this.userService.saveToken(response.token);
-      this.router.navigate([Paths.EmailVerify]);
-    });
+    }).subscribe();
   }
 }

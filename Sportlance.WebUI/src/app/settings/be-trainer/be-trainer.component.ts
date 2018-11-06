@@ -12,7 +12,7 @@ export class BeTrainerComponent {
   constructor(private service: TrainersService, private router: Router) {
   }
 
-  beTranier() {
+  beTrainer() {
     this.service.beTrainer().subscribe(() => this.router.navigate(['/', 'trainers']));
   }
 }

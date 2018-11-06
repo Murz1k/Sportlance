@@ -41,7 +41,8 @@
     "rxjs": "^6.2.0",
     "ts-loader": "^4.4.2",
     "webpack": "^4.10.1",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "jwt-decode": "latest"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.5",

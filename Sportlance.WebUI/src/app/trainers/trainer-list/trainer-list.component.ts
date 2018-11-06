@@ -4,11 +4,11 @@ import {Star} from './star';
 import {isNullOrUndefined} from 'util';
 import {Paths} from '../../core/paths';
 import {TrainersService} from '../trainers.service';
-import {AccountService} from '../../services/account-service';
 import {GetTrainersQuery} from '../../shared/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-trainer-list',
@@ -41,13 +41,13 @@ export class TrainerListComponent {
   public subscription: Subscription;
 
   constructor(private router: Router,
-              private accountService: AccountService,
+              private authService: AuthService,
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
               private trainerService: TrainersService) {
     this.titleService.setTitle(`Тренеры | Sportlance`);
 
-    this.isAuthorized = this.accountService.isAuthorized;
+    this.isAuthorized = this.authService.isAuthorized;
     this.activatedRoute.queryParams.subscribe(async (params: Params) => {
       this.searchString = params['q'];
       this.country = params['country'];

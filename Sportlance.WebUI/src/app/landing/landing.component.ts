@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Image} from './image';
 import {Paths} from '../core/paths';
-import {AccountService} from "../services/account-service";
+import {AuthService} from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -14,9 +14,9 @@ export class LandingComponent {
   public clubLink: string;
   public images: Image[] = [];
 
-  constructor(private accountService: AccountService) {
-    this.trainerLink = this.accountService.isAuthorized ? Paths.Trainers : Paths.Login;
-    this.clubLink = this.accountService.isAuthorized ? Paths.Teams : Paths.Login;
+  constructor(private authService: AuthService) {
+    this.trainerLink = this.authService.isAuthorized ? Paths.Trainers : Paths.Login;
+    this.clubLink = this.authService.isAuthorized ? Paths.Teams : Paths.Login;
     this.images = [
       {
         'title': 'Первый призыв к действию',

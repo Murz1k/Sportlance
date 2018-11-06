@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {User} from '../services/user.service/user';
-import {UserService} from '../services/user.service/user.service';
 import {Paths} from '../core/paths';
+import {AuthService} from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +13,7 @@ export class SettingsComponent {
   public account: User;
   public Paths = Paths;
 
-  constructor(private userService: UserService) {
-    this.account = this.userService.getCurrent();
+  constructor(private authService: AuthService) {
+    this.account = this.authService.getCurrent();
   }
 }

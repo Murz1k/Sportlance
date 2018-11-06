@@ -81,7 +81,8 @@ namespace Sportlance.WebAPI.Authentication
 
             return new LoginResponse
             {
-                Token = _authService.GenerateAccessToken(user)
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
             };
         }
 
@@ -92,12 +93,13 @@ namespace Sportlance.WebAPI.Authentication
             if (user == null || !HashUtils.CheckHash(user.PasswordHash, request.Password))
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectPassword));
 
-//            if (user.IsEmailConfirm)
-//                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
+            if (!user.IsEmailConfirm)
+                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
 
             return new LoginResponse
             {
-                Token = _authService.GenerateAccessToken(user, request.RememberMe)
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
             };
         }
 
@@ -146,7 +148,8 @@ namespace Sportlance.WebAPI.Authentication
 
             return new LoginResponse
             {
-                Token = _authService.GenerateAccessToken(user)
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
             };
         }
 
@@ -197,7 +200,8 @@ namespace Sportlance.WebAPI.Authentication
 
             return new LoginResponse
             {
-                Token = _authService.GenerateAccessToken(user)
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
             };
         }
 
@@ -213,7 +217,8 @@ namespace Sportlance.WebAPI.Authentication
 
             return new LoginResponse
             {
-                Token = _authService.GenerateAccessToken(user)
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
             };
         }
 

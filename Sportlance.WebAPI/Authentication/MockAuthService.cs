@@ -5,12 +5,12 @@ namespace Sportlance.WebAPI.Authentication
 {
     public class MockAuthService: IAuthService
     {
-        public string GenerateAccessToken(User user, bool rememberMe = false)
+        public string GenerateAccessToken(User user)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<string> RefreshAccessToken()
+        public string GenerateRefreshToken(User user)
         {
             throw new System.NotImplementedException();
         }
