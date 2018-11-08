@@ -416,28 +416,8 @@ small {
   z-index: 10;
 }
 
-header a, header .btn-link {
-  text-decoration: none;
-  font-size: 12px;
-  line-height: 12px;
-  color: #666 !important;
-  align-items: center;
-  font-weight: bold;
-  height: 46px !important;;
-  display: inline-flex;
-  vertical-align: top;
-}
-
-header a:not(:last-child) {
-  padding-right: 32px;
-}
-
-header a.active, a {
+ a {
   color: $primary-color;
-}
-
-header mat-toolbar {
-  position: fixed;
 }
 
 .back-loading {

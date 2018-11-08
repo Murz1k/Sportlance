@@ -1,20 +1,21 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <div class="content">
-      <div *ngIf="!isEmpty" class="row">
-        <div style="flex: 1 1 auto;">
-          <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
-          <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
-          <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
-        </div>
-        <div style="flex: 0 0 auto;">
+      <div style="display: flex;
+    justify-content: space-between;">
+        <ng-container *ngIf="!isEmpty">
+          <div class="nav">
+            <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
+            <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
+            <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
+          </div>
           <app-menu></app-menu>
-        </div>
-      </div>
-      <div *ngIf="isEmpty" class="row">
-        <div style="flex: 1 1 auto;">
-          <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="isEmpty">
+          <div>
+            <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
+          </div>
+        </ng-container>
       </div>
     </div>
   </mat-toolbar-row>

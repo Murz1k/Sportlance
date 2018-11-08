@@ -21,6 +21,10 @@
   outline: none !important;
 }
 
+.nav {
+
+}
+
 .medium-icon {
   width: 36px;
   height: 36px;
@@ -29,4 +33,30 @@
   display: inline-block;
   background-color: #666;
   -webkit-mask-size: 36px;
+}
+
+
+
+a, .btn-link {
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 12px;
+  color: #666 !important;
+  align-items: center;
+  font-weight: bold;
+  height: 46px !important;;
+  display: inline-flex;
+  vertical-align: top;
+}
+
+a:not(:last-child) {
+  padding-right: 32px;
+}
+
+a.active, a {
+  color: #37a000;
+}
+
+mat-toolbar {
+  position: fixed;
 }

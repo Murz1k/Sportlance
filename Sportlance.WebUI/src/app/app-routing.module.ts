@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {RootComponent} from './root/root.component';
 import {LandingComponent} from './landing/landing.component';
+import {AboutComponent} from "./about/about.component";
 
 const appRoutes: Routes = [
   {
@@ -11,7 +12,8 @@ const appRoutes: Routes = [
       {path: Paths.Trainers, loadChildren: './trainers/trainers.module#TrainersModule'},
       {path: Paths.Teams, loadChildren: './teams/teams.module#TeamsModule'},
       {path: Paths.Settings, loadChildren: './settings/settings.module#SettingsModule'},
-      {path: Paths.Account, loadChildren: './account/account.module#AccountModule'}
+      {path: Paths.Account, loadChildren: './account/account.module#AccountModule'},
+      {path: 'about', pathMatch: 'full', component: AboutComponent},
     ]
   },
   {path: Paths.SignUp, loadChildren: './signup/signup.module#SignupModule'},
