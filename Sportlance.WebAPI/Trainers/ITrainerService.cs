@@ -20,8 +20,6 @@ namespace Sportlance.WebAPI.Trainers
 
         Task UpdateBackgroundImageAsync(long trainerId, AzureFile photo);
 
-        Task UpdateMainPhotoAsync(long trainerId, AzureFile photo);
-
         Task UpdatePriceAsync(long trainerId, double price);
 
         Task<bool> CanInviteTrainer(long userId, long trainerId);

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
+using Sportlance.WebAPI.Errors;
+using Sportlance.WebAPI.Exceptions;
 
 namespace Sportlance.WebAPI.Users
 {
@@ -12,16 +14,19 @@ namespace Sportlance.WebAPI.Users
     {
         private readonly AppDbContext _appContext;
 
-        public UserService(AppDbContext context)
+        private readonly UsersStorageProvider _usersStorageProvider;
+
+        public UserService(AppDbContext context, UsersStorageProvider usersStorageProvider)
         {
             _appContext = context;
+            _usersStorageProvider = usersStorageProvider;
         }
 
         public Task<User> GetByIdAsync(long id)
         {
             return Entities()
-                .Include(i=>i.UserRoles)
-                .ThenInclude(i=>i.Role)
+                .Include(i => i.UserRoles)
+                .ThenInclude(i => i.Role)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
@@ -44,7 +49,7 @@ namespace Sportlance.WebAPI.Users
 
         public IQueryable<User> Entities()
         {
-            return _appContext.Users.Include(i=>i.UserRoles).ThenInclude(i=>i.Role);
+            return _appContext.Users.Include(i => i.UserRoles).ThenInclude(i => i.Role);
         }
 
         public Task SaveChangesAsync()
@@ -66,6 +71,23 @@ namespace Sportlance.WebAPI.Users
         {
             return _appContext.Users.AnyAsync(x =>
                 string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public async Task<User> UpdateMainPhotoAsync(long userId, AzureFile photo)
+        {
+            var user = await _appContext.Users.FirstOrDefaultAsync(i => i.Id == userId);
+            if (user == null)
+            {
+                throw new AppErrorException(ErrorCode.UserNotFound);
+            }
+
+            var photoName = $"user-{userId}/main";
+            var link = await _usersStorageProvider.UploadAndGetUriAsync(photoName, photo);
+
+            user.PhotoUrl = link;
+            await _appContext.SaveChangesAsync();
+
+            return user;
         }
     }
 }

@@ -12,6 +12,7 @@ import {
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {AuthService} from '../auth/auth.service';
+import {isNullOrUndefined} from "util";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -64,7 +65,7 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   private addAccessTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    if (token) {
+    if (!isNullOrUndefined(token) && token !== 'undefined') {
       return request.clone({setHeaders: {Authorization: `Bearer ${token}`}});
     }
     return request;

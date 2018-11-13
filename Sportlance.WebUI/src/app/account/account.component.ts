@@ -160,11 +160,11 @@ export class AccountComponent implements OnInit {
   }
 
   changePhoto() {
-    this.dialog.open(EditPhotoDialogComponent, {data: <EditPhotoDialogData>{url: this.trainer.photoUrl}})
+    this.dialog.open(EditPhotoDialogComponent, {data: <EditPhotoDialogData>{url: this.account.photoUrl}})
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          this.updateData();
+          this.account = this.authService.getCurrent();
         }
       });
   }

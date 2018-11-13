@@ -1,5 +1,7 @@
 <header [isEmpty]="true"></header>
-<div class="content page">
+<div class="content page" style="display: flex;
+    justify-content: center;
+    align-items: center;">
   <form [formGroup]="loginForm" class="air-card">
     <ng-container *ngIf="isLoginPage; else enterPassword">
       <div class="text-center" style="padding-top: 24px; padding-bottom: 24px;">
@@ -36,7 +38,7 @@
       </footer>
     </ng-container>
     <ng-template #enterPassword>
-      <div style="padding-bottom: 24px; padding-top: 24px;" class="text-center">
+      <div class="text-center">
         <div class="text-center title">
           <span>Добро пожаловать</span>
           <div style="font-size: 12px;">{{loginForm.value.email}}</div>
@@ -65,7 +67,7 @@
             </button>
           </div>
           <button (click)="login()" [disabled]="isDisabled" class="btn btn-primary"
-                  style="margin: 0 25px 24px; width: 180px;">
+                  style="margin: auto auto 20px;">
             Войти
           </button>
           <button (click)="hidePasswordPage()" class="btn-link">

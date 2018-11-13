@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Users
@@ -14,6 +15,8 @@ namespace Sportlance.WebAPI.Users
         Task<bool> IsEmailExistsAsync(string email);
 
         Task AddAsync(User entity);
+
+        Task<User> UpdateMainPhotoAsync(long userId, AzureFile photo);
 
         IQueryable<User> Entities();
 

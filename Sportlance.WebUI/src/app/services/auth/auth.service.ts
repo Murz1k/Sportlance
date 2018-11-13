@@ -119,13 +119,19 @@ export class AuthService {
       }));
   }
 
-  private saveTokens(response: LoginResponse, isRememberMe = false) {
+  public saveTokens(response: LoginResponse, isRememberMe = false) {
     localStorage.setItem('access-token', response.accessToken);
     if (isRememberMe) {
       localStorage.setItem('refresh-token', response.refreshToken);
     } else {
       this.privateRefreshToken = response.refreshToken;
     }
+  }
+
+  uploadPhoto(photo: Blob): Observable<any> {
+    const data = new FormData();
+    data.append('photo', photo);
+    return this.http.put(`/users/photo`, data);
   }
 
   public checkUser(email: string): Observable<CheckUserResponse> {

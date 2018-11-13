@@ -5,10 +5,12 @@ import {SignupRoutingModule} from './signup-routing.module';
 import {FooterModule} from '../core/footer/footer.module';
 import {SignupComponent} from './signup.component';
 import {HeaderModule} from '../core/header/header.module';
+import {MatCheckboxModule} from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
+    MatCheckboxModule,
     ReactiveFormsModule,
     FooterModule,
     HeaderModule,

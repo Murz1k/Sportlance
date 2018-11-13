@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Users
@@ -32,6 +33,11 @@ namespace Sportlance.WebAPI.Users
         public Task AddAsync(User entity)
         {
             return new Task(() => _users.Add(entity));
+        }
+
+        public Task<User> UpdateMainPhotoAsync(long trainerId, AzureFile photo)
+        {
+            throw new System.NotImplementedException();
         }
 
         public IQueryable<User> Entities()

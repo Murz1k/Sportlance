@@ -93,14 +93,6 @@ namespace Sportlance.WebAPI.Trainers
             return NoContent();
         }
 
-        [HttpPut("photo")]
-        [Authorize]
-        public async Task<IActionResult> UploadPhotoAsync([FromForm] IFormFile photo)
-        {
-            await _service.UpdateMainPhotoAsync(User.GetUserId(), photo.ToAzureFile());
-            return NoContent();
-        }
-
         [HttpPut("background")]
         [Authorize]
         public async Task<IActionResult> UploadBackgroundAsync([FromForm] IFormFile photo)

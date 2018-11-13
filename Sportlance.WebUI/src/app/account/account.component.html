@@ -1,4 +1,4 @@
-<div class="content page">
+<div class="content page" style="display: flex;">
   <div class="main-bar">
     <div *ngIf="isTrainer" class="background">
       <img *ngIf="trainer.backgroundUrl" src="{{trainer.backgroundUrl}}">
@@ -16,11 +16,12 @@
     <div class="air-card">
       <section>
         <article class="row" style="position: relative">
-          <div class="empty-avatar-lg" *ngIf="!account.photoUrl">
-            <i class="material-icons">account_circle</i>
-          </div>
-          <div *ngIf="account.photoUrl" class="photo-input">
-            <img src="{{account.photoUrl}}">
+          <div class="photo-input">
+            <img *ngIf="account.photoUrl" src="{{account.photoUrl}}">
+            <div *ngIf="!account.photoUrl" class="empty-avatar-lg" style="    position: absolute;
+    bottom: 50px;">
+              <i class="material-icons">account_circle</i>
+            </div>
             <button (click)="changePhoto()">
               <i class="material-icons" style="display: inherit; font-size: 36px;">wallpaper</i>
               Изменить

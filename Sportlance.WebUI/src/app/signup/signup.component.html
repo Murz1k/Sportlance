@@ -2,8 +2,10 @@
 <div class="content page">
   <form [formGroup]="submitForm" (ngSubmit)="signUp()">
     <div class="air-card">
-      <div class="text-center" style="padding-top: 24px; padding-bottom: 24px; width: 260px; margin: auto;">
-      <ng-container *ngIf="!isEmailExist; else emailNotExist">
+      <div class="text-center" style="padding-top: 30px;
+    padding-bottom: 30px;
+    margin: 0 40px;">
+        <ng-container *ngIf="!isEmailExist; else emailNotExist">
           <div class="title">
             Регистрация
           </div>
@@ -39,14 +41,10 @@
               Эта почта уже исползуется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
             </label>
           </div>
-          <div class="text-center">
-            <button type="button" class="btn btn-primary" style="width: 180px; margin: auto;"
-                    (click)="checkUserEmailAsync()">
-              <i class="glyphicon glyphicon-md air-icon-loading"></i>
-              Продолжить
-            </button>
-          </div>
-      </ng-container>
+          <button class="btn btn-primary" (click)="checkUserEmailAsync()" style="margin: auto;">
+            Продолжить
+          </button>
+        </ng-container>
       </div>
     </div>
     <ng-template #emailNotExist>
@@ -62,45 +60,20 @@
       <div class="form-group">
         <div class="checkbox m-xs-bottom">
           <label>
-            <input type="checkbox" name="promotionalEmailOptIn">
-            <span class="checkbox-replacement-helper">
-                            <span aria-hidden="true" class="glyphicon air-icon-check"></span>
-                          </span>
-            <small>
-              Yes! Send me genuinely useful emails every now and then to help me get the most out of
-              Upwork.
-            </small>
-          </label>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="checkbox m-xs-bottom">
-          <label>
-            <input type="checkbox" class="">
-            <span class="checkbox-replacement-helper">
-                              <span aria-hidden="true" class="glyphicon air-icon-check"></span>
-                            </span>
-            <small>
-              Yes, I understand and agree to the
-              <a href="https://www.upwork.com/info/terms/" target="_blank">Upwork Terms of Service</a>,
-              including the
-              <a href="https://www.upwork.com/info/terms/" target="_blank">User Agreement</a> and
-              <a href="https://www.upwork.com/info/terms/privacy/" target="_blank">Privacy Policy</a>.
-            </small>
+            <div class="checkbox">
+              <mat-checkbox class="form-control no-border">
+                С <a href="https://www.upwork.com/info/terms/" target="_blank">правилами</a> сервиса согласен
+              </mat-checkbox>
+            </div>
           </label>
         </div>
         <span class="o-signup-form-errors text-left">
                           <label class="form-message form-error">
-                            Please accept the Upwork Terms of Service before continuing
+                            Пожалуйста, примите Правила сервиса Sportlance перед тем как продолжить
                           </label>
                       </span>
       </div>
-      <div class="text-center">
-        <button type="submit" class="btn btn-md btn-primary o-signup-submit">
-          <i class="glyphicon air-icon-loading" aria-hidden="true"></i>
-          <span class="">Next</span>
-        </button>
-      </div>
+      <input type="submit" class="btn btn-md btn-primary" style="margin: auto;" value="Продолжить"/>
     </ng-template>
   </form>
 </div>

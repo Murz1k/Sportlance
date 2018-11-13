@@ -131,15 +131,6 @@ namespace Sportlance.WebAPI.Trainers
                 select trainerTeam).AnyAsync(i => i.TrainerId == trainerId);
         }
 
-        public async Task UpdateMainPhotoAsync(long trainerId, AzureFile photo)
-        {
-            var photoName = $"trainer-{trainerId}/main";
-            var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
-            var team = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
-            team.User.PhotoUrl = link;
-            await _appContext.SaveChangesAsync();
-        }
-
         public async Task UpdateBackgroundImageAsync(long trainerId, AzureFile photo)
         {
             var photoName = $"trainer-{trainerId}/background";

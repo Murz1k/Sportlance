@@ -107,6 +107,7 @@ namespace Sportlance.WebAPI
             services.AddSingleton(InitializeTrainersStorageProvider);
             services.AddSingleton(InitializeTeamsStorageProvider);
             services.AddSingleton(InitializeTeamPhotosStorageProvider);
+            services.AddSingleton(InitializeUsersStorageProvider);
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
@@ -165,6 +166,13 @@ namespace Sportlance.WebAPI
         private TeamsStorageProvider InitializeTeamsStorageProvider(IServiceProvider serviceProvider)
         {
             var storageProvider = new TeamsStorageProvider(serviceProvider.GetService<IAmazonS3>());
+            storageProvider.InitializeAsync().Wait();
+            return storageProvider;
+        }
+
+        private UsersStorageProvider InitializeUsersStorageProvider(IServiceProvider serviceProvider)
+        {
+            var storageProvider = new UsersStorageProvider(serviceProvider.GetService<IAmazonS3>());
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }

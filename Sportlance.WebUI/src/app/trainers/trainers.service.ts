@@ -43,12 +43,6 @@ export class TrainersService {
     return this.http.get<TrainerProfileResponse>(`/trainers/self`);
   }
 
-  async uploadPhotoAsync(photo: Blob): Promise<void> {
-    const data = new FormData();
-    data.append('photo', photo);
-    await this.http.put(`/trainers/photo`, data).toPromise();
-  }
-
   async uploadBackgorundImageAsync(photo: Blob): Promise<void> {
     const data = new FormData();
     data.append('photo', photo);

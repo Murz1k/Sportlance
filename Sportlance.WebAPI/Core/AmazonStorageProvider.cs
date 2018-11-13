@@ -79,16 +79,25 @@ namespace Sportlance.WebAPI.Core
 
                 using (var stream = new MemoryStream(file.Data))
                 {
-                    await fileTransferUtility.UploadAsync(stream, _bucketName, fileName);
+                    var uploadRequest = new TransferUtilityUploadRequest
+                    {
+                        InputStream = stream,
+                        Key = fileName,
+                        BucketName = _bucketName,
+                        CannedACL = S3CannedACL.PublicRead
+                    };
+                    
+                    await fileTransferUtility.UploadAsync(uploadRequest);
                 }
 
                 var request = new GetPreSignedUrlRequest
                 {
                     BucketName = _bucketName,
                     Key = fileName,
-                    Protocol = Protocol.HTTPS
+                    Protocol = Protocol.HTTPS,
+                    Expires = DateTime.UtcNow
                 };
-                return _client.GetPreSignedURL(request);
+                return _client.GetPreSignedURL(request).Split('?')[0];
             }
             catch (AmazonS3Exception e)
             {
