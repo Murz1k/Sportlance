@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;

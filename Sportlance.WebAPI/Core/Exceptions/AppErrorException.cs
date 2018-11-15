@@ -1,4 +1,5 @@
 ﻿using System;
+using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Errors;
 
 namespace Sportlance.WebAPI.Exceptions

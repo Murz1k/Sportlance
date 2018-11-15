@@ -1,4 +1,6 @@
-﻿namespace Sportlance.WebAPI.Errors
+﻿using Sportlance.WebAPI.Core.Errors;
+
+namespace Sportlance.WebAPI.Errors
 {
     public class AppError
     {

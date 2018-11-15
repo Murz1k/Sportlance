@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
+using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 

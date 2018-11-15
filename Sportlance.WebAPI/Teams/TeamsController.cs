@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;

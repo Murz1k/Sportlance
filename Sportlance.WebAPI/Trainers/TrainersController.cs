@@ -2,10 +2,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.WebAPI.Authentication;
+using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.Errors;
+using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Responses;
+using Sportlance.WebAPI.Users;
 using TrainerListItem = Sportlance.WebAPI.Entities.TrainerListItem;
 using TrainerProfile = Sportlance.WebAPI.Entities.TrainerProfile;
 using TrainerStatus = Sportlance.WebAPI.Entities.TrainerStatus;
@@ -16,10 +21,18 @@ namespace Sportlance.WebAPI.Trainers
     public class TrainersController : Controller
     {
         private readonly ITrainerService _service;
+        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
-        public TrainersController(ITrainerService service)
+        public TrainersController(
+            ITrainerService service,
+            IUserService userService,
+            IAuthService authService
+            )
         {
             _service = service;
+            _authService = authService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -32,11 +45,21 @@ namespace Sportlance.WebAPI.Trainers
         
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> BeTrainerAsync()
+        public async Task<LoginResponse> BeTrainerAsync()
         {
-            await _service.AddAsync(User.GetUserId());
+            var user = await _userService.GetByIdAsync(User.GetUserId());
+            if (user == null)
+            {
+                throw new AppErrorException(ErrorCode.UserNotFound);
+            }
+            
+            user = await _service.AddAsync(user);
 
-            return NoContent();
+            return new LoginResponse
+            {
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
+            };
         }
 
         [HttpGet]

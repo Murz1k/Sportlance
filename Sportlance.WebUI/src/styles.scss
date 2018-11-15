@@ -255,6 +255,7 @@ ul.feedbacks, ul.my-teams {
     background-color: transparent;
     user-select: none;
     outline: none;
+    transition: .3s background-color, .3s color;
   }
   :hover {
     color: white;
@@ -578,6 +579,7 @@ input.form-control:hover, textarea.form-control:hover, .select2-search input:hov
   float: right;
   position: sticky;
   top: 24px;
+  box-sizing: border-box;
 }
 
 /* Large desktops and laptops */

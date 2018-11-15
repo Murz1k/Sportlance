@@ -12,7 +12,7 @@ namespace Sportlance.WebAPI.Trainers
 
         Task<TrainerProfile> GetById(long trainerId);
 
-        Task AddAsync(long userId);
+        Task<User> AddAsync(User user);
         
         Task SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus);
 

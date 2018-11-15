@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {TrainersService} from '../../trainers/trainers.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-be-trainer',
@@ -9,10 +10,20 @@ import {Router} from '@angular/router';
 })
 export class BeTrainerComponent {
 
-  constructor(private service: TrainersService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private service: TrainersService,
+    private router: Router
+  ) {
   }
 
   beTrainer() {
-    this.service.beTrainer().subscribe(() => this.router.navigate(['/', 'trainers']));
+    this.service.beTrainer()
+      .subscribe((response) => {
+        if (!response.error) {
+          this.authService.saveTokens(response, true);
+          this.router.navigate(['/', 'trainers']);
+        }
+      });
   }
 }

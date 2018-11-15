@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Entities;
+using Sportlance.WebAPI.Errors;
+using Sportlance.WebAPI.Exceptions;
 
 namespace Sportlance.WebAPI.Trainers
 {
@@ -96,10 +99,20 @@ namespace Sportlance.WebAPI.Trainers
             };
         }
 
-        public async Task AddAsync(long userId)
+        public async Task<User> AddAsync(User user)
         {
-            await _appContext.AddAsync(new Trainer {UserId = userId});
+            var role = await _appContext.Roles.FirstOrDefaultAsync(i => i.Name == "Trainer");
+            if (role == null)
+            {
+                throw new AppErrorException(ErrorCode.RoleNotFound);
+            }
+            
+            user.AddRole(role);
+            await _appContext.AddAsync(new Trainer {UserId = user.Id});
+            
             await _appContext.SaveChangesAsync();
+
+            return user;
         }
 
         public async Task SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus)

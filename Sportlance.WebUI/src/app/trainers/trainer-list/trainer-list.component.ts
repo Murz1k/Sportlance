@@ -166,7 +166,7 @@ export class TrainerListComponent {
   }
 
   private cutAbout(about: string): string {
-    if (about.length <= 167) {
+    if (!about || about.length <= 167) {
       return about;
     }
     return about.substring(0, 167) + '...';

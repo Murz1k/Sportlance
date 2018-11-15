@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 

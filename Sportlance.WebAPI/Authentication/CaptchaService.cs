@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Sportlance.WebAPI.Authentication.Responses;
+using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Utilities;
