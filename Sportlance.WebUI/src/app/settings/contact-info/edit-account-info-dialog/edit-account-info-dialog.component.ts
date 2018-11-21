@@ -30,18 +30,14 @@ export class EditAccountInfoDialogComponent implements OnInit {
 
   public async submitAsync(result): Promise<void> {
     if (result) {
-      await this.changeAccountInfoAsync();
-      this.dialogRef.close(true);
-      return;
-    }
-    this.dialogRef.close(false);
-  }
-
-  private async changeAccountInfoAsync() {
-    if (this.form.value.firstName !== this.account.firstName
-      || this.form.value.secondName !== this.account.secondName
-      || this.form.value.email !== this.account.email) {
-      await this.authService.updateAccountAsync(this.form.value.firstName, this.form.value.secondName, this.form.value.email);
+      if (this.form.value.firstName !== this.account.firstName
+        || this.form.value.secondName !== this.account.secondName
+        || this.form.value.email !== this.account.email) {
+        this.authService.updateAccount(this.form.value.firstName, this.form.value.secondName, this.form.value.email)
+          .subscribe(() => this.dialogRef.close(true));
+      }
+    } else {
+      this.dialogRef.close(false);
     }
   }
 }

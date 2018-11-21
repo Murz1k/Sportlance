@@ -1,0 +1,32 @@
+<div class="air-card">
+  <div class="air-card-header">
+    <h3 class="pull-left">
+      Отзывы
+    </h3>
+  </div>
+  <section class="pull-left">
+    <ul class="feedbacks">
+      <li *ngFor="let review of feedbacks">
+        <div class="row" style="padding-bottom: 1em;">
+          <i *ngFor="let scoreStar of review.stars" class="material-icons star-icon">
+            {{scoreStar.isFull ? 'star' : ''}}
+            {{scoreStar.isEmpty ? 'star_border' : ''}}
+            {{scoreStar.isHalf ? 'star_half' : ''}}
+          </i>
+        </div>
+        <div class="row" style="padding-bottom: 1em;">
+          {{review.description}}
+        </div>
+        <div class="row text-muted">
+          {{review.clientName}} {{review.createDate | formatDate}}
+        </div>
+      </li>
+    </ul>
+  </section>
+  <div class="search-results" *ngIf="!finished"
+       infiniteScroll
+       [infiniteScrollDistance]="1"
+       [infiniteScrollThrottle]="200"
+       (scrolled)="onScrollDown()">
+  </div>
+</div>

@@ -26,13 +26,13 @@ export class EditTrainerAboutDialogComponent implements OnInit {
     });
   }
 
-  public async submitAsync(result: boolean): Promise<void> {
+  public submit(result: boolean){
     if (result && this.data.about !== this.form.value.about) {
-      await this.trainerService.updateAboutAsync(this.form.value.about);
-      this.dialogRef.close(true);
-      return;
+      this.trainerService.updateAbout(this.form.value.about)
+        .subscribe(() => this.dialogRef.close(true));
+    } else {
+      this.dialogRef.close(false);
     }
-    this.dialogRef.close(false);
   }
 
   getCharactersLeft(): number {

@@ -17,6 +17,7 @@ import {InviteTrainerDialogComponent} from './trainer-details/invite-trainer-dia
 import {MyDateAdapter} from '../core/my-date-adapter';
 import {FormatDateModule} from '../core/format-date-pipe/format-date.module';
 import {RedirectTrainerProfileResolver} from './trainer-details/redirect-trainer-profile.resolver';
+import {FeedbackModule} from '../shared/feedback/feedback.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import {RedirectTrainerProfileResolver} from './trainer-details/redirect-trainer
     TimeMaskModule,
     MatDatepickerModule,
     SelectModule,
+    FeedbackModule,
     FormatDateModule
   ],
   entryComponents: [

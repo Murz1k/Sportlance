@@ -1,5 +1,7 @@
 export class User {
 
+  id: number;
+
   firstName: string;
 
   secondName: string;
@@ -12,9 +14,10 @@ export class User {
 
   isConfirmed: boolean;
 
-  constructor(firstName: string, secondName: string, roles: any, email: string, isConfirmed: boolean, photoUrl: string) {
+  constructor(firstName: string, secondName: string, roles: any, email: string, isConfirmed: boolean, photoUrl: string, userId: number) {
     this.firstName = firstName;
     this.secondName = secondName;
+    this.id = userId;
     if (roles instanceof Array) {
       this.roles = roles;
     }

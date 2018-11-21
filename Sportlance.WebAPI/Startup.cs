@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.ExceptionHandler;
 using Sportlance.WebAPI.Core.Filters;
 using Sportlance.WebAPI.Core.Options;
 using Sportlance.WebAPI.ExceptionHandler;

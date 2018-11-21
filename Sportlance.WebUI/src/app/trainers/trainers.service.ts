@@ -7,7 +7,7 @@ import {GetTrainersQuery} from '../shared/trainers/get-trainers-query';
 import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from '../shared/trainers/responses/training-response';
-import {LoginResponse} from "../services/auth/responses/login-response";
+import {LoginResponse} from '../services/auth/responses/login-response';
 
 @Injectable()
 export class TrainersService {
@@ -44,10 +44,10 @@ export class TrainersService {
     return this.http.get<TrainerProfileResponse>(`/trainers/self`);
   }
 
-  async uploadBackgorundImageAsync(photo: Blob): Promise<void> {
+  uploadBackgorundImage(photo: Blob) {
     const data = new FormData();
     data.append('photo', photo);
-    await this.http.put(`/trainers/background`, data).toPromise();
+    return this.http.put(`/trainers/background`, data);
   }
 
   beTrainer(): Observable<LoginResponse> {
@@ -58,12 +58,12 @@ export class TrainersService {
     return this.http.post(`/trainers/availability`, {isAvailable: isAvailable});
   }
 
-  updateAboutAsync(about: string) {
-    return this.http.put(`/trainers/about`, {about: about}).toPromise();
+  updateAbout(about: string) {
+    return this.http.put(`/trainers/about`, {about: about});
   }
 
-  updatePaidAsync(price: number) {
-    return this.http.put(`/trainers/price`, {price: price}).toPromise();
+  updatePaid(price: number) {
+    return this.http.put(`/trainers/price`, {price: price});
   }
 
   getTrainings(trainerId: number, startDate: string, endDate: string): Observable<CollectionResponse<TrainingResponse>> {

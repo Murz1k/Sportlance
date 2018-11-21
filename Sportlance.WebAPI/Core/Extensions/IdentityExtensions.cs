@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Security.Claims;
 using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 
-namespace Sportlance.WebAPI.Extensions
+namespace Sportlance.WebAPI.Core.Extensions
 {
     public static class IdentityExtensions
     {

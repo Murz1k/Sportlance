@@ -36,8 +36,8 @@ export class AddTeamPhotoDialogComponent {
     reader.readAsDataURL(this.newPhoto);
   }
 
-  public async submitAsync(): Promise<void> {
-    await this.teamsService.addPhotoAsync(this.teamId, this.newPhoto);
-    this.dialogRef.close(true);
+  public submit() {
+    this.teamsService.addPhoto(this.teamId, this.newPhoto)
+      .subscribe(() => this.dialogRef.close(true));
   }
 }

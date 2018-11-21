@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 import * as jwt_decode from 'jwt-decode';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -25,6 +25,7 @@ import {Paths} from '../../core/paths';
 export class AuthService {
 
   privateRefreshToken: string;
+  userChanged: EventEmitter<User> = new EventEmitter<User>();
 
   constructor(private activatedRoute: ActivatedRoute,
               private http: HttpClient,
@@ -63,7 +64,8 @@ export class AuthService {
         userOptions.roles,
         userOptions.email,
         userOptions.isConfirmed,
-        userOptions.photoUrl
+        userOptions.photoUrl,
+        userOptions.userId
       );
     }
     return user;
@@ -78,7 +80,7 @@ export class AuthService {
   }
 
   updateAccessToken() {
-    return this.http.post<any>(`/ab/token`, {refreshToken: this.refreshToken});
+    return this.http.post<any>(`/auth/token`, {refreshToken: this.refreshToken});
   }
 
   public register(request: RegistrationRequest): Observable<LoginResponse> {
@@ -90,8 +92,8 @@ export class AuthService {
       }));
   }
 
-  public async reSendEmailAsync(token: string): Promise<void> {
-    await this.http.post('/auth/re-send', <ResendEmailRequest> {token: token}).toPromise();
+  public reSendEmail(token: string) {
+    return this.http.post('/auth/re-send', <ResendEmailRequest> {token: token});
   }
 
   public updatePassword(oldPassword: string, password: string, confirmPassword: string): Observable<ErrorResponse> {
@@ -102,12 +104,12 @@ export class AuthService {
     });
   }
 
-  public async updateAccountAsync(firstName: string, secondName: string, email: string): Promise<LoginResponse> {
+  public updateAccount(firstName: string, secondName: string, email: string): Observable<LoginResponse> {
     return this.http.put<LoginResponse>('/auth', <UpdateAccountRequest> {
       firstName: firstName,
       secondName: secondName,
       email: email
-    }).toPromise();
+    });
   }
 
   public confirmEmail(request: ConfirmRegistrationRequest): Observable<LoginResponse> {
@@ -126,6 +128,7 @@ export class AuthService {
     } else {
       this.privateRefreshToken = response.refreshToken;
     }
+    this.userChanged.emit(this.getCurrent());
   }
 
   uploadPhoto(photo: Blob): Observable<any> {
@@ -183,6 +186,7 @@ export class AuthService {
     localStorage.removeItem('access-token');
     localStorage.removeItem('refresh-token');
     this.privateRefreshToken = undefined;
+    this.userChanged.emit();
     this.router.navigate(['/', 'login'], {queryParams: {redirectUrl: redirectUrl}});
   }
 }

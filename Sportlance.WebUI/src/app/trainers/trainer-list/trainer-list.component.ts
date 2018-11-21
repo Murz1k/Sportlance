@@ -155,9 +155,9 @@ export class TrainerListComponent {
     });
   }
 
-  async openProfileAsync(trainerId: number) {
+  openProfile(trainerId: number) {
     if (!isNullOrUndefined(trainerId)) {
-      await this.router.navigate([`${Paths.Trainers}/${trainerId}`]);
+      this.router.navigate([`${Paths.Trainers}/${trainerId}`]);
     }
   }
 

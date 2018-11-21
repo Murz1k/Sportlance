@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditTrainerPaidDialogData} from './edit-trainer-paid-dialog-data';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {TrainersService} from "../../trainers/trainers.service";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {TrainersService} from '../../trainers/trainers.service';
 
 @Component({
   selector: 'app-edit-trainer-paid-dialog',
@@ -26,13 +26,13 @@ export class EditTrainerPaidDialogComponent implements OnInit {
     });
   }
 
-  public async submitAsync(result: boolean): Promise<void> {
+  public submit(result: boolean) {
     if (result && this.data.paid !== this.form.value.paid) {
-      await this.trainerService.updatePaidAsync(this.form.value.paid);
-      this.dialogRef.close(true);
-      return;
+      this.trainerService.updatePaid(this.form.value.paid)
+        .subscribe(() => this.dialogRef.close(true));
+    } else {
+      this.dialogRef.close(false);
     }
-    this.dialogRef.close(false);
   }
 
   public calculateFee(): number {

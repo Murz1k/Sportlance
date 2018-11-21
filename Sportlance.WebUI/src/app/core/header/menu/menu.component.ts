@@ -30,18 +30,14 @@ export class MenuComponent implements OnInit {
     this.isOpen = true;
   }
 
-  async ngOnInit() {
-    return await this.updateUserAsync();
+  ngOnInit() {
+    this.updateUser(this.authService.getCurrent());
+    this.authService.userChanged.subscribe((user) => this.updateUser(user));
   }
 
-  public async updateUserAsync(): Promise<void> {
-    if (this.authService.isAuthorized) {
-      this.currentUser = await this.authService.getCurrent();
-      this.isAuthorized = true;
-    } else {
-      this.currentUser = null;
-      this.isAuthorized = false;
-    }
+  public updateUser(user: User) {
+    this.currentUser = user;
+    this.isAuthorized = this.authService.isAuthorized;
   }
 
   logout() {

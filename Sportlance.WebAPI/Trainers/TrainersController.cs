@@ -6,6 +6,7 @@ using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Errors;
+using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;

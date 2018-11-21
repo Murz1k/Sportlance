@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Errors;
 using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 
 namespace Sportlance.WebAPI.Trainers
@@ -106,8 +105,14 @@ namespace Sportlance.WebAPI.Trainers
             {
                 throw new AppErrorException(ErrorCode.RoleNotFound);
             }
+
+            if (user.HasRoleRole(role))
+            {
+                throw new AppErrorException(ErrorCode.UserAlreadyHasRole);
+            }
             
             user.AddRole(role);
+            
             await _appContext.AddAsync(new Trainer {UserId = user.Id});
             
             await _appContext.SaveChangesAsync();

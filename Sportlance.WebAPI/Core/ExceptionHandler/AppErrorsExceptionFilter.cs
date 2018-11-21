@@ -6,20 +6,28 @@ using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Responses;
 
-namespace Sportlance.WebAPI.ExceptionHandler
+namespace Sportlance.WebAPI.Core.ExceptionHandler
 {
     public class AppErrorsExceptionFilter : ExceptionFilterAttribute
     {
         public override void OnException(ExceptionContext context)
         {
             if (context.Exception is AppErrorException appErrorsException)
-                context.Result = new ObjectResult(new ErrorResponse(appErrorsException.Error) )
+                if (appErrorsException.Error.Code == ErrorCode.AuthenticationError.ToString())
                 {
-                    StatusCode = (int) HttpStatusCode.OK
-                };
+                    context.Result = new UnauthorizedResult();
+                }
+                else
+                {
+                    context.Result = new ObjectResult(new ErrorResponse(appErrorsException.Error))
+                    {
+                        StatusCode = (int) HttpStatusCode.OK
+                    };
+                }
             else
                 context.Result =
-                    new ObjectResult(new ErrorResponse(new AppError(ErrorCode.ServerError, context.Exception.ToString())))
+                    new ObjectResult(
+                        new ErrorResponse(new AppError(ErrorCode.ServerError, context.Exception.ToString())))
                     {
                         StatusCode = (int) HttpStatusCode.InternalServerError
                     };

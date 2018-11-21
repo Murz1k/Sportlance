@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Responses;
 

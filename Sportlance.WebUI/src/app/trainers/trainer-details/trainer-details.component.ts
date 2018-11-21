@@ -3,8 +3,6 @@ import {ActivatedRoute} from '@angular/router';
 import {Star} from '../trainer-list/star';
 import {TrainerInfo} from '../trainer-list/trainer-info';
 import {TrainersService} from '../trainers.service';
-import {ReviewInfo} from './review-info';
-import {FeedbacksService} from '../../services/feedbacks/feedbacks.service';
 import {User} from '../../services/user.service/user';
 import {InviteTrainerDialogData} from './invite-trainer-dialog/invite-trainer-dialog-data';
 import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
@@ -25,17 +23,11 @@ export class TrainerDetailsComponent implements OnInit {
   public canInvited = false;
   public isShowAbout = false;
 
-  private offset = 0;
-  private count = 10;
-  private totalCount = 0;
-  public feedbacks: Array<ReviewInfo> = [];
   public teams = [];
-  public finished = false;
 
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
   }
 
@@ -53,52 +45,16 @@ export class TrainerDetailsComponent implements OnInit {
       stars: this.convertAverageScoreToStars(this.route.snapshot.data['profile'].score),
       sports: this.route.snapshot.data['profile'].sports
     };
-    await this.route.params.forEach(async params => {
-      this.trainerId = params['id'];
-      this.updateFeedbacks(this.trainerId);
-      if (this.account && this.account.isTeam) {
-        this.trainerService.canInviteTrainer(params['id']).subscribe((canInvited) => {
-          this.canInvited = canInvited;
-        });
-      }
-    });
+    this.trainerId = this.route.snapshot.params['id'];
+    if (this.account && this.account.isTeam) {
+      this.trainerService.canInviteTrainer(this.trainerId).subscribe((canInvited) => {
+        this.canInvited = canInvited;
+      });
+    }
   }
 
   public showAbout() {
     this.isShowAbout = !this.isShowAbout;
-  }
-
-  private updateFeedbacks(trainerId: number) {
-    this.feedbackService.getTrainerFeedbacks(trainerId, this.offset, this.count)
-      .subscribe((response) => {
-        this.totalCount = response.totalCount;
-        response.items.map(i => <ReviewInfo>{
-          stars: this.convertAverageScoreToStars(i.score),
-          clientName: i.clientName,
-          createDate: i.createDate,
-          description: i.description,
-          photoUrl: i.photoUrl
-        }).forEach(item => this.feedbacks.push(item));
-      });
-  }
-
-  public onScrollDown() {
-    if (this.finished) {
-      return;
-    }
-    this.offset = this.count + this.offset;
-    this.feedbackService.getTrainerFeedbacks(this.trainerId, this.offset, this.count)
-      .subscribe((response) => {
-        this.totalCount = response.totalCount;
-        this.finished = this.offset + this.count >= this.totalCount;
-        response.items.map(i => <ReviewInfo>{
-          stars: this.convertAverageScoreToStars(i.score),
-          clientName: i.clientName,
-          createDate: i.createDate,
-          description: i.description,
-          photoUrl: i.photoUrl
-        }).forEach(item => this.feedbacks.push(item));
-      });
   }
 
   private convertAverageScoreToStars(score: number): Array<Star> {

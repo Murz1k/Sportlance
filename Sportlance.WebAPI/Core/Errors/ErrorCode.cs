@@ -11,6 +11,7 @@
         ServerError,
         UserNotFound,
         RoleNotFound,
+        UserAlreadyHasRole,
         UpdateInProgress,
         TxIsInvalid,
         TeamNotFound,

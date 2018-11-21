@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core.Errors;
+using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Errors;
 using Sportlance.WebAPI.Exceptions;
 using Sportlance.WebAPI.Requests;
@@ -79,6 +80,21 @@ namespace Sportlance.WebAPI.Authentication
             user.LastName = request.SecondName;
             user.Email = request.Email;
             await _userService.SaveChangesAsync();
+
+            return new LoginResponse
+            {
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
+            };
+        }
+
+        [Authorize]
+        [HttpPut]
+        [Route("token")]
+        public async Task<LoginResponse> UpdateTokenAsync([FromBody] UpdateAccountRequest request)
+        {
+            var user = await _userService.GetByIdAsync(UserId);
+            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             return new LoginResponse
             {

@@ -82,11 +82,6 @@ button:focus {
   color: #656565;
 }
 
-.btn-primary.active, .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
-  color: $default-color;
-  background-color: $primary-dark-color;
-}
-
 .air-card > section:focus, .air-card > section:hover {
   box-shadow: none;
   background-color: #f9f9f9;

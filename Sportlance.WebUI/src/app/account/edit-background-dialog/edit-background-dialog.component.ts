@@ -61,8 +61,8 @@ export class EditBackgroundDialogComponent implements OnInit {
     // this.uploadHandler.emit(this.value);
   }
 
-  public async submitAsync(): Promise<void> {
-    await this.trainerService.uploadBackgorundImageAsync(this.newPhoto);
-    this.dialogRef.close(true);
+  public submit() {
+    this.trainerService.uploadBackgorundImage(this.newPhoto)
+      .subscribe(() => this.dialogRef.close(true));
   }
 }

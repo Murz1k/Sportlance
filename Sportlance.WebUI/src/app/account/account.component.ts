@@ -36,7 +36,6 @@ export class AccountComponent implements OnInit {
   public TrainerStatus = TrainerStatus;
   starsNumber = 5;
   public clubs = [];
-  public isTrainer = false;
 
   private offset = 0;
   private count = 10;
@@ -48,11 +47,16 @@ export class AccountComponent implements OnInit {
               private dialog: MatDialog,
               private feedbackService: FeedbacksService,
               private trainerService: TrainersService) {
-    this.account = this.authService.getCurrent();
-    this.titleService.setTitle(`${this.account.firstName} ${this.account.secondName} | Sportlance`);
   }
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.updateUser(this.authService.getCurrent());
+    this.authService.userChanged.subscribe((user) => this.updateUser(user));
+  }
+
+  private updateUser(user: User) {
+    this.account = user;
+    this.titleService.setTitle(`${this.account.firstName} ${this.account.secondName} | Sportlance`);
     if (this.account.isTrainer) {
       this.updateFeedbacks();
       this.updateData();

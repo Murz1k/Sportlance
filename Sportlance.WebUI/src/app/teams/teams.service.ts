@@ -40,10 +40,10 @@ export class TeamsService {
     return this.http.delete(`/teams/${teamId}/photos/${photoId}`);
   }
 
-  async addPhotoAsync(teamId: number, photo: Blob): Promise<void> {
+  addPhoto(teamId: number, photo: Blob) {
     const data = new FormData();
     data.append('photo', photo);
-    await this.http.post(`/teams/${teamId}/photos`, data).toPromise();
+    return this.http.post(`/teams/${teamId}/photos`, data);
   }
 
   getSelf(query: GetTeamQuery): Observable<CollectionResponse<TeamResponse>> {
@@ -53,16 +53,16 @@ export class TeamsService {
     return this.http.get<CollectionResponse<TeamResponse>>(`/teams/self`, {params: parameters});
   }
 
-  async uploadMainPhotoAsync(teamId: number, photo: Blob): Promise<void> {
+  uploadMainPhoto(teamId: number, photo: Blob) {
     const data = new FormData();
     data.append('photo', photo);
-    await this.http.put(`/trainers/photo`, data).toPromise();
+    return this.http.put(`/trainers/photo`, data);
   }
 
-  async uploadBackgroundImageAsync(teamId: number, photo: Blob): Promise<void> {
+  uploadBackgroundImage(teamId: number, photo: Blob) {
     const data = new FormData();
     data.append('photo', photo);
-    await this.http.put(`/trainers/background`, data).toPromise();
+    return this.http.put(`/trainers/background`, data);
   }
 
   inviteMember(teamId: number, memberId: number) {

@@ -1,6 +1,6 @@
 <div class="content page" style="display: flex;">
   <div class="main-bar">
-    <div *ngIf="isTrainer" class="background">
+    <div *ngIf="account.isTrainer" class="background">
       <img *ngIf="trainer.backgroundUrl" src="{{trainer.backgroundUrl}}">
       <div class="background-placeholder" *ngIf="!trainer.backgroundUrl">
       </div>
@@ -9,7 +9,7 @@
         Изменить
       </button>
     </div>
-    <div *ngIf="!isTrainer" class="background">
+    <div *ngIf="!account.isTrainer" class="background">
       <div class="background-placeholder">
       </div>
     </div>
@@ -31,7 +31,7 @@
             <h4 class="name">
               {{account.firstName}} {{account.secondName}}
             </h4>
-            <ng-container *ngIf="isTrainer">
+            <ng-container *ngIf="account.isTrainer">
               <h4 class="title">{{trainer.title}}</h4>
               <div class="info-list">
                 <div class="info-list-item" (click)="changePaid()">
@@ -45,7 +45,7 @@
               </div>
             </ng-container>
           </div>
-          <ng-container *ngIf="isTrainer">
+          <ng-container *ngIf="account.isTrainer">
             <div *ngIf="trainer.country && trainer.city" style="margin-left: auto;">
               <i class="material-icons position-icon text-muted">place</i>
               <strong>{{trainer.country}}, {{trainer.city}} </strong>
@@ -53,7 +53,7 @@
           </ng-container>
         </article>
       </section>
-      <ng-container *ngIf="isTrainer">
+      <ng-container *ngIf="account.isTrainer">
         <section class="pull-left" *ngIf="!trainer.about" style="position: relative;">
           <h3 style="margin-bottom:30px;"> О себе </h3>
           Расскажите о себе.
@@ -72,7 +72,7 @@
         </section>
       </ng-container>
     </div>
-    <div *ngIf="isTrainer" class="air-card">
+    <div *ngIf="account.isTrainer" class="air-card">
       <div class="air-card-header">
         <h3 class="pull-left">
           Навыки
@@ -87,7 +87,7 @@
         </a>
       </section>
     </div>
-    <div *ngIf="isTrainer" class="air-card">
+    <div *ngIf="account.isTrainer" class="air-card">
       <div class="air-card-header">
         <h3 class="pull-left">
           Отзывы
@@ -119,11 +119,11 @@
       <a routerLink="{{'/' + Paths.Settings}}" class="btn btn-block btn-default">
         Настройки профиля
       </a>
-      <a *ngIf="isTrainer" routerLink="{{'/' + Paths.Trainers + '/' + trainer.id}}">
+      <a *ngIf="account.isTrainer" routerLink="{{'/' + Paths.Trainers + '/' + trainer.id}}">
         <small>Посмотреть мой профиль как видят его другие</small>
       </a>
     </div>
-    <div *ngIf="isTrainer" class="side-bar-item">
+    <div *ngIf="account.isTrainer" class="side-bar-item">
       <h4>Доступность</h4>
       <div [ngSwitch]="trainer.status">
         <mat-checkbox class="form-control no-border"
@@ -136,11 +136,11 @@
         <span *ngSwitchCase="TrainerStatus.Deleted">Удален</span>
       </div>
     </div>
-    <div *ngIf="isTrainer && clubs.length > 0" class="side-bar-item">
+    <div *ngIf="account.isTrainer && clubs.length > 0" class="side-bar-item">
       <h4>Работает в</h4>
       <!-- список клубов -->
     </div>
-    <div *ngIf="isTrainer && clubs.length === 0" class="side-bar-item">
+    <div *ngIf="account.isTrainer && clubs.length === 0" class="side-bar-item">
       <h4>Вы нигде не работаете</h4>
       <a routerLink="{{'/' + Paths.Teams}}">
         <small>Найти клуб</small>

@@ -17,8 +17,8 @@ export class EmailVerifyComponent implements OnInit {
     this.email = this.authService.getCurrent().email;
   }
 
-  async resendEmailAsync(): Promise<void> {
-    await this.authService.reSendEmailAsync(this.authService.accessToken);
+  resendEmail() {
+    this.authService.reSendEmail(this.authService.accessToken).subscribe();
   }
 
   changeEmail(): void {

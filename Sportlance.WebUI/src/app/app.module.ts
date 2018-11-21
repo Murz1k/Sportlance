@@ -12,8 +12,7 @@ import {FooterModule} from './core/footer/footer.module';
 import {HeaderModule} from './core/header/header.module';
 import {MomentModule} from 'ngx-moment';
 import {BrowserModule} from '@angular/platform-browser';
-import { AboutComponent } from './about/about.component';
-import {CommonModule} from "@angular/common";
+import {AboutComponent} from './about/about.component';
 
 @NgModule({
   declarations: [

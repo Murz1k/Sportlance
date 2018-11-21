@@ -459,7 +459,7 @@
             <h2 class="text-muted">Попробуйте изменить свой поиск, чтобы получить больше результатов.</h2>
           </div>
         </section>
-        <section (click)="openProfileAsync(trainer.id)" *ngFor="let trainer of trainers">
+        <section (click)="openProfile(trainer.id)" *ngFor="let trainer of trainers">
           <div class="avatar-container">
             <div *ngIf="!trainer.photoUrl" class="empty-avatar">
               <i class="material-icons">account_circle</i>

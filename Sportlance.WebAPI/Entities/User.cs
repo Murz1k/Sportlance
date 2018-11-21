@@ -38,7 +38,12 @@ namespace Sportlance.WebAPI.Entities
 
         public void AddRole(Role role)
         {
-            UserRoles.Add(new UserRole{Role = role});
+            UserRoles.Add(new UserRole {Role = role});
+        }
+
+        public bool HasRoleRole(Role role)
+        {
+            return UserRoles.Any(i => i.Role == role);
         }
 
         public void RemoveRole(Role role)
