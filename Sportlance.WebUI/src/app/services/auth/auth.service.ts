@@ -80,7 +80,7 @@ export class AuthService {
   }
 
   updateAccessToken() {
-    return this.http.post<any>(`/auth/token`, {refreshToken: this.refreshToken});
+    return this.http.put<any>(`/auth/token`, {refreshToken: this.refreshToken});
   }
 
   public register(request: RegistrationRequest): Observable<LoginResponse> {
