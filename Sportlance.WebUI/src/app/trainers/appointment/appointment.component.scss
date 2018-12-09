@@ -32,16 +32,13 @@
 .week, .scheduler-page {
   position: relative;
   display: inline-block;
-  transition: -webkit-transform 300ms;
   transition: transform 300ms;
-  transition: transform 300ms, -webkit-transform 300ms;
 }
 
 .hidden {
   display: none;
 }
 .air-scroll-left .week, .air-scroll-left .scheduler-page {
-  -webkit-transform: translateX(-100%);
   transform: translateX(-100%);
 }
 

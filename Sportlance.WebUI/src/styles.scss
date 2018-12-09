@@ -364,7 +364,6 @@ small {
 
 .mat-checkbox-layout:hover {
   background-color: #F9F9F9;
-  -webkit-box-shadow: -5px 0 0 #F9F9F9;
   box-shadow: -5px 0 0 #F9F9F9;
 }
 
@@ -578,12 +577,10 @@ input.form-control, textarea.form-control, .select2-search input {
   font-size: 13px;
   box-sizing: border-box;
   line-height: 18px;
-  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
 input.form-control:hover, textarea.form-control:hover, .select2-search input:hover, input.form-control:focus, textarea.form-control:focus, .select2-search input:focus {
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
   border-color: $primary-dark-color;
 }
@@ -707,8 +704,6 @@ i.material-icons {
 }
 
 @mixin box-shadow($top, $left, $blur, $color, $inset:"") {
-  -webkit-box-shadow: $top $left $blur $color unquote($inset);
-  -moz-box-shadow: $top $left $blur $color unquote($inset);
   box-shadow: $top $left $blur $color unquote($inset);
 }
 
