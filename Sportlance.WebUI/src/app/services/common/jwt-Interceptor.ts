@@ -119,3 +119,131 @@ export class JwtInterceptor implements HttpInterceptor {
     }
   }
 }
+
+
+/*
+*
+* import {Injectable} from '@angular/core';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpInterceptor,
+  HttpErrorResponse,
+  HttpResponse,
+  HttpSentEvent,
+  HttpHeaderResponse,
+  HttpProgressEvent,
+  HttpUserEvent
+} from '@angular/common/http';
+
+import {AuthService} from './auth.service';
+import {Observable, Subject, throwError} from 'rxjs';
+import {catchError, switchMap, tap} from 'rxjs/internal/operators';
+
+@Injectable()
+export class TokenInterceptor implements HttpInterceptor {
+
+  isRefreshingToken: boolean = false;
+
+  tokenRefreshedSource = new Subject();
+  tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
+
+  constructor(private authService: AuthService) {
+  }
+
+  intercept(request: HttpRequest<any>, next: HttpHandler):
+    Observable<HttpSentEvent |
+      HttpHeaderResponse |
+      HttpProgressEvent |
+      HttpResponse<any> |
+      HttpUserEvent<any> |
+      any> {
+
+    return next.handle(this.addAccessTokenToRequest(request,))
+      .pipe(catchError(err => {
+        if (err instanceof HttpErrorResponse) {
+
+          // Если Refresh токена нет
+          if (!this.authService.hasRefreshToken()) {
+            return this.logoutAndThrowError(err);
+          }
+          // Если Refresh токен есть
+          else {
+            switch ((<HttpErrorResponse>err).status) {
+              // Если токен протух
+              case 401:
+                return this.handle401Error(request, next);
+              case 400:
+                return this.logoutAndThrowError(err);
+              case 403:
+                return throwError(err);
+              default:
+                return throwError(err);
+            }
+          }
+        } else {
+          return throwError(err);
+        }
+      }));
+  }
+
+  private addAccessTokenToRequest(request: HttpRequest<any>): HttpRequest<any> {
+    const token = this.authService.getToken();
+    if (token) {
+      return request.clone({setHeaders: {Authorization: `Bearer ${token}`}});
+    }
+    return request;
+  }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+
+    return this.refreshToken().pipe(
+      switchMap(() => {
+        request = this.addAccessTokenToRequest(request);
+        return next.handle(request);
+      }),
+      catchError((error) => this.logoutAndThrowError(error))
+    );
+  }
+
+  private refreshToken() {
+    if (this.isRefreshingToken) {
+      return new Observable(observer => {
+        this.tokenRefreshed$.subscribe(() => {
+          observer.next();
+          observer.complete();
+        });
+      });
+    } else {
+      this.isRefreshingToken = true;
+
+      return this.authService.refreshToken()
+        .pipe(tap((data) => {
+            // Если токена не дали или ошибка
+            if (!data || data.error) {
+              return this.logoutAndThrowError(data);
+            }
+
+            this.authService.login(data);
+
+            this.isRefreshingToken = false;
+            this.tokenRefreshedSource.next();
+
+            return data;
+          }),
+          catchError((error) => {
+            return this.logoutAndThrowError(error);
+          })
+        );
+    }
+  }
+
+  logoutAndThrowError(error): Observable<never> {
+    this.tokenRefreshedSource.unsubscribe();
+    this.isRefreshingToken = false;
+    this.authService.logout();
+    return throwError(error);
+  }
+}
+
+* */

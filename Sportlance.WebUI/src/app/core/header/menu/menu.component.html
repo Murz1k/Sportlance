@@ -21,7 +21,10 @@
     </li>
   </ul>
 </div>
-<div *ngIf="!isAuthorized;" style="display: flex;">
-  <a class="btn-btn-link" [routerLink]="['/', Paths.Login]">Войти</a>
-  <a class="btn-btn-link" [routerLink]="['/', Paths.SignUp]">Регистрация</a>
+<div *ngIf="!isAuthorized;" style="display: flex;
+    height: 46px;
+    align-items: center;">
+  <a class="btn-btn-link" style="height: auto;
+    margin-right: 20px;" [routerLink]="['/', Paths.Login]">Войти</a>
+  <a class="btn-btn-link" style="height: auto;" [routerLink]="['/', Paths.SignUp]">Регистрация</a>
 </div>

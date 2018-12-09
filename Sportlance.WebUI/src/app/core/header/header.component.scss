@@ -22,7 +22,7 @@
 }
 
 .nav {
-
+  display: flex;
 }
 
 .medium-icon {
@@ -35,8 +35,6 @@
   -webkit-mask-size: 36px;
 }
 
-
-
 a, .btn-link {
   text-decoration: none;
   font-size: 12px;
@@ -44,7 +42,6 @@ a, .btn-link {
   color: #666 !important;
   align-items: center;
   font-weight: bold;
-  height: 46px !important;;
   display: inline-flex;
   vertical-align: top;
 }

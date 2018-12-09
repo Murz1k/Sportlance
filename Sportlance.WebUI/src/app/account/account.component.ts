@@ -8,7 +8,6 @@ import {TrainerStatus} from '../shared/trainers/trainer-status';
 import {MatCheckboxChange, MatDialog} from '@angular/material';
 import {Paths} from '../core/paths';
 import {Title} from '@angular/platform-browser';
-import {isNullOrUndefined} from 'util';
 import {FeedbacksService} from '../services/feedbacks/feedbacks.service';
 import {EditTrainerAboutDialogComponent} from './edit-trainer-about-dialog/edit-trainer-about-dialog.component';
 import {EditTrainerAboutDialogData} from './edit-trainer-about-dialog/edit-trainer-about-dialog-data';
@@ -96,7 +95,6 @@ export class AccountComponent implements OnInit {
           photoUrl: response.photoUrl,
           backgroundUrl: response.backgroundUrl
         };
-        this.isTrainer = this.account.isTrainer && !isNullOrUndefined(this.trainer);
         this.isRendering = true;
       }));
   }

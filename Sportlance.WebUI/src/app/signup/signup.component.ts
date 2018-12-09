@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {RegistrationRequest} from '../services/auth/requests/registration-request';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ErrorCode} from '../core/error-code';
-import {Paths} from '../core/paths';
 import {Router} from '@angular/router';
-import {AuthService} from "../services/auth/auth.service";
+import {AuthService} from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -21,11 +20,20 @@ export class SignupComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private authService: AuthService) {
-    this.isEmailExist = false;
-    this.createForm();
   }
 
-  async checkUserEmailAsync(): Promise<void> {
+  ngOnInit() {
+    this.isEmailExist = false;
+
+    this.submitForm = this.formBuilder.group({
+      firstName: ['', [Validators.required, Validators.maxLength(20)]],
+      lastName: ['', [Validators.required, Validators.maxLength(30)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+  }
+
+  checkUserEmail(): Promise<void> {
     if (!this.validateLogin()) {
       return;
     }
@@ -54,18 +62,6 @@ export class SignupComponent implements OnInit {
     form.controls.lastName.markAsDirty();
     form.controls.email.markAsDirty();
     return form.controls.firstName.valid && form.controls.lastName.valid && form.controls.email.valid;
-  }
-
-  ngOnInit() {
-  }
-
-  private createForm() {
-    this.submitForm = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.maxLength(20)]],
-      lastName: ['', [Validators.required, Validators.maxLength(30)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-    });
   }
 
   signUp(): void {

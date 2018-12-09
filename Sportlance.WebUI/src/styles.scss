@@ -9,6 +9,96 @@ $checkbox-size: 15px !important;
 
 $footer-height: 100px;
 
+// Buttons
+
+.sl-btn {
+  display: block;
+  padding: 12px 20px;
+  font-size: 14px;
+  line-height: 14px;
+  border-radius: 2px;
+  user-select: none;
+  border: 2px solid transparent;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 500;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  white-space: nowrap;
+  background-image: none;
+  transition: all .3s;
+  outline: none;
+  &.disabled,
+  &.disabled:active,
+  &.disabled:hover,
+  &[disabled],
+  &[disabled]:active,
+  &[disabled]:hover {
+    color: #a0a0a0 !important;
+    border-color: #e0e0e0;
+    background: #e0e0e0 !important;
+    text-shadow: none;
+    text-decoration: none;
+    outline: none !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none !important;
+  }
+}
+
+.sl-btn-default {
+  border: 1px solid #E0E0E0;
+  color: $primary-color;
+  background-color: $default-color;
+  &:not(:disabled):hover,
+  &:not(:disabled):focus,
+  &:not(:disabled):active,
+  &:not(:disabled).active {
+    color: $primary-dark-color;
+  }
+}
+
+.sl-btn-primary {
+  color: $default-color;
+  background-color: $primary-color;
+  border: 1px solid $primary-color;
+  &:not(:disabled):hover,
+  &:not(:disabled):focus,
+  &:not(:disabled):active,
+  &:not(:disabled).active {
+    color: $default-color;
+    background-color: $primary-dark-color;
+    border-color: $primary-dark-color;
+  }
+}
+
+.btn-link {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: bold;
+  outline: none !important;
+  :hover, :active, :focus {
+    text-decoration: underline;
+    color: $primary-dark-color;
+  }
+}
+
+.btn-rnd {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  vertical-align: top;
+}
+
+.btn-rnd:hover {
+  box-shadow: none !important;
+}
+
+// Others
+
 app-root:not(:last-child(root:empty)) + .loading {
   display: none;
 }
@@ -62,58 +152,6 @@ body {
   margin: 0;
 }
 
-.btn {
-  display: block;
-  padding: 12px 20px;
-  font-size: 14px;
-  line-height: 14px;
-  border-radius: 2px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 2px solid transparent;
-  -webkit-font-smoothing: antialiased;
-  font-weight: 500;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  white-space: nowrap;
-  background-image: none;
-  transition: all .15s;
-  outline: none;
-  box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
-}
-
-.btn-default, .btn-success, .btn-info, .btn-warning, .btn-danger {
-  color: $primary-color;
-  background-color: $default-color;
-  border-color: transparent;
-}
-
-.btn:active, .btn:hover, .btn:focus {
-  transition: all .3s;
-  outline: none;
-  border-color: transparent;
-}
-
-.btn-primary {
-  color: $default-color;
-  background-color: $primary-color;
-  border-color: transparent;
-  :hover {
-    color: $default-color;
-    background-color: $primary-dark-color;
-    border-color: $primary-dark-color;
-  }
-}
-
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
-  color: $default-color;
-  background-color: $primary-color;
-  border-color: $primary-color;
-}
-
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -165,15 +203,18 @@ body {
   section.collapsed {
     height: 200px;
   }
-  footer, .air-card-header {
-    background-color: #f9f9f9;
-    position: relative;
-  }
   .air-card-header {
     padding: 24px 24px 0;
   }
-  footer {
-    padding: 24px
+  .air-card-footer {
+    background-color: #f9f9f9;
+    border-top: 1px solid #e0e0e0;
+    position: relative;
+    padding: 24px 40px 40px;
+    bottom: -40px;
+    margin-top: -40px;
+    margin-left: -40px;
+    margin-right: -40px;
   }
 }
 
@@ -303,20 +344,6 @@ small {
   }
 }
 
-.btn-link {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  color: $primary-color;
-  text-decoration: none;
-  font-weight: bold;
-  outline: none !important;
-  :hover, :active, :focus {
-    text-decoration: underline;
-    color: $primary-dark-color;
-  }
-}
-
 .dialog-footer {
   min-height: 60px;
   padding: 0 24px 24px;
@@ -381,12 +408,8 @@ small {
 .mat-checkbox-layout:hover .mat-checkbox-frame {
   color: $primary-dark-color;
   border-color: $primary-dark-color;
-  -webkit-box-shadow: 0 0 0 1px $primary-dark-color;
   box-shadow: 0 0 0 1px $primary-dark-color;
-  -webkit-transition: -webkit-transform .3s, -webkit-box-shadow .3s;
-  transition: -webkit-transform .3s, -webkit-box-shadow .3s;
   transition: transform .3s, box-shadow .3s;
-  transition: transform .3s, box-shadow .3s, -webkit-transform .3s, -webkit-box-shadow .3s;
 }
 
 .mat-toolbar {
@@ -643,29 +666,6 @@ i.material-icons {
 .page {
   margin-top: 24px;
   margin-bottom: 24px;
-}
-
-.btn:hover, .btn:active {
-  -webkit-transition: all .3s;
-  transition: all .3s;
-  outline: none;
-}
-
-.btn-rnd {
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  vertical-align: top;
-}
-
-.btn-rnd:hover {
-  box-shadow: none !important;
-}
-
-.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active {
-  color: $primary-dark-color;
-  background-color: $default-color;
-  border-color: transparent;
 }
 
 .row {

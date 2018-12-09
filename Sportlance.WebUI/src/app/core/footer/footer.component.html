@@ -2,12 +2,8 @@
   <div *ngIf="!isEmpty; else emptyBlock;" class="content">
     <section>
       <div class="links-section">
-        <ul style="display: flex;
-    list-style-type: none;
-    padding-top: 20px;
-    padding-left: 0;
-    justify-content: space-between;">
-          <li>
+        <ul class="footer-menu">
+          <li class="footer-menu__item">
             <span>Компания</span>
             <ul style="list-style: none;
     padding-left: 0;">
@@ -16,11 +12,19 @@
               <li><a href="/legal/privacy" target="_blank">Политика конфиденциальности</a></li>
             </ul>
           </li>
-          <li>
+          <li class="footer-menu__item">
+            <span>Партнеры</span>
+            <ul style="list-style: none;
+    padding-left: 0;">
+              <li><a [routerLink]="['/','trainers', 'about']">Стать тренером</a></li>
+              <li><a [routerLink]="['/','partners', 'about']">Стать партнером</a></li>
+            </ul>
+          </li>
+          <li class="footer-menu__item">
             <span>Дополнительные сервисы</span>
             <ul style="list-style: none;
     padding-left: 0;">
-              <li><a href="https://help.sportlance.com" target="_blank">Помощь и Тех. поддержка</a></li>
+              <li><a href="https://support.sportlance.com" target="_blank">Поддержка</a></li>
               <li><a href="https://dev.sportlance.com" target="_blank">Для разработчиков</a></li>
               <li><a href="https://job.sportlance.com" target="_blank">Работа у нас</a></li>
             </ul>

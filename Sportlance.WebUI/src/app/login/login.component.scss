@@ -1,5 +1,9 @@
 @import "../../styles";
 
+.air-card {
+  padding: 40px;
+}
+
 .width-sm {
   width: 218px !important;
   min-width: 218px !important;
@@ -13,7 +17,6 @@
 
 form {
   margin-bottom: 300px;
-  padding: 16px 40px;
 }
 
 .checkbox-inline label:hover, .checkbox label:hover, .radio-inline label:hover, .radio label:hover {
@@ -40,18 +43,6 @@ form {
   width: 218px !important;
   min-width: 218px !important;
   max-width: none
-}
-
-.btn-primary.disabled, .btn-primary.disabled:active, .btn-primary.disabled:hover, .btn-primary[disabled], .btn-primary[disabled]:active, .btn-primary[disabled]:hover {
-  color: #a0a0a0 !important;
-  border-color: #e0e0e0;
-  background: #e0e0e0 !important;
-  text-shadow: none;
-  text-decoration: none;
-  outline: none !important;
-  cursor: not-allowed;
-  pointer-events: none;
-  box-shadow: none !important;
 }
 
 .ng-invalid .error {

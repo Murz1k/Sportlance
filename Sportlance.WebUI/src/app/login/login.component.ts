@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   public isDisabled = false;
 
-  public loginForm: FormGroup;
+  public form: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(20)]],
       password: ['', Validators.required],
       rememberMe: [false, [Validators.required]]
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     this.showLoginError = false;
     this.showPasswordError = false;
     this.isDisabled = false;
-    this.loginForm.value.email = '';
+    this.form.value.email = '';
     this.isLoginPage = true;
   }
 
@@ -53,10 +53,10 @@ export class LoginComponent implements OnInit {
 
   }
 
-  async login(): Promise<void> {
+  login(): void {
     this.isDisabled = true;
 
-    const form = this.loginForm.value;
+    const form = this.form.value;
     this.authService.login(<LoginRequest>{email: form.email, password: form.password}, form.rememberMe)
       .pipe(map((response) => {
         if (response.error) {
@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
   checkLogin(): Promise<void> {
     this.isDisabled = true;
 
-    const form = this.loginForm.value;
+    const form = this.form.value;
     if (isNullOrUndefined(form.email) || form.email === '') {
       form.email = '';
       this.showLoginError = true;

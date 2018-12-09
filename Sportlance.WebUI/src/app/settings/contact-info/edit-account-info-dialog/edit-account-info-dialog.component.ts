@@ -28,7 +28,7 @@ export class EditAccountInfoDialogComponent implements OnInit {
     });
   }
 
-  public async submitAsync(result): Promise<void> {
+  public submit(result) {
     if (result) {
       if (this.form.value.firstName !== this.account.firstName
         || this.form.value.secondName !== this.account.secondName

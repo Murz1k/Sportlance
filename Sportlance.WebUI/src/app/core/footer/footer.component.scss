@@ -43,15 +43,6 @@ ul {
   padding-left: 20px;
 }
 
-ol, ul {
-  margin-top: 0;
-  margin-bottom: 9px;
-}
-
-.footer-navbar-wrapper .links-section li, .footer-navbar-wrapper .links-section p {
-  margin: 0;
-}
-
 .footer-visitor a, .footer-visitor h2, .footer-visitor li, .footer-visitor p {
   color: #a0a0a0;
 }
@@ -111,10 +102,7 @@ a {
 .footer__Footer-common__socialNetworksWrapper_3DerA {
   display: flex;
   justify-content: center;
-  margin: 0 -18px;
-  //padding: 0 18px 24px;
   list-style: none;
-  //background-color: #fff;
 }
 
 .footer__FooterSocialIcons__root_2ZMDE:first-child {
@@ -174,4 +162,15 @@ a {
 
 .footer__Icon__icon_3VmKb svg, .footer__Icon__icon_verticalAlign_top_1aacf {
   vertical-align: top;
+}
+
+.footer-menu {
+  display: flex;
+  list-style-type: none;
+  padding-top: 40px;
+  padding-left: 0;
+  margin-left: -40px;
+  .footer-menu__item {
+    margin-left: 40px;
+  }
 }

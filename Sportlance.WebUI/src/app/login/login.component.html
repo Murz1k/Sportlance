@@ -2,9 +2,9 @@
 <div class="content page" style="display: flex;
     justify-content: center;
     align-items: center;">
-  <form [formGroup]="loginForm" class="air-card">
+  <form [formGroup]="form" class="air-card">
     <ng-container *ngIf="isLoginPage; else enterPassword">
-      <div class="text-center" style="padding-top: 24px; padding-bottom: 24px;">
+      <div class="text-center" style="padding-bottom: 24px;">
         <div class="title">
           Войди и начни заниматься
         </div>
@@ -16,32 +16,34 @@
             <i class="material-icons input-icon">person</i>
             <div class="error" *ngIf="showLoginError;">
               <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-              <label *ngIf="loginForm.value.email !== ''" class="error__message">
+              <label *ngIf="form.value.email !== ''" class="error__message">
                 <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
                 Ой! Неправильный email.</label>
-              <label *ngIf="loginForm.value.email === ''" class="error__message">
+              <label *ngIf="form.value.email === ''" class="error__message">
                 <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
                 Обязательное поле.</label>
             </div>
           </div>
-          <button (click)="checkLogin()" [disabled]="isDisabled" class="btn btn-primary"
+          <button (click)="checkLogin()"
+                  [disabled]="form.controls['email'].invalid || isDisabled"
+                  sl-button slType="primary"
                   style="width: 180px; margin: auto;">
             Продолжить
           </button>
         </div>
       </div>
-      <footer class="text-center">
+      <div class="air-card-footer text-center">
         <div class="line-heading text-muted">Первый раз на Sportlance?</div>
-        <button (click)="navigateToRegister()" class="btn btn-default" style=" width: 180px; margin: 24px auto auto;">
+        <button (click)="navigateToRegister()" sl-button style=" width: 180px; margin: 24px auto auto;">
           Регистрация
         </button>
-      </footer>
+      </div>
     </ng-container>
     <ng-template #enterPassword>
       <div class="text-center">
         <div class="text-center title">
           <span>Добро пожаловать</span>
-          <div style="font-size: 12px;">{{loginForm.value.email}}</div>
+          <div style="font-size: 12px;">{{form.value.email}}</div>
         </div>
         <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
           <div class="form-group" style="margin-bottom: 5px; position: relative;">
@@ -66,7 +68,7 @@
               Забыли пароль?
             </button>
           </div>
-          <button (click)="login()" [disabled]="isDisabled" class="btn btn-primary"
+          <button (click)="login()" [disabled]="isDisabled" sl-button slType="primary"
                   style="margin: auto auto 20px;">
             Войти
           </button>
