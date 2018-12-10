@@ -89,19 +89,19 @@ export class LoginComponent implements OnInit {
     this.showPasswordError = false;
   }
 
-  ckechKeyDownLogin(e): void {
+  checkKeyDownLogin(e): void {
     if (e.keyCode === 13) {
       this.checkLogin();
     }
   }
 
-  ckechKeyDownPassword(e): void {
+  checkKeyDownPassword(e): void {
     if (e.keyCode === 13) {
       this.login();
     }
   }
 
-  checkLogin(): Promise<void> {
+  checkLogin(): void {
     this.isDisabled = true;
 
     const form = this.form.value;

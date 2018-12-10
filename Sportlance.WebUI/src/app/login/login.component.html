@@ -12,7 +12,7 @@
           <div style="margin-bottom: 24px; position: relative;">
             <input id="Email" formControlName="email" name="email" type="text"
                    class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
-                   (keydown)="ckechKeyDownLogin($event)">
+                   (keydown)="checkKeyDownLogin($event)">
             <i class="material-icons input-icon">person</i>
             <div class="error" *ngIf="showLoginError;">
               <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
@@ -49,7 +49,7 @@
           <div class="form-group" style="margin-bottom: 5px; position: relative;">
             <input id="Password" formControlName="password" name="password" type="password"
                    class="password-input form-control" placeholder="Пароль"
-                   (ngModelChange)="hidePasswordError()" (keydown)="ckechKeyDownPassword($event)">
+                   (ngModelChange)="hidePasswordError()" (keydown)="checkKeyDownPassword($event)">
             <i class="material-icons input-icon">lock</i>
           </div>
           <div class="error" *ngIf="showPasswordError;">
