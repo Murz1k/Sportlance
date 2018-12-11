@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.Options;
 using Sportlance.WebAPI.Options;
 using Sportlance.WebAPI.Utilities;
 
@@ -81,9 +82,9 @@ namespace Sportlance.WebAPI.Authentication
 
         private async Task<string> ReadObjectFromS3(string bucketName, string objectName)
         {
-            using (GetObjectResponse response = await _s3Client.GetObjectAsync(bucketName, objectName))
-            using (Stream responseStream = response.ResponseStream)
-            using (StreamReader reader = new StreamReader(responseStream))
+            using (var response = await _s3Client.GetObjectAsync(bucketName, objectName))
+            using (var responseStream = response.ResponseStream)
+            using (var reader = new StreamReader(responseStream))
             {
                 return reader.ReadToEnd();
             }

@@ -1,4 +1,4 @@
-﻿namespace Sportlance.WebAPI.Options
+﻿namespace Sportlance.WebAPI.Core.Options
 {
     public class SiteUrls
     {
@@ -16,7 +16,7 @@
 
         public string GetChangePassword(long userId, string token)
         {
-            return $"{_root}/account/updatepassword/{userId}/{token}";
+            return $"{_root}/auth/change-password/{userId}/{token}";
         }
 
         public string GetUpdateEmail(string token)

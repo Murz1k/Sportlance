@@ -16,6 +16,7 @@ import {map} from 'rxjs/operators';
 export class LoginComponent implements OnInit {
 
   public isLoginPage = true;
+  public isForgotPasswordPage = false;
   public showPasswordError = false;
   public showLoginError = false;
 
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(20)]],
       password: ['', Validators.required],
+      forgotPasswordEmail: ['', Validators.required],
       rememberMe: [false, [Validators.required]]
     });
   }
@@ -50,7 +52,13 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword(): void {
+    this.form.controls['forgotPasswordEmail'].setValue(this.form.controls['email'].value);
+    this.isForgotPasswordPage = true;
+  }
 
+  hideForgotPasswordPage() {
+    this.form.controls['forgotPasswordEmail'].reset();
+    this.isForgotPasswordPage = false;
   }
 
   login(): void {
