@@ -35,7 +35,7 @@ export class EditBackgroundDialogComponent implements OnInit {
     //const acceptedFormats = this.accept.split(', ');
 
     const reader = new FileReader();
-    reader.onload = (e: Event & { target: { result: string } }) => {
+    reader.onload = (e: ProgressEvent & { target: { result: string } }) => {
       this.form.value.url = e.target.result;
       //this.inputElement.nativeElement.value = null;
     };

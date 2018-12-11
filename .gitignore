@@ -26,3 +26,5 @@ Sportlance\.WebAPI/appsettings\.json
 Sportlance\.WebAPI/appsettings\.Development\.json
 
 Sportlance\.WebAPI/appsettings\.Production\.json
+
+Sportlance\.WebUI/package-lock\.json

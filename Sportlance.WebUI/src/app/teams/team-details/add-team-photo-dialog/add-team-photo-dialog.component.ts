@@ -27,7 +27,7 @@ export class AddTeamPhotoDialogComponent {
 
   private uploadFile(event: any) {
     const reader = new FileReader();
-    reader.onload = (e: Event & { target: { result: string } }) => {
+    reader.onload = (e: ProgressEvent & { target: { result: string } }) => {
       this.url = e.target.result;
     };
 
