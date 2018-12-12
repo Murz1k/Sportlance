@@ -6,7 +6,7 @@ import {Paths} from '../core/paths';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {AuthService} from '../services/auth/auth.service';
-import {map} from 'rxjs/operators';
+import {finalize, map, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   public showPasswordError = false;
   public showLoginError = false;
 
+  public isLoading = false;
   public isDisabled = false;
 
   public form: FormGroup;
@@ -62,11 +63,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.isDisabled = true;
-
     const form = this.form.value;
+
+    this.isLoading = true;
+    this.isDisabled = true;
     this.authService.login(<LoginRequest>{email: form.email, password: form.password}, form.rememberMe)
-      .pipe(map((response) => {
+      .pipe(tap((response) => {
         if (response.error) {
           switch (response.error.code) {
             case ErrorCode.IncorrectPassword:
@@ -84,7 +86,9 @@ export class LoginComponent implements OnInit {
           return;
         }
 
+      }), finalize(() => {
         this.isDisabled = false;
+        this.isLoading = false;
       }))
       .subscribe();
   }
@@ -110,17 +114,18 @@ export class LoginComponent implements OnInit {
   }
 
   checkLogin(): void {
-    this.isDisabled = true;
 
     const form = this.form.value;
     if (isNullOrUndefined(form.email) || form.email === '') {
       form.email = '';
       this.showLoginError = true;
-      this.isDisabled = false;
       return;
     }
+
+    this.isDisabled = true;
+    this.isLoading = true;
     this.authService.checkUser(form.email)
-      .subscribe((response) => {
+      .pipe(tap((response) => {
         if (response.error) {
           switch (response.error.code) {
             case ErrorCode.UserNotFound:
@@ -135,7 +140,10 @@ export class LoginComponent implements OnInit {
         if (response.email.toUpperCase() === form.email.toUpperCase()) {
           this.isLoginPage = false;
         }
+      }), finalize(() => {
         this.isDisabled = false;
-      });
+        this.isLoading = false;
+      }))
+      .subscribe();
   }
 }
