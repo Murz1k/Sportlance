@@ -93,12 +93,8 @@ namespace Sportlance.WebAPI
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SQLDatabase")));
 
-            //if (_currentEnvironment.IsProduction()) {
-            //var awsOptions = new AWSOptions();
-            //awsOptions.Credentials
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
-            //}
 
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
