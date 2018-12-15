@@ -6,8 +6,6 @@ using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Extensions;
-using Sportlance.WebAPI.Extensions;
-using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Users
 {
@@ -22,14 +20,6 @@ namespace Sportlance.WebAPI.Users
         {
             _userService = userService;
             _authService = authService;
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<UserResponse> GetAsync()
-        {
-            var user = await _userService.GetByIdAsync(User.GetUserId());
-            return new UserResponse {Email = user.Email, FirstName = user.FirstName, LastName = user.LastName};
         }
 
         [HttpPut("photo")]

@@ -6,11 +6,11 @@ using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Errors;
+using Sportlance.WebAPI.Core.Exceptions;
 using Sportlance.WebAPI.Core.Extensions;
-using Sportlance.WebAPI.Exceptions;
-using Sportlance.WebAPI.Extensions;
+using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Requests;
-using Sportlance.WebAPI.Responses;
+using Sportlance.WebAPI.Trainers.Requests;
 using Sportlance.WebAPI.Users;
 using TrainerListItem = Sportlance.WebAPI.Entities.TrainerListItem;
 using TrainerProfile = Sportlance.WebAPI.Entities.TrainerProfile;
@@ -76,6 +76,24 @@ namespace Sportlance.WebAPI.Trainers
         public async Task<TrainerProfile> GetById(long trainerId)
         {
             return await _service.GetById(trainerId);
+        }
+
+        [HttpGet("{trainerId}/trainings")]
+        public async Task<CollectionResponse<TraningItem>> GetTrainings(long trainerId, [FromQuery] GetTrainingsRequest request)
+        {
+            return new CollectionResponse<TraningItem>
+            {
+                Items = await _service.GetTrainingsAsync(trainerId, request.StartDate, request.EndDate)
+            };
+        }
+
+        [Authorize]
+        [HttpPost("{trainerId}/trainings")]
+        public async Task<IActionResult> AddTraining(long trainerId, [FromBody] AddTrainingRequest request)
+        {
+            await _service.AddTrainingAsync(trainerId, User.GetUserId(), request.SportId, request.StartDate);
+
+            return NoContent();
         }
 
         [HttpGet]

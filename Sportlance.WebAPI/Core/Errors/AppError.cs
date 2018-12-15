@@ -1,6 +1,4 @@
-﻿using Sportlance.WebAPI.Core.Errors;
-
-namespace Sportlance.WebAPI.Errors
+﻿namespace Sportlance.WebAPI.Core.Errors
 {
     public class AppError
     {

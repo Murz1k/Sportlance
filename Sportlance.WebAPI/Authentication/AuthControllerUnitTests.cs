@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.DataProtection;
 using NUnit.Framework;
+using Sportlance.WebAPI.Authentication.Requests;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Users;

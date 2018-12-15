@@ -8,8 +8,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Options;
-using Sportlance.WebAPI.Options;
-using Sportlance.WebAPI.Utilities;
+using Sportlance.WebAPI.Core.Utilities;
 
 namespace Sportlance.WebAPI.Authentication
 {

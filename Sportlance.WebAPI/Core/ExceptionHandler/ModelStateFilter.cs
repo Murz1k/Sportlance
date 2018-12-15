@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Errors;
-using Sportlance.WebAPI.Exceptions;
+using Sportlance.WebAPI.Core.Exceptions;
 
-namespace Sportlance.WebAPI.ExceptionHandler
+namespace Sportlance.WebAPI.Core.ExceptionHandler
 {
     public class ModelStateFilter : ActionFilterAttribute
     {

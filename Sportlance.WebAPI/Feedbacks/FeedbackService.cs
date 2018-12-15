@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Interfaces;
 
-namespace Sportlance.WebAPI.Services
+namespace Sportlance.WebAPI.Feedbacks
 {
     public class FeedbackService : IFeedbackService
     {

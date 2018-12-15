@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Responses;
 
 namespace Sportlance.WebAPI.Sports
 {

@@ -2,7 +2,7 @@
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
-namespace Sportlance.WebAPI.Interfaces
+namespace Sportlance.WebAPI.Feedbacks
 {
     public interface IFeedbackService
     {

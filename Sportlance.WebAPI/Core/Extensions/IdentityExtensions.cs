@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Exceptions;
+using Sportlance.WebAPI.Core.Exceptions;
 
 namespace Sportlance.WebAPI.Core.Extensions
 {

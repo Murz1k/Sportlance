@@ -1,4 +1,4 @@
-﻿namespace Sportlance.WebAPI.Utilities
+﻿namespace Sportlance.WebAPI.Core.Utilities
 {
     public static class Txt
     {

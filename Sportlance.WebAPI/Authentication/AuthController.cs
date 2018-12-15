@@ -4,15 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Authentication.Requests;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core.Errors;
+using Sportlance.WebAPI.Core.Exceptions;
 using Sportlance.WebAPI.Core.Extensions;
-using Sportlance.WebAPI.Errors;
-using Sportlance.WebAPI.Exceptions;
+using Sportlance.WebAPI.Core.Utilities;
+using Sportlance.WebAPI.Core.Validation;
 using Sportlance.WebAPI.Requests;
-using Sportlance.WebAPI.Responses;
-using Sportlance.WebAPI.Utilities;
-using Sportlance.WebAPI.Validation;
 using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Users;
 
 namespace Sportlance.WebAPI.Authentication

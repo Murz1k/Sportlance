@@ -1,4 +1,4 @@
-﻿namespace Sportlance.WebAPI.Errors
+﻿namespace Sportlance.WebAPI.Core.Errors
 {
     public enum ValidationErrorCode
     {

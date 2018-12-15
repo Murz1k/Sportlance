@@ -1,14 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Extensions;
-using Sportlance.WebAPI.Extensions;
-using Sportlance.WebAPI.Requests;
-using Sportlance.WebAPI.Responses;
-using Sportlance.WebAPI.Interfaces;
 using Sportlance.WebAPI.Entities;
+using Sportlance.WebAPI.Feedbacks.Requests;
 
-namespace Sportlance.WebAPI.Controllers
+namespace Sportlance.WebAPI.Feedbacks
 {
     public class FeedbacksController : Controller
     {
@@ -47,13 +45,13 @@ namespace Sportlance.WebAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<EmptyResponse> Post(FeedbackRequest request)
+        public Task<IActionResult> Post(FeedbackRequest request)
         {
             //Проверить может ли клиент оставить отзыв тренеру
 
             //если может - оставляет
 
-            return new EmptyResponse();
+            return null;
         }
 
         [HttpPut("{id}")]

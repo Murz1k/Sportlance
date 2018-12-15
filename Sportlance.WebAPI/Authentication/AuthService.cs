@@ -6,8 +6,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Sportlance.WebAPI.Core.Options;
-using Sportlance.WebAPI.Options;
-using Sportlance.WebAPI.Utilities;
+using Sportlance.WebAPI.Core.Utilities;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Authentication

@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Errors;
+using Sportlance.WebAPI.Core.Exceptions;
 using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Entities;
-using Sportlance.WebAPI.Errors;
-using Sportlance.WebAPI.Exceptions;
-using Sportlance.WebAPI.Extensions;
 using Sportlance.WebAPI.Requests;
-using Sportlance.WebAPI.Responses;
+using Sportlance.WebAPI.Teams.Requests;
+using Sportlance.WebAPI.Trainers.Requests;
 
 namespace Sportlance.WebAPI.Teams
 {
@@ -42,6 +42,46 @@ namespace Sportlance.WebAPI.Teams
                 }
 
                 return Ok(profile);
+        }
+
+        [HttpGet("{teamId}/photos")]
+        public async Task<PartialCollectionResponse<TeamPhotoItem>> GetPhotoCollection(long teamId)
+        {
+            var trainers = await _service.GetPhotosAsync(0, 10, teamId);
+
+            return trainers.ToPartialCollectionResponse();
+        }
+        
+        [Authorize]
+        [HttpPost("{teamId}/photos")]
+        public async Task<IActionResult> AddPhotoAsync(long teamId, [FromForm] IFormFile photo)
+        {
+            await _service.AddPhotoAsync(teamId, photo.ToAzureFile());
+            return NoContent();
+        }
+        
+        [HttpDelete("{teamId}/photos/{photoId}")]
+        [Authorize]
+        public async Task<IActionResult> RemovePhotoAsync(long teamId, long photoId)
+        {
+            await _service.DeletePhotoAsync(teamId, photoId);
+            return NoContent();
+        }
+
+        [HttpGet("{teamId}/members")]
+        public async Task<PartialCollectionResponse<TeamPhotoItem>> GetMembersCollection(long teamId)
+        {
+            var trainers = await _service.GetPhotosAsync(0, 10, teamId);
+
+            return trainers.ToPartialCollectionResponse();
+        }
+        
+        [HttpPost("{teamId}/members")]
+        [Authorize]
+        public async Task<IActionResult> InvitePMemberAsync(long teamId, [FromBody] InviteMemberRequest request)
+        {
+            await _service.InviteMemberAsync(teamId, request.MemberId);
+            return NoContent();
         }
 
         [HttpPost]

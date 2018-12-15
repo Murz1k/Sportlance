@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using Sportlance.WebAPI.Responses;
-
-namespace Sportlance.WebAPI.Extensions
+﻿namespace Sportlance.WebAPI.Core.Extensions
 {
     public static class PartialCollectionExtensions
     {
@@ -11,15 +7,6 @@ namespace Sportlance.WebAPI.Extensions
             where TSource : class
         {
             return new PartialCollectionResponse<TSource>(source, source.Offset, source.TotalCount);
-        }
-
-        public static PartialCollectionResponse<TResult> ToPartialCollectionResponse<TSource, TResult>(
-            this Core.PagingCollection<TSource> source, Func<TSource, TResult> selector)
-            where TResult : class
-            where TSource : class
-        {
-            return new PartialCollectionResponse<TResult>(source.Select(selector).ToArray(), source.Offset,
-                source.TotalCount);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 
-namespace Sportlance.WebAPI.Utilities
+namespace Sportlance.WebAPI.Core.Utilities
 {
     public static class HashUtils
     {

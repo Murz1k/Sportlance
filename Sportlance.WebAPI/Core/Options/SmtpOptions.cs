@@ -1,4 +1,4 @@
-﻿namespace Sportlance.WebAPI.Options
+﻿namespace Sportlance.WebAPI.Core.Options
 {
     public class SmtpOptions
     {
