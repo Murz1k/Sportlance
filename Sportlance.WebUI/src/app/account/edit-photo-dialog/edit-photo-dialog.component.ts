@@ -2,11 +2,11 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditPhotoDialogData} from './edit-photo-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../services/auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 import {map} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-edit-photo-dialog',
+  selector: 'sl-edit-photo-dialog',
   templateUrl: './edit-photo-dialog.component.html',
   styleUrls: ['./edit-photo-dialog.component.scss']
 })

@@ -4,10 +4,10 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {GetTeamQuery} from '../../../shared/teams/requests/get-team-query';
 import {TeamsService} from '../../../teams/teams.service';
 import {InviteTrainerDialogData} from './invite-trainer-dialog-data';
-import {SelectItem} from '../../../core/select/select-item';
+import {SelectItem} from '../../../shared/select/select-item';
 
 @Component({
-  selector: 'app-edit-trainer-about-dialog',
+  selector: 'sl-edit-trainer-about-dialog',
   templateUrl: './invite-trainer-dialog.component.html',
   styleUrls: ['./invite-trainer-dialog.component.scss']
 })

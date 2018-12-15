@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginRequest} from '../services/auth/requests/login-request';
+import {LoginRequest} from '../auth/requests/login-request';
 import {ErrorCode} from '../core/error-code';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paths} from '../core/paths';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
-import {AuthService} from '../services/auth/auth.service';
+import {AuthService} from '../auth/auth.service';
 import {finalize, map, tap} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-login',
+  selector: 'sl-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

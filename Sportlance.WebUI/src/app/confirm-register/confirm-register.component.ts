@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {ConfirmRegistrationRequest} from '../services/auth/requests/confirm-registration-request';
-import {AuthService} from '../services/auth/auth.service';
+import {ConfirmRegistrationRequest} from '../auth/requests/confirm-registration-request';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
-  selector: 'app-confirm-register',
+  selector: 'sl-confirm-register',
   templateUrl: './confirm-register.component.html',
   styleUrls: ['./confirm-register.component.scss']
 })

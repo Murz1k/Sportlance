@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {User} from '../../services/user.service/user';
+import {User} from '../../auth/user';
 import {MatDialog} from '@angular/material';
 import {EditAccountInfoDialogComponent} from './edit-account-info-dialog/edit-account-info-dialog.component';
-import {AuthService} from '../../services/auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
-  selector: 'app-contact-info',
+  selector: 'sl-contact-info',
   templateUrl: './contact-info.component.html',
   styleUrls: ['./contact-info.component.scss']
 })

@@ -5,7 +5,7 @@ import {TeamsService} from '../../teams.service';
 import {AddTeamPhotoDialogData} from './add-team-photo-dialog-data';
 
 @Component({
-  selector: 'app-add-team-photo-dialog',
+  selector: 'sl-add-team-photo-dialog',
   templateUrl: './add-team-photo-dialog.component.html',
   styleUrls: ['./add-team-photo-dialog.component.scss']
 })

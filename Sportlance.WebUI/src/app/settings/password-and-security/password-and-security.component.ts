@@ -3,7 +3,7 @@ import {MatDialog} from '@angular/material';
 import {EditPasswordDialogComponent} from './edit-password-dialog/edit-password-dialog.component';
 
 @Component({
-  selector: 'app-password-and-security',
+  selector: 'sl-password-and-security',
   templateUrl: './password-and-security.component.html',
   styleUrls: ['./password-and-security.component.scss']
 })

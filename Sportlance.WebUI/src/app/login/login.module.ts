@@ -6,7 +6,7 @@ import {LoginRoutingModule} from './login-routing.module';
 import {LoginComponent} from './login.component';
 import {FooterModule} from '../core/footer/footer.module';
 import {HeaderModule} from '../core/header/header.module';
-import {SlButtonModule} from '../core/button/button.module';
+import {SlButtonModule} from '../shared/button/button.module';
 
 @NgModule({
   imports: [

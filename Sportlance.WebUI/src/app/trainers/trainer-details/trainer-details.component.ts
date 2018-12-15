@@ -3,14 +3,14 @@ import {ActivatedRoute} from '@angular/router';
 import {Star} from '../trainer-list/star';
 import {TrainerInfo} from '../trainer-list/trainer-info';
 import {TrainersService} from '../trainers.service';
-import {User} from '../../services/user.service/user';
+import {User} from '../../auth/user';
 import {InviteTrainerDialogData} from './invite-trainer-dialog/invite-trainer-dialog-data';
 import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
 import {MatDialog} from '@angular/material';
-import {AuthService} from '../../services/auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
-  selector: 'app-trainer-details',
+  selector: 'sl-trainer-details',
   templateUrl: './trainer-details.component.html',
   styleUrls: ['./trainer-details.component.scss']
 })

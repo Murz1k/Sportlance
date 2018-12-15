@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef} from '@angular/material';
-import {AuthService} from '../../../services/auth/auth.service';
+import {AuthService} from '../../../auth/auth.service';
 
 @Component({
-  selector: 'app-edit-password-dialog',
+  selector: 'sl-edit-password-dialog',
   templateUrl: './edit-password-dialog.component.html',
   styleUrls: ['./edit-password-dialog.component.scss']
 })

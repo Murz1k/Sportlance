@@ -6,17 +6,9 @@ const noop = () => {
 
 const masks = [
   '1',
-  '1 (1',
-  '1 (11',
-  '1 (111',
-  '1 (111) 1',
-  '1 (111) 11',
-  '1 (111) 11-1',
-  '1 (111) 11-11',
-  '1 (111) 11-111',
-  '1 (111) 111-111',
-  '1 (111) 111-11-11',
-  '1 (111) 111-111-11'
+  '11',
+  '11:1',
+  '11:11'
 ];
 
 const clean = (number) => {
@@ -27,13 +19,26 @@ const clean = (number) => {
 
 const format = (number) => {
   let lastCharIndex = 0;
-  const cleanValue = clean(number);
+  let cleanValue = clean(number);
   const charCount = cleanValue.replace(/\^/gm, '').length;
   if (charCount === 0) {
     return {
       formatted: '',
       cursorPosition: 0
     };
+  }
+  if (charCount >= 2) {
+    if (cleanValue[0] > 2) {
+      cleanValue = '2' + cleanValue.substr(1, charCount - 1);
+      if (cleanValue[1] > 3) {
+        cleanValue = cleanValue.substr(0, 1) + '3' + cleanValue.substr(2, charCount - 2);
+      }
+    }
+  }
+  if (charCount >= 4) {
+    if (cleanValue[2] > 5) {
+      cleanValue = cleanValue.substr(0, 2) + '59' + cleanValue.substr(2, charCount - 4);
+    }
   }
   const mask = masks[charCount - 1];
   if (charCount > 1 && !mask) {
@@ -60,22 +65,22 @@ const format = (number) => {
 
   cursorPosition++;
   return {
-    formatted: `+${formatted}`,
+    formatted: `${formatted}`,
     cursorPosition
   };
 };
 
 @Directive({
-  selector: '[appPhoneMask]',
+  selector: '[slTimeMask]',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PhoneMaskDirective),
+      useExisting: forwardRef(() => TimeMaskDirective),
       multi: true
     }
   ]
 })
-export class PhoneMaskDirective {
+export class TimeMaskDirective {
 
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;
@@ -115,11 +120,11 @@ export class PhoneMaskDirective {
 
   emitValue(v) {
     let value;
-    if (this.valueType === 'clean') {
-      value = v.replace(/[^\d+]/gm, '');
-    } else if (this.valueType === 'full') {
-      value = v;
-    }
+    // if (this.valueType === 'clean') {
+    //   value = v.replace(/[^\d+]/gm, '');
+    // } else if (this.valueType === 'full') {
+    value = v;
+    // }
     this.onChangeCallback(value);
   }
 
@@ -151,3 +156,4 @@ export class PhoneMaskDirective {
     this.disabled = isDisabled;
   }
 }
+

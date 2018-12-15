@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {TeamResponse} from '../../shared/teams/requests/team-response';
 import {ActivatedRoute} from '@angular/router';
-import {CollectionResponse} from '../../services/common/collection-response';
+import {CollectionResponse} from '../../core/collection-response';
 import {Paths} from '../../core/paths';
 
 @Component({
-  selector: 'app-my-teams',
+  selector: 'sl-my-teams',
   templateUrl: './my-teams.component.html',
   styleUrls: ['./my-teams.component.scss']
 })

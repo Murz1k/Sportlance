@@ -549,10 +549,10 @@
               <label>Стоимость тренировки</label>
               <div style="display: flex;
     justify-content: space-between;">
-                <input (keyup)="changeParams()" [(ngModel)]="minPrice" appNumberOnly type="text" placeholder="от 1000"
+                <input (keyup)="changeParams()" [(ngModel)]="minPrice" slNumberOnly type="text" placeholder="от 1000"
                        style="width: 120px;"
                        class="form-control"/>
-                <input (keyup)="changeParams()" [(ngModel)]="maxPrice" appNumberOnly type="text" placeholder="до 10000"
+                <input (keyup)="changeParams()" [(ngModel)]="maxPrice" slNumberOnly type="text" placeholder="до 10000"
                        style="width: 120px;"
                        class="form-control"/>
               </div>
@@ -561,11 +561,11 @@
               <label>Количество отзывов</label>
               <div style="display: flex;
     justify-content: space-between;">
-                <input (keyup)="changeParams()" [(ngModel)]="minFeedbacksCount" appNumberOnly type="text"
+                <input (keyup)="changeParams()" [(ngModel)]="minFeedbacksCount" slNumberOnly type="text"
                        placeholder="от 0"
                        style="width: 120px;"
                        class="form-control"/>
-                <input (keyup)="changeParams()" [(ngModel)]="maxFeedbacksCount" appNumberOnly type="text"
+                <input (keyup)="changeParams()" [(ngModel)]="maxFeedbacksCount" slNumberOnly type="text"
                        placeholder="до 100"
                        style="width: 120px;"
                        class="form-control"/>

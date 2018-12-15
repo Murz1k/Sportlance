@@ -15,7 +15,7 @@ import {catchError, map} from 'rxjs/operators';
 import {throwError} from 'rxjs';
 
 @Component({
-  selector: 'app-team-details',
+  selector: 'sl-team-details',
   templateUrl: './team-details.component.html',
   styleUrls: ['./team-details.component.scss']
 })

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ReviewInfo} from '../../trainers/trainer-details/review-info';
 import {Star} from '../../trainers/trainer-list/star';
-import {FeedbacksService} from '../../services/feedbacks/feedbacks.service';
+import {FeedbacksService} from '../../feedbacks/feedbacks.service';
 
 @Component({
   selector: 'sl-feedback',

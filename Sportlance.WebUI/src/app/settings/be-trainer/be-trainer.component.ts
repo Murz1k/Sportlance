@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {TrainersService} from '../../trainers/trainers.service';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 import {ErrorCode} from '../../core/error-code';
 
 @Component({
-  selector: 'app-be-trainer',
+  selector: 'sl-be-trainer',
   templateUrl: './be-trainer.component.html',
   styleUrls: ['./be-trainer.component.css']
 })

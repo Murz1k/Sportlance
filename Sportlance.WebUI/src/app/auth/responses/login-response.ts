@@ -1,4 +1,4 @@
-import {ErrorResponse} from '../../../core/error-response';
+import {ErrorResponse} from '../../core/error-response';
 
 export interface LoginResponse extends ErrorResponse {
   accessToken: string;

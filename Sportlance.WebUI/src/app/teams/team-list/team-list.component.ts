@@ -7,10 +7,10 @@ import {TeamsService} from '../teams.service';
 import {TrainerInfo} from '../../trainers/trainer-list/trainer-info';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {AuthService} from '../../services/auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
-  selector: 'app-team-list',
+  selector: 'sl-team-list',
   templateUrl: './team-list.component.html',
   styleUrls: ['./team-list.component.scss']
 })

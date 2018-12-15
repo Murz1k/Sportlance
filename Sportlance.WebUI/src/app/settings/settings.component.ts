@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {User} from '../services/user.service/user';
+import {User} from '../auth/user';
 import {Paths} from '../core/paths';
-import {AuthService} from '../services/auth/auth.service';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
-  selector: 'app-settings',
+  selector: 'sl-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })

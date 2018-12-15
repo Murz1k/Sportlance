@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {CollectionResponse} from '../../services/common/collection-response';
+import {CollectionResponse} from '../../core/collection-response';
 import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TeamResponse} from '../../shared/teams/requests/team-response';

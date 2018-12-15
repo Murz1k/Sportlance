@@ -99,7 +99,7 @@ $footer-height: 100px;
 
 // Others
 
-app-root:not(:last-child(root:empty)) + .loading {
+sl-root:not(:last-child(root:empty)) + .loading {
   display: none;
 }
 
@@ -115,7 +115,7 @@ app-root:not(:last-child(root:empty)) + .loading {
   background: none !important;
 }
 
-.app-wrapper, app-login, app-signup {
+.sl-wrapper, sl-login, sl-signup {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -126,10 +126,10 @@ app-root:not(:last-child(root:empty)) + .loading {
   left: 0;
   z-index: 0;
   background-color: #f2f2f2;
-  > :not(router-outlet):not(header):not(app-footer) {
+  > :not(router-outlet):not(header):not(sl-footer) {
     flex: 1 0 auto;
   }
-  app-footer {
+  sl-footer {
     flex: 0 0 auto;
   }
 }

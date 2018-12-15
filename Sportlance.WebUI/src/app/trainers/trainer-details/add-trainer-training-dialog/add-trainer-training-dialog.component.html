@@ -5,10 +5,10 @@
   </div>
   <div class="dialog-content">
     <label>Вид спорта (Чем ты хочешь заняться?)</label>
-    <app-select class="input-component" formControlName="sportId"
+    <sl-select class="input-component" formControlName="sportId"
                 [elementId]="'sportId'"
                 [placeholder]="'Вид спорта'"
-                [items]="trainerSports"></app-select>
+                [items]="trainerSports"></sl-select>
     <label for="startDate">Дата тренировки (Когда?)</label>
     <div style="position:relative; width: 180px; display: inline-block;">
       <input class="form-control" style="position:absolute; z-index:-1;" [matDatepicker]="dp"

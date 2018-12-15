@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {CollectionResponse} from '../services/common/collection-response';
+import {CollectionResponse} from '../core/collection-response';
 import {isNullOrUndefined} from 'util';
 import {TeamProfileResponse} from '../shared/teams/responses/team-profile-response';
 import {TeamPhotoResponse} from '../shared/teams/responses/team-photo-response';

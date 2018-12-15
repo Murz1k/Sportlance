@@ -4,20 +4,20 @@ import * as jwt_decode from 'jwt-decode';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {isNullOrUndefined} from 'util';
-import {User} from '../user.service/user';
+import {User} from './user';
 import {LoginRequest} from './requests/login-request';
 import {Observable} from 'rxjs';
 import {LoginResponse} from './responses/login-response';
 import {RegistrationRequest} from './requests/registration-request';
 import {ResendEmailRequest} from './requests/resend-email-request';
-import {ErrorResponse} from '../../core/error-response';
+import {ErrorResponse} from '../core/error-response';
 import {UpdatePasswordRequest} from './requests/update-password-request';
 import {UpdateAccountRequest} from './requests/update-account-request';
 import {ConfirmRegistrationRequest} from './requests/confirm-registration-request';
 import {CheckUserResponse} from './responses/check-user-response';
 import {CheckUserRequest} from './requests/check-user-request';
 import {map} from 'rxjs/operators';
-import {Paths} from '../../core/paths';
+import {Paths} from '../core/paths';
 
 @Injectable({
   providedIn: 'root'

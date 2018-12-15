@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {MyTeamsService} from '../my-teams.service';
 
 @Component({
-  selector: 'app-create-team',
+  selector: 'sl-create-team',
   templateUrl: './create-team.component.html',
   styleUrls: ['./create-team.component.scss']
 })

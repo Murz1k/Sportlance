@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Injectable, Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 import {GetTeamQuery} from '../../shared/teams/requests/get-team-query';
-import {CollectionResponse} from '../../services/common/collection-response';
+import {CollectionResponse} from '../../core/collection-response';
 import {MyTeamsService} from './my-teams.service';
 
 @Injectable()

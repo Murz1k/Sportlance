@@ -4,31 +4,78 @@ import {NG_VALUE_ACCESSOR} from '@angular/forms';
 const noop = () => {
 };
 
+const masks = [
+  '1',
+  '1 (1',
+  '1 (11',
+  '1 (111',
+  '1 (111) 1',
+  '1 (111) 11',
+  '1 (111) 11-1',
+  '1 (111) 11-11',
+  '1 (111) 11-111',
+  '1 (111) 111-111',
+  '1 (111) 111-11-11',
+  '1 (111) 111-111-11'
+];
+
 const clean = (number) => {
   return number
     .toString()
-    .replace(/[^\d]/gm, '');
+    .replace(/[^\d^]/gm, '');
 };
 
 const format = (number) => {
-  const cursorPosition = 0;
+  let lastCharIndex = 0;
+  const cleanValue = clean(number);
+  const charCount = cleanValue.replace(/\^/gm, '').length;
+  if (charCount === 0) {
+    return {
+      formatted: '',
+      cursorPosition: 0
+    };
+  }
+  const mask = masks[charCount - 1];
+  if (charCount > 1 && !mask) {
+    return null;
+  }
+  let cursorPosition;
+  const formatted = mask.split('').map((c, i) => {
+    if (c === '1') {
+      if (cleanValue[lastCharIndex] === '^') {
+        cursorPosition = i + 1;
+        lastCharIndex++;
+      }
+
+      lastCharIndex++;
+      return cleanValue[lastCharIndex - 1];
+    } else {
+      return c;
+    }
+  }).join('');
+
+  if (!cursorPosition) {
+    cursorPosition = formatted.length;
+  }
+
+  cursorPosition++;
   return {
-    formatted: clean(number),
+    formatted: `+${formatted}`,
     cursorPosition
   };
 };
 
 @Directive({
-  selector: '[appNumberOnly]',
+  selector: '[slPhoneMask]',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NumberOnlyDirective),
+      useExisting: forwardRef(() => PhoneMaskDirective),
       multi: true
     }
   ]
 })
-export class NumberOnlyDirective {
+export class PhoneMaskDirective {
 
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;

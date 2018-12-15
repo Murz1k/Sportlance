@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {Image} from './image';
 import {Paths} from '../core/paths';
-import {AuthService} from '../services/auth/auth.service';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
-  selector: 'app-landing',
+  selector: 'sl-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })

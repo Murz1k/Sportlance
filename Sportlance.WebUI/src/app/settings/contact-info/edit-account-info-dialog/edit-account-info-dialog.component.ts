@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {User} from '../../../services/user.service/user';
+import {User} from '../../../auth/user';
 import {MatDialogRef} from '@angular/material';
-import {AuthService} from '../../../services/auth/auth.service';
+import {AuthService} from '../../../auth/auth.service';
 
 @Component({
-  selector: 'app-edit-trainer-paid-dialog',
+  selector: 'sl-edit-trainer-paid-dialog',
   templateUrl: './edit-account-info-dialog.component.html',
   styleUrls: ['./edit-account-info-dialog.component.scss']
 })

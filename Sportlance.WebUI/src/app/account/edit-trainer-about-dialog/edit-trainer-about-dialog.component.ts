@@ -5,7 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TrainersService} from '../../trainers/trainers.service';
 
 @Component({
-  selector: 'app-edit-trainer-about-dialog',
+  selector: 'sl-edit-trainer-about-dialog',
   templateUrl: './edit-trainer-about-dialog.component.html',
   styleUrls: ['./edit-trainer-about-dialog.component.scss']
 })

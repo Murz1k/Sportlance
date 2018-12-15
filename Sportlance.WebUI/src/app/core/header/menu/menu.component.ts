@@ -1,11 +1,11 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {User} from '../../../services/user.service/user';
+import {User} from '../../../auth/user';
 import {Router} from '@angular/router';
 import {Paths} from '../../paths';
-import {AuthService} from '../../../services/auth/auth.service';
+import {AuthService} from '../../../auth/auth.service';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'sl-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })

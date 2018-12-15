@@ -14,7 +14,7 @@ import {isNullOrUndefined, isUndefined} from 'util';
 import {SelectItem} from './select-item';
 
 @Component({
-  selector: 'app-select',
+  selector: 'sl-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   providers: [

@@ -10,7 +10,7 @@ import {AddTrainerTrainingDialogData} from '../trainer-details/add-trainer-train
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-appointment',
+  selector: 'sl-appointment',
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.scss']
 })

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FeedbackComponent} from './feedback.component';
-import {FormatDateModule} from '../../core/format-date-pipe/format-date.module';
+import {FormatDateModule} from '../format-date-pipe/format-date.module';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({

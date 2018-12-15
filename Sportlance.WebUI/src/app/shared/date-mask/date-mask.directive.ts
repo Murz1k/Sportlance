@@ -7,37 +7,37 @@ const noop = () => {
 const masks = [
   '1',
   '11',
-  '11:1',
-  '11:11'
+  '11/1',
+  '11/11',
+  '11/11/1',
+  '11/11/11',
+  '11/11/111',
+  '11/11/1111'
 ];
 
 const clean = (number) => {
   return number
     .toString()
-    .replace(/[^\d^]/gm, '');
+    .replace(/[^\d^]/gm, '').replace(/\^/gm, '');
 };
 
 const format = (number) => {
-  let lastCharIndex = 0;
   let cleanValue = clean(number);
-  const charCount = cleanValue.replace(/\^/gm, '').length;
+  const charCount = cleanValue.length;
   if (charCount === 0) {
     return {
       formatted: '',
       cursorPosition: 0
     };
   }
-  if (charCount >= 2) {
-    if (cleanValue[0] > 2) {
-      cleanValue = '2' + cleanValue.substr(1, charCount - 1);
-      if (cleanValue[1] > 3) {
-        cleanValue = cleanValue.substr(0, 1) + '3' + cleanValue.substr(2, charCount - 2);
-      }
+  if (charCount >= 2 && number[1] !== '/') {
+    if (cleanValue[0] > 3) {
+      cleanValue = '01' + cleanValue.substr(2, charCount - 2);
     }
-  }
-  if (charCount >= 4) {
-    if (cleanValue[2] > 5) {
-      cleanValue = cleanValue.substr(0, 2) + '59' + cleanValue.substr(2, charCount - 4);
+    if (charCount >= 4) {
+      if (cleanValue[2] > 1) {
+        cleanValue = cleanValue.substr(0, 2) + '01' + cleanValue.substr(2, charCount - 4);
+      }
     }
   }
   const mask = masks[charCount - 1];
@@ -45,6 +45,8 @@ const format = (number) => {
     return null;
   }
   let cursorPosition;
+  let lastCharIndex = 0;
+
   const formatted = mask.split('').map((c, i) => {
     if (c === '1') {
       if (cleanValue[lastCharIndex] === '^') {
@@ -71,16 +73,16 @@ const format = (number) => {
 };
 
 @Directive({
-  selector: '[appTimeMask]',
+  selector: '[slDateMask]',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TimeMaskDirective),
+      useExisting: forwardRef(() => DateMaskDirective),
       multi: true
     }
   ]
 })
-export class TimeMaskDirective {
+export class DateMaskDirective {
 
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;

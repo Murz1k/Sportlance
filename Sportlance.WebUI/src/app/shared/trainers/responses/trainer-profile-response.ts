@@ -1,4 +1,4 @@
-import {ReviewInfoResponse} from '../../../services/feedbacks/responses/review-info-response';
+import {ReviewInfoResponse} from '../../../feedbacks/responses/review-info-response';
 import {SportResponse} from './sport-response';
 import {TrainerStatus} from '../trainer-status';
 

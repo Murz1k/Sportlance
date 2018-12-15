@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {TrainerInfoResponse} from '../shared/trainers/responses/trainer-info-response';
 import {TrainerProfileResponse} from '../shared/trainers/responses/trainer-profile-response';
-import {CollectionResponse} from '../services/common/collection-response';
+import {CollectionResponse} from '../core/collection-response';
 import {GetTrainersQuery} from '../shared/trainers/get-trainers-query';
 import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from '../shared/trainers/responses/training-response';
-import {LoginResponse} from '../services/auth/responses/login-response';
+import {LoginResponse} from '../auth/responses/login-response';
 
 @Injectable()
 export class TrainersService {

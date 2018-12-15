@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {RegistrationRequest} from '../services/auth/requests/registration-request';
+import {RegistrationRequest} from '../auth/requests/registration-request';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ErrorCode} from '../core/error-code';
 import {Router} from '@angular/router';
-import {AuthService} from '../services/auth/auth.service';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'sl-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })

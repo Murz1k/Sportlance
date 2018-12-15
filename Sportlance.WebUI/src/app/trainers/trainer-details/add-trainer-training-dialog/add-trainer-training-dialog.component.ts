@@ -3,11 +3,11 @@ import {MAT_DIALOG_DATA, MatDatepicker, MatDialogRef} from '@angular/material';
 import {AddTrainerTrainingDialogData} from './add-trainer-training-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TrainersService} from '../../trainers.service';
-import {SelectItem} from '../../../core/select/select-item';
+import {SelectItem} from '../../../shared/select/select-item';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-edit-trainer-about-dialog',
+  selector: 'sl-edit-trainer-about-dialog',
   templateUrl: './add-trainer-training-dialog.component.html',
   styleUrls: ['./add-trainer-training-dialog.component.scss']
 })
