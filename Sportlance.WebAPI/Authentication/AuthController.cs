@@ -108,8 +108,8 @@ namespace Sportlance.WebAPI.Authentication
             if (user == null || !HashUtils.CheckHash(user.PasswordHash, request.Password))
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectPassword));
 
-            if (!user.IsEmailConfirm)
-                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
+//            if (!user.IsEmailConfirm)
+//                throw new AppErrorException(new AppError(ErrorCode.EmailIsNotConfirmed));
 
             return new LoginResponse
             {
@@ -120,7 +120,7 @@ namespace Sportlance.WebAPI.Authentication
 
         [HttpPost]
         [Route("register")]
-        public async Task<RegistrationResponse> RegistrationAsync([FromBody] RegistrationRequest request)
+        public async Task<LoginResponse> RegistrationAsync([FromBody] RegistrationRequest request)
         {
             var user = await _userService.GetByEmailAsync(request.Email);
 
@@ -139,11 +139,10 @@ namespace Sportlance.WebAPI.Authentication
 
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
 
-            return new RegistrationResponse
+            return new LoginResponse
             {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName
+                AccessToken = _authService.GenerateAccessToken(user),
+                RefreshToken = _authService.GenerateRefreshToken(user)
             };
         }
 

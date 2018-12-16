@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditPhotoDialogData} from './edit-photo-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../auth/auth.service';
-import {map} from 'rxjs/operators';
+import {finalize, map} from 'rxjs/operators';
 
 @Component({
   selector: 'sl-edit-photo-dialog',
@@ -15,6 +15,7 @@ export class EditPhotoDialogComponent implements OnInit {
   public form: FormGroup;
   private maxLength = 500;
   private newPhoto: File;
+  isLoading = false;
 
   constructor(private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: EditPhotoDialogData,
@@ -63,11 +64,14 @@ export class EditPhotoDialogComponent implements OnInit {
   }
 
   public submit(): void {
+    this.isLoading = true;
     this.authService.uploadPhoto(this.newPhoto).pipe(map((response) => {
       if (!response.error) {
         this.authService.saveTokens(response, true);
         this.dialogRef.close(true);
       }
+    }), finalize(() => {
+      this.isLoading = false;
     })).subscribe();
   }
 }

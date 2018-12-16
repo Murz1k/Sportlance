@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  checkUserEmail(): Promise<void> {
+  checkUserEmail(): void {
     if (!this.validateLogin()) {
       return;
     }

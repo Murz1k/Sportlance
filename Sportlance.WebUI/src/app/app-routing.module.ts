@@ -17,7 +17,7 @@ const appRoutes: Routes = [
     ]
   },
   {path: Paths.SignUp, loadChildren: './signup/signup.module#SignupModule'},
-  {path: Paths.EmailVerify, loadChildren: './email-verify/email-verify.module#EmailVerifyModule'},
+  {path: 'email-verify', loadChildren: './email-verify/email-verify.module#EmailVerifyModule'},
   {path: Paths.ConfirmRegistration, loadChildren: './confirm-register/confirm-register.module#ConfirmRegisterModule'},
   {path: Paths.Login, loadChildren: './login/login.module#LoginModule'},
   {path: '**', redirectTo: Paths.Root}

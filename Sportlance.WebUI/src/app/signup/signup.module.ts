@@ -6,6 +6,7 @@ import {FooterModule} from '../core/footer/footer.module';
 import {SignupComponent} from './signup.component';
 import {HeaderModule} from '../core/header/header.module';
 import {MatCheckboxModule} from '@angular/material';
+import {SlButtonModule} from "../shared/button/button.module";
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {MatCheckboxModule} from '@angular/material';
     ReactiveFormsModule,
     FooterModule,
     HeaderModule,
+    SlButtonModule,
     SignupRoutingModule
   ],
   entryComponents: [

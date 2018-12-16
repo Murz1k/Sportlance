@@ -87,7 +87,7 @@ export class AuthService {
     return this.http.post<LoginResponse>('/auth/register', request)
       .pipe(map((response) => {
         this.saveTokens(response);
-        this.router.navigate([Paths.EmailVerify]);
+        this.router.navigate(['email-verify']);
         return response;
       }));
   }
@@ -150,7 +150,7 @@ export class AuthService {
 
           const user = this.getCurrent();
           if (!user.isConfirmed) {
-            this.router.navigate([Paths.EmailVerify]);
+            this.router.navigate(['email-verify']);
             return;
           }
 

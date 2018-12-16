@@ -79,9 +79,6 @@ export class LoginComponent implements OnInit {
               this.showPasswordError = true;
               this.isDisabled = false;
               break;
-            // case ErrorCode.EmailIsNotConfirmed:
-            //   this.router.navigate([Paths.ConfirmRegistration]);
-            //   break;
           }
           return;
         }

@@ -9,6 +9,7 @@ import {EditPhotoDialogComponent} from './edit-photo-dialog/edit-photo-dialog.co
 import {EditTrainerAboutDialogComponent} from './edit-trainer-about-dialog/edit-trainer-about-dialog.component';
 import {EditTrainerPaidDialogComponent} from './edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
 import {EditBackgroundDialogComponent} from './edit-background-dialog/edit-background-dialog.component';
+import {SlButtonModule} from "../shared/button/button.module";
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {EditBackgroundDialogComponent} from './edit-background-dialog/edit-backg
     ReactiveFormsModule,
     MatCheckboxModule,
     RouterModule,
+    SlButtonModule,
     AccountRoutingModule,
     MatDialogModule
   ],
