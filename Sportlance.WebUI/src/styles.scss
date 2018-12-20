@@ -28,6 +28,7 @@ $footer-height: 100px;
   background-image: none;
   transition: all .3s;
   outline: none;
+
   &.disabled,
   &.disabled:active,
   &.disabled:hover,
@@ -50,6 +51,7 @@ $footer-height: 100px;
   border: 1px solid #E0E0E0;
   color: $primary-color;
   background-color: $default-color;
+
   &:not(:disabled):hover,
   &:not(:disabled):focus,
   &:not(:disabled):active,
@@ -62,6 +64,7 @@ $footer-height: 100px;
   color: $default-color;
   background-color: $primary-color;
   border: 1px solid $primary-color;
+
   &:not(:disabled):hover,
   &:not(:disabled):focus,
   &:not(:disabled):active,
@@ -80,6 +83,7 @@ $footer-height: 100px;
   text-decoration: none;
   font-weight: bold;
   outline: none !important;
+
   :hover, :active, :focus {
     text-decoration: underline;
     color: $primary-dark-color;
@@ -126,9 +130,11 @@ sl-root:not(:last-child(root:empty)) + .loading {
   left: 0;
   z-index: 0;
   background-color: #f2f2f2;
+
   > :not(router-outlet):not(header):not(sl-footer) {
     flex: 1 0 auto;
   }
+
   sl-footer {
     flex: 0 0 auto;
   }
@@ -176,16 +182,19 @@ body {
     padding: 24px;
     word-wrap: break-word;
     border-bottom: 1px solid #cfcfcf;
+
     .avatar-container {
       padding-right: 24px;
       display: inline-block;
     }
+
     .info-container {
       display: inline-block;
       width: 694px;
       vertical-align: top;
     }
   }
+
   .air-expand-btn {
     text-align: center;
     width: 100%;
@@ -196,16 +205,20 @@ body {
     outline: none;
     color: $primary-color;
     font-weight: 600;
+
     i {
       vertical-align: middle;
     }
   }
+
   section.collapsed {
     height: 200px;
   }
+
   .air-card-header {
     padding: 24px 24px 0;
   }
+
   .air-card-footer {
     background-color: #f9f9f9;
     border-top: 1px solid #e0e0e0;
@@ -225,8 +238,10 @@ body {
     font-size: 20px;
     margin: 0;
   }
+
   > .btn-rnd {
     float: right;
+
     > i {
       font-size: 20px;
     }
@@ -237,6 +252,7 @@ ul.feedbacks, ul.my-teams {
   list-style: none;
   padding: 0;
   margin: 0;
+
   li:not(:last-child) {
     margin-bottom: 16px;
     padding-bottom: 16px;
@@ -275,6 +291,7 @@ ul.feedbacks, ul.my-teams {
   box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
   user-select: none;
   outline: none;
+
   img {
     border-radius: 50%;
     -o-object-fit: cover;
@@ -286,6 +303,7 @@ ul.feedbacks, ul.my-teams {
     user-select: none;
     outline: none;
   }
+
   button {
     position: absolute;
     border-radius: 50%;
@@ -298,6 +316,7 @@ ul.feedbacks, ul.my-teams {
     outline: none;
     transition: .3s background-color, .3s color;
   }
+
   :hover {
     color: white;
     background-color: #0000008a;
@@ -328,6 +347,7 @@ small {
   min-height: 60px;
   padding: 24px 24px 0;
   background: #F9F9F9;
+
   h3 {
     margin-bottom: 0;
     font-size: 24px;
@@ -336,9 +356,11 @@ small {
 
 .dialog-content {
   padding: 24px;
+
   ul {
     padding-left: 15px;
   }
+
   textarea {
     min-height: 150px !important;
   }
@@ -348,6 +370,7 @@ small {
   min-height: 60px;
   padding: 0 24px 24px;
   background: #F9F9F9;
+
   button {
     margin-bottom: 0;
     margin-right: 24px;
@@ -481,7 +504,7 @@ a {
   background-color: #fff;
 }
 
-.form-control.ng-dirty.ng-invalid {
+.sl-input.ng-dirty.ng-invalid {
   border-color: #d50000 !important;
 }
 
@@ -515,11 +538,6 @@ a {
 
 .no-border {
   border: none !important;
-}
-
-.btn-primary.active, .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
-  color: $default-color;
-  background-color: $primary-dark-color;
 }
 
 .mat-checkbox-layout {
@@ -563,7 +581,7 @@ a {
   background-color: $ripple-color;
 }
 
-input.form-control, textarea.form-control, .select2-search input {
+input.sl-input, textarea.sl-input, .select2-search input {
   outline: none;
   display: block;
   width: 100%;
@@ -578,11 +596,10 @@ input.form-control, textarea.form-control, .select2-search input {
   box-sizing: border-box;
   line-height: 18px;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-
-input.form-control:hover, textarea.form-control:hover, .select2-search input:hover, input.form-control:focus, textarea.form-control:focus, .select2-search input:focus {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-  border-color: $primary-dark-color;
+  &:hover, &:focus {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    border-color: $primary-dark-color;
+  }
 }
 
 .content {

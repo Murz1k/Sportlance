@@ -9,11 +9,11 @@
                 [elementId]="'teamId'"
                 [items]="teams"></sl-select>
     <label for="title">Название</label>
-    <input type="text" class="form-control" formControlName="title" id="title"/>
+    <input type="text" sl-input formControlName="title" id="title"/>
     <p>
       Используйте это пространство, чтобы показать клиентам, что у вас есть навыки и опыт, которые они ищут.
     </p>
-    <textarea class="form-control" formControlName="message"></textarea>
+    <textarea sl-input formControlName="message"></textarea>
   </div>
   <div class="dialog-footer">
     <button class="btn btn-primary" (click)="submit(true)">Сохранить</button>

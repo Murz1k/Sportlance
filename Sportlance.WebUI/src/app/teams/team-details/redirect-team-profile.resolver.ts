@@ -16,7 +16,7 @@ export class RedirectTeamProfileResolver implements Resolve<TeamProfileResponse>
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TeamProfileResponse> {
     return this.service.getById(route.params['id'])
       .pipe(map((response: any) => {
-      if (response.errorCode) {
+      if (response.error) {
         return this.router.navigate([Paths.Teams]);
       }
       return response;

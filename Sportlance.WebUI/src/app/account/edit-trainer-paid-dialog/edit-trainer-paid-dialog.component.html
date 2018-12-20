@@ -16,7 +16,7 @@
           <strong>Часовая ставка</strong>
           Общая сумма, которую клиент увидит
         </div>
-        <input class="value form-control" formControlName="paid"/>
+        <input sl-input class="value" formControlName="paid"/>
       </div>
       <div class="paid-list-item">
         <div>
@@ -29,7 +29,7 @@
           <strong>Вам будет выплачено</strong>
           Расчетная сумма, которую вы получите после оплаты услуг
         </div>
-        <input class="value form-control" (value)="calculatePaid" [value]="calculatePriceWithoutFee()"/>
+        <input sl-input class="value" (value)="calculatePaid" [value]="calculatePriceWithoutFee()"/>
       </div>
     </div>
   </div>

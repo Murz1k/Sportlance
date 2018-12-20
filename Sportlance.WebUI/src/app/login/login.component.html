@@ -10,8 +10,8 @@
         </div>
         <div [ngClass]="showLoginError ? 'ng-invalid' : ''" style="width: 260px; margin: auto;">
           <div style="margin-bottom: 24px; position: relative;">
-            <input id="Email" formControlName="email" name="email" type="text"
-                   class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
+            <input sl-input id="Email" formControlName="email" name="email" type="text"
+                   class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
                    (keydown)="checkKeyDownLogin($event)">
             <i class="material-icons input-icon">person</i>
             <div class="error" *ngIf="showLoginError;">
@@ -49,8 +49,8 @@
         <ng-container *ngIf="isForgotPasswordPage">
           <div [ngClass]="showLoginError ? 'ng-invalid' : ''" style="width: 260px; margin: auto;">
             <div style="margin-bottom: 10px; position: relative;">
-              <input formControlName="forgotPasswordEmail" name="email" type="text"
-                     class="form-control login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
+              <input sl-input formControlName="forgotPasswordEmail" name="email" type="text"
+                     class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
               <i class="material-icons input-icon">person</i>
               <div class="error" *ngIf="showLoginError;">
                 <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
@@ -76,8 +76,8 @@
         <ng-container *ngIf="!isForgotPasswordPage">
           <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
             <div class="form-group" style="margin-bottom: 5px; position: relative;">
-              <input id="Password" formControlName="password" name="password" type="password"
-                     class="password-input form-control" placeholder="Пароль"
+              <input sl-input id="Password" formControlName="password" name="password" type="password"
+                     class="password-input" placeholder="Пароль"
                      (ngModelChange)="hidePasswordError()" (keydown)="checkKeyDownPassword($event)">
               <i class="material-icons input-icon">lock</i>
             </div>
@@ -91,7 +91,7 @@
     justify-content: space-between;
     margin-bottom: 20px;">
               <div class="checkbox">
-                <mat-checkbox class="form-control no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
+                <mat-checkbox sl-input class="no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
               </div>
               <button (click)="forgotPassword()" class="btn-link">
                 Забыли пароль?

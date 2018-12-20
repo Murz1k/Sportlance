@@ -11,7 +11,7 @@
           </div>
           <div class="form-group" style="margin-bottom: 24px; position: relative;">
             <input type="text" formControlName="firstName" id="FirstName" name="FirstName"
-                   class="form-input form-control" placeholder="Имя" required>
+                   sl-input class="form-input" placeholder="Имя" required>
             <i class="material-icons input-icon">person</i>
             <span *ngIf="submitForm.controls.firstName.invalid
                       && (submitForm.controls.firstName.dirty || submitForm.controls.firstName.touched)"
@@ -21,7 +21,7 @@
           </div>
           <div class="form-group" style="margin-bottom: 24px; position: relative;">
             <input type="text" formControlName="lastName" id="LastName" name="LastName" placeholder="Фамилия"
-                   class="form-input form-control">
+                   sl-input class="form-input">
             <i class="material-icons input-icon">person</i>
             <span *ngIf="submitForm.controls.lastName.invalid
                       && (submitForm.controls.lastName.dirty || submitForm.controls.lastName.touched)"
@@ -30,7 +30,7 @@
                       </span>
           </div>
           <div class="form-group" style="margin-bottom: 24px; position: relative;">
-            <input type="email" formControlName="email" class="form-input form-control" placeholder="Email">
+            <input type="email" formControlName="email" sl-input class="form-input" placeholder="Email">
             <i class="material-icons input-icon">email</i>
             <span *ngIf="submitForm.controls.email.invalid
                       && (submitForm.controls.email.dirty || submitForm.controls.email.touched)"
@@ -53,7 +53,7 @@
         <div style="font-size: 12px;">{{submitForm.value.email}}</div>
       </div>
       <div class="form-group">
-        <input type="password" formControlName="password" class="form-control form-input"
+        <input type="password" formControlName="password" sl-input class="form-input"
                placeholder="Введите пароль">
         <i class="material-icons input-icon">lock</i>
       </div>
@@ -61,7 +61,7 @@
         <div class="checkbox m-xs-bottom">
           <label>
             <div class="checkbox">
-              <mat-checkbox class="form-control no-border">
+              <mat-checkbox sl-input class="no-border">
                 С <a href="https://www.upwork.com/info/terms/" target="_blank">правилами</a> сервиса согласен
               </mat-checkbox>
             </div>

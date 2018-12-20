@@ -126,7 +126,7 @@
     <div *ngIf="account.isTrainer" class="side-bar-item">
       <h4>Доступность</h4>
       <div [ngSwitch]="trainer.status">
-        <mat-checkbox class="form-control no-border"
+        <mat-checkbox sl-input class="no-border"
                       (change)="changeStatus($event)"
                       [ngModel]="trainer.status === TrainerStatus.Available">
           <span *ngSwitchCase="TrainerStatus.Available">Доступен</span>

@@ -27,7 +27,7 @@ namespace Sportlance.WebAPI.Entities
 
         public int TrainingsCount { get; set; }
 
-        public AzureFile Photo { get; set; }
+        public string PhotoUrl { get; set; }
 
         public IReadOnlyCollection<Sport> Sports { get; set; }
     }

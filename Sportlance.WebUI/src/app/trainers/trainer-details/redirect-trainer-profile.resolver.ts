@@ -16,7 +16,7 @@ export class RedirectTrainerProfileResolver implements Resolve<TrainerProfileRes
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TrainerProfileResponse> {
     return this.service.getById(route.params['id'])
       .pipe(map((response: any) => {
-      if (response.errorCode) {
+      if (response.error) {
         return this.router.navigate([Paths.Trainers]);
       }
       return response;

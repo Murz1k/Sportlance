@@ -522,7 +522,7 @@
         <div style="position: relative;">
           <input (keyup)="changeParams()" [(ngModel)]="searchString" type="text"
                  placeholder="Введите Имя, Фамилию или Специальность"
-                 class="form-control form-input"/>
+                 sl-input class="form-input"/>
           <i class="material-icons input-icon">search</i>
         </div>
         <div class="filters">
@@ -533,7 +533,7 @@
                      [(ngModel)]="country"
                      (keyup)="changeParams()"
                      style="display: inline-block;"
-                     class="form-control"/>
+                     sl-input/>
             </div>
             <div class="filter-column">
               <label>Город</label>
@@ -541,7 +541,7 @@
                      [(ngModel)]="city"
                      (keyup)="changeParams()"
                      style="display: inline-block;"
-                     class="form-control"/>
+                     sl-input/>
             </div>
             <div class="filter-column">
               <label>Стоимость тренировки</label>
@@ -549,10 +549,10 @@
     justify-content: space-between;">
                 <input (keyup)="changeParams()" [(ngModel)]="minPrice" slNumberOnly type="text" placeholder="от 1000"
                        style="width: 120px;"
-                       class="form-control"/>
+                       sl-input/>
                 <input (keyup)="changeParams()" [(ngModel)]="maxPrice" slNumberOnly type="text" placeholder="до 10000"
                        style="width: 120px;"
-                       class="form-control"/>
+                       sl-input/>
               </div>
             </div>
             <div class="filter-column">
@@ -562,11 +562,11 @@
                 <input (keyup)="changeParams()" [(ngModel)]="minFeedbacksCount" slNumberOnly type="text"
                        placeholder="от 0"
                        style="width: 120px;"
-                       class="form-control"/>
+                       sl-input/>
                 <input (keyup)="changeParams()" [(ngModel)]="maxFeedbacksCount" slNumberOnly type="text"
                        placeholder="до 100"
                        style="width: 120px;"
-                       class="form-control"/>
+                       sl-input/>
               </div>
             </div>
           </div>

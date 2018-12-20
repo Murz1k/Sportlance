@@ -16,8 +16,8 @@ namespace Sportlance.WebAPI.Trainers
         private readonly TrainersStorageProvider _trainerStorageProvider;
 
         public TrainersService(AppDbContext appContext
-            ,TrainersStorageProvider trainerStorageProvider
-            )
+            , TrainersStorageProvider trainerStorageProvider
+        )
         {
             _appContext = appContext;
             _trainerStorageProvider = trainerStorageProvider;
@@ -58,6 +58,7 @@ namespace Sportlance.WebAPI.Trainers
                     Price = trainer.Price,
                     Title = trainer.Title,
                     About = trainer.About,
+                    PhotoUrl = trainer.User.PhotoUrl,
                     Score = trainer.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback.Score),
                     FeedbacksCount = trainer.TrainerSports.SelectMany(i => i.Trainings)
                         .Count(i => i.Feedback != null),
@@ -65,9 +66,7 @@ namespace Sportlance.WebAPI.Trainers
                     Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray()
                 }).GetPageAsync(query.Offset, query.Count);
 
-            return new PagingCollection<TrainerListItem>(
-                await Task.WhenAll(collection.Select(AddPhotoToTrainerAsync)),
-                collection.TotalCount,
+            return new PagingCollection<TrainerListItem>(collection, collection.TotalCount,
                 collection.Offset);
         }
 
@@ -110,11 +109,11 @@ namespace Sportlance.WebAPI.Trainers
             {
                 throw new AppErrorException(ErrorCode.UserAlreadyHasRole);
             }
-            
+
             user.AddRole(role);
-            
+
             await _appContext.AddAsync(new Trainer {UserId = user.Id});
-            
+
             await _appContext.SaveChangesAsync();
 
             return user;
@@ -158,16 +157,19 @@ namespace Sportlance.WebAPI.Trainers
             await _appContext.SaveChangesAsync();
         }
 
-        public async Task<IReadOnlyCollection<TraningItem>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate, DateTimeOffset toDate)
+        public async Task<IReadOnlyCollection<TraningItem>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate,
+            DateTimeOffset toDate)
         {
             return await (from trainer in _appContext.Trainers
                 where trainer.UserId == trainerId
-                      join trainingSport in _appContext.TrainerSports on trainer.UserId equals  trainingSport.TrainerId
-                join training in _appContext.Trainings.Include(i=>i.Client).Include(i=>i.TrainerSport).ThenInclude(i=>i.Sport) 
+                join trainingSport in _appContext.TrainerSports on trainer.UserId equals trainingSport.TrainerId
+                join training in _appContext.Trainings.Include(i => i.Client).Include(i => i.TrainerSport)
+                        .ThenInclude(i => i.Sport)
                     on trainingSport.Id equals training.TrainerSportId
-                where training.StartDate >= fromDate 
+                where training.StartDate >= fromDate
                       && (!training.EndDate.HasValue || training.EndDate.Value <= toDate)
-                select new TraningItem{
+                select new TraningItem
+                {
                     Id = training.Id,
                     StartDate = training.StartDate,
                     ClientFirstName = training.Client.FirstName,
@@ -175,21 +177,20 @@ namespace Sportlance.WebAPI.Trainers
                     ClientLastName = training.Client.LastName,
                     EndDate = training.EndDate,
                     Sport = training.TrainerSport.Sport
-                    }).ToArrayAsync();
+                }).ToArrayAsync();
         }
 
         public async Task AddTrainingAsync(long trainerId, long clientId, long sportId, DateTimeOffset fromDate)
         {
             var trainerSport = await _appContext.TrainerSports.FirstOrDefaultAsync(i =>
-                    i.TrainerId == trainerId && i.SportId == sportId);
-            _appContext.Trainings.Add(new Training {ClientId = clientId, StartDate = fromDate.DateTime, TrainerSportId = trainerSport.Id});
+                i.TrainerId == trainerId && i.SportId == sportId);
+            _appContext.Trainings.Add(new Training
+            {
+                ClientId = clientId,
+                StartDate = fromDate.DateTime,
+                TrainerSportId = trainerSport.Id
+            });
             await _appContext.SaveChangesAsync();
-        }
-
-        private async Task<TrainerListItem> AddPhotoToTrainerAsync(TrainerListItem trainer)
-        {
-            trainer.Photo = await _trainerStorageProvider.DowndloadAsync($"trainer-{trainer.Id}/main");
-            return trainer;
         }
     }
 }

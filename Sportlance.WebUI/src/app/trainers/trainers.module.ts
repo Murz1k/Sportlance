@@ -18,6 +18,8 @@ import {MyDateAdapter} from '../core/my-date-adapter';
 import {FormatDateModule} from '../shared/format-date-pipe/format-date.module';
 import {RedirectTrainerProfileResolver} from './trainer-details/redirect-trainer-profile.resolver';
 import {FeedbackModule} from '../shared/feedback/feedback.module';
+import {SlInputModule} from "../shared/input/input.module";
+import { TrainersAboutComponent } from './trainers-about/trainers-about.component';
 
 @NgModule({
   imports: [
@@ -33,6 +35,7 @@ import {FeedbackModule} from '../shared/feedback/feedback.module';
     TimeMaskModule,
     MatDatepickerModule,
     SelectModule,
+    SlInputModule,
     FeedbackModule,
     FormatDateModule
   ],
@@ -45,7 +48,8 @@ import {FeedbackModule} from '../shared/feedback/feedback.module';
     TrainerDetailsComponent,
     InviteTrainerDialogComponent,
     AddTrainerTrainingDialogComponent,
-    AppointmentComponent
+    AppointmentComponent,
+    TrainersAboutComponent
   ],
   providers: [
     {provide: DateAdapter, useClass: MyDateAdapter},

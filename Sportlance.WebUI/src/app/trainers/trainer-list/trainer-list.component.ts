@@ -90,7 +90,7 @@ export class TrainerListComponent {
         trainingsCount: i.trainingsCount,
         trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
         sports: i.sports,
-        photoUrl: isNullOrUndefined(i.photo) ? null : `data:image/jpg;base64,${i.photo.data}`,
+        photoUrl: i.photoUrl,
         about: this.cutAbout(i.about)
       }).forEach(item => this.trainers.push(item));
       this.totalCount = response.totalCount;
@@ -128,7 +128,7 @@ export class TrainerListComponent {
           trainingsCount: i.trainingsCount,
           trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
           sports: i.sports,
-          photoUrl: isNullOrUndefined(i.photo) ? null : `data:image/jpg;base64,${i.photo.data}`,
+          photoUrl: i.photoUrl,
           about: this.cutAbout(i.about)
         });
         this.offset = response.offset;
