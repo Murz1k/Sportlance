@@ -16,7 +16,7 @@
             <span *ngIf="submitForm.controls.firstName.invalid
                       && (submitForm.controls.firstName.dirty || submitForm.controls.firstName.touched)"
                   class="form-message form-error">
-                          FirstName is required
+                          Имя обязательно
                       </span>
           </div>
           <div class="form-group" style="margin-bottom: 24px; position: relative;">
@@ -26,7 +26,7 @@
             <span *ngIf="submitForm.controls.lastName.invalid
                       && (submitForm.controls.lastName.dirty || submitForm.controls.lastName.touched)"
                   class="form-message form-error">
-                          LastName is required
+                          Фамилия обязательна
                       </span>
           </div>
           <div class="form-group" style="margin-bottom: 24px; position: relative;">
@@ -35,10 +35,10 @@
             <span *ngIf="submitForm.controls.email.invalid
                       && (submitForm.controls.email.dirty || submitForm.controls.email.touched)"
                   class="form-message form-error">
-                          Email is required
+                          E-mail обязателен
                       </span>
             <label *ngIf="emailAlreadyExist" class="form-message form-error">
-              Эта почта уже исползуется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
+              Эта почта уже используется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
             </label>
           </div>
           <button sl-button slType="primary" (click)="checkUserEmail()" style="margin: auto;">

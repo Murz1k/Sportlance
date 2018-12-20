@@ -7,6 +7,7 @@ import {SignupComponent} from './signup.component';
 import {HeaderModule} from '../core/header/header.module';
 import {MatCheckboxModule} from '@angular/material';
 import {SlButtonModule} from "../shared/button/button.module";
+import {SlInputModule} from "../shared/input/input.module";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {SlButtonModule} from "../shared/button/button.module";
     FooterModule,
     HeaderModule,
     SlButtonModule,
+    SlInputModule,
     SignupRoutingModule
   ],
   entryComponents: [

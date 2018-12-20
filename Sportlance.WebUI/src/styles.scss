@@ -28,6 +28,7 @@ $footer-height: 100px;
   background-image: none;
   transition: all .3s;
   outline: none;
+  text-decoration: none;
 
   &.disabled,
   &.disabled:active,
@@ -72,6 +73,15 @@ $footer-height: 100px;
     color: $default-color;
     background-color: $primary-dark-color;
     border-color: $primary-dark-color;
+  }
+}
+
+a {
+  color: $primary-color;
+  &:not(.sl-btn):active, &:not(.sl-btn):focus, &:not(.sl-btn):hover {
+    outline: 0;
+    color: $primary-dark-color;
+    text-decoration: underline;
   }
 }
 
@@ -461,10 +471,6 @@ small {
   z-index: 10;
 }
 
-a {
-  color: $primary-color;
-}
-
 .back-loading {
   background-color: rgba(0, 0, 0, 0.5);
   height: -webkit-fill-available;
@@ -511,15 +517,6 @@ a {
 .form-group {
   position: relative;
   margin-bottom: 24px;
-}
-
-a:active, a:focus, a:hover {
-  color: $primary-dark-color;
-  text-decoration: underline;
-}
-
-a:active, a:hover {
-  outline: 0;
 }
 
 header a:active, header a:focus, header a:hover,
@@ -596,6 +593,7 @@ input.sl-input, textarea.sl-input, .select2-search input {
   box-sizing: border-box;
   line-height: 18px;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
   &:hover, &:focus {
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
     border-color: $primary-dark-color;
