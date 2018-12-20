@@ -5,7 +5,7 @@ import {RootComponent} from './root/root.component';
 import {LandingComponent} from './landing/landing.component';
 import {AboutComponent} from "./about/about.component";
 
-const appRoutes: Routes = [
+const routes: Routes = [
   {
     path: Paths.Root, component: RootComponent, children: [
       {path: Paths.Root, pathMatch: 'full', component: LandingComponent},
@@ -24,9 +24,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(appRoutes)
-  ],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'})],
   exports: [
     RouterModule
   ]
