@@ -9,7 +9,8 @@ import {MatDialogModule} from '@angular/material';
 import {RedirectTeamProfileResolver} from './team-details/redirect-team-profile.resolver';
 import {TeamsService} from './teams.service';
 import {SlInputModule} from "../shared/input/input.module";
-import {SlSelectModule} from "../shared/select/select.module";
+import {SlSelectCityModule} from "../shared/select-city/select-city.module";
+import {SlButtonModule} from "../shared/button/button.module";
 
 @NgModule({
   imports: [
@@ -20,8 +21,10 @@ import {SlSelectModule} from "../shared/select/select.module";
     TeamsRoutingModule,
     NumberOnlyModule,
     MatDialogModule,
+
     SlInputModule,
-    SlSelectModule
+    SlSelectCityModule,
+    SlButtonModule
   ],
   declarations: [
     TeamListComponent

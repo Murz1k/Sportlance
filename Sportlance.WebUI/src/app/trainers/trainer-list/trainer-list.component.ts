@@ -228,4 +228,16 @@ export class TrainerListComponent {
     }
     return title;
   }
+
+  reset() {
+    this.searchString = undefined;
+    this.country = undefined;
+    this.city = undefined;
+    this.minPrice = undefined;
+    this.maxPrice = undefined;
+    this.minFeedbacksCount = undefined;
+    this.maxFeedbacksCount = undefined;
+
+    this.changeParams();
+  }
 }

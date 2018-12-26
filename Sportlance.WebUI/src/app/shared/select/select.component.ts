@@ -31,7 +31,7 @@ export class SlSelectComponent implements OnInit, ControlValueAccessor, AfterCon
 
   @ContentChildren(SlOptionComponent) options: QueryList<SlOptionComponent>;
   @Input() disabled = false;
-  @Input() placeHolder = '';
+  @Input() placeholder = '';
   @Output() OnChange = new EventEmitter<any>();
 
   @ViewChild('items') itemsList: ElementRef;
@@ -116,7 +116,7 @@ export class SlSelectComponent implements OnInit, ControlValueAccessor, AfterCon
     this.disabled = isDisabled;
   }
 
-  selectValue(value: number, $event: Event) {
+  selectValue(value: any, $event: Event) {
     $event.preventDefault();
     $event.stopPropagation();
 

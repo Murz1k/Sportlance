@@ -527,22 +527,18 @@
         </div>
         <div class="filters">
           <div class="filters-container">
-            <div class="filter-column">
-              <label>Страна</label>
-              <input type="text" placeholder="Россия"
-                     [(ngModel)]="country"
-                     (keyup)="changeParams()"
-                     style="display: inline-block;"
-                     sl-input/>
-            </div>
+            <!--<div class="filter-column">-->
+              <!--<label>Страна</label>-->
+              <!--<input type="text" placeholder="Россия"-->
+                     <!--[(ngModel)]="country"-->
+                     <!--(keyup)="changeParams()"-->
+                     <!--style="display: inline-block;"-->
+                     <!--sl-input/>-->
+            <!--</div>-->
             <div class="filter-column">
               <label>Город</label>
-              <sl-select [(ngModel)]="city" (ngModelChange)="changeParams()" placeHolder="Выберете город">
-                <sl-option val="Москва">Москва</sl-option>
-                <sl-option val="Санк-Петербург">Санк-Петербург</sl-option>
-                <sl-option val="Екатеринбург">Екатеринбург</sl-option>
-                <sl-option val="Новосибирск">Новосибирск</sl-option>
-              </sl-select>
+              <sl-select-city [(ngModel)]="city" (ngModelChange)="changeParams()" placeholder="Выберете город">
+              </sl-select-city>
             </div>
             <div class="filter-column">
               <label>Стоимость тренировки</label>
@@ -569,6 +565,9 @@
                        style="width: 120px;"
                        sl-input/>
               </div>
+            </div>
+            <div class="filter-column">
+              <button sl-button (click)="reset()">Очистить</button>
             </div>
           </div>
         </div>

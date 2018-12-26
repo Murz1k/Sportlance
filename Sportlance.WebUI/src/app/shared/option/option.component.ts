@@ -7,7 +7,7 @@ import {Component, ElementRef, Input, OnInit} from '@angular/core';
 })
 export class SlOptionComponent implements OnInit {
 
-  @Input() value = [];
+  @Input() value;
 
   constructor(private _element: ElementRef<HTMLElement>) {
   }

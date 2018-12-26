@@ -1,7 +1,7 @@
-<div [class.show-list]="showList" style="height: 50px; position: relative;">
+<div [class.show-list]="showList" style="height: 40px; position: relative;">
   <div class="scroll">
-    <div class="scroll-wrapper" style="height: 50px;" [style.height.px]="scrollHeight">
-      <input [disabled]="disabled" [placeholder]="placeHolder" class="selected-item" readonly type="text"
+    <div class="scroll-wrapper" [style.height.px]="scrollHeight">
+      <input [disabled]="disabled" [placeholder]="placeholder" class="selected-item" readonly type="text"
              (click)="clickedInside($event)"
              [ngModel]="_selectedItem.label"/>
       <span class="scroll-arrow" [class.up]="showList">

@@ -19,7 +19,9 @@ import {FormatDateModule} from '../shared/format-date-pipe/format-date.module';
 import {RedirectTrainerProfileResolver} from './trainer-details/redirect-trainer-profile.resolver';
 import {FeedbackModule} from '../shared/feedback/feedback.module';
 import {SlInputModule} from "../shared/input/input.module";
-import { TrainersAboutComponent } from './trainers-about/trainers-about.component';
+import {TrainersAboutComponent} from './trainers-about/trainers-about.component';
+import {SlSelectCityModule} from "../shared/select-city/select-city.module";
+import {SlButtonModule} from "../shared/button/button.module";
 
 @NgModule({
   imports: [
@@ -34,8 +36,13 @@ import { TrainersAboutComponent } from './trainers-about/trainers-about.componen
     MatNativeDateModule,
     TimeMaskModule,
     MatDatepickerModule,
+
     SlSelectModule,
+    SlButtonModule,
     SlInputModule,
+
+    SlSelectCityModule,
+
     FeedbackModule,
     FormatDateModule
   ],

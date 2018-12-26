@@ -29,6 +29,8 @@ namespace Sportlance.WebAPI.Teams
                 where team.Status == TeamStatus.Available
                       && (!userId.HasValue || userId.Value == team.AuthorId ||
                           team.TrainerTeams.Any(i => i.TrainerId == userId.Value))
+                      && (query.Country == null || team.Country.Contains(query.Country))
+                      && (query.City == null || team.City.Contains(query.City))
                 select team;
             return await (from team in teamQuery
                 select new TeamListItem

@@ -147,7 +147,19 @@ export class TeamListComponent {
     return about.substring(0, 167) + '...';
   }
 
-  public async openProfileAsync(teamId: number) {
-    await this.router.navigate([`${Paths.Teams}/${teamId}`]);
+  public openProfile(teamId: number) {
+    this.router.navigate([`${Paths.Teams}/${teamId}`]);
+  }
+
+  reset() {
+    this.searchString = undefined;
+    this.country = undefined;
+    this.city = undefined;
+    this.minPrice = undefined;
+    this.maxPrice = undefined;
+    this.minFeedbacksCount = undefined;
+    this.maxFeedbacksCount = undefined;
+
+    this.changeParams();
   }
 }
