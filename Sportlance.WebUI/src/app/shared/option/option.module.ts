@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {OptionComponent, SlOptionComponent} from './option.component';
+import {SlOptionComponent} from './option.component';
 
 @NgModule({
   declarations: [SlOptionComponent],
