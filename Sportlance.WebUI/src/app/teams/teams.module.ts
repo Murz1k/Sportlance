@@ -8,6 +8,8 @@ import {NumberOnlyModule} from '../shared/number-only/number-only.module';
 import {MatDialogModule} from '@angular/material';
 import {RedirectTeamProfileResolver} from './team-details/redirect-team-profile.resolver';
 import {TeamsService} from './teams.service';
+import {SlInputModule} from "../shared/input/input.module";
+import {SlSelectModule} from "../shared/select/select.module";
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import {TeamsService} from './teams.service';
     ReactiveFormsModule,
     TeamsRoutingModule,
     NumberOnlyModule,
-    MatDialogModule
+    MatDialogModule,
+    SlInputModule,
+    SlSelectModule
   ],
   declarations: [
     TeamListComponent

@@ -1,120 +1,166 @@
 import {
+  AfterContentInit,
   Component,
-  Input,
-  forwardRef,
-  OnChanges,
+  ContentChildren,
   ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input,
   OnInit,
   Output,
-  EventEmitter,
-  HostListener
+  QueryList, ViewChild
 } from '@angular/core';
-import {FormGroup, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS} from '@angular/forms';
-import {isNullOrUndefined, isUndefined} from 'util';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {SelectItem} from './select-item';
+import {SlOptionComponent} from "../option/option.component";
 
 @Component({
   selector: 'sl-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
   providers: [
-    {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SelectComponent), multi: true},
-    {provide: NG_VALIDATORS, useExisting: forwardRef(() => SelectComponent), multi: true}
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SlSelectComponent),
+      multi: true,
+    }
   ]
 })
-export class SelectComponent implements ControlValueAccessor, OnChanges, OnInit {
+export class SlSelectComponent implements OnInit, ControlValueAccessor, AfterContentInit {
 
-  public isSelectHidden: boolean;
-  public selectedItemLabel: string;
+  @ContentChildren(SlOptionComponent) options: QueryList<SlOptionComponent>;
+  @Input() disabled = false;
+  @Input() placeHolder = '';
+  @Output() OnChange = new EventEmitter<any>();
 
-  @Input('selectedItemValue') _selectedItemValue: string | number | null = null;
-  @Input() placeholder = '';
-  @Input() items: SelectItem[];
-  @Input() elementId: string;
-  @Input() elementName: string;
-  @Input() form?: FormGroup;
-  @Input() hasEmptyValue = false;
-  @Input() defaultValue?: string | number;
-  @Output() select: EventEmitter<string | number | null> = new EventEmitter<string | number | null>();
+  @ViewChild('items') itemsList: ElementRef;
 
-  constructor(private nativeElement: ElementRef) {
+  _value: any = undefined;
+  _items: SelectItem[] = [];
+
+  _selectedItem = {label: '', value: undefined};
+
+  showList = false;
+
+  scrollHeight = 40;
+  listHeight = 0;
+
+  constructor(private _elementRef: ElementRef) {
   }
 
-  public propagateChange: any = () => {
+  ngOnInit() {
   }
 
-  public validateFn: any = () => {
-  }
-
-  get selectedItemValue() {
-    return this._selectedItemValue;
-  }
-
-  set selectedItemValue(value: string | number) {
-    this._selectedItemValue = value;
-    this.propagateChange(value);
-    this.select.emit(value);
-  }
-
-  public ngOnChanges(inputs) {
-    this.propagateChange(this.selectedItemValue);
-  }
-
-  public writeValue(value) {
-    if (value) {
-      this.selectedItemValue = value;
+  show() {
+    if (!this._items) {
+      return;
     }
-    this.setDefaultValue(value);
+
+    if (this.showList) {
+      this.hide();
+      return;
+    }
+
+    if (this.itemsList.nativeElement.children.length > 10) {
+      Array.prototype.slice.call(this.itemsList.nativeElement.children, 0, 10).map(i => this.listHeight += i.clientHeight);
+    } else {
+      Array.prototype.slice.call(this.itemsList.nativeElement.children).map(i => this.listHeight += i.clientHeight);
+    }
+    this.scrollHeight = 40 + this.listHeight;
+    this.showList = true;
   }
 
-  public ngOnInit() {
-    this.selectedItemLabel = '';
-    this.selectedItemValue = '';
-    if (!isUndefined(this.defaultValue)) {
-      this.setDefaultValue(this.defaultValue);
+  hide() {
+    if (!this._items) {
+      return;
+    }
+
+    this.listHeight = 0;
+    this.scrollHeight = 40;
+
+    setTimeout(() => {
+      this.showList = false;
+    }, 450);
+  }
+
+  @HostListener('document:click', ['$event.target']) clickedOutside(targetElement: ElementRef) {
+    const clickedInside = this._elementRef.nativeElement.contains(targetElement);
+    if (!clickedInside) {
+      this.hide();
     }
   }
 
-  public setDefaultValue(value) {
-    const item = this.items.find(i => i.value === value);
-    this.selectedItemLabel = isNullOrUndefined(item) ? '' : item.label;
-    this.selectedItemValue = value;
+  clickedInside($event: Event) {
+    $event.preventDefault();
+    // $event.stopPropagation();
+
+    this.show();
   }
 
-  public registerOnTouched() {
+  onChange: any = () => {
+  };
+
+  onTouched: any = () => {
+  };
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
   }
 
-  public validate(c: FormControl) {
-    return this.validateFn(c);
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
-  public showSelectList($event: Event) {
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  selectValue(value: number, $event: Event) {
     $event.preventDefault();
     $event.stopPropagation();
-    this.isSelectHidden = !this.isSelectHidden;
+
+    this.writeValue(value);
+    this.onTouched();
+
+    this.hide();
   }
 
-  @HostListener('document:click', ['$event']) hideSelectList() {
-    this.isSelectHidden = true;
+  set value(obj: any) {
+    this.writeValue(obj);
   }
 
-  public selectItem(label: string, value: string | number | null) {
-    this.selectedItemLabel = label;
-    this.selectedItemValue = value;
-    this.isSelectHidden = true;
+  get value(): any {
+    return this._value;
   }
 
-  public onSelectInputChange() {
-    this.selectedItemValue = '';
+  writeValue(obj: any): void {
+
+    if (obj === this._selectedItem.value) {
+      return;
+    }
+
+    if (!this._items) {
+      return;
+    }
+
+    const currentItem = this._items.find(i => i.value === obj);
+
+    if (!currentItem) {
+      this._selectedItem = {label: '', value: undefined};
+    } else {
+      this._selectedItem = currentItem;
+      this.onChange(obj);
+    }
+
+    this._value = obj;
   }
 
-  public resetSelection() {
-    this.selectedItemValue = '';
-    this.selectedItemLabel = '';
-    this.isSelectHidden = true;
-  }
+  ngAfterContentInit(): void {
+    this._items = this.options.map(i => <SelectItem> {value: i.value, label: i.getLabel()});
 
-  registerOnChange(fn) {
-    this.propagateChange = fn;
+    this.options.changes.subscribe((options: SlOptionComponent[]) =>
+      this._items = options.map(i => <SelectItem> {value: i.value, label: i.getLabel()})
+    );
   }
 }

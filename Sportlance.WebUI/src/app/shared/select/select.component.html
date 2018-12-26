@@ -1,22 +1,17 @@
-<div class="select-wrapper">
-  <i *ngIf="isSelectHidden" class="expand-icon material-icons" (click)="showSelectList($event)">expand_more</i>
-  <i *ngIf="!isSelectHidden" class="expand-icon material-icons" (click)="showSelectList($event)">expand_less</i>
-  <input readonly (click)="showSelectList($event);"
-         [class.focused]="!isSelectHidden"
-         (input)="onSelectInputChange()"
-         autocomplete="nope"
-         [value]="selectedItemLabel"
-         [placeholder]="placeholder"
-         type="text"
-         sl-input
-         id="{{elementId}}"
-         name="{{elementName}}">
-  <ul class="select-list" [class.hidden]="isSelectHidden">
-    <li *ngIf="hasEmptyValue" (click)="resetSelection()" class="select-item">
-      <p class="select-item-name select-item-name__off">Не выбрано</p>
-    </li>
-    <li *ngFor="let item of items" (click)="selectItem(item.label, item.value)" class="select-item">
-      <p class="select-item-name">{{item.label}}</p>
-    </li>
-  </ul>
+<div [class.show-list]="showList" style="height: 50px; position: relative;">
+  <div class="scroll">
+    <div class="scroll-wrapper" style="height: 50px;" [style.height.px]="scrollHeight">
+      <input [disabled]="disabled" [placeholder]="placeHolder" class="selected-item" readonly type="text"
+             (click)="clickedInside($event)"
+             [ngModel]="_selectedItem.label"/>
+      <span class="scroll-arrow" [class.up]="showList">
+        <i class="wb-icons wb-arrow-down"></i>
+      </span>
+      <div class="scroll-container">
+        <ul [style.height.px]="listHeight" #items [class.show-scroll]="_items.length > 10" #items>
+          <li *ngFor="let item of _items" (click)="selectValue(item.value, $event)">{{item.label}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

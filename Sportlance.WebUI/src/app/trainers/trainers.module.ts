@@ -11,7 +11,7 @@ import {DateAdapter, MatDialogModule, MatNativeDateModule} from '@angular/materi
 import {AddTrainerTrainingDialogComponent} from './trainer-details/add-trainer-training-dialog/add-trainer-training-dialog.component';
 import {DateMaskModule} from '../shared/date-mask/date-mask.module';
 import {TimeMaskModule} from '../shared/time-mask/time-mask.module';
-import {SelectModule} from '../shared/select/select.module';
+import {SlSelectModule} from '../shared/select/select.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {InviteTrainerDialogComponent} from './trainer-details/invite-trainer-dialog/invite-trainer-dialog.component';
 import {MyDateAdapter} from '../core/my-date-adapter';
@@ -34,7 +34,7 @@ import { TrainersAboutComponent } from './trainers-about/trainers-about.componen
     MatNativeDateModule,
     TimeMaskModule,
     MatDatepickerModule,
-    SelectModule,
+    SlSelectModule,
     SlInputModule,
     FeedbackModule,
     FormatDateModule

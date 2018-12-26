@@ -1,12 +1,19 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {SelectComponent} from './select.component';
+import {SlSelectComponent} from './select.component';
+import {SlOptionModule} from "../option/option.module";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {SlOptionComponent} from "../option/option.component";
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SlOptionModule
   ],
-  declarations: [SelectComponent],
-  exports: [SelectComponent, CommonModule]
+  declarations: [SlSelectComponent],
+  exports: [SlSelectComponent, SlOptionComponent]
 })
-export class SelectModule {}
+export class SlSelectModule {
+}

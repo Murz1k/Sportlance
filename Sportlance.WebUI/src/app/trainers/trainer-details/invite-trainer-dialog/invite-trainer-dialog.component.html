@@ -5,9 +5,9 @@
   </div>
   <div class="dialog-content">
     <label>Команда</label>
-    <sl-select class="input-component" formControlName="teamId"
-                [elementId]="'teamId'"
-                [items]="teams"></sl-select>
+    <sl-select class="input-component" formControlName="teamId">
+      <sl-option *ngFor="let team of teams" [value]="team.value">{{team.label}}</sl-option>
+    </sl-select>
     <label for="title">Название</label>
     <input type="text" sl-input formControlName="title" id="title"/>
     <p>

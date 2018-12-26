@@ -537,11 +537,12 @@
             </div>
             <div class="filter-column">
               <label>Город</label>
-              <input type="text" placeholder="Москва"
-                     [(ngModel)]="city"
-                     (keyup)="changeParams()"
-                     style="display: inline-block;"
-                     sl-input/>
+              <sl-select [(ngModel)]="city" (ngModelChange)="changeParams()" placeHolder="Выберете город">
+                <sl-option val="Москва">Москва</sl-option>
+                <sl-option val="Санк-Петербург">Санк-Петербург</sl-option>
+                <sl-option val="Екатеринбург">Екатеринбург</sl-option>
+                <sl-option val="Новосибирск">Новосибирск</sl-option>
+              </sl-select>
             </div>
             <div class="filter-column">
               <label>Стоимость тренировки</label>
