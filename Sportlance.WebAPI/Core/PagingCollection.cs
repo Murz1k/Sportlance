@@ -10,6 +10,13 @@ namespace Sportlance.WebAPI.Core
             TotalCount = totalCount;
             Offset = offset;
         }
+        
+        public PagingCollection(IEnumerable<TEntity> entities, int totalCount, int offset)
+        {
+            AddRange(entities);
+            TotalCount = totalCount;
+            Offset = offset;
+        }
 
         public int TotalCount { get; }
 

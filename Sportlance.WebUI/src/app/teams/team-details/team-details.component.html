@@ -44,7 +44,7 @@
       </section>
       <div class="air-card-header">
         <h3 class="pull-left">О нас</h3>
-        <button class="btn btn-default btn-rnd"
+        <button sl-button class="btn-rnd"
                 style="position: absolute;     right: 30px;    top: 20px;">
           <i class="material-icons" style="font-size: 20px;">create</i>
         </button>
@@ -68,7 +68,7 @@
         <h3 class="pull-left">
           Галерея
         </h3>
-        <button (click)="showAddTeamPhotoDialog()" class="btn btn-default btn-rnd">
+        <button  sl-button (click)="showAddTeamPhotoDialog()" class="btn-rnd">
           <i class="material-icons">add</i>
         </button>
       </div>
@@ -87,7 +87,7 @@
           <button (click)="deletePhoto(photo.id)" class="remove-button">
             <i class="material-icons">clear</i>
           </button>
-          <img src="{{photo.file}}">
+          <img src="{{photo.photoUrl}}">
         </div>
       </section>
     </div>
@@ -109,13 +109,13 @@
       <section *ngIf="teamMembers" class="photo-collection">
         <div class="photo-row" *ngFor="let teamMemberRow of teamMembers">
           <div class="photo-container" *ngFor="let teamMember of teamMemberRow">
-            <img *ngIf="teamMember.photo" src="{{teamMember.photo}}">
-            <div *ngIf="!teamMember.photo" class="empty-avatar">
+            <img *ngIf="teamMember.photoUrl" src="{{teamMember.photoUrl}}">
+            <div *ngIf="!teamMember.photoUrl" class="empty-avatar">
               <i class="material-icons">account_circle</i>
             </div>
             <a routerLink="/{{Paths.Trainers}}/{{teamMember.id}}" class="member-title">{{teamMember.firstName}}
               {{teamMember.secondName}}</a>
-            <button class="btn btn-default member-button">
+            <button sl-button slType="primary" class="member-button">
               Записаться
             </button>
           </div>

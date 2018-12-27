@@ -67,10 +67,7 @@ export class TeamDetailsComponent implements OnInit {
     this.isLoadingPhotos = true;
     return this.teamService.getPhotosByTeamId(teamId).pipe(
       map((response) => {
-        this.photos = response.items.map(i => <TeamPhotoResponse>{
-          id: i.id,
-          file: i.file !== null ? `data:image/jpg;base64,${i.file.data}` : null
-        });
+        this.photos = response.items;
         this.isLoadingPhotos = false;
       }),
       catchError((error) => {

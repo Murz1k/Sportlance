@@ -25,7 +25,7 @@ namespace Sportlance.WebAPI.Teams
 
         Task DeletePhotoAsync(long teamId, long photoId);
 
-        Task<PagingCollection<TeamPhotoItem>> GetPhotosAsync(int offset, int count, long teamId);
+        Task<PagingCollection<TeamPhoto>> GetPhotosAsync(int offset, int count, long teamId);
 
         Task InviteMemberAsync(long teamId, long memberId);
 

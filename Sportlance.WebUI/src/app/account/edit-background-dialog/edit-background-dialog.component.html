@@ -5,11 +5,11 @@
   </div>
   <div class="dialog-content">
     <img src="{{form.value.url}}"/>
-    <label class="btn btn-block btn-default">
+    <label  sl-button class="btn-block">
       Загрузить другое фото
       <input type="file" name="name" (change)="onChange($event)"/>
     </label>
-    <label class="btn btn-primary" (click)="submit()">
+    <label sl-button slType="primary" (click)="submit()">
       Сохранить
     </label>
   </div>

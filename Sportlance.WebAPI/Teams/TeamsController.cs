@@ -45,7 +45,7 @@ namespace Sportlance.WebAPI.Teams
         }
 
         [HttpGet("{teamId}/photos")]
-        public async Task<PartialCollectionResponse<TeamPhotoItem>> GetPhotoCollection(long teamId)
+        public async Task<PartialCollectionResponse<TeamPhoto>> GetPhotoCollection(long teamId)
         {
             var trainers = await _service.GetPhotosAsync(0, 10, teamId);
 
@@ -69,7 +69,7 @@ namespace Sportlance.WebAPI.Teams
         }
 
         [HttpGet("{teamId}/members")]
-        public async Task<PartialCollectionResponse<TeamPhotoItem>> GetMembersCollection(long teamId)
+        public async Task<PartialCollectionResponse<TeamPhoto>> GetMembersCollection(long teamId)
         {
             var trainers = await _service.GetPhotosAsync(0, 10, teamId);
 

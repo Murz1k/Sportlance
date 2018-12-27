@@ -46,19 +46,10 @@ namespace Sportlance.WebAPI.Teams
                 }).GetPageAsync(query.Offset, query.Count);
         }
 
-        public async Task<PagingCollection<TeamPhotoItem>> GetPhotosAsync(int offset, int count, long teamId)
+        public async Task<PagingCollection<TeamPhoto>> GetPhotosAsync(int offset, int count, long teamId)
         {
             var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
-            return new PagingCollection<TeamPhotoItem>(
-                await Task.WhenAll(team.TeamPhotos.Skip(offset).Take(count).Select(async photo =>
-                {
-                    var item = new TeamPhotoItem
-                    {
-                        Id = photo.Id,
-                        File = await _teamPhotosStorageProvider.DowndloadAsync($"team-{teamId}/photo-{photo.Id}")
-                    };
-                    return item;
-                })),
+            return new PagingCollection<TeamPhoto>(team.TeamPhotos.Skip(offset).Take(count),
                 team.TeamPhotos.Count,
                 offset
             );

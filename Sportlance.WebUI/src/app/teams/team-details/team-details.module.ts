@@ -6,6 +6,8 @@ import {NumberOnlyModule} from '../../shared/number-only/number-only.module';
 import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
 import {TeamDetailsRoutingModule} from './team-details-routing.module';
 import {TeamDetailsComponent} from './team-details.component';
+import {SlSelectCityModule} from "../../shared/select-city/select-city.module";
+import {SlButtonModule} from "../../shared/button/button.module";
 
 @NgModule({
   imports: [
@@ -14,7 +16,8 @@ import {TeamDetailsComponent} from './team-details.component';
     ReactiveFormsModule,
     TeamDetailsRoutingModule,
     NumberOnlyModule,
-    MatDialogModule
+    MatDialogModule,
+    SlButtonModule
   ],
   entryComponents: [
     AddTeamPhotoDialogComponent

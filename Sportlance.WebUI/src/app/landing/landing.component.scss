@@ -70,9 +70,9 @@ h2 {
   font-size: 1em;
   padding: 1.5em 0.5em 1.5em 0.5em;
   position: absolute;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+  right: 0;
+  bottom: 0;
+  left: 0;
   text-align: center;
   color: #fff;
   background-color: rgba(0, 0, 0, 0.75);
@@ -80,11 +80,7 @@ h2 {
 }
 
 .cta-container {
-  position: absolute;
-  z-index: 1;
-  bottom: 20%;
   color: white;
-  left: 10%;
   .cta-title {
     font-size: 56px;
     font-weight: 600;
@@ -99,5 +95,6 @@ h2 {
   a {
     font-size: 24px;
     padding: 24px;
+    width: 300px;
   }
 }

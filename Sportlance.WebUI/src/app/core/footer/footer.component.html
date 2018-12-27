@@ -1,7 +1,7 @@
 <div class="footer-navbar-wrapper footer-visitor" style="min-height: 119px;">
-  <div *ngIf="!isEmpty; else emptyBlock;" class="content">
+  <div class="content">
     <section>
-      <div class="links-section">
+      <div *ngIf="!isEmpty;" class="links-section">
         <ul class="footer-menu">
           <li class="footer-menu__item">
             <span>Компания</span>
@@ -32,10 +32,7 @@
         </ul>
       </div>
     </section>
-    <section style="
-    display: flex;
-    align-items: center;
-    justify-content: space-between;">
+    <section style="display: flex; align-items: center; justify-content: space-between;">
       <p class="text-center copyright" style="margin: 0">
         © {{startDate}} <span *ngIf="startDate != endDate"> - {{endDate}}</span> Sportlance
       </p>
@@ -97,33 +94,4 @@
       </div>
     </section>
   </div>
-  <ng-template #emptyBlock>
-    <div class="content">
-      <section>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="social-icons-wrapper text-center">
-              <h2><em>Follow us</em></h2>
-              <a href="https://plus.google.com/107040851368295259701" target="_blank"
-                 title="Add Upwork to Google+ circles"><span
-                class="glyphicon glyphicon-md air-icon-social-google-plus"></span></a>
-              <a href="https://www.facebook.com/upwork" target="_blank" title="Visit Upwork on Facebook"><span
-                class="glyphicon glyphicon-md air-icon-social-facebook"></span></a>
-              <a href="https://www.linkedin.com/company/upwork" target="_blank"
-                 title="Read Upwork company news on LinkedIn"><span
-                class="glyphicon glyphicon-md air-icon-social-linkedin"></span></a>
-              <a href="https://twitter.com/Upwork" target="_blank" title="Follow @Upwork on Twitter"><span
-                class="glyphicon glyphicon-md air-icon-social-twitter"></span></a>
-              <a href="https://www.youtube.com/channel/UCvxGFOnwUBDHHcxuPqhe4CQ" target="_blank"
-                 title="Watch Upwork videos on YouTube"><span
-                class="glyphicon glyphicon-md air-icon-social-youtube"></span></a>
-            </div>
-            <p class="text-center copyright">
-              © {{startDate}} <span *ngIf="startDate != endDate"> - {{endDate}}</span> Sportlance
-            </p>
-          </div>
-        </div>
-      </section>
-    </div>
-  </ng-template>
 </div>

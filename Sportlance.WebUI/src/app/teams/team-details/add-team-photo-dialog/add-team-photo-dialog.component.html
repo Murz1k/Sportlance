@@ -4,11 +4,11 @@
 </div>
 <div class="dialog-content">
   <img *ngIf="url" src="{{url}}"/>
-  <label class="btn btn-block btn-default">
+  <label  sl-button class="btn-block">
     Загрузить другое фото
     <input type="file" name="name" (change)="onChange($event)"/>
   </label>
-  <button class="btn btn-primary" (click)="submit()">
+  <button sl-button slType="primary" (click)="submit()">
     Сохранить
   </button>
 </div>
