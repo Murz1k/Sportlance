@@ -1,15 +1,8 @@
 <div class="content">
-  <div *ngIf="!isAuthorized" class="oSearchHeader row">
-    <div class="col-9" style="padding-bottom: 2em;">
-      <h1 class="ellipsis">Лучшие тренеры Sportlance</h1>
-    </div>
-    <div class="col-3" style="padding-bottom: 1em;">
-      <div (click)="login()" sl-button slType="primary" class="m-0 pull-right">
-        Начни тренироваться сейчас!
-      </div>
-    </div>
-  </div>
   <div class="main-bar page">
+    <div *ngIf="!isAuthorized">
+      <h1 class="ellipsis">Лучшие команды Sportlance</h1>
+    </div>
     <div class="air-card">
       <section *ngIf="isRendering; else loading">
         <div class="tile-placeholder tile-placeholder_index_1">
@@ -517,6 +510,10 @@
     </div>
   </div>
   <div class="side-bar page">
+    <button *ngIf="!isAuthorized" (click)="login()" sl-button slType="primary" style="margin-bottom: 30px;
+    width: 100%;">
+      Начни тренироваться сейчас!
+    </button>
     <div class="air-card">
       <section>
         <div style="position: relative;">
