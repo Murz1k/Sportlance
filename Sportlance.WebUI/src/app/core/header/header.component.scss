@@ -1,3 +1,10 @@
+@import '../../../styles';
+
+:host {
+  display: grid;
+  height: 46px;
+}
+
 .btn-link {
   align-items: center;
   background-color: rgba(0, 0, 0, 0);
@@ -19,10 +26,6 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   border: none;
   outline: none !important;
-}
-
-.nav {
-  display: flex;
 }
 
 .medium-icon {
@@ -56,4 +59,69 @@ a.active, a {
 
 mat-toolbar {
   position: fixed;
+}
+
+/* Large desktops and laptops */
+@media screen and (min-width: 1200px) {
+  .nav, .content {
+    display: flex;
+    justify-content: space-between;
+  }
+  .menu-btn {
+    display: none;
+  }
+}
+
+/* Portrait tablets and medium desktops */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .nav, .content {
+    display: flex;
+    justify-content: space-between;
+  }
+  .menu-btn {
+    display: none;
+  }
+}
+
+/* Portrait tablets and small desktops */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .nav {
+    display: flex;
+    justify-content: space-between;
+  }
+  .menu-btn {
+    display: none;
+  }
+}
+
+/* Landscape phones and portrait tablets */
+@media screen and (max-width: 767px) {
+  .nav, sl-menu {
+    display: none;
+  }
+  .content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Landscape phones and smaller */
+@media screen and (max-width: 480px) {
+  .nav, sl-menu {
+    display: none;
+  }
+  .content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.icon__logo:active, .icon__logo:focus, .icon__logo:hover {
+  background-color: $primary-color !important;
+}
+
+.menu-btn {
+  margin-right: 10px;
 }

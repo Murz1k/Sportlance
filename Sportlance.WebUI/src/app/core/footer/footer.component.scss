@@ -99,10 +99,114 @@ a {
   background-color: transparent;
 }
 
-.footer__Footer-common__socialNetworksWrapper_3DerA {
-  display: flex;
-  justify-content: center;
-  list-style: none;
+/* Large desktops and laptops */
+@media screen and (min-width: 1200px) {
+  .content {
+    width: 1190px;
+  }
+
+  .main-bar {
+    width: 868px;
+  }
+
+  .side-bar {
+    width: 322px;
+  }
+}
+
+/* Large desktops and laptops */
+@media screen and (min-width: 1200px) {
+  .content {
+    width: 1190px;
+  }
+
+  .main-bar {
+    width: 868px;
+  }
+
+  .side-bar {
+    width: 322px;
+  }
+}
+
+/* Large desktops and laptops */
+@media screen and (min-width: 1200px) {
+  .footer__Footer-common__socialNetworksWrapper_3DerA {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+  }
+  section.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* Portrait tablets and medium desktops */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .footer__Footer-common__socialNetworksWrapper_3DerA {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+  }
+  section.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* Portrait tablets and small desktops */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .footer__Footer-common__socialNetworksWrapper_3DerA {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+  }
+  section.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* Landscape phones and portrait tablets */
+@media screen and (max-width: 767px) {
+  .footer__Footer-common__socialNetworksWrapper_3DerA {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  section.social-icons {
+    display: grid;
+
+    > p {
+      grid-row: 2;
+      text-align: center;
+      padding-top: 10px;
+    }
+  }
+}
+
+/* Landscape phones and smaller */
+@media screen and (max-width: 480px) {
+  .footer__Footer-common__socialNetworksWrapper_3DerA {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  section.social-icons {
+    display: grid;
+
+    > p {
+      grid-row: 2;
+      text-align: center;
+      padding-top: 10px;
+    }
+  }
 }
 
 .footer__FooterSocialIcons__root_2ZMDE:first-child {
@@ -170,6 +274,7 @@ a {
   padding-top: 40px;
   padding-left: 0;
   margin-left: -40px;
+
   .footer-menu__item {
     margin-left: 40px;
   }

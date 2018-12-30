@@ -1,6 +1,5 @@
 .content {
   background-color: #f2f2f2;
-  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -18,5 +17,12 @@ h2 {
 .image-container {
   display: flex;
   justify-content: center;
-  margin-top: 200px;
+  margin-top: 120px;
+}
+
+sl-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
