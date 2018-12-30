@@ -95,9 +95,27 @@ a {
   outline: none !important;
   display: block;
 
-  :hover, :active, :focus {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus,
+  &:not(:disabled):active,
+  &:not(:disabled).active {
     text-decoration: underline;
     color: $primary-dark-color;
+  }
+
+  &.disabled,
+  &.disabled:active,
+  &.disabled:hover,
+  &[disabled],
+  &[disabled]:active,
+  &[disabled]:hover {
+    color: #a0a0a0 !important;
+    text-shadow: none;
+    text-decoration: none;
+    outline: none !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none !important;
   }
 }
 

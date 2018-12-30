@@ -48,8 +48,11 @@
     <button class="btn-link" (click)="changeEmail()">
       Изменить email
     </button>
-    <button class="btn-link" (click)="resendEmail()">
-      Переслать email
-    </button>
+    <div>
+      <button [disabled]="seconds > 0" class="btn-link" (click)="resendEmail()">
+        Переслать email
+      </button>
+      <span *ngIf="lastTime && seconds > 0">Подождите: {{lastTime}}</span>
+    </div>
   </div>
 </div>
