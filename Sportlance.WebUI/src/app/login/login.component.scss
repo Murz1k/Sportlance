@@ -2,21 +2,30 @@
 
 .air-card {
   padding: 40px;
+  display: flex;
+  flex-direction: column;
 }
 
-.width-sm {
-  width: 218px !important;
-  min-width: 218px !important;
-  max-width: none
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
-  padding-bottom: 24px;
+  margin-bottom: 24px;
   font-size: 20px;
+  text-align: center;
 }
 
 form {
-  margin-bottom: 300px;
+  margin-bottom: 250px;
+}
+
+.password-sub-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .checkbox-inline label:hover, .checkbox label:hover, .radio-inline label:hover, .radio label:hover {
@@ -37,12 +46,6 @@ form {
   display: block;
   font-weight: 400;
   cursor: pointer
-}
-
-.width-sm {
-  width: 218px !important;
-  min-width: 218px !important;
-  max-width: none
 }
 
 .ng-invalid .error {
@@ -91,28 +94,23 @@ form {
   width: 50%;
 }
 
-.text-capitalize {
-  text-transform: capitalize
+.sl-btn {
+  width: 180px;
+  align-self: center;
+
+  &:not(last-of-type) {
+    margin-bottom: 24px;
+  }
 }
 
-.m-sm-top {
-  margin-top: 10px !important
-}
+.air-card-footer {
+  display: flex;
+  flex-direction: column;
 
-.p-0-bottom {
-  padding-bottom: 0 !important
-}
-
-.p-0-top-bottom {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important
-}
-
-.text-center {
-  text-align: center
-}
-
-.m-lg-bottom {
-  margin-bottom: 30px !important
+  .sl-btn {
+    width: 180px;
+    margin-top: 24px;
+    margin-bottom: 0;
+  }
 }
 

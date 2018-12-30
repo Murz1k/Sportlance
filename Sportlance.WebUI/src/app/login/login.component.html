@@ -1,112 +1,93 @@
 <header [isEmpty]="true"></header>
-<div class="content page" style="display: flex;
-    justify-content: center;
-    align-items: center;">
+<div class="content page">
   <form [formGroup]="form" class="air-card">
     <ng-container *ngIf="isLoginPage; else enterPassword">
-      <div class="text-center" style="padding-bottom: 24px;">
-        <div class="title">
-          Войди и начни заниматься
-        </div>
-        <div [ngClass]="showLoginError ? 'ng-invalid' : ''" style="width: 260px; margin: auto;">
-          <div style="margin-bottom: 24px; position: relative;">
-            <input sl-input id="Email" formControlName="email" name="email" type="text"
-                   class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
-                   (keydown)="checkKeyDownLogin($event)">
-            <i class="material-icons input-icon">person</i>
-            <div class="error" *ngIf="showLoginError;">
-              <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-              <label *ngIf="form.value.email !== ''" class="error__message">
-                <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-                Ой! Неправильный email.</label>
-              <label *ngIf="form.value.email === ''" class="error__message">
-                <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-                Обязательное поле.</label>
-            </div>
-          </div>
-          <button (click)="checkLogin()"
-                  [disabled]="isDisabled || form.controls['email'].invalid"
-                  [isLoading]="isLoading"
-                  sl-button slType="primary"
-                  style="width: 180px; margin: auto;">
-            Продолжить
-          </button>
+      <div class="title">
+        Войди и начни заниматься
+      </div>
+      <div [class.ng-invalid]="showLoginError" style="position: relative; width: 260px; margin-bottom: 24px;">
+        <input sl-input id="Email" formControlName="email" name="email" type="text"
+               class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
+               (keydown)="checkKeyDownLogin($event)">
+        <i class="material-icons input-icon">person</i>
+        <div class="error" *ngIf="showLoginError;">
+          <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+          <label *ngIf="form.value.email !== ''" class="error__message">
+            Ой! Неправильный email.</label>
+          <label *ngIf="form.value.email === ''" class="error__message">
+            Обязательное поле.</label>
         </div>
       </div>
-      <div class="air-card-footer text-center">
+      <button (click)="checkLogin()"
+              [disabled]="isDisabled || form.controls['email'].invalid"
+              [isLoading]="isLoading"
+              sl-button slType="primary">
+        Продолжить
+      </button>
+      <div class="air-card-footer">
         <div class="line-heading text-muted">Первый раз на Sportlance?</div>
-        <button (click)="navigateToRegister()" sl-button style=" width: 180px; margin: 24px auto auto;">
+        <button (click)="navigateToRegister()" sl-button>
           Регистрация
         </button>
       </div>
     </ng-container>
     <ng-template #enterPassword>
-      <div class="text-center">
-        <div class="text-center title">
-          <span>Добро пожаловать</span>
-          <div *ngIf="!isForgotPasswordPage" style="font-size: 12px;">{{form.value.email}}</div>
-        </div>
-        <ng-container *ngIf="isForgotPasswordPage">
-          <div [ngClass]="showLoginError ? 'ng-invalid' : ''" style="width: 260px; margin: auto;">
-            <div style="margin-bottom: 10px; position: relative;">
-              <input sl-input formControlName="forgotPasswordEmail" name="email" type="text"
-                     class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
-              <i class="material-icons input-icon">person</i>
-              <div class="error" *ngIf="showLoginError;">
-                <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-                <label *ngIf="form.value.forgotPasswordEmail !== ''" class="error__message">
-                  <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-                  Ой! Неправильный email.</label>
-                <label *ngIf="form.value.forgotPasswordEmail === ''" class="error__message">
-                  <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-                  Обязательное поле.</label>
-              </div>
-            </div>
-            <button (click)="hideForgotPasswordPage()" class="btn-link">
-              Я вспомнил пароль!
-            </button>
-            <button [disabled]="form.controls['forgotPasswordEmail'].invalid || isDisabled"
-                    sl-button slType="primary"
-                    style="width: 180px;
-    margin: 10px auto auto;">
-              Отправить
-            </button>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="!isForgotPasswordPage">
-          <div [ngClass]="showPasswordError ? 'ng-invalid' : ''" class="col-md-10 offset-1">
-            <div class="form-group" style="margin-bottom: 5px; position: relative;">
-              <input sl-input id="Password" formControlName="password" name="password" type="password"
-                     class="password-input" placeholder="Пароль"
-                     (ngModelChange)="hidePasswordError()" (keydown)="checkKeyDownPassword($event)">
-              <i class="material-icons input-icon">lock</i>
-            </div>
-            <div class="error" *ngIf="showPasswordError;">
-              <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-              <label class="error__message">
-                <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-                Ой! Неправильный пароль.</label>
-            </div>
-            <div style="display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;">
-              <div class="checkbox">
-                <mat-checkbox sl-input class="no-border" formControlName="rememberMe">Запомнить меня</mat-checkbox>
-              </div>
-              <button (click)="forgotPassword()" class="btn-link">
-                Забыли пароль?
-              </button>
-            </div>
-            <button (click)="login()" [disabled]="isDisabled" sl-button slType="primary"
-                    style="margin: auto auto 20px;">
-              Войти
-            </button>
-            <button (click)="hidePasswordPage()" class="btn-link">
-              Это не ты?
-            </button>
-          </div>
-        </ng-container>
+      <div class="title">
+        <span>Добро пожаловать</span>
+        <div *ngIf="!isForgotPasswordPage" style="font-size: 12px;">{{form.value.email}}</div>
       </div>
+      <ng-container *ngIf="isForgotPasswordPage">
+        <div [class.ng-invalid]="showLoginError" style="position: relative; width: 260px; margin-bottom: 24px;">
+          <input sl-input formControlName="forgotPasswordEmail" name="email" type="text"
+                 class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
+          <i class="material-icons input-icon">person</i>
+          <div class="error" *ngIf="showLoginError;">
+            <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+            <label *ngIf="form.value.forgotPasswordEmail !== ''" class="error__message">
+              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+              Ой! Неправильный email.</label>
+            <label *ngIf="form.value.forgotPasswordEmail === ''" class="error__message">
+              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+              Обязательное поле.</label>
+          </div>
+        </div>
+        <button [disabled]="form.controls['forgotPasswordEmail'].invalid || isDisabled" sl-button slType="primary">
+          Отправить
+        </button>
+        <button (click)="hideForgotPasswordPage()" class="btn-link">
+          Я вспомнил пароль!
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isForgotPasswordPage">
+        <div [class.ng-invalid]="showPasswordError" class="form-group" style="margin-bottom: 5px; position: relative;">
+          <input sl-input id="Password" formControlName="password" name="password" type="password"
+                 class="password-input" placeholder="Пароль"
+                 (ngModelChange)="hidePasswordError()" (keydown)="checkKeyDownPassword($event)">
+          <i class="material-icons input-icon">lock</i>
+        </div>
+        <div class="error" *ngIf="showPasswordError;">
+          <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+          <label class="error__message">
+            Ой! Неправильный пароль.
+          </label>
+        </div>
+        <div class="password-sub-buttons">
+          <div class="checkbox">
+            <mat-checkbox sl-input class="no-border" formControlName="rememberMe">
+              Запомнить меня
+            </mat-checkbox>
+          </div>
+          <button (click)="forgotPassword()" class="btn-link">
+            Забыли пароль?
+          </button>
+        </div>
+        <button (click)="login()" [disabled]="isDisabled" sl-button slType="primary">
+          Войти
+        </button>
+        <button (click)="hidePasswordPage()" class="btn-link">
+          Это не ты?
+        </button>
+      </ng-container>
     </ng-template>
   </form>
 </div>

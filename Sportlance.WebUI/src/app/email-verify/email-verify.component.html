@@ -1,7 +1,7 @@
 <header [isEmpty]="true"></header>
 <div class="content">
   <div style="display: flex;
-    justify-content: center;" class="text-center">
+    justify-content: center;">
     <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="145px" height="130px"
          viewBox="0 0 145 130">
       <title>Message received</title>
@@ -41,15 +41,15 @@
                style="fill:#fff"></polygon>
     </svg>
   </div>
-  <div style="text-align: center;" class="row o-please-verify-heading text-center">
+  <div style="text-align: center;" class="row o-please-verify-heading">
     <h2 class="text-muted">Подтверди регистрацию</h2>
   </div>
   <div class="row o-signup-please-verify-email">
     <div class="m-lg-bottom center-block col-md-7 p-xs-left-right">
-      <div class="text-center text-muted">
+      <div class="text-muted">
         Мы отправили письмо на твой email: <span data-ng-bind="currentEmail" class="ng-binding">{{email}}</span>
       </div>
-      <div class="text-center text-muted m-md-bottom">
+      <div class="text-muted m-md-bottom">
         Пожалуйста, проверь свой email и перейди по ссылке внутри для подтверждения регистрации.
       </div>
       <div>
@@ -61,10 +61,9 @@
         <span aria-hidden="true"
               class="glyphicon glyphicon-sm air-icon-arrow-collapse-circle text-success m-0-left m-xs-right m-sm-bottom">
         </span>
-        <a (click)="resendEmail()"
-           data-ng-click="resendingEmail || (collapse.emailResent = !collapse.emailResent)">
+        <button class="btn-link" (click)="resendEmail()">
           Пожалуйста, перешлите email
-        </a>
+        </button>
       </div>
     </div>
   </div>

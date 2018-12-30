@@ -19,5 +19,10 @@ namespace Sportlance.WebAPI.Authentication
         {
             throw new System.NotImplementedException();
         }
+
+        public long? GetUserIdByToken(string encodedToken)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

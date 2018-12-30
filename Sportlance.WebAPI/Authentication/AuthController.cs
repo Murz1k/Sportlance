@@ -171,8 +171,8 @@ namespace Sportlance.WebAPI.Authentication
         [Route("re-send")]
         public async Task ReSendEmail([FromBody] ResendEmailRequest request)
         {
-            var token = _mailTokenService.DecryptToken(request.Token);
-            var user = await _userService.GetByEmailAsync(token);
+            var userId = _authService.GetUserIdByToken(request.Token);
+            var user = await _userService.GetByIdAsync(userId.Value);
 
             if (user == null)
                 throw new AppErrorException(new AppError(ErrorCode.UserNotFound));

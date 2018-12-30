@@ -7,5 +7,6 @@ namespace Sportlance.WebAPI.Authentication
         string GenerateAccessToken(User user);
         string GenerateRefreshToken(User user);
         bool ShouldRefreshToken(string encodedToken);
+        long? GetUserIdByToken(string encodedToken);
     }
 }

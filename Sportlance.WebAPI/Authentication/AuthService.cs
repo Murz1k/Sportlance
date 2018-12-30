@@ -43,6 +43,12 @@ namespace Sportlance.WebAPI.Authentication
             return payload;
         }
 
+        public long? GetUserIdByToken(string encodedToken)
+        {
+            var token = _tokenHandler.ReadJwtToken(encodedToken);
+            return long.Parse(token.Payload.Claims.FirstOrDefault(i => i.Type == "userId")?.Value);
+        }
+
         public bool ShouldRefreshToken(string encodedToken)
         {
             encodedToken = encodedToken.Replace("Bearer ", "");

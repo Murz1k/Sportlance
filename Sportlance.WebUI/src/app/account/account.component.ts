@@ -62,6 +62,10 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  public get isTrainer():boolean{
+    return this.account.isTrainer && this.trainer;
+  }
+
   private updateFeedbacks() {
     this.feedbacks = this.feedbackService.getSelfTrainerFeedbacks(this.offset, this.count)
       .pipe(map((response) => {

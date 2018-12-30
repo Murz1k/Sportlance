@@ -93,6 +93,7 @@ a {
   text-decoration: none;
   font-weight: bold;
   outline: none !important;
+  display: block;
 
   :hover, :active, :focus {
     text-decoration: underline;

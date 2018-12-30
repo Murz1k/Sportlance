@@ -93,11 +93,11 @@ export class AuthService {
   }
 
   public reSendEmail(token: string) {
-    return this.http.post('/auth/re-send', <ResendEmailRequest> {token: token});
+    return this.http.post('/auth/re-send', <ResendEmailRequest>{token: token});
   }
 
   public updatePassword(oldPassword: string, password: string, confirmPassword: string): Observable<ErrorResponse> {
-    return this.http.put<ErrorResponse>('/auth/password', <UpdatePasswordRequest> {
+    return this.http.put<ErrorResponse>('/auth/password', <UpdatePasswordRequest>{
       oldPassword: oldPassword,
       password: password,
       confirmPassword: confirmPassword
@@ -105,7 +105,7 @@ export class AuthService {
   }
 
   public updateAccount(firstName: string, secondName: string, email: string): Observable<LoginResponse> {
-    return this.http.put<LoginResponse>('/auth', <UpdateAccountRequest> {
+    return this.http.put<LoginResponse>('/auth', <UpdateAccountRequest>{
       firstName: firstName,
       secondName: secondName,
       email: email
@@ -138,7 +138,7 @@ export class AuthService {
   }
 
   public checkUser(email: string): Observable<CheckUserResponse> {
-    return this.http.post<CheckUserResponse>('/auth/check', <CheckUserRequest> {email: email});
+    return this.http.post<CheckUserResponse>('/auth/check', <CheckUserRequest>{email: email});
   }
 
   public login(request: LoginRequest, isRememberMe = false): Observable<LoginResponse> {
@@ -187,6 +187,10 @@ export class AuthService {
     localStorage.removeItem('refresh-token');
     this.privateRefreshToken = undefined;
     this.userChanged.emit();
-    this.router.navigate(['/', 'login'], {queryParams: {redirectUrl: redirectUrl}});
+    if (redirectUrl) {
+      this.router.navigate(['/', 'login'], {queryParams: {redirectUrl: redirectUrl}});
+    } else {
+      this.router.navigate(['/', 'login']);
+    }
   }
 }
