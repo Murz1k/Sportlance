@@ -63,7 +63,7 @@ export class AccountComponent implements OnInit {
   }
 
   public get isTrainer():boolean{
-    return this.account.isTrainer && this.trainer;
+    return this.account.isTrainer && this.trainer !== undefined;
   }
 
   private updateFeedbacks() {
