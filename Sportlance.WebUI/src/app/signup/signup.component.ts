@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ErrorCode} from '../core/error-code';
 import {Router} from '@angular/router';
 import {AuthService} from '../auth/auth.service';
+import {finalize, tap} from "rxjs/operators";
 
 @Component({
   selector: 'sl-signup',
@@ -12,8 +13,12 @@ import {AuthService} from '../auth/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  public isEmailExist: boolean;
+  public showPasswordPage: boolean;
   public emailAlreadyExist: boolean;
+
+  public showTermsError: boolean;
+
+  public isLoading = false;
 
   public submitForm: FormGroup;
 
@@ -23,13 +28,20 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isEmailExist = false;
-
     this.submitForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(20)]],
       lastName: ['', [Validators.required, Validators.maxLength(30)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
+      isAcceptTerms: [false]
+    });
+
+    this.submitForm.controls['email'].valueChanges.subscribe(() => {
+      this.emailAlreadyExist = false;
+    });
+
+    this.submitForm.controls['isAcceptTerms'].valueChanges.subscribe(() => {
+      this.showTermsError = false;
     });
   }
 
@@ -42,7 +54,7 @@ export class SignupComponent implements OnInit {
       .subscribe((response) => {
         if (response.error) {
           if (response.error.code === ErrorCode.UserNotFound) {
-            this.isEmailExist = true;
+            this.showPasswordPage = true;
             return;
           }
           if (response.error.code === ErrorCode.EmailIsNotConfirmed) {
@@ -65,15 +77,30 @@ export class SignupComponent implements OnInit {
   }
 
   signUp(): void {
+    if (!this.submitForm.controls['isAcceptTerms'].value) {
+      this.showTermsError = true;
+      return;
+    }
+
     if (this.submitForm.invalid) {
       return;
     }
     const form = this.submitForm.value;
+
+    this.isLoading = true;
+
     this.authService.register(<RegistrationRequest>{
       email: form.email,
       lastName: form.lastName,
       password: form.password,
       firstName: form.firstName
-    }).subscribe();
+    }).pipe(tap((response) => {
+      if (!response.error) {
+        this.authService.saveTokens(response);
+        this.router.navigate(['email-verify']);
+      } else {
+        this.isLoading = false;
+      }
+    })).subscribe();
   }
 }

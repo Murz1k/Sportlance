@@ -6,6 +6,10 @@
   flex-direction: column;
 }
 
+form {
+  margin-bottom: 250px;
+}
+
 .content {
   display: flex;
   justify-content: center;
@@ -16,10 +20,6 @@
   margin-bottom: 24px;
   font-size: 20px;
   text-align: center;
-}
-
-form {
-  margin-bottom: 250px;
 }
 
 .password-sub-buttons {
@@ -48,11 +48,8 @@ form {
   cursor: pointer
 }
 
-.ng-invalid .error {
-  color: #d50000 !important;
-}
-
 .error {
+  color: #d50000 !important;
   text-align: left !important;
 }
 

@@ -84,12 +84,7 @@ export class AuthService {
   }
 
   public register(request: RegistrationRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/auth/register', request)
-      .pipe(map((response) => {
-        this.saveTokens(response);
-        this.router.navigate(['email-verify']);
-        return response;
-      }));
+    return this.http.post<LoginResponse>('/auth/register', request);
   }
 
   public reSendEmail(token: string) {

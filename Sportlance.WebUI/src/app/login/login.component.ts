@@ -73,16 +73,12 @@ export class LoginComponent implements OnInit {
           switch (response.error.code) {
             case ErrorCode.IncorrectPassword:
               this.showPasswordError = true;
-              this.isDisabled = false;
-              break;
+              return;
             case ErrorCode.IncorrectValidation:
               this.showPasswordError = true;
-              this.isDisabled = false;
-              break;
+              return;
           }
-          return;
         }
-
       }), finalize(() => {
         this.isDisabled = false;
         this.isLoading = false;

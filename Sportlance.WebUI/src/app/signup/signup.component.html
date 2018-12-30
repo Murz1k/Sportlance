@@ -1,52 +1,46 @@
 <header [isEmpty]="true"></header>
 <div class="content page">
-  <form [formGroup]="submitForm" (ngSubmit)="signUp()">
-    <div class="air-card">
-      <div style="padding-top: 30px;
-    padding-bottom: 30px;
-    margin: 0 40px;">
-        <ng-container *ngIf="!isEmailExist; else emailNotExist">
-          <div class="title">
-            Регистрация
-          </div>
-          <div class="form-group" style="margin-bottom: 24px; position: relative;">
-            <input type="text" formControlName="firstName" id="FirstName" name="FirstName"
-                   sl-input class="form-input" placeholder="Имя" required>
-            <i class="material-icons input-icon">person</i>
-            <span *ngIf="submitForm.controls.firstName.invalid
+  <form [formGroup]="submitForm" class="air-card">
+    <ng-container *ngIf="!showPasswordPage; else emailNotExist">
+      <div class="title">
+        Регистрация
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="firstName" id="FirstName" name="FirstName"
+               sl-input class="form-input" placeholder="Имя" required>
+        <i class="material-icons input-icon">person</i>
+        <span *ngIf="submitForm.controls.firstName.invalid
                       && (submitForm.controls.firstName.dirty || submitForm.controls.firstName.touched)"
-                  class="form-message form-error">
+              class="form-message form-error">
                           Имя обязательно
                       </span>
-          </div>
-          <div class="form-group" style="margin-bottom: 24px; position: relative;">
-            <input type="text" formControlName="lastName" id="LastName" name="LastName" placeholder="Фамилия"
-                   sl-input class="form-input">
-            <i class="material-icons input-icon">person</i>
-            <span *ngIf="submitForm.controls.lastName.invalid
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="lastName" id="LastName" name="LastName" placeholder="Фамилия"
+               sl-input class="form-input">
+        <i class="material-icons input-icon">person</i>
+        <span *ngIf="submitForm.controls.lastName.invalid
                       && (submitForm.controls.lastName.dirty || submitForm.controls.lastName.touched)"
-                  class="form-message form-error">
+              class="form-message form-error">
                           Фамилия обязательна
                       </span>
-          </div>
-          <div class="form-group" style="margin-bottom: 24px; position: relative;">
-            <input type="email" formControlName="email" sl-input class="form-input" placeholder="Email">
-            <i class="material-icons input-icon">email</i>
-            <span *ngIf="submitForm.controls.email.invalid
+      </div>
+      <div class="form-group">
+        <input type="email" formControlName="email" sl-input class="form-input" placeholder="Email">
+        <i class="material-icons input-icon">email</i>
+        <span *ngIf="submitForm.controls.email.invalid
                       && (submitForm.controls.email.dirty || submitForm.controls.email.touched)"
-                  class="form-message form-error">
+              class="form-message form-error">
                           E-mail обязателен
                       </span>
-            <label *ngIf="emailAlreadyExist" class="form-message form-error">
-              Эта почта уже используется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
-            </label>
-          </div>
-          <button sl-button slType="primary" (click)="checkUserEmail()" style="margin: auto;">
-            Продолжить
-          </button>
-        </ng-container>
+        <label *ngIf="emailAlreadyExist" class="form-message form-error">
+          Эта почта уже используется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
+        </label>
       </div>
-    </div>
+      <button sl-button slType="primary" (click)="checkUserEmail()">
+        Продолжить
+      </button>
+    </ng-container>
     <ng-template #emailNotExist>
       <div class="title">
         Регистрация
@@ -58,22 +52,19 @@
         <i class="material-icons input-icon">lock</i>
       </div>
       <div class="form-group">
-        <div class="checkbox m-xs-bottom">
-          <label>
-            <div class="checkbox">
-              <mat-checkbox sl-input class="no-border">
-                С <a href="https://www.upwork.com/info/terms/" target="_blank">правилами</a> сервиса согласен
-              </mat-checkbox>
-            </div>
-          </label>
-        </div>
-        <span class="o-signup-form-errors text-left">
-                          <label class="form-message form-error">
-                            Пожалуйста, примите Правила сервиса Sportlance перед тем как продолжить
-                          </label>
-                      </span>
+        <mat-checkbox sl-input class="no-border" formControlName="isAcceptTerms">
+          С <a href="https://sportlance/info/terms/" target="_blank">правилами</a> сервиса согласен
+        </mat-checkbox>
+        <label *ngIf="showTermsError" class="form-message form-error">
+          Пожалуйста, примите Правила сервиса Sportlance перед тем как продолжить
+        </label>
       </div>
-      <input type="submit" sl-button slType="primary" style="margin: auto;" value="Продолжить"/>
+      <button (click)="signUp()"
+              [disabled]="isLoading || submitForm.controls['password'].invalid"
+              [isLoading]="isLoading"
+              sl-button slType="primary">
+        Продолжить
+      </button>
     </ng-template>
   </form>
 </div>

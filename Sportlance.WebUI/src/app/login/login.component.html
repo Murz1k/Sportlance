@@ -5,7 +5,7 @@
       <div class="title">
         Войди и начни заниматься
       </div>
-      <div [class.ng-invalid]="showLoginError" style="position: relative; width: 260px; margin-bottom: 24px;">
+      <div style="position: relative; width: 260px; margin-bottom: 24px;">
         <input sl-input id="Email" formControlName="email" name="email" type="text"
                class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
                (keydown)="checkKeyDownLogin($event)">
@@ -37,7 +37,7 @@
         <div *ngIf="!isForgotPasswordPage" style="font-size: 12px;">{{form.value.email}}</div>
       </div>
       <ng-container *ngIf="isForgotPasswordPage">
-        <div [class.ng-invalid]="showLoginError" style="position: relative; width: 260px; margin-bottom: 24px;">
+        <div style="position: relative; width: 260px; margin-bottom: 24px;">
           <input sl-input formControlName="forgotPasswordEmail" name="email" type="text"
                  class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
           <i class="material-icons input-icon">person</i>
@@ -59,7 +59,7 @@
         </button>
       </ng-container>
       <ng-container *ngIf="!isForgotPasswordPage">
-        <div [class.ng-invalid]="showPasswordError" class="form-group" style="margin-bottom: 5px; position: relative;">
+        <div class="form-group" style="margin-bottom: 5px; position: relative;">
           <input sl-input id="Password" formControlName="password" name="password" type="password"
                  class="password-input" placeholder="Пароль"
                  (ngModelChange)="hidePasswordError()" (keydown)="checkKeyDownPassword($event)">
