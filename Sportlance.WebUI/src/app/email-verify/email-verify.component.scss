@@ -1,10 +1,22 @@
 .content {
   background-color: #f2f2f2;
-  height: calc(100vh - 46px);
-  padding-top: calc(40vh - 300px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-.o-signup-please-verify-email {
-  margin-left: calc(51vw - 700px);
-  margin-top: 10px;
+h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.container .btn-link {
+  margin-top: 8px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
 }

@@ -3,7 +3,7 @@
   <form [formGroup]="form" class="air-card">
     <ng-container *ngIf="isLoginPage; else enterPassword">
       <div class="title">
-        Войди и начни заниматься
+        Войдите и начните заниматься
       </div>
       <div style="position: relative; width: 260px; margin-bottom: 24px;">
         <input sl-input id="Email" formControlName="email" name="email" type="text"
@@ -85,7 +85,7 @@
           Войти
         </button>
         <button (click)="hidePasswordPage()" class="btn-link">
-          Это не ты?
+          Это не вы?
         </button>
       </ng-container>
     </ng-template>
