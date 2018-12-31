@@ -189,7 +189,7 @@ namespace Sportlance.WebAPI.Authentication
             var user = await _userService.GetByEmailAsync(data.Email);
             if (user == null) throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
 
-            await _mailService.SendChangePassword(user.Id, user.Email, user.PasswordHash);
+            await _mailService.SendChangePassword(user.Id, user.Email);
         }
 
         [Authorize]

@@ -35,7 +35,75 @@ namespace Sportlance.WebAPI.Authentication
             _root = frontendOptions.Value.Root;
         }
 
-        public async Task SendMessage(string to, string subject, string body)
+        public async Task<string> SendConfirmRegistration(long userId, string email)
+        {
+            var token = _mailTokenService.EncryptToken(email);
+
+            var template = _env.IsDevelopment()
+                    ? await ReadEmailTemplate("confirm-registration-mail.html")
+                    : await ReadObjectFromS3("sportlance-emails-templates", "confirm-registration-mail.html")
+                ;
+
+            template = template
+                .Replace("{HOST}", _root)
+                .Replace("{CONFIRMLINK}", _siteUrls.GetConfirmRegistration(userId, token));
+
+            await SendMessage(email, "Подтверждение регистрации", template);
+
+            return token;
+        }
+
+        public async Task SendChangePassword(long id, string email)
+        {
+            var token = _mailTokenService.EncryptToken(email);
+
+            var template = _env.IsDevelopment()
+                    ? await ReadEmailTemplate("change-password-mail.html")
+                    : await ReadObjectFromS3("sportlance-emails-templates", "change-password-mail.html")
+                ;
+
+            template = template
+                .Replace("{HOST}", _root)
+                .Replace("{CHANGEPASSWORDLINK}", _siteUrls.GetChangePassword(id, token));
+            await SendMessage(email, "Изменение пароля", template);
+        }
+
+        public async Task SendUpdateEmail(string email, string newEmail)
+        {
+            var token = _mailTokenService.EncryptToken(newEmail);
+
+            var template = _env.IsDevelopment()
+                    ? await ReadEmailTemplate("update-email-mail.html")
+                    : await ReadObjectFromS3("sportlance-emails-templates", "update-email-mail.html")
+                ;
+
+            template = template
+                .Replace("{SUBJECT}", "Password change")
+                .Replace("{BODY}", $"Click on the button below to change your email {email} to {newEmail}")
+                .Replace("{BUTTON}", "Update email")
+                .Replace("{BUTTONHREF}", _siteUrls.GetUpdateEmail(token));
+            await SendMessage(email, "Изменение почты", template);
+        }
+
+        private async Task<string> ReadObjectFromS3(string bucketName, string objectName)
+        {
+            using (var response = await _s3Client.GetObjectAsync(bucketName, objectName))
+            using (var responseStream = response.ResponseStream)
+            using (var reader = new StreamReader(responseStream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+
+        private async Task<string> ReadEmailTemplate(string templateName)
+        {
+            using (var reader = File.OpenText($"{_env.ContentRootPath}/email/{templateName}"))
+            {
+                return await reader.ReadToEndAsync();
+            }
+        }
+
+        private async Task SendMessage(string to, string subject, string body)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_smtpOptions.UserName));
@@ -58,66 +126,6 @@ namespace Sportlance.WebAPI.Authentication
                 await client.SendAsync(message);
 
                 client.Disconnect(true);
-            }
-        }
-
-        public async Task<string> SendConfirmRegistration(long userId, string email)
-        {
-            var token = _mailTokenService.EncryptToken(email);
-
-            var template = _env.IsDevelopment()
-                    ? await ReadEmailTemplate()
-                    : await ReadObjectFromS3("sportlance-emails-templates", "confirm-registration-mail.html")
-                ;
-
-            template = template
-                .Replace("{HOST}", _root)
-                .Replace("{CONFIRMLINK}", _siteUrls.GetConfirmRegistration(userId, token));
-
-            await SendMessage(email, "Подтверждение регистрации", template);
-
-            return token;
-        }
-
-        private async Task<string> ReadObjectFromS3(string bucketName, string objectName)
-        {
-            using (var response = await _s3Client.GetObjectAsync(bucketName, objectName))
-            using (var responseStream = response.ResponseStream)
-            using (var reader = new StreamReader(responseStream))
-            {
-                return reader.ReadToEnd();
-            }
-        }
-
-        public async Task SendChangePassword(long id, string email, string hash)
-        {
-            var token = _mailTokenService.EncryptToken(email);
-            var template = await ReadEmailTemplate();
-
-            template = template
-                .Replace("{HOST}", _root)
-                .Replace("{CONFIRMLINK}", _siteUrls.GetChangePassword(id, token));
-            await SendMessage(email, Txt.ChangePassword, template);
-        }
-
-        public async Task SendUpdateEmail(string email, string newEmail)
-        {
-            var token = _mailTokenService.EncryptToken(newEmail);
-            var template = await ReadEmailTemplate();
-
-            template = template
-                .Replace("{SUBJECT}", "Password change")
-                .Replace("{BODY}", $"Click on the button below to change your email {email} to {newEmail}")
-                .Replace("{BUTTON}", "Update email")
-                .Replace("{BUTTONHREF}", _siteUrls.GetUpdateEmail(token));
-            await SendMessage(email, Txt.UpdateEmail, template);
-        }
-
-        private async Task<string> ReadEmailTemplate()
-        {
-            using (var reader = File.OpenText(_env.ContentRootPath + "/email/confirm-registration-mail.html"))
-            {
-                return await reader.ReadToEndAsync();
             }
         }
     }

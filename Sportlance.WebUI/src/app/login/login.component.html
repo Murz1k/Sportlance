@@ -5,7 +5,7 @@
       <div class="title">
         Войдите и начните заниматься
       </div>
-      <div style="position: relative; width: 260px; margin-bottom: 24px;">
+      <div style="position: relative; width: 300px; margin-bottom: 24px;">
         <input sl-input id="Email" formControlName="email" name="email" type="text"
                class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()"
                (keydown)="checkKeyDownLogin($event)">
@@ -37,26 +37,37 @@
         <div *ngIf="!isForgotPasswordPage" style="font-size: 12px;">{{form.value.email}}</div>
       </div>
       <ng-container *ngIf="isForgotPasswordPage">
-        <div style="position: relative; width: 260px; margin-bottom: 24px;">
-          <input sl-input formControlName="forgotPasswordEmail" name="email" type="text"
-                 class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
-          <i class="material-icons input-icon">person</i>
-          <div class="error" *ngIf="showLoginError;">
-            <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
-            <label *ngIf="form.value.forgotPasswordEmail !== ''" class="error__message">
-              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-              Ой! Неправильный email.</label>
-            <label *ngIf="form.value.forgotPasswordEmail === ''" class="error__message">
-              <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
-              Обязательное поле.</label>
+        <ng-container *ngIf="!showCompletePasswordChange">
+          <div style="position: relative; width: 300px; margin-bottom: 24px;">
+            <input sl-input formControlName="forgotPasswordEmail" name="email" type="text"
+                   class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
+            <i class="material-icons input-icon">person</i>
+            <div class="error" *ngIf="showLoginError;">
+              <i style="vertical-align: middle; !important;" class="material-icons">info_outline</i>
+              <label *ngIf="form.value.forgotPasswordEmail !== ''" class="error__message">
+                <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+                Ой! Неправильный email.</label>
+              <label *ngIf="form.value.forgotPasswordEmail === ''" class="error__message">
+                <span class="glyphicon air-icon-exclamation-circle" aria-hidden="true"></span>
+                Обязательное поле.</label>
+            </div>
           </div>
-        </div>
-        <button [disabled]="form.controls['forgotPasswordEmail'].invalid || isDisabled" sl-button slType="primary">
-          Отправить
-        </button>
-        <button (click)="hideForgotPasswordPage()" class="btn-link">
-          Я вспомнил пароль!
-        </button>
+          <button [disabled]="isDisabled || form.controls['forgotPasswordEmail'].invalid"
+                  [isLoading]="isLoading"
+                  (click)="forgotPassword()"
+                  sl-button slType="primary">
+            Восстановить
+          </button>
+          <button (click)="hideForgotPasswordPage()" class="btn-link">
+            Я вспомнил пароль!
+          </button>
+        </ng-container>
+        <ng-container *ngIf="showCompletePasswordChange">
+          Проверьте свою электронную почту
+          Мы отправили письмо на адрес электронной почты {{form.controls['forgotPasswordEmail'].value}}. Перейдите по ссылке в письме для изменения пароля.
+
+          Если письма нет во входящих, то попробуйте найти его в других папках (например, «Спам», «Социальные сети» или другие).
+        </ng-container>
       </ng-container>
       <ng-container *ngIf="!isForgotPasswordPage">
         <div class="form-group" style="margin-bottom: 5px; position: relative;">
@@ -77,7 +88,7 @@
               Запомнить меня
             </mat-checkbox>
           </div>
-          <button (click)="forgotPassword()" class="btn-link">
+          <button (click)="showForgotPasswordPage()" class="btn-link">
             Забыли пароль?
           </button>
         </div>

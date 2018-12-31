@@ -91,6 +91,10 @@ export class AuthService {
     return this.http.post('/auth/re-send', <ResendEmailRequest>{token: token});
   }
 
+  changePassword(email: string) {
+    return this.http.post('/auth/password', {email: email});
+  }
+
   public updatePassword(oldPassword: string, password: string, confirmPassword: string): Observable<ErrorResponse> {
     return this.http.put<ErrorResponse>('/auth/password', <UpdatePasswordRequest>{
       oldPassword: oldPassword,

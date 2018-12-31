@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   public isDisabled = false;
 
   public form: FormGroup;
+  public showCompletePasswordChange: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -52,9 +53,33 @@ export class LoginComponent implements OnInit {
     this.router.navigate([Paths.SignUp]);
   }
 
-  forgotPassword(): void {
+  showForgotPasswordPage(): void {
     this.form.controls['forgotPasswordEmail'].setValue(this.form.controls['email'].value);
     this.isForgotPasswordPage = true;
+  }
+
+  forgotPassword(): void {
+    this.isLoading = true;
+    this.isDisabled = true;
+    this.authService.changePassword(this.form.controls['forgotPasswordEmail'].value)
+      .pipe(tap((response: any) => {
+        if (response && response.error) {
+          // switch (response.error.code) {
+          //   case ErrorCode.IncorrectPassword:
+          //     this.showPasswordError = true;
+          //     return;
+          //   case ErrorCode.IncorrectValidation:
+          //     this.showPasswordError = true;
+          //     return;
+          // }
+        } else {
+          this.showCompletePasswordChange = true;
+        }
+      }), finalize(() => {
+        this.isDisabled = false;
+        this.isLoading = false;
+      }))
+      .subscribe();
   }
 
   hideForgotPasswordPage() {
@@ -107,7 +132,6 @@ export class LoginComponent implements OnInit {
   }
 
   checkLogin(): void {
-
     const form = this.form.value;
     if (isNullOrUndefined(form.email) || form.email === '') {
       form.email = '';
