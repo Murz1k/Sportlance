@@ -14,9 +14,9 @@
             return $"{_root}/auth/confirm/{userId}/{token}";
         }
 
-        public string GetChangePassword(long userId, string token)
+        public string GetChangePassword(string accessToken, string refreshToken)
         {
-            return $"{_root}/auth/change-password/{userId}/{token}";
+            return $"{_root}/account/reset-password?accessToken={accessToken}&refreshToken={refreshToken}";
         }
 
         public string GetUpdateEmail(string token)

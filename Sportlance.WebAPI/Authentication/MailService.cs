@@ -53,10 +53,8 @@ namespace Sportlance.WebAPI.Authentication
             return token;
         }
 
-        public async Task SendChangePassword(long id, string email)
+        public async Task SendChangePassword(string accessToken, string refreshToken, string email)
         {
-            var token = _mailTokenService.EncryptToken(email);
-
             var template = _env.IsDevelopment()
                     ? await ReadEmailTemplate("change-password-mail.html")
                     : await ReadObjectFromS3("sportlance-emails-templates", "change-password-mail.html")
@@ -64,7 +62,7 @@ namespace Sportlance.WebAPI.Authentication
 
             template = template
                 .Replace("{HOST}", _root)
-                .Replace("{CHANGEPASSWORDLINK}", _siteUrls.GetChangePassword(id, token));
+                .Replace("{CHANGEPASSWORDLINK}", _siteUrls.GetChangePassword(accessToken, refreshToken));
             await SendMessage(email, "Изменение пароля", template);
         }
 

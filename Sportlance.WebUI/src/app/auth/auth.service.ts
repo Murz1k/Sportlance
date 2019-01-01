@@ -95,10 +95,12 @@ export class AuthService {
     return this.http.post('/auth/password', {email: email});
   }
 
-  public updatePassword(oldPassword: string, password: string, confirmPassword: string): Observable<ErrorResponse> {
+  public updatePassword(oldPassword: string,
+                        password: string,
+                        confirmPassword: string): Observable<LoginResponse | ErrorResponse | any> {
     return this.http.put<ErrorResponse>('/auth/password', <UpdatePasswordRequest>{
       oldPassword: oldPassword,
-      password: password,
+      newPassword: password,
       confirmPassword: confirmPassword
     });
   }

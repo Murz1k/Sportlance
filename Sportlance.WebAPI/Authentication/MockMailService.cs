@@ -14,7 +14,7 @@ namespace Sportlance.WebAPI.Authentication
             return null;
         }
 
-        public Task SendChangePassword(long id, string email)
+        public Task SendChangePassword(string accessToken, string refreshToken, string email)
         {
             throw new System.NotImplementedException();
         }

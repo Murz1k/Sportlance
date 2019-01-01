@@ -10,6 +10,8 @@ import {EditTrainerAboutDialogComponent} from './edit-trainer-about-dialog/edit-
 import {EditTrainerPaidDialogComponent} from './edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
 import {EditBackgroundDialogComponent} from './edit-background-dialog/edit-background-dialog.component';
 import {SlButtonModule} from "../shared/button/button.module";
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
+import {SlInputModule} from "../shared/input/input.module";
 
 @NgModule({
   imports: [
@@ -19,6 +21,7 @@ import {SlButtonModule} from "../shared/button/button.module";
     MatCheckboxModule,
     RouterModule,
     SlButtonModule,
+    SlInputModule,
     AccountRoutingModule,
     MatDialogModule
   ],
@@ -33,7 +36,8 @@ import {SlButtonModule} from "../shared/button/button.module";
     EditBackgroundDialogComponent,
     EditTrainerAboutDialogComponent,
     EditTrainerPaidDialogComponent,
-    EditPhotoDialogComponent
+    EditPhotoDialogComponent,
+    ResetPasswordComponent
   ]
 })
 export class AccountModule {
