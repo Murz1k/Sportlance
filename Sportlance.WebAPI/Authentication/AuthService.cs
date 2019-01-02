@@ -34,11 +34,9 @@ namespace Sportlance.WebAPI.Authentication
             payload.AddClaim(new Claim("secondName", user.LastName));
             payload.AddClaim(new Claim("isConfirmed", user.IsEmailConfirm.ToString(), ClaimValueTypes.Boolean));
             payload.AddClaim(new Claim("photoUrl", user.PhotoUrl ?? ""));
-
-            foreach (var role in user.UserRoles.Select(i => i.Role.ToString()))
-            {
-                payload.Add("roles", role);
-            }
+            payload.AddClaim(new Claim("inviteLink", user.InviteLink ?? ""));
+            
+            payload.AddClaims(user.UserRoles.Select(i => new Claim("roles", i.Role.ToString())));
 
             return payload;
         }

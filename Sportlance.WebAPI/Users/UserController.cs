@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
-using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Core.Errors;
+using Sportlance.WebAPI.Core.Exceptions;
 using Sportlance.WebAPI.Core.Extensions;
 
 namespace Sportlance.WebAPI.Users
@@ -32,6 +33,19 @@ namespace Sportlance.WebAPI.Users
             {
                 AccessToken = _authService.GenerateAccessToken(user),
                 RefreshToken = _authService.GenerateRefreshToken(user)
+            };
+        }
+
+        [HttpPost]
+        [Route("invite")]
+        public async Task<UserResponse> GetUserByInviteLinkAsync([FromBody] GetUserByInviteLinkRequest request)
+        {
+            var user = await _userService.GetByInviteLinkAsync(request.InviteLink);
+            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
+
+            return new UserResponse
+            {
+                FirstName = user.FirstName
             };
         }
     }

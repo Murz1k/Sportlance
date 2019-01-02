@@ -7,6 +7,9 @@ import {CreateTeamComponent} from './create-team/create-team.component';
 import {PhoneMaskModule} from '../../shared/phone-mask/phone-mask.module';
 import {TeamsResolver} from './teams.resolver';
 import {MyTeamsService} from './my-teams.service';
+import {SlInputModule} from "../../shared/input/input.module";
+import {SlButtonModule} from "../../shared/button/button.module";
+import {SlSelectCityModule} from "../../shared/select-city/select-city.module";
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import {MyTeamsService} from './my-teams.service';
     CommonModule,
     MyTeamsRoutingModule,
     PhoneMaskModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SlSelectCityModule,
+    SlInputModule,
+    SlButtonModule
   ],
   providers: [
     MyTeamsService,

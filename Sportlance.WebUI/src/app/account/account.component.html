@@ -123,6 +123,10 @@
         <small>Посмотреть мой профиль как видят его другие</small>
       </a>
     </div>
+    <div class="side-bar-item">
+      <h4>Пригласить друга</h4>
+      <input sl-input disabled value="https://sportlance.com/invite/{{account.inviteLink}}"/>
+    </div>
     <div *ngIf="isTrainer" class="side-bar-item">
       <h4>Доступность</h4>
       <div [ngSwitch]="trainer.status">

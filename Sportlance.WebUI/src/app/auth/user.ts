@@ -14,7 +14,9 @@ export class User {
 
   isConfirmed: boolean;
 
-  constructor(firstName: string, secondName: string, roles: any, email: string, isConfirmed: boolean, photoUrl: string, userId: number) {
+  inviteLink: string;
+
+  constructor(firstName: string, secondName: string, roles: any, email: string, isConfirmed: boolean, photoUrl: string, userId: number, inviteLink: string) {
     this.firstName = firstName;
     this.secondName = secondName;
     this.id = userId;
@@ -27,6 +29,7 @@ export class User {
     this.email = email;
     this.isConfirmed = isConfirmed;
     this.photoUrl = photoUrl;
+    this.inviteLink = inviteLink;
   }
 
   get isTrainer(): boolean {

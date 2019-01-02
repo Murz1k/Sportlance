@@ -1,0 +1,69 @@
+<div class="invite-container">
+  <div class="invite-header">
+    <div class="mgm-header__title" data-qa-file="BringFriendHeader">
+      <div class="mgm-header-title mgm-header-title_black" data-qa-file="UIBringFriendHeaderTitle">
+        <div class="mgm-header-title__try-tinkoff" data-qa-file="UIBringFriendHeaderTitle">
+          <h1 class="ui-title ui-title_center mgm-header-title__title">Попробуйте Sportlance.</h1>
+        </div>
+        <div class="mgm-header-title__recommender">
+          <h1 class="ui-title ui-title_center mgm-header-title__title">
+            <span class="mgm-header-title__recommender-name">{{userName}}</span> рекомендует</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="carousel__container">
+      <div class="carousel__sliderFrame">
+        <div class="carousel__item" *ngIf="selectedSlide === 0">
+          <h1>
+            Тренировки Sportlance
+          </h1>
+          <div class="carousel__item__content">
+            <i class="material-icons">people</i>
+            <ul>
+              <li>Тренировки с лучшими тренерами мира</li>
+              <li>Меньше теряешь времени</li>
+              <li>Быстрее результат</li>
+            </ul>
+          </div>
+          <a routerLink="/signup" sl-button slType="primary">Найти тренера</a>
+        </div>
+        <div class="carousel__item" *ngIf="selectedSlide === 1">
+          <h1>
+            Тренеры Sportlance
+          </h1>
+          <div class="carousel__item__content">
+            <i class="material-icons">people</i>
+            <ul>
+              <li>Тренировки с лучшими тренерами мира</li>
+              <li>Меньше теряешь времени</li>
+              <li>Быстрее результат</li>
+            </ul>
+          </div>
+          <a routerLink="/signup" sl-button slType="primary">Стать тренером</a>
+        </div>
+        <div class="carousel__item" *ngIf="selectedSlide === 2">
+          <h1>
+            Команды Sportlance
+          </h1>
+          <div class="carousel__item__content">
+            <i class="material-icons">business</i>
+            <ul>
+              <li>Тренировки с лучшими тренерами мира</li>
+              <li>Меньше теряешь времени</li>
+              <li>Быстрее результат</li>
+            </ul>
+          </div>
+          <a routerLink="/signup" sl-button slType="primary">Собрать команду</a>
+        </div>
+        <div *ngIf="selectedSlide < 2" class="carousel__arrow-right" (click)="next()">
+          >
+        </div>
+        <div *ngIf="selectedSlide > 0" class="carousel__arrow-left" (click)="preview()">
+          <
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

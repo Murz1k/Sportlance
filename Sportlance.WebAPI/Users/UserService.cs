@@ -22,6 +22,11 @@ namespace Sportlance.WebAPI.Users
             _usersStorageProvider = usersStorageProvider;
         }
 
+        public Task<User> GetByInviteLinkAsync(string inviteLink)
+        {
+            return Entities().FirstOrDefaultAsync(i => i.InviteLink == inviteLink);
+        }
+
         public Task<User> GetByIdAsync(long id)
         {
             return Entities()

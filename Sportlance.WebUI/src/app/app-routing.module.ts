@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {RootComponent} from './root/root.component';
 import {LandingComponent} from './landing/landing.component';
 import {AboutComponent} from "./about/about.component";
+import {InviteComponent} from "./invite/invite.component";
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'email-verify', loadChildren: './email-verify/email-verify.module#EmailVerifyModule'},
   {path: Paths.ConfirmRegistration, loadChildren: './confirm-register/confirm-register.module#ConfirmRegisterModule'},
   {path: Paths.Login, loadChildren: './login/login.module#LoginModule'},
+  {path: 'invite/:link', component: InviteComponent},
   {path: '**', redirectTo: Paths.Root}
 ];
 

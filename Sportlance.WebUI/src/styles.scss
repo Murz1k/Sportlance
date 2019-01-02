@@ -78,6 +78,7 @@ $footer-height: 100px;
 
 a {
   color: $primary-color;
+
   &:not(.sl-btn):active, &:not(.sl-btn):focus, &:not(.sl-btn):hover {
     outline: 0;
     color: $primary-dark-color;
@@ -592,12 +593,15 @@ a {
   background-color: $ripple-color;
 }
 
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
 input.sl-input, textarea.sl-input, .select2-search input {
   outline: none;
   display: block;
   width: 100%;
-  min-height: 40px;
-  height: 40px;
   padding: 10px 19px;
   border: 1px solid #E0E0E0;
   border-radius: 2px;

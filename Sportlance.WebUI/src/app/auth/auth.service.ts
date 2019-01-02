@@ -65,7 +65,8 @@ export class AuthService {
         userOptions.email,
         userOptions.isConfirmed,
         userOptions.photoUrl,
-        userOptions.userId
+        userOptions.userId,
+        userOptions.inviteLink
       );
     }
     return user;
@@ -136,6 +137,10 @@ export class AuthService {
     const data = new FormData();
     data.append('photo', photo);
     return this.http.put(`/users/photo`, data);
+  }
+
+  getUserByInviteLink(inviteLink: string): Observable<ErrorResponse| any> {
+    return this.http.post(`/users/invite`, {inviteLink: inviteLink});
   }
 
   public checkUser(email: string): Observable<CheckUserResponse> {

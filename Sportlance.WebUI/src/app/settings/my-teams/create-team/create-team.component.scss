@@ -13,9 +13,17 @@
 }
 
 .air-card-content {
-  input:not(:last-child) {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    width: 112px;
+  }
+
+  sl-select-city, input:not(:last-child), textarea {
     margin-bottom: 16px;
   }
+
   label {
     display: block;
     color: #222;
@@ -149,6 +157,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100px;
   position: relative;
   height: 100px;
+
   img {
     border-radius: 50%;
     -o-object-fit: cover;
@@ -158,6 +167,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100px;
     position: absolute;
   }
+
   button {
     position: absolute;
     border-radius: 50%;
@@ -167,6 +177,7 @@ h1, h2, h3, h4, h5, h6 {
     color: transparent;
     background-color: transparent;
   }
+
   :hover {
     color: white;
     background-color: #0000008a;

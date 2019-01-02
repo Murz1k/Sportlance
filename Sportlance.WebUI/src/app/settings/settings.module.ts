@@ -5,6 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SettingsComponent} from './settings.component';
 import {BeTrainerComponent} from './be-trainer/be-trainer.component';
 import {MatDialogModule} from '@angular/material';
+import {SlButtonModule} from "../shared/button/button.module";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {MatDialogModule} from '@angular/material';
     FormsModule,
     ReactiveFormsModule,
     SettingsRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    SlButtonModule
   ]
 })
 export class SettingsModule {

@@ -20,6 +20,11 @@ namespace Sportlance.WebAPI.Users
             return new Task<User>(() => _users.FirstOrDefault(i => i.Id == id));
         }
 
+        public Task<User> GetByInviteLinkAsync(string inviteLink)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<User> GetByEmailAsync(string email)
         {
             return new Task<User>(() => _users.FirstOrDefault(i => i.Email == email));

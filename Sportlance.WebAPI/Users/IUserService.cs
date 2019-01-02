@@ -10,6 +10,8 @@ namespace Sportlance.WebAPI.Users
     {
         Task<User> GetByIdAsync(long id);
 
+        Task<User> GetByInviteLinkAsync(string inviteLink);
+
         Task<User> GetByEmailAsync(string email);
 
         Task<bool> IsEmailExistsAsync(string email);

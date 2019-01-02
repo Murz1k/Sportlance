@@ -23,6 +23,8 @@ namespace Sportlance.WebAPI.Entities
 
         public string PhotoUrl { get; set; }
 
+        public string InviteLink { get; set; }
+
         public bool IsEmailConfirm { get; set; }
 
         public bool IsDeleted { get; set; }

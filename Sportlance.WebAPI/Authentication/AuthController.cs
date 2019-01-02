@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sportlance.WebAPI.Authentication.Requests;
@@ -37,7 +39,7 @@ namespace Sportlance.WebAPI.Authentication
             _mailTokenService = mailTokenService;
             _authService = authService;
         }
-        
+
 //        Зашел на сайт
 //            Зарегистрировался
 //        На почту отправилось письмо
@@ -132,7 +134,8 @@ namespace Sportlance.WebAPI.Authentication
                 Email = request.Email,
                 PasswordHash = HashUtils.CreateHash(request.Password),
                 FirstName = request.FirstName,
-                LastName = request.LastName
+                LastName = request.LastName,
+                InviteLink = CreateInviteLink(8)
             };
 
             await _userService.AddAsync(user);
@@ -144,6 +147,19 @@ namespace Sportlance.WebAPI.Authentication
                 AccessToken = _authService.GenerateAccessToken(user),
                 RefreshToken = _authService.GenerateRefreshToken(user)
             };
+        }
+
+        private static string CreateInviteLink(int length)
+        {
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            var res = new StringBuilder();
+            var rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+
+            return res.ToString();
         }
 
         [HttpPut]
@@ -191,7 +207,7 @@ namespace Sportlance.WebAPI.Authentication
 
             var accessToken = _authService.GenerateAccessToken(user);
             var refreshToken = _authService.GenerateRefreshToken(user);
-            
+
             await _mailService.SendChangePassword(accessToken, refreshToken, user.Email);
         }
 
@@ -200,10 +216,10 @@ namespace Sportlance.WebAPI.Authentication
         public async Task<LoginResponse> UpdatePassword([FromBody] UpdatePasswordRequest data)
         {
             var user = await _userService.GetByIdAsync(UserId);
-            
+
             if (user == null || data.ConfirmPassword != data.NewPassword)
                 throw new AppErrorException(new AppError(ErrorCode.IncorrectData));
-            
+
             user.PasswordHash = HashUtils.CreateHash(data.ConfirmPassword);
 
             await _userService.SaveChangesAsync();
