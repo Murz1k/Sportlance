@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Text;
-using Amazon;
-using Amazon.Extensions.NETCore.Setup;
-using Amazon.Runtime;
-using Amazon.Runtime.CredentialManagement;
 using Amazon.S3;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -118,12 +114,15 @@ namespace Sportlance.WebAPI
             var sp = services.BuildServiceProvider();
             var siteOptions = sp.GetService<SiteOptions>();
             var url = siteOptions.Root;
-            //if (!_currentEnvironment.IsProduction())
-            url = "*";
+            
+            if (!_currentEnvironment.IsProduction())
+            {
+                url = "*";
+            }
 
             var corsPolicyBuilder = new CorsPolicyBuilder();
-            //corsPolicyBuilder.WithOrigins(url);
-            corsPolicyBuilder.AllowAnyOrigin();
+            corsPolicyBuilder.WithOrigins(url);
+//            corsPolicyBuilder.AllowAnyOrigin();
             corsPolicyBuilder.AllowAnyHeader();
             corsPolicyBuilder.AllowAnyMethod();
             corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
@@ -133,10 +132,12 @@ namespace Sportlance.WebAPI
             services.AddCors(options => { options.AddPolicy(CorsPolicyName, corsPolicyBuilder.Build()); });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            //if (env.IsDevelopment())
-            app.UseDeveloperExceptionPage();
+            if (_currentEnvironment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseCors(CorsPolicyName);
 

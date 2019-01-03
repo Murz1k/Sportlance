@@ -37,7 +37,10 @@
           Эта почта уже используется. <a routerLink="/login" style="float: right;">Хотите войти?</a>
         </label>
       </div>
-      <button sl-button slType="primary" (click)="checkUserEmail()">
+      <button sl-button slType="primary"
+              [disabled]="isLoading || submitForm.controls['email'].invalid"
+              [isLoading]="isLoading"
+              (click)="checkUserEmail()">
         Продолжить
       </button>
     </ng-container>

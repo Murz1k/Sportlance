@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.KeyVault.Models;
 using Sportlance.WebAPI.Authentication.Requests;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core.Errors;
@@ -140,7 +141,16 @@ namespace Sportlance.WebAPI.Authentication
 
             await _userService.AddAsync(user);
 
-            await _mailService.SendConfirmRegistration(user.Id, user.Email);
+            // Здесь нужна очередь отдельная а не вот это вот
+            
+            try
+            {
+                await _mailService.SendConfirmRegistration(user.Id, user.Email);
+            }
+            catch (Exception e)
+            {
+                throw new AppErrorException(new AppError(ErrorCode.ServerError, e.Message));
+            }
 
             return new LoginResponse
             {
@@ -196,6 +206,8 @@ namespace Sportlance.WebAPI.Authentication
             if (user.IsEmailConfirm)
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
 
+            // Здесь нужна очередь отдельная а не вот это вот
+
             await _mailService.SendConfirmRegistration(user.Id, user.Email);
         }
 
@@ -207,6 +219,8 @@ namespace Sportlance.WebAPI.Authentication
 
             var accessToken = _authService.GenerateAccessToken(user);
             var refreshToken = _authService.GenerateRefreshToken(user);
+
+            // Здесь нужна очередь отдельная а не вот это вот
 
             await _mailService.SendChangePassword(accessToken, refreshToken, user.Email);
         }
@@ -239,6 +253,8 @@ namespace Sportlance.WebAPI.Authentication
 
             if (!HashUtils.CheckHash(user.PasswordHash, data.Password))
                 throw new AppErrorException(ErrorCode.IncorrectValidation);
+
+            // Здесь нужна очередь отдельная а не вот это вот
 
             await _mailService.SendUpdateEmail(user.Email, data.NewEmail);
 

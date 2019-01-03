@@ -6,9 +6,7 @@ using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.Options;
-using Sportlance.WebAPI.Core.Utilities;
 
 namespace Sportlance.WebAPI.Authentication
 {
@@ -41,7 +39,7 @@ namespace Sportlance.WebAPI.Authentication
 
             var template = _env.IsDevelopment()
                     ? await ReadEmailTemplate("confirm-registration-mail.html")
-                    : await ReadObjectFromS3("sportlance-emails-templates", "confirm-registration-mail.html")
+                    : await ReadEmailTemplateFromS3("confirm-registration-mail.html")
                 ;
 
             template = template
@@ -57,7 +55,7 @@ namespace Sportlance.WebAPI.Authentication
         {
             var template = _env.IsDevelopment()
                     ? await ReadEmailTemplate("change-password-mail.html")
-                    : await ReadObjectFromS3("sportlance-emails-templates", "change-password-mail.html")
+                    : await ReadEmailTemplateFromS3("change-password-mail.html")
                 ;
 
             template = template
@@ -72,7 +70,7 @@ namespace Sportlance.WebAPI.Authentication
 
             var template = _env.IsDevelopment()
                     ? await ReadEmailTemplate("update-email-mail.html")
-                    : await ReadObjectFromS3("sportlance-emails-templates", "update-email-mail.html")
+                    : await ReadEmailTemplateFromS3("update-email-mail.html")
                 ;
 
             template = template
@@ -83,9 +81,14 @@ namespace Sportlance.WebAPI.Authentication
             await SendMessage(email, "Изменение почты", template);
         }
 
-        private async Task<string> ReadObjectFromS3(string bucketName, string objectName)
+        private async Task<string> ReadEmailTemplateFromS3(string objectName)
         {
-            using (var response = await _s3Client.GetObjectAsync(bucketName, objectName))
+            var request = new GetObjectRequest
+            {
+                BucketName = "sportlance-email-templates",
+                Key = objectName
+            };
+            using (var response = await _s3Client.GetObjectAsync(request))
             using (var responseStream = response.ResponseStream)
             using (var reader = new StreamReader(responseStream))
             {

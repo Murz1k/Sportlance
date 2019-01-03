@@ -50,6 +50,8 @@ export class SignupComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     this.authService.checkUser(this.submitForm.value.email)
       .subscribe((response) => {
         if (response.error) {
@@ -61,6 +63,8 @@ export class SignupComponent implements OnInit {
             this.emailAlreadyExist = true;
             return;
           }
+        } else {
+          this.isLoading = true;
         }
         if (response.email.toUpperCase() === this.submitForm.value.email.toUpperCase()) {
           this.emailAlreadyExist = true;
