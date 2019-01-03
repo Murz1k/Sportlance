@@ -64,7 +64,7 @@ export class SignupComponent implements OnInit {
             return;
           }
         } else {
-          this.isLoading = true;
+          this.isLoading = false;
         }
         if (response.email.toUpperCase() === this.submitForm.value.email.toUpperCase()) {
           this.emailAlreadyExist = true;
