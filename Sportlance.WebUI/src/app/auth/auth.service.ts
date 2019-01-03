@@ -49,11 +49,6 @@ export class AuthService {
     return localStorage.getItem('refresh-token') !== null || !isNullOrUndefined(this.privateRefreshToken);
   }
 
-  // Проверяем наличие токена в сторадже или памяти
-  hasExpiredToken(): boolean {
-    return localStorage.getItem('refresh-token') !== null || !isNullOrUndefined(this.privateRefreshToken);
-  }
-
   getCurrent(): User {
     const userOptions = this.getDecodedAccessToken(this.accessToken);
     let user = null;

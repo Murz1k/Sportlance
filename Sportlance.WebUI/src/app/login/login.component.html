@@ -32,12 +32,11 @@
       </div>
     </ng-container>
     <ng-template #enterPassword>
-      <div class="title">
-        <span>Добро пожаловать</span>
-        <div *ngIf="!isForgotPasswordPage" style="font-size: 12px;">{{form.value.email}}</div>
-      </div>
       <ng-container *ngIf="isForgotPasswordPage">
         <ng-container *ngIf="!showCompletePasswordChange">
+          <div class="title">
+            Восстановление пароля
+          </div>
           <div style="position: relative; width: 300px; margin-bottom: 24px;">
             <input sl-input formControlName="forgotPasswordEmail" name="email" type="text"
                    class="login-input" placeholder="Email" (ngModelChange)="hideLoginError()">
@@ -63,14 +62,28 @@
           </button>
         </ng-container>
         <ng-container *ngIf="showCompletePasswordChange">
-          Проверьте свою электронную почту
-          Мы отправили письмо на адрес электронной почты {{form.controls['forgotPasswordEmail'].value}}. Перейдите по ссылке в письме для изменения пароля.
-
-          Если письма нет во входящих, то попробуйте найти его в других папках (например, «Спам», «Социальные сети» или другие).
+          <div class="forgot-password-container">
+            <div class="title">
+              Проверьте свою электронную почту
+            </div>
+            <p>
+              Мы отправили письмо на адрес электронной почты
+              <strong>{{form.controls['forgotPasswordEmail'].value}}</strong>. Перейдите
+              по ссылке в письме для изменения пароля.
+            </p>
+            <p>
+              Если письма нет во входящих, то попробуйте найти его в других папках (например, «Спам», «Социальные сети»
+              или другие).
+            </p>
+          </div>
         </ng-container>
       </ng-container>
       <ng-container *ngIf="!isForgotPasswordPage">
-        <div class="form-group" style="margin-bottom: 5px; position: relative;">
+        <div class="title">
+          <span>Добро пожаловать</span>
+          <div *ngIf="!isForgotPasswordPage" style="font-size: 12px;">{{form.value.email}}</div>
+        </div>
+        <div class="form-group" style="position: relative; width: 300px; margin: 0;">
           <input sl-input id="Password" formControlName="password" name="password" type="password"
                  class="password-input" placeholder="Пароль"
                  (ngModelChange)="hidePasswordError()" (keydown)="checkKeyDownPassword($event)">
@@ -92,7 +105,7 @@
             Забыли пароль?
           </button>
         </div>
-        <button (click)="login()" [disabled]="isDisabled" sl-button slType="primary">
+        <button (click)="login()" type="submit" [disabled]="isDisabled" sl-button slType="primary">
           Войти
         </button>
         <button (click)="hidePasswordPage()" class="btn-link">

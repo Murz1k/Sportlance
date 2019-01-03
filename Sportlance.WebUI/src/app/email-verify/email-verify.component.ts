@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {tap} from "rxjs/operators";
+import {finalize, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
 
 @Component({
@@ -14,6 +14,9 @@ export class EmailVerifyComponent implements OnInit {
   public email: string;
   public seconds: number;
   public lastTime: string;
+
+  public isLoading = false;
+  public isDisabled = false;
 
   constructor(
     private router: Router,
@@ -44,12 +47,17 @@ export class EmailVerifyComponent implements OnInit {
   }
 
   resendEmail() {
+    this.isLoading = true;
+    this.isDisabled = true;
     this.authService.reSendEmail(this.authService.accessToken)
       .pipe(tap((response: any) => {
         if (!response || !response.error) {
           this.seconds = 300;
           localStorage.setItem(this.secondsKey, this.seconds.toString());
         }
+      }), finalize(() => {
+        this.isDisabled = false;
+        this.isLoading = false;
       }))
       .subscribe();
   }
