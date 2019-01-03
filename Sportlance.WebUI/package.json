@@ -7,8 +7,9 @@
     "start": "ng serve",
     "start-mobile": "ng serve --host 0.0.0.0",
     "build": "ng build --prod",
-    "build&deploy": "npm run build & npm run deploy",
-    "deploy": "deploy-aws-s3.bat",
+    "build&deploy": "npm run build & npm run deploy & npm run invalidate",
+    "deploy": "aws-s3-deploy.bat",
+    "invalidate": "aws-cloudfrond-invalidate.bat",
     "lint": "ng lint"
   },
   "private": true,
