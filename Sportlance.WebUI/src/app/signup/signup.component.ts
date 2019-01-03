@@ -54,6 +54,7 @@ export class SignupComponent implements OnInit {
 
     this.authService.checkUser(this.submitForm.value.email)
       .subscribe((response) => {
+        this.isLoading = false;
         if (response.error) {
           if (response.error.code === ErrorCode.UserNotFound) {
             this.showPasswordPage = true;
@@ -63,8 +64,6 @@ export class SignupComponent implements OnInit {
             this.emailAlreadyExist = true;
             return;
           }
-        } else {
-          this.isLoading = false;
         }
         if (response.email.toUpperCase() === this.submitForm.value.email.toUpperCase()) {
           this.emailAlreadyExist = true;
