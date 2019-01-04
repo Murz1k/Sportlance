@@ -15,13 +15,13 @@ export class GlobalErrorHandler implements ErrorHandler {
       const message = error.message ? error.message : error.toString();
       const url = location instanceof PathLocationStrategy
         ? location.path() : '';
-      const errorLog: LogErrorRequest = {
-        error: error.stack,
-        message: message,
-        url: url,
-        userAgent: navigator.userAgent,
-        userLanguage: navigator.language
-      };
+      // const errorLog: LogErrorRequest = {
+      //   error: error.stack,
+      //   message: message,
+      //   url: url,
+      //   userAgent: navigator.userAgent,
+      //   userLanguage: navigator.language
+      // };
 
       //this.loggingApiClient.logErrorAsync(errorLog);
     } else {
