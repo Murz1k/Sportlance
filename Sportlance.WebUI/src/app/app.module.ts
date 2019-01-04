@@ -14,15 +14,13 @@ import {MomentModule} from 'ngx-moment';
 import {BrowserModule} from '@angular/platform-browser';
 import {AboutComponent} from './about/about.component';
 import {SlButtonModule} from "./shared/button/button.module";
-import { InviteComponent } from './invite/invite.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RootComponent,
     LandingComponent,
-    AboutComponent,
-    InviteComponent
+    AboutComponent
   ],
   imports: [
     BrowserModule,

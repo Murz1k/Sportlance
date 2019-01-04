@@ -18,17 +18,7 @@ export class InviteComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(async (params: Params) => {
-      if (params['link']) {
-        this.authService.getUserByInviteLink(params['link'])
-          .pipe(tap((response) => {
-            if (!response.error) {
-              this.userName = response.firstName;
-            }
-          }))
-          .subscribe();
-      }
-    });
+    this.userName = this.activatedRoute.snapshot.data['user'].firstName;
   }
 
   preview() {
