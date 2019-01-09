@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {RegistrationRequest} from '../auth/requests/registration-request';
+import {RegistrationRequest} from '../core/auth/requests/registration-request';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ErrorCode} from '../core/error-code';
 import {Router} from '@angular/router';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../core/auth/auth.service';
 import {tap} from "rxjs/operators";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-signup',
@@ -24,10 +25,13 @@ export class SignupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
+              private titleService: Title,
               private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle(`Регистрация в Sportlance`);
+
     this.submitForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(20)]],
       lastName: ['', [Validators.required, Validators.maxLength(30)]],

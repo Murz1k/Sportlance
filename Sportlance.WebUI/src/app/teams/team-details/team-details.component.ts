@@ -34,10 +34,13 @@ export class TeamDetailsComponent implements OnInit {
               private dialog: MatDialog,
               private trainersService: TrainersService,
               private teamService: TeamsService) {
-    this.profile = this.route.snapshot.data['profile'];
   }
 
   ngOnInit() {
+    this.profile = this.route.snapshot.data['profile'];
+
+    this.titleService.setTitle(`${this.profile.title} | Sportlance`);
+
     this.route.params.subscribe(params => {
       this.updatePhotos(params['id']);
       this.upadteTeamMembers(params['id']);

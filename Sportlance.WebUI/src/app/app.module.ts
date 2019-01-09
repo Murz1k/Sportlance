@@ -7,7 +7,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {LandingComponent} from './landing/landing.component';
 import {JwtInterceptor} from './core/jwt-Interceptor';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FeedbacksService} from './feedbacks/feedbacks.service';
+import {FeedbacksService} from './shared/feedbacks/feedbacks.service';
 import {FooterModule} from './core/footer/footer.module';
 import {HeaderModule} from './core/header/header.module';
 import {MomentModule} from 'ngx-moment';

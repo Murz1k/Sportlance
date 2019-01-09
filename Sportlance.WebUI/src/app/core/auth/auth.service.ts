@@ -10,14 +10,14 @@ import {Observable} from 'rxjs';
 import {LoginResponse} from './responses/login-response';
 import {RegistrationRequest} from './requests/registration-request';
 import {ResendEmailRequest} from './requests/resend-email-request';
-import {ErrorResponse} from '../core/error-response';
+import {ErrorResponse} from '../error-response';
 import {UpdatePasswordRequest} from './requests/update-password-request';
 import {UpdateAccountRequest} from './requests/update-account-request';
 import {ConfirmRegistrationRequest} from './requests/confirm-registration-request';
 import {CheckUserResponse} from './responses/check-user-response';
 import {CheckUserRequest} from './requests/check-user-request';
 import {map} from 'rxjs/operators';
-import {Paths} from '../core/paths';
+import {Paths} from '../paths';
 
 @Injectable({
   providedIn: 'root'

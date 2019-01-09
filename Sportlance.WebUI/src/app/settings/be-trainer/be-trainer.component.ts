@@ -1,21 +1,26 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TrainersService} from '../../trainers/trainers.service';
 import {Router} from '@angular/router';
-import {AuthService} from '../../auth/auth.service';
+import {AuthService} from '../../core/auth/auth.service';
 import {ErrorCode} from '../../core/error-code';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-be-trainer',
   templateUrl: './be-trainer.component.html',
   styleUrls: ['./be-trainer.component.css']
 })
-export class BeTrainerComponent {
+export class BeTrainerComponent implements OnInit {
 
-  constructor(
-    private authService: AuthService,
-    private service: TrainersService,
-    private router: Router
+  constructor(private titleService: Title,
+              private authService: AuthService,
+              private service: TrainersService,
+              private router: Router
   ) {
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle(`Стать тренером | Sportlance`);
   }
 
   beTrainer() {

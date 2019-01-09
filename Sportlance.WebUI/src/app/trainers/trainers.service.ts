@@ -7,7 +7,7 @@ import {GetTrainersQuery} from '../shared/trainers/get-trainers-query';
 import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from '../shared/trainers/responses/training-response';
-import {LoginResponse} from '../auth/responses/login-response';
+import {LoginResponse} from '../core/auth/responses/login-response';
 
 @Injectable()
 export class TrainersService {

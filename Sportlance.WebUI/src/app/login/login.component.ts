@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginRequest} from '../auth/requests/login-request';
+import {LoginRequest} from '../core/auth/requests/login-request';
 import {ErrorCode} from '../core/error-code';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Paths} from '../core/paths';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../core/auth/auth.service';
 import {finalize, map, tap} from 'rxjs/operators';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-login',
@@ -29,10 +30,13 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private activatedRoute: ActivatedRoute,
+              private titleService: Title,
               private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle(`Войти в Sportlance`);
+
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(20)]],
       password: ['', Validators.required],

@@ -3,11 +3,12 @@ import {ActivatedRoute} from '@angular/router';
 import {Star} from '../trainer-list/star';
 import {TrainerInfo} from '../trainer-list/trainer-info';
 import {TrainersService} from '../trainers.service';
-import {User} from '../../auth/user';
+import {User} from '../../core/auth/user';
 import {InviteTrainerDialogData} from './invite-trainer-dialog/invite-trainer-dialog-data';
 import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-trainer-dialog.component';
 import {MatDialog} from '@angular/material';
-import {AuthService} from '../../auth/auth.service';
+import {AuthService} from '../../core/auth/auth.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-trainer-details',
@@ -28,10 +29,11 @@ export class TrainerDetailsComponent implements OnInit {
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
+              private titleService: Title,
               private trainerService: TrainersService) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.account = this.authService.getCurrent();
     this.trainer = <TrainerInfo>{
       firstName: this.route.snapshot.data['profile'].firstName,
@@ -45,6 +47,9 @@ export class TrainerDetailsComponent implements OnInit {
       stars: this.convertAverageScoreToStars(this.route.snapshot.data['profile'].score),
       sports: this.route.snapshot.data['profile'].sports
     };
+
+    this.titleService.setTitle(`${this.trainer.firstName} ${this.trainer.secondName} | Sportlance`);
+
     this.trainerId = this.route.snapshot.params['id'];
     if (this.account && this.account.isTeam) {
       this.trainerService.canInviteTrainer(this.trainerId).subscribe((canInvited) => {

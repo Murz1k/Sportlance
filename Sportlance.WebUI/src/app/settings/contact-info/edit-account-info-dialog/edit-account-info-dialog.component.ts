@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {User} from '../../../auth/user';
+import {User} from '../../../core/auth/user';
 import {MatDialogRef} from '@angular/material';
-import {AuthService} from '../../../auth/auth.service';
+import {AuthService} from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'sl-edit-trainer-paid-dialog',

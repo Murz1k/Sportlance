@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {isNullOrUndefined} from 'util';
 import {Paths} from '../../core/paths';
 import {GetTrainersQuery} from '../../shared/trainers/get-trainers-query';
@@ -7,14 +7,14 @@ import {TeamsService} from '../teams.service';
 import {TrainerInfo} from '../../trainers/trainer-list/trainer-info';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {AuthService} from '../../auth/auth.service';
+import {AuthService} from '../../core/auth/auth.service';
 
 @Component({
   selector: 'sl-team-list',
   templateUrl: './team-list.component.html',
   styleUrls: ['./team-list.component.scss']
 })
-export class TeamListComponent {
+export class TeamListComponent implements OnInit {
 
   trainers = [];
   isRendering = true;
@@ -42,6 +42,9 @@ export class TeamListComponent {
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
               private teamsService: TeamsService) {
+  }
+
+  ngOnInit(): void {
     this.titleService.setTitle(`Команды | Sportlance`);
 
     this.isAuthorized = this.authService.isAuthorized;

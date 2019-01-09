@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TrainerInfo} from './trainer-info';
 import {Star} from './star';
 import {isNullOrUndefined} from 'util';
@@ -8,14 +8,14 @@ import {GetTrainersQuery} from '../../shared/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {AuthService} from '../../auth/auth.service';
+import {AuthService} from '../../core/auth/auth.service';
 
 @Component({
   selector: 'sl-trainer-list',
   templateUrl: './trainer-list.component.html',
   styleUrls: ['./trainer-list.component.scss']
 })
-export class TrainerListComponent {
+export class TrainerListComponent implements OnInit{
 
   starsNumber = 5;
   trainers: Array<TrainerInfo> = [];
@@ -45,6 +45,9 @@ export class TrainerListComponent {
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
               private trainerService: TrainersService) {
+  }
+
+  ngOnInit(): void {
     this.titleService.setTitle(`Тренеры | Sportlance`);
 
     this.isAuthorized = this.authService.isAuthorized;

@@ -11,7 +11,7 @@ import {
 } from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from './auth/auth.service';
 import {isNullOrUndefined} from "util";
 
 @Injectable()

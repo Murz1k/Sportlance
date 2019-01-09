@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../auth/user';
+import {User} from '../core/auth/user';
 import {TrainerInfo} from '../trainers/trainer-list/trainer-info';
 import {TrainersService} from '../trainers/trainers.service';
 import {Star} from '../trainers/trainer-list/star';
@@ -8,7 +8,7 @@ import {TrainerStatus} from '../shared/trainers/trainer-status';
 import {MatCheckboxChange, MatDialog} from '@angular/material';
 import {Paths} from '../core/paths';
 import {Title} from '@angular/platform-browser';
-import {FeedbacksService} from '../feedbacks/feedbacks.service';
+import {FeedbacksService} from '../shared/feedbacks/feedbacks.service';
 import {EditTrainerAboutDialogComponent} from './edit-trainer-about-dialog/edit-trainer-about-dialog.component';
 import {EditTrainerAboutDialogData} from './edit-trainer-about-dialog/edit-trainer-about-dialog-data';
 import {EditTrainerPaidDialogComponent} from './edit-trainer-paid-dialog/edit-trainer-paid-dialog.component';
@@ -19,7 +19,7 @@ import {EditBackgroundDialogComponent} from './edit-background-dialog/edit-backg
 import {EditBackgroundDialogData} from './edit-background-dialog/edit-background-dialog-data';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../core/auth/auth.service';
 
 @Component({
   selector: 'sl-account',

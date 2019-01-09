@@ -2,7 +2,7 @@ import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@ang
 import {Injectable, Injector} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {AuthService} from "../auth/auth.service";
+import {AuthService} from "../core/auth/auth.service";
 
 @Injectable()
 export class RedirectInviteResolver implements Resolve<any> {

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {AuthService} from "../../auth/auth.service";
-import {LoginResponse} from "../../auth/responses/login-response";
+import {AuthService} from "../../core/auth/auth.service";
+import {LoginResponse} from "../../core/auth/responses/login-response";
 import {finalize, tap} from "rxjs/operators";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-reset-password',
@@ -17,13 +18,16 @@ export class ResetPasswordComponent implements OnInit {
   public isLoading = false;
   public isDisabled = false;
 
-  constructor(private router: Router,
+  constructor(private titleService: Title,
+              private router: Router,
               private formBuilder: FormBuilder,
               private authService: AuthService,
               private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle(`Сброс пароля | Sportlance`);
+
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       if (params['accessToken'] && params['refreshToken']) {
         this.authService.saveTokens(<LoginResponse>{

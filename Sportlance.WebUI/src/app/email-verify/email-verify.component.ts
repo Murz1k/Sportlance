@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../core/auth/auth.service';
 import {finalize, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-email-verify',
@@ -18,12 +19,14 @@ export class EmailVerifyComponent implements OnInit {
   public isLoading = false;
   public isDisabled = false;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService) {
+  constructor(private titleService: Title,
+              private router: Router,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle(`Подтверждение регистрации | Sportlance`);
+
     if (!this.authService.isAuthorized) {
       this.router.navigate(['']);
       return;
@@ -63,6 +66,6 @@ export class EmailVerifyComponent implements OnInit {
   }
 
   changeEmail(): void {
-    this.authService.logout();
+    this.router.navigate(['login']);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-trainers-about',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainersAboutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleService: Title) { }
 
   ngOnInit() {
+    this.titleService.setTitle(`О тренерах в Sportlance`);
   }
-
 }

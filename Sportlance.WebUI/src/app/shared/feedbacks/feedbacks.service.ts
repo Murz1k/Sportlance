@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {ReviewInfoResponse} from './responses/review-info-response';
 import {isNullOrUndefined} from 'util';
-import {CollectionResponse} from '../core/collection-response';
+import {CollectionResponse} from '../../core/collection-response';
 import {Observable} from 'rxjs';
-import {ErrorResponse} from '../core/error-response';
+import {ErrorResponse} from '../../core/error-response';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {User} from '../auth/user';
+import {User} from '../core/auth/user';
 import {Paths} from '../core/paths';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../core/auth/auth.service';
 
 @Component({
   selector: 'sl-settings',

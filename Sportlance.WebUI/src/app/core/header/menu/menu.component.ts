@@ -1,8 +1,8 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {User} from '../../../auth/user';
+import {User} from '../../auth/user';
 import {Router} from '@angular/router';
 import {Paths} from '../../paths';
-import {AuthService} from '../../../auth/auth.service';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'sl-menu',

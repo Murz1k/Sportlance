@@ -1,20 +1,28 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Image} from './image';
 import {Paths} from '../core/paths';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../core/auth/auth.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'sl-landing',
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss']
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
 
   public trainerLink: string;
   public clubLink: string;
   public images: Image[] = [];
 
-  constructor(private authService: AuthService) {
+  constructor(private titleService: Title,
+              private authService: AuthService
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.titleService.setTitle(`Sportlance`);
+
     this.trainerLink = this.authService.isAuthorized ? Paths.Trainers : Paths.Login;
     this.clubLink = this.authService.isAuthorized ? Paths.Teams : Paths.Login;
     this.images = [
