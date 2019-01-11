@@ -306,6 +306,21 @@ ul.feedbacks, ul.my-teams {
   padding-left: 44px !important;
 }
 
+.empty-avatar-lg {
+  i {
+    font-size: 150px;
+    position: absolute;
+    top: -100px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+    user-select: none;
+    outline: none;
+    background-color: white !important;
+    color: #6c757c;
+  }
+}
+
 .photo-input {
   width: 150px;
   position: absolute;
@@ -391,13 +406,14 @@ small {
 }
 
 .dialog-footer {
-  min-height: 60px;
+  //min-height: 60px;
   padding: 0 24px 24px;
   background: #F9F9F9;
 
   button {
     margin-bottom: 0;
     margin-right: 24px;
+    display: inline-flex;
   }
 }
 

@@ -106,13 +106,20 @@ export class AuthService {
       firstName: firstName,
       secondName: secondName,
       email: email
-    });
+    }).pipe(map((response) => {
+      if (!response.error) {
+        this.saveTokens(response);
+      }
+      return response;
+    }));
   }
 
   public confirmEmail(request: ConfirmRegistrationRequest): Observable<LoginResponse> {
     return this.http.put<LoginResponse>('/auth/confirm', request)
       .pipe(map((response) => {
-        this.saveTokens(response);
+        if (!response.error) {
+          this.saveTokens(response);
+        }
         this.router.navigate([Paths.Root]);
         return response;
       }));
@@ -134,7 +141,7 @@ export class AuthService {
     return this.http.put(`/users/photo`, data);
   }
 
-  getUserByInviteLink(inviteLink: string): Observable<ErrorResponse| any> {
+  getUserByInviteLink(inviteLink: string): Observable<ErrorResponse | any> {
     return this.http.post(`/users/invite`, {inviteLink: inviteLink});
   }
 

@@ -5,6 +5,8 @@ import {PasswordAndSecurityComponent} from './password-and-security.component';
 import {EditPasswordDialogComponent} from './edit-password-dialog/edit-password-dialog.component';
 import {MatDialogModule} from '@angular/material';
 import {ReactiveFormsModule} from '@angular/forms';
+import {SlButtonModule} from "../../shared/button/button.module";
+import {SlInputModule} from "../../shared/input/input.module";
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     CommonModule,
     PasswordAndSecurityRoutingModule,
     MatDialogModule,
+    SlButtonModule,
+    SlInputModule,
     ReactiveFormsModule
   ]
 })

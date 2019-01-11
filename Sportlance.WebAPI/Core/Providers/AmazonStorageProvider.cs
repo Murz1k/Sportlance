@@ -5,7 +5,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 
-namespace Sportlance.WebAPI.Core
+namespace Sportlance.WebAPI.Core.Providers
 {
     public class AmazonStorageProvider : IStorageProvider
     {
@@ -20,117 +20,118 @@ namespace Sportlance.WebAPI.Core
 
         public async Task InitializeAsync()
         {
-            try
+//            try
+//            {
+            if (!await _client.DoesS3BucketExistAsync(_bucketName))
             {
-                if (!await _client.DoesS3BucketExistAsync(_bucketName))
+                var putBucketRequest = new PutBucketRequest
                 {
-                    var putBucketRequest = new PutBucketRequest
-                    {
-                        BucketName = _bucketName,
-                        UseClientRegion = true
-                    };
+                    BucketName = _bucketName,
+                    UseClientRegion = true
+                };
 
-                    await _client.PutBucketAsync(putBucketRequest);
-                }
+                await _client.PutBucketAsync(putBucketRequest);
             }
-            catch (AmazonS3Exception e)
-            {
-                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
+
+//            }
+//            catch (AmazonS3Exception e)
+//            {
+//                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+//            }
+//            catch (Exception e)
+//            {
+//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+//            }
         }
 
         public async Task<AzureFile> DowndloadAsync(string fileName)
         {
-            try
+//            try
+//            {
+            var request = new GetObjectRequest
             {
-                var request = new GetObjectRequest
-                {
-                    BucketName = _bucketName,
-                    Key = fileName
-                };
-                using (var response = await _client.GetObjectAsync(request))
-                using (var stream = new MemoryStream())
-                {
-                    await response.ResponseStream.CopyToAsync(stream);
-                    return new AzureFile(fileName, stream.ToArray());
-                }
-            }
-            catch (AmazonS3Exception e)
+                BucketName = _bucketName,
+                Key = fileName
+            };
+            using (var response = await _client.GetObjectAsync(request))
+            using (var stream = new MemoryStream())
             {
-                Console.WriteLine("Error encountered ***. Message:'{0}' when writing an object", e.Message);
+                await response.ResponseStream.CopyToAsync(stream);
+                return new AzureFile(fileName, stream.ToArray());
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
+//            }
+//            catch (AmazonS3Exception e)
+//            {
+//                Console.WriteLine("Error encountered ***. Message:'{0}' when writing an object", e.Message);
+//            }
+//            catch (Exception e)
+//            {
+//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+//            }
 
             return null;
         }
 
         public async Task<string> UploadAndGetUriAsync(string fileName, AzureFile file)
         {
-            try
+//            try
+//            {
+            var fileTransferUtility = new TransferUtility(_client);
+
+            using (var stream = new MemoryStream(file.Data))
             {
-                var fileTransferUtility = new TransferUtility(_client);
-
-                using (var stream = new MemoryStream(file.Data))
+                var uploadRequest = new TransferUtilityUploadRequest
                 {
-                    var uploadRequest = new TransferUtilityUploadRequest
-                    {
-                        InputStream = stream,
-                        Key = fileName,
-                        BucketName = _bucketName,
-                        CannedACL = S3CannedACL.PublicRead
-                    };
-                    
-                    await fileTransferUtility.UploadAsync(uploadRequest);
-                }
-
-                var request = new GetPreSignedUrlRequest
-                {
-                    BucketName = _bucketName,
+                    InputStream = stream,
                     Key = fileName,
-                    Protocol = Protocol.HTTPS,
-                    Expires = DateTime.UtcNow
+                    BucketName = _bucketName,
+                    CannedACL = S3CannedACL.PublicRead
                 };
-                return _client.GetPreSignedURL(request).Split('?')[0];
+
+                await fileTransferUtility.UploadAsync(uploadRequest);
             }
-            catch (AmazonS3Exception e)
+
+            var request = new GetPreSignedUrlRequest
             {
-                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
+                BucketName = _bucketName,
+                Key = fileName,
+                Protocol = Protocol.HTTPS,
+                Expires = DateTime.UtcNow
+            };
+            return _client.GetPreSignedURL(request).Split('?')[0];
+//            }
+//            catch (AmazonS3Exception e)
+//            {
+//                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+//            }
+//            catch (Exception e)
+//            {
+//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+//            }
 
             return null;
         }
 
         public async Task DeleteAsync(string fileName)
         {
-            try
+//            try
+//            {
+            var deleteObjectRequest = new DeleteObjectRequest
             {
-                var deleteObjectRequest = new DeleteObjectRequest
-                {
-                    BucketName = _bucketName,
-                    Key = fileName
-                };
+                BucketName = _bucketName,
+                Key = fileName
+            };
 
-                await _client.DeleteObjectAsync(deleteObjectRequest);
-            }
-            catch (AmazonS3Exception e)
-            {
-                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
+            await _client.DeleteObjectAsync(deleteObjectRequest);
+//            }
+//            catch (AmazonS3Exception e)
+//            {
+//                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+//            }
+//            catch (Exception e)
+//            {
+//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+//            }
         }
     }
 }

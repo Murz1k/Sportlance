@@ -5,6 +5,8 @@ import {CommonModule} from '@angular/common';
 import {EditAccountInfoDialogComponent} from './edit-account-info-dialog/edit-account-info-dialog.component';
 import {ContactInfoComponent} from './contact-info.component';
 import {ContactInfoRoutingModule} from './contact-info-routing.module';
+import {SlButtonModule} from "../../shared/button/button.module";
+import {SlInputModule} from "../../shared/input/input.module";
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import {ContactInfoRoutingModule} from './contact-info-routing.module';
     CommonModule,
     ContactInfoRoutingModule,
     ReactiveFormsModule,
+    SlButtonModule,
+    SlInputModule,
     MatDialogModule
   ]
 })

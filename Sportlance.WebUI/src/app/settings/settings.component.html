@@ -7,7 +7,7 @@
       <li><a [routerLink]="['contact-info']" routerLinkActive="active">Контактная информация</a></li>
       <li><a [routerLink]="['security']" routerLinkActive="active">Пароль и безопасность</a></li>
       <li><a [routerLink]="['my-teams']" routerLinkActive="active">Мои команды</a></li>
-      <li><a [routerLink]="['be-trainer']" routerLinkActive="active">Стать тренером</a></li>
+      <li><a *ngIf="!account.isTrainer" [routerLink]="['be-trainer']" routerLinkActive="active">Стать тренером</a></li>
     </ul>
     <h4 *ngIf="account.isTrainer" class="menu-list-main-item">
       Тренерские настройки
