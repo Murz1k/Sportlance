@@ -149,7 +149,7 @@ sl-root:not(:last-child(root:empty)) + .loading {
   background: none !important;
 }
 
-.app-wrapper, sl-login, sl-signup, sl-email-verify {
+.app-wrapper, sl-login, sl-signup, sl-email-verify, sl-invite {
   display: flex;
   flex-direction: column;
   height: 100%;

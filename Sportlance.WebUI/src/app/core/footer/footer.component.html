@@ -1,37 +1,39 @@
 <div class="footer-navbar-wrapper footer-visitor" style="min-height: 119px;">
   <div class="content">
-    <section>
-      <div *ngIf="!isEmpty;" class="links-section">
-        <ul class="footer-menu">
-          <li class="footer-menu__item">
-            <span>Компания</span>
-            <ul style="list-style: none;
+    <ng-container *ngIf="!isEmpty">
+      <section>
+        <div class="links-section">
+          <ul class="footer-menu">
+            <li class="footer-menu__item">
+              <span>Компания</span>
+              <ul style="list-style: none;
     padding-left: 0;">
-              <li><a [routerLink]="['/','about']">О нас</a></li>
-              <li><a href="/legal" target="_blank">Условия использования</a></li>
-              <li><a href="/legal/privacy" target="_blank">Политика конфиденциальности</a></li>
-            </ul>
-          </li>
-          <li class="footer-menu__item">
-            <span>Партнеры</span>
-            <ul style="list-style: none;
+                <li><a [routerLink]="['/','about']">О нас</a></li>
+                <li><a href="/legal" target="_blank">Условия использования</a></li>
+                <li><a href="/legal/privacy" target="_blank">Политика конфиденциальности</a></li>
+              </ul>
+            </li>
+            <li class="footer-menu__item">
+              <span>Партнеры</span>
+              <ul style="list-style: none;
     padding-left: 0;">
-              <li><a [routerLink]="['/','trainers', 'about']">Стать тренером</a></li>
-              <li><a [routerLink]="['/','partners', 'about']">Стать партнером</a></li>
-            </ul>
-          </li>
-          <li class="footer-menu__item">
-            <span>Дополнительные сервисы</span>
-            <ul style="list-style: none;
+                <li><a [routerLink]="['/','trainers', 'about']">Стать тренером</a></li>
+                <li><a [routerLink]="['/','partners', 'about']">Стать партнером</a></li>
+              </ul>
+            </li>
+            <li class="footer-menu__item">
+              <span>Дополнительные сервисы</span>
+              <ul style="list-style: none;
     padding-left: 0;">
-              <li><a href="https://support.sportlance.com" target="_blank">Поддержка</a></li>
-              <li><a href="https://dev.sportlance.com" target="_blank">Для разработчиков</a></li>
-              <li><a href="https://job.sportlance.com" target="_blank">Работа у нас</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </section>
+                <li><a href="https://support.sportlance.com" target="_blank">Поддержка</a></li>
+                <li><a href="https://dev.sportlance.com" target="_blank">Для разработчиков</a></li>
+                <li><a href="https://job.sportlance.com" target="_blank">Работа у нас</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </ng-container>
     <section class="social-icons">
       <p class="copyright" style="margin: 0">
         © {{startDate}} <span *ngIf="startDate != endDate"> - {{endDate}}</span> Sportlance
@@ -112,7 +114,8 @@
             <div class="footer__Icon__icon_3VmKb footer__Icon__icon_size_18_A-HM4"
                  style="width: 18px; height: 18px; transform: none; vertical-align: top;">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="45 65 160 160" width="18" height="18">
-          <path xmlns="http://www.w3.org/2000/svg" class="st3" d="M136.7,200.4c5.3-6.6,16.5-28.2,29-52c14-26.6,28.4-54.2,24.2-59.9c-4.3-5.7-34.8,0.3-64.3,6.1     c-26.4,5.2-50.3,9.8-58.1,13c-6,2.4-10.3,9-2.5,15.7c7.8,6.7,27.9,15.8,39.4,29c9.4,14.8,12.4,36.6,16.6,46     C125.2,207.7,132.7,205.4,136.7,200.4z"/>
+          <path xmlns="http://www.w3.org/2000/svg" class="st3"
+                d="M136.7,200.4c5.3-6.6,16.5-28.2,29-52c14-26.6,28.4-54.2,24.2-59.9c-4.3-5.7-34.8,0.3-64.3,6.1     c-26.4,5.2-50.3,9.8-58.1,13c-6,2.4-10.3,9-2.5,15.7c7.8,6.7,27.9,15.8,39.4,29c9.4,14.8,12.4,36.6,16.6,46     C125.2,207.7,132.7,205.4,136.7,200.4z"/>
         </svg>
       </div>
           </span>
