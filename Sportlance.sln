@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sportlance.WebAPI", "Sportl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportlance.Common", "Sportlance.Common\Sportlance.Common.csproj", "{901CA1E1-5C5F-4ED6-9499-F45442FB9645}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sportlance.MailService", "Sportlance.MailService\Sportlance.MailService.csproj", "{59E62D93-E887-481A-9602-61DBB70812E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{901CA1E1-5C5F-4ED6-9499-F45442FB9645}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{901CA1E1-5C5F-4ED6-9499-F45442FB9645}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{901CA1E1-5C5F-4ED6-9499-F45442FB9645}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E62D93-E887-481A-9602-61DBB70812E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E62D93-E887-481A-9602-61DBB70812E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E62D93-E887-481A-9602-61DBB70812E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E62D93-E887-481A-9602-61DBB70812E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

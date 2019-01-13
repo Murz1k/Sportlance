@@ -22,7 +22,6 @@ namespace Sportlance.WebAPI.Authentication
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly IMailService _mailService;
         private readonly MailTokenService _mailTokenService;
         private readonly IUserService _userService;
         private readonly AmazonQueueProvider _queueProvider;
@@ -32,14 +31,12 @@ namespace Sportlance.WebAPI.Authentication
 
         public AuthController(
             IUserService userService,
-            IMailService mailService,
             MailTokenService mailTokenService,
             IAuthService authService,
             AmazonQueueProvider queueProvider
         )
         {
             _userService = userService;
-            _mailService = mailService;
             _mailTokenService = mailTokenService;
             _authService = authService;
             _queueProvider = queueProvider;
@@ -150,8 +147,6 @@ namespace Sportlance.WebAPI.Authentication
 
             await _queueProvider.SendMessageAsync($"{user.Id}, {user.Email}");
 
-//            await _mailService.SendConfirmRegistration(user.Id, user.Email);
-
             return new LoginResponse
             {
                 AccessToken = _authService.GenerateAccessToken(user),
@@ -206,11 +201,8 @@ namespace Sportlance.WebAPI.Authentication
             if (user.IsEmailConfirm)
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
 
-            // Здесь нужна очередь отдельная а не вот это вот
             
             await _queueProvider.SendMessageAsync($"{user.Id}, {user.Email}");
-
-//            await _mailService.SendConfirmRegistration(user.Id, user.Email);
         }
 
         [HttpPost("password")]
@@ -222,10 +214,7 @@ namespace Sportlance.WebAPI.Authentication
             var accessToken = _authService.GenerateAccessToken(user);
             var refreshToken = _authService.GenerateRefreshToken(user);
 
-            // Здесь нужна очередь отдельная а не вот это вот
             await _queueProvider.SendMessageAsync($"{accessToken},{refreshToken},{user.Email}");
-
-//            await _mailService.SendChangePassword(accessToken, refreshToken, user.Email);
         }
 
         [Authorize]
@@ -257,10 +246,7 @@ namespace Sportlance.WebAPI.Authentication
             if (!HashUtils.CheckHash(user.PasswordHash, data.Password))
                 throw new AppErrorException(ErrorCode.IncorrectValidation);
 
-            // Здесь нужна очередь отдельная а не вот это вот
             await _queueProvider.SendMessageAsync($"{user.Email},{data.NewEmail}");
-
-//            await _mailService.SendUpdateEmail(user.Email, data.NewEmail);
 
             return new LoginResponse
             {

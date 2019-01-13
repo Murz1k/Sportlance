@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using Amazon.S3;
-using Amazon.SQS;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -62,8 +61,7 @@ namespace Sportlance.WebAPI
                 options.Filters.Add(new AppErrorsExceptionFilter());
                 options.Filters.Add(new ModelStateFilter());
             });
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-
+            
             JwtConfigure(services);
 
             services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));

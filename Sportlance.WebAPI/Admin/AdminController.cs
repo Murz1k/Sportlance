@@ -3,7 +3,6 @@ using Amazon.S3;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Sportlance.WebAPI.Authentication;
 
 namespace Sportlance.WebAPI.Admin
 {
@@ -13,24 +12,20 @@ namespace Sportlance.WebAPI.Admin
     {
         private IHostingEnvironment _currentEnvironment;
         private IConfiguration _configuration;
-        private IMailService _mailService;
         private IAmazonS3 _amazon;
 
         public AdminController(IConfiguration configuration, 
             IHostingEnvironment currentEnvironment,
-            IAmazonS3 amazon,
-            IMailService mailService)
+            IAmazonS3 amazon,)
         {
             _currentEnvironment = currentEnvironment;
             _configuration = configuration;
-            _mailService = mailService;
             _amazon = amazon;
         }
         // GET: api/Admin
         [HttpGet]
         public Task<IActionResult> Get()
         {
-            //await _mailService.SendConfirmRegistration(1, "max89701@gmail.com");
             return null;
         }
 

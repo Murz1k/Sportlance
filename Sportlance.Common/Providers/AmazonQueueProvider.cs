@@ -18,16 +18,35 @@ namespace Sportlance.Common.Providers
 
         public async Task InitializeAsync()
         {
-            var sqsConfig = new AmazonSQSConfig {ServiceURL = "http://sqs.us-east-1.amazonaws.com"};
+            var sqsConfig = new AmazonSQSConfig { ServiceURL = "http://sqs.us-east-1.amazonaws.com" };
 
             _sqsClient = new AmazonSQSClient(sqsConfig);
 
-            var createQueueRequest = new CreateQueueRequest {QueueName = _queueName};
+            var url = await GetQueueUrlAsync();
+            if (url == null)
+            {
+                var createQueueRequest = new CreateQueueRequest { QueueName = _queueName };
 
-            var attrs = new Dictionary<string, string> {{QueueAttributeName.VisibilityTimeout, "10"}};
-            createQueueRequest.Attributes = attrs;
-            var createQueueResponse = await _sqsClient.CreateQueueAsync(createQueueRequest);
-            _queueUrl = createQueueResponse.QueueUrl;
+                var attrs = new Dictionary<string, string> { { QueueAttributeName.VisibilityTimeout, "10" } };
+                createQueueRequest.Attributes = attrs;
+                var createQueueResponse = await _sqsClient.CreateQueueAsync(createQueueRequest);
+                _queueUrl = createQueueResponse.QueueUrl;
+            }
+            else
+            {
+                _queueUrl = url;
+            }
+        }
+
+        public async Task<string> GetQueueUrlAsync()
+        {
+            var request = new GetQueueUrlRequest
+            {
+                QueueName = _queueName
+            };
+
+            GetQueueUrlResponse response = await _sqsClient.GetQueueUrlAsync(request);
+            return response?.QueueUrl;
         }
 
         public async Task SendMessageAsync(string message)
@@ -43,7 +62,7 @@ namespace Sportlance.Common.Providers
 
         public async Task<List<Message>> ReceiveMessagesAsync()
         {
-            var receiveMessageRequest = new ReceiveMessageRequest {QueueUrl = _queueUrl};
+            var receiveMessageRequest = new ReceiveMessageRequest { QueueUrl = _queueUrl };
 
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             return receiveMessageResponse.Messages;

@@ -1,0 +1,66 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "C:\\Users\\Max89701\\Documents\\Visual Studio 2017\\Projects\\sp\\Sportlance.MailService\\Sportlance.MailService.csproj",
+    "projectName": "Sportlance.MailService",
+    "projectPath": "C:\\Users\\Max89701\\Documents\\Visual Studio 2017\\Projects\\sp\\Sportlance.MailService\\Sportlance.MailService.csproj",
+    "outputPath": "C:\\Users\\Max89701\\Documents\\Visual Studio 2017\\Projects\\sp\\Sportlance.MailService\\obj\\",
+    "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+    ],
+    "originalTargetFrameworks": [
+      "netcoreapp2.2"
+    ],
+    "frameworks": {
+      "netcoreapp2.2": {
+        "projectReferences": {
+          "C:\\Users\\Max89701\\Documents\\Visual Studio 2017\\Projects\\sp\\Sportlance.Common\\Sportlance.Common.csproj": {
+            "projectPath": "C:\\Users\\Max89701\\Documents\\Visual Studio 2017\\Projects\\sp\\Sportlance.Common\\Sportlance.Common.csproj"
+          }
+        }
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "netcoreapp2.2": {
+      "dependencies": {
+        "AWSSDK.Extensions.NETCore.Setup": {
+          "target": "Package",
+          "version": "[3.3.6, )"
+        },
+        "MailKit": {
+          "target": "Package",
+          "version": "[1.16.1, )"
+        },
+        "Microsoft.AspNetCore.App": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.2.0, )",
+          "autoReferenced": true
+        },
+        "Microsoft.AspNetCore.Razor.Design": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.2.0, )"
+        },
+        "Microsoft.NETCore.App": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.2.0, )",
+          "autoReferenced": true
+        }
+      },
+      "imports": [
+        "net461"
+      ],
+      "assetTargetFallback": true,
+      "warn": true
+    }
+  }
+}
