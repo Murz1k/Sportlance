@@ -1077,9 +1077,10 @@
   },
   "libraries": {
     "AWSSDK.Core/3.3.31.2": {
-      "sha512": "SjuX5xGDVT8zAHZGxZfW2s7pwpqExgm3yNr81CXdB8j0sp/AxQXGqL2tnpxNPNibHQVHbISZAdcCulXAeJrROw==",
+      "sha512": "SSvLQCowGU6NSua8qXfQJEL6DFutzHgf8pMjLOvvfC8QyPP4cb1wtewAUXFxM8ks6ULxNvVm6O7DGBUJx3o8mg==",
       "type": "package",
       "path": "awssdk.core/3.3.31.2",
+      "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1122,9 +1123,10 @@
       ]
     },
     "AWSSDK.SQS/3.3.3.49": {
-      "sha512": "r+oB9VBR1dOKvdkME5NSEWsvr+XycOYt34YGH9R35QSh9ivt/bAwdnKL8vNxWlWxHJ14dN5t+ihOsAh49oO7TQ==",
+      "sha512": "jLTbyTFdG4L9db48RIAtI/cacVZ1nATqN9CGNAdos+BaWgkxovsG9MpiouFjmriFgzZXd3Ga4FO7gV11tNfJCQ==",
       "type": "package",
       "path": "awssdk.sqs/3.3.3.49",
+      "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",

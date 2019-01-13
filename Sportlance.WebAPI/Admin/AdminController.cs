@@ -16,7 +16,7 @@ namespace Sportlance.WebAPI.Admin
 
         public AdminController(IConfiguration configuration, 
             IHostingEnvironment currentEnvironment,
-            IAmazonS3 amazon,)
+            IAmazonS3 amazon)
         {
             _currentEnvironment = currentEnvironment;
             _configuration = configuration;
