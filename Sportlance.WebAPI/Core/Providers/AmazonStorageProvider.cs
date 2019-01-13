@@ -20,8 +20,6 @@ namespace Sportlance.WebAPI.Core.Providers
 
         public async Task InitializeAsync()
         {
-//            try
-//            {
             if (!await _client.DoesS3BucketExistAsync(_bucketName))
             {
                 var putBucketRequest = new PutBucketRequest
@@ -32,22 +30,10 @@ namespace Sportlance.WebAPI.Core.Providers
 
                 await _client.PutBucketAsync(putBucketRequest);
             }
-
-//            }
-//            catch (AmazonS3Exception e)
-//            {
-//                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-//            }
-//            catch (Exception e)
-//            {
-//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-//            }
         }
 
         public async Task<AzureFile> DowndloadAsync(string fileName)
         {
-//            try
-//            {
             var request = new GetObjectRequest
             {
                 BucketName = _bucketName,
@@ -59,23 +45,10 @@ namespace Sportlance.WebAPI.Core.Providers
                 await response.ResponseStream.CopyToAsync(stream);
                 return new AzureFile(fileName, stream.ToArray());
             }
-//            }
-//            catch (AmazonS3Exception e)
-//            {
-//                Console.WriteLine("Error encountered ***. Message:'{0}' when writing an object", e.Message);
-//            }
-//            catch (Exception e)
-//            {
-//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-//            }
-
-            return null;
         }
 
         public async Task<string> UploadAndGetUriAsync(string fileName, AzureFile file)
         {
-//            try
-//            {
             var fileTransferUtility = new TransferUtility(_client);
 
             using (var stream = new MemoryStream(file.Data))
@@ -99,23 +72,10 @@ namespace Sportlance.WebAPI.Core.Providers
                 Expires = DateTime.UtcNow
             };
             return _client.GetPreSignedURL(request).Split('?')[0];
-//            }
-//            catch (AmazonS3Exception e)
-//            {
-//                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-//            }
-//            catch (Exception e)
-//            {
-//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-//            }
-
-            return null;
         }
 
         public async Task DeleteAsync(string fileName)
         {
-//            try
-//            {
             var deleteObjectRequest = new DeleteObjectRequest
             {
                 BucketName = _bucketName,
@@ -123,15 +83,6 @@ namespace Sportlance.WebAPI.Core.Providers
             };
 
             await _client.DeleteObjectAsync(deleteObjectRequest);
-//            }
-//            catch (AmazonS3Exception e)
-//            {
-//                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-//            }
-//            catch (Exception e)
-//            {
-//                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-//            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Amazon.S3;
+using Amazon.SQS;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -23,6 +24,7 @@ using Sportlance.WebAPI.Teams;
 using Sportlance.WebAPI.Trainers;
 using Sportlance.WebAPI.Sports;
 using Sportlance.WebAPI.Users;
+using Sportlance.Common.Providers;
 
 namespace Sportlance.WebAPI
 {
@@ -98,6 +100,8 @@ namespace Sportlance.WebAPI
             services.AddSingleton(InitializeTeamsStorageProvider);
             services.AddSingleton(InitializeTeamPhotosStorageProvider);
             services.AddSingleton(InitializeUsersStorageProvider);
+            
+            services.AddSingleton(InitializeAmazonQueueProvider);
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
@@ -168,6 +172,13 @@ namespace Sportlance.WebAPI
         private UsersStorageProvider InitializeUsersStorageProvider(IServiceProvider serviceProvider)
         {
             var storageProvider = new UsersStorageProvider(serviceProvider.GetService<IAmazonS3>());
+            storageProvider.InitializeAsync().Wait();
+            return storageProvider;
+        }
+
+        private AmazonQueueProvider InitializeAmazonQueueProvider(IServiceProvider serviceProvider)
+        {
+            var storageProvider = new AmazonQueueProvider("mail-queue");
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }

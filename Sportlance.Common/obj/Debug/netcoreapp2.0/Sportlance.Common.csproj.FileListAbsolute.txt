@@ -1,0 +1,9 @@
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\bin\Debug\netcoreapp2.0\Sportlance.Common.deps.json
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\bin\Debug\netcoreapp2.0\Sportlance.Common.dll
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\bin\Debug\netcoreapp2.0\Sportlance.Common.pdb
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\obj\Debug\netcoreapp2.0\Sportlance.Common.csprojAssemblyReference.cache
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\obj\Debug\netcoreapp2.0\Sportlance.Common.csproj.CoreCompileInputs.cache
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\obj\Debug\netcoreapp2.0\Sportlance.Common.AssemblyInfoInputs.cache
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\obj\Debug\netcoreapp2.0\Sportlance.Common.AssemblyInfo.cs
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\obj\Debug\netcoreapp2.0\Sportlance.Common.dll
+C:\Users\Max89701\Documents\Visual Studio 2017\Projects\sp\Sportlance.Common\obj\Debug\netcoreapp2.0\Sportlance.Common.pdb

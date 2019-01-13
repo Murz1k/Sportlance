@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.KeyVault.Models;
+using Sportlance.Common.Providers;
 using Sportlance.WebAPI.Authentication.Requests;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core.Errors;
@@ -24,6 +25,7 @@ namespace Sportlance.WebAPI.Authentication
         private readonly IMailService _mailService;
         private readonly MailTokenService _mailTokenService;
         private readonly IUserService _userService;
+        private readonly AmazonQueueProvider _queueProvider;
 
         private long UserId => HttpContext
             .User.GetUserId();
@@ -32,13 +34,15 @@ namespace Sportlance.WebAPI.Authentication
             IUserService userService,
             IMailService mailService,
             MailTokenService mailTokenService,
-            IAuthService authService
+            IAuthService authService,
+            AmazonQueueProvider queueProvider
         )
         {
             _userService = userService;
             _mailService = mailService;
             _mailTokenService = mailTokenService;
             _authService = authService;
+            _queueProvider = queueProvider;
         }
 
 //        Зашел на сайт
@@ -80,6 +84,7 @@ namespace Sportlance.WebAPI.Authentication
             user.FirstName = request.FirstName;
             user.LastName = request.SecondName;
             user.Email = request.Email;
+
             await _userService.SaveChangesAsync();
 
             return new LoginResponse
@@ -142,15 +147,10 @@ namespace Sportlance.WebAPI.Authentication
             await _userService.AddAsync(user);
 
             // Здесь нужна очередь отдельная а не вот это вот
-            
-            try
-            {
-                await _mailService.SendConfirmRegistration(user.Id, user.Email);
-            }
-            catch (Exception e)
-            {
-                throw new AppErrorException(new AppError(ErrorCode.ServerError, e.Message));
-            }
+
+            await _queueProvider.SendMessageAsync($"{user.Id}, {user.Email}");
+
+//            await _mailService.SendConfirmRegistration(user.Id, user.Email);
 
             return new LoginResponse
             {
@@ -207,8 +207,10 @@ namespace Sportlance.WebAPI.Authentication
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
 
             // Здесь нужна очередь отдельная а не вот это вот
+            
+            await _queueProvider.SendMessageAsync($"{user.Id}, {user.Email}");
 
-            await _mailService.SendConfirmRegistration(user.Id, user.Email);
+//            await _mailService.SendConfirmRegistration(user.Id, user.Email);
         }
 
         [HttpPost("password")]
@@ -221,8 +223,9 @@ namespace Sportlance.WebAPI.Authentication
             var refreshToken = _authService.GenerateRefreshToken(user);
 
             // Здесь нужна очередь отдельная а не вот это вот
+            await _queueProvider.SendMessageAsync($"{accessToken},{refreshToken},{user.Email}");
 
-            await _mailService.SendChangePassword(accessToken, refreshToken, user.Email);
+//            await _mailService.SendChangePassword(accessToken, refreshToken, user.Email);
         }
 
         [Authorize]
@@ -255,8 +258,9 @@ namespace Sportlance.WebAPI.Authentication
                 throw new AppErrorException(ErrorCode.IncorrectValidation);
 
             // Здесь нужна очередь отдельная а не вот это вот
+            await _queueProvider.SendMessageAsync($"{user.Email},{data.NewEmail}");
 
-            await _mailService.SendUpdateEmail(user.Email, data.NewEmail);
+//            await _mailService.SendUpdateEmail(user.Email, data.NewEmail);
 
             return new LoginResponse
             {
