@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v2.0": {
       "Sportlance.Common/1.0.0": {
         "dependencies": {
-          "AWSSDK.SQS": "3.3.3.49"
+          "AWSSDK.SQS": "3.3.3.49",
+          "Newtonsoft.Json": "10.0.0.0"
         },
         "runtime": {
           "Sportlance.Common.dll": {}
@@ -599,6 +600,14 @@
         "dependencies": {
           "System.Runtime": "4.1.0"
         }
+      },
+      "Newtonsoft.Json/10.0.0.0": {
+        "runtime": {
+          "Newtonsoft.Json.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.2.20802"
+          }
+        }
       }
     }
   },
@@ -957,6 +966,11 @@
       "sha512": "sha512-74ONIIesv8zvZ3mkHC0JBlimCPlFMDlAx8npj0fPPf7XUXonFWGbxPLGx7wl1sV0HMXZ7U1W6vTYREEnstLTwQ==",
       "path": "system.threading.thread/4.0.0",
       "hashPath": "system.threading.thread.4.0.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/10.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

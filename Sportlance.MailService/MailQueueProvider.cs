@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Amazon.SQS.Model;
+using Microsoft.AspNetCore.Hosting;
+using Sportlance.Common.Models;
 using Sportlance.Common.Providers;
+using Sportlance.Common.Extensions;
 
 namespace Sportlance.MailService
 {
@@ -8,7 +14,7 @@ namespace Sportlance.MailService
     {
         private readonly IService _service;
 
-        public MailQueueProvider(IService service) : base("mail-queue")
+        public MailQueueProvider(IService service, IHostingEnvironment env) : base($"sportlance-{env.ShortEnvironment()}-mail-queue")
         {
             _service = service;
         }
@@ -18,25 +24,52 @@ namespace Sportlance.MailService
             while (true)
             {
                 var messages = await ReceiveMessagesAsync();
-                if (messages.Count > 0)
-                {
-                    foreach (var message in messages)
-                    {
-                        try
-                        {
-                            var body = message.Body;
-                            var userId = long.Parse(body.Split(',')[0]);
-                            var email = body.Split(',')[1];
-                            await _service.SendConfirmRegistration(userId, email);
-                            await DeleteMessageAsync(message);
-                        }
-                        catch (Exception e)
-                        {
+                if (messages.Count <= 0) continue;
+                DeleteDublicates(messages);
 
+                foreach (var message in messages)
+                {
+                    try
+                    {
+                        var jsonObject = QueueEmailModel.FromJson(message.Body);
+                        switch (jsonObject.Type)
+                        {
+                            default:
+                                var model1 = (ConfirmRegisterEmailModel) jsonObject;
+                                await _service.SendConfirmRegistration(model1.UserId, model1.Email);
+                                break;
+                            case QueueEmailTypeEnum.ConfirmRegister:
+                                model1 = (ConfirmRegisterEmailModel) jsonObject;
+                                await _service.SendConfirmRegistration(model1.UserId, model1.Email);
+                                break;
+                            case QueueEmailTypeEnum.ChangeEmail:
+                                var model2 = (ChangeEmailEmailModel) jsonObject;
+                                await _service.SendUpdateEmail(model2.OldEmail, model2.NewEmail);
+                                break;
+                            case QueueEmailTypeEnum.ChangePassword:
+                                var model3 = (ChangePasswordModel) jsonObject;
+                                await _service.SendChangePassword(model3.AccessToken, model3.RereshToken, model3.Email);
+                                break;
                         }
+                            
+                        await DeleteMessageAsync(message);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
                     }
                 }
             }
+        }
+
+        private static void DeleteDublicates(List<Message> messages)
+        {
+            var distinctMessages = messages
+                .GroupBy(m => m.Body)
+                .Select(g => g.First())
+                .ToList();
+
+            messages = distinctMessages;
         }
     }
 }

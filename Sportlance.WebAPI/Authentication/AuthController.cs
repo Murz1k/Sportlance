@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.KeyVault.Models;
+using Sportlance.Common.Models;
 using Sportlance.Common.Providers;
 using Sportlance.WebAPI.Authentication.Requests;
 using Sportlance.WebAPI.Authentication.Responses;
@@ -143,9 +144,9 @@ namespace Sportlance.WebAPI.Authentication
 
             await _userService.AddAsync(user);
 
-            // Здесь нужна очередь отдельная а не вот это вот
+            var model = new ConfirmRegisterEmailModel {UserId = user.Id, Email = user.Email};
 
-            await _queueProvider.SendMessageAsync($"{user.Id}, {user.Email}");
+            await _queueProvider.SendMessageAsync(model.ToJson());
 
             return new LoginResponse
             {
@@ -201,8 +202,9 @@ namespace Sportlance.WebAPI.Authentication
             if (user.IsEmailConfirm)
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
 
-            
-            await _queueProvider.SendMessageAsync($"{user.Id}, {user.Email}");
+            var model = new ConfirmRegisterEmailModel {UserId = user.Id, Email = user.Email};
+
+            await _queueProvider.SendMessageAsync(model.ToJson());
         }
 
         [HttpPost("password")]
@@ -214,7 +216,9 @@ namespace Sportlance.WebAPI.Authentication
             var accessToken = _authService.GenerateAccessToken(user);
             var refreshToken = _authService.GenerateRefreshToken(user);
 
-            await _queueProvider.SendMessageAsync($"{accessToken},{refreshToken},{user.Email}");
+            var model = new ChangePasswordModel {AccessToken = accessToken, RereshToken = refreshToken, Email = user.Email};
+
+            await _queueProvider.SendMessageAsync(model.ToJson());
         }
 
         [Authorize]
@@ -246,7 +250,9 @@ namespace Sportlance.WebAPI.Authentication
             if (!HashUtils.CheckHash(user.PasswordHash, data.Password))
                 throw new AppErrorException(ErrorCode.IncorrectValidation);
 
-            await _queueProvider.SendMessageAsync($"{user.Email},{data.NewEmail}");
+            var model = new ChangeEmailEmailModel {OldEmail = user.Email, NewEmail = data.NewEmail};
+
+            await _queueProvider.SendMessageAsync(model.ToJson());
 
             return new LoginResponse
             {

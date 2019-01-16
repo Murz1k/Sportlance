@@ -30,6 +30,10 @@
   "frameworks": {
     "netcoreapp2.2": {
       "dependencies": {
+        "AWS.Logger.AspNetCore": {
+          "target": "Package",
+          "version": "[1.4.1, )"
+        },
         "AWSSDK.Extensions.NETCore.Setup": {
           "target": "Package",
           "version": "[3.3.6, )"
@@ -43,6 +47,10 @@
           "target": "Package",
           "version": "[2.2.0, )",
           "autoReferenced": true
+        },
+        "Microsoft.AspNetCore.Hosting.WindowsServices": {
+          "target": "Package",
+          "version": "[2.2.0, )"
         },
         "Microsoft.AspNetCore.Razor.Design": {
           "suppressParent": "All",

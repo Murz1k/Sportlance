@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Sportlance.Common;
 
 namespace Sportlance.WebAPI
 {
@@ -7,10 +8,15 @@ namespace Sportlance.WebAPI
     {
         public static void Main(string[] args)
         {
-            WebHost.CreateDefaultBuilder(args)
-                .UseSetting("detailedErrors", "true")
-                .UseStartup<Startup>()
-                .CaptureStartupErrors(true)
+            var builder = WebHost.CreateDefaultBuilder(args);
+
+            if (AspNetCoreEnvironment.IsLocal())
+            {
+                builder.UseSetting("detailedErrors", "true");
+                builder.CaptureStartupErrors(true);
+            }
+
+            builder.UseStartup<Startup>()
                 .Build()
                 .Run();
         }

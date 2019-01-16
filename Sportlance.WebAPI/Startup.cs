@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Sportlance.Common.Extensions;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Core.ExceptionHandler;
@@ -107,7 +108,6 @@ namespace Sportlance.WebAPI
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<ITeamService, TeamsService>();
             services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IMailService, MailService>();
             services.AddTransient<MailTokenService, MailTokenService>();
         }
 
@@ -115,16 +115,17 @@ namespace Sportlance.WebAPI
         {
             var sp = services.BuildServiceProvider();
             var siteOptions = sp.GetService<SiteOptions>();
-            var url = siteOptions.Root;
-            
-            if (!_currentEnvironment.IsProduction())
-            {
-                url = "*";
-            }
-
             var corsPolicyBuilder = new CorsPolicyBuilder();
-            corsPolicyBuilder.WithOrigins(url);
-//            corsPolicyBuilder.AllowAnyOrigin();
+            
+            if (_currentEnvironment.IsLocal())
+            {
+                corsPolicyBuilder.AllowAnyOrigin();
+            }
+            else
+            {
+                corsPolicyBuilder.WithOrigins(siteOptions.Root);
+            }
+            
             corsPolicyBuilder.AllowAnyHeader();
             corsPolicyBuilder.AllowAnyMethod();
             corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
@@ -136,7 +137,7 @@ namespace Sportlance.WebAPI
 
         public void Configure(IApplicationBuilder app)
         {
-            if (_currentEnvironment.IsDevelopment())
+            if (_currentEnvironment.IsLocal())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -148,35 +149,35 @@ namespace Sportlance.WebAPI
 
         private TeamPhotosStorageProvider InitializeTeamPhotosStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TeamPhotosStorageProvider(serviceProvider.GetService<IAmazonS3>());
+            var storageProvider = new TeamPhotosStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private TrainersStorageProvider InitializeTrainersStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TrainersStorageProvider(serviceProvider.GetService<IAmazonS3>());
+            var storageProvider = new TrainersStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private TeamsStorageProvider InitializeTeamsStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TeamsStorageProvider(serviceProvider.GetService<IAmazonS3>());
+            var storageProvider = new TeamsStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private UsersStorageProvider InitializeUsersStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new UsersStorageProvider(serviceProvider.GetService<IAmazonS3>());
+            var storageProvider = new UsersStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private AmazonQueueProvider InitializeAmazonQueueProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new AmazonQueueProvider("mail-queue");
+            var storageProvider = new AmazonQueueProvider($"sportlance-{_currentEnvironment.ShortEnvironment()}-mail-queue");
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }

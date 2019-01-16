@@ -4,8 +4,10 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using Sportlance.Common.Extensions;
 
 namespace Sportlance.MailService
 {
@@ -17,12 +19,15 @@ namespace Sportlance.MailService
         private readonly SiteUrls _siteUrls;
         private readonly SmtpOptions _smtpOptions;
         private readonly string _root;
+        //private readonly ILogger _logger;
 
         public Service(IAmazonS3 s3Client,
             IOptions<SmtpOptions> smtpOptions,
             IOptions<SiteOptions> frontendOptions,
             TokenService mailTokenService,
-            IHostingEnvironment env)
+            IHostingEnvironment env
+            //,ILogger logger
+        )
         {
             _mailTokenService = mailTokenService;
             _env = env;
@@ -30,13 +35,14 @@ namespace Sportlance.MailService
             _smtpOptions = smtpOptions.Value;
             _siteUrls = new SiteUrls(frontendOptions.Value.Root);
             _root = frontendOptions.Value.Root;
+            //_logger = logger;
         }
 
         public async Task<string> SendConfirmRegistration(long userId, string email)
         {
             var token = _mailTokenService.EncryptToken(email);
 
-            var template = _env.IsDevelopment()
+            var template = _env.IsLocal()
                     ? await ReadEmailTemplate("confirm-registration-mail.html")
                     : await ReadEmailTemplateFromS3("confirm-registration-mail.html")
                 ;
@@ -47,12 +53,14 @@ namespace Sportlance.MailService
 
             await SendMessage(email, "Подтверждение регистрации", template);
 
+            //_logger.LogInformation($"Отправка письма подтверждения регистрации: UserId: {userId}, Email: {email}");
+
             return token;
         }
 
         public async Task SendChangePassword(string accessToken, string refreshToken, string email)
         {
-            var template = _env.IsDevelopment()
+            var template = _env.IsLocal()
                     ? await ReadEmailTemplate("change-password-mail.html")
                     : await ReadEmailTemplateFromS3("change-password-mail.html")
                 ;
@@ -67,7 +75,7 @@ namespace Sportlance.MailService
         {
             var token = _mailTokenService.EncryptToken(newEmail);
 
-            var template = _env.IsDevelopment()
+            var template = _env.IsLocal()
                     ? await ReadEmailTemplate("update-email-mail.html")
                     : await ReadEmailTemplateFromS3("update-email-mail.html")
                 ;

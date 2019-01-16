@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
+using Sportlance.Common;
 
 namespace Sportlance.MailService
 {
@@ -7,12 +9,24 @@ namespace Sportlance.MailService
     {
         public static void Main(string[] args)
         {
-            WebHost.CreateDefaultBuilder(args)
-                .UseSetting("detailedErrors", "true")
-                .UseStartup<Startup>()
-                .CaptureStartupErrors(true)
-                .Build()
-                .Run();
+            var builder = WebHost.CreateDefaultBuilder(args);
+            
+            if (AspNetCoreEnvironment.IsLocal())
+            {
+                builder.UseSetting("detailedErrors", "true");
+                builder.CaptureStartupErrors(true);
+            }
+
+            var build = builder.UseStartup<Startup>().Build();
+
+            if (AspNetCoreEnvironment.IsProduction())
+            {
+                build.RunAsService();
+            }
+            else
+            {
+                build.Run();
+            }
         }
     }
 }

@@ -30,6 +30,10 @@
           "target": "Package",
           "version": "[3.3.3.49, )"
         },
+        "Microsoft.AspNetCore.Hosting": {
+          "target": "Package",
+          "version": "[2.2.0, )"
+        },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",

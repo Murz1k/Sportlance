@@ -45,8 +45,16 @@ namespace Sportlance.Common.Providers
                 QueueName = _queueName
             };
 
-            GetQueueUrlResponse response = await _sqsClient.GetQueueUrlAsync(request);
-            return response?.QueueUrl;
+            try
+            {
+                GetQueueUrlResponse response = await _sqsClient.GetQueueUrlAsync(request);
+
+                return response.QueueUrl;
+            }
+            catch (QueueDoesNotExistException)
+            {
+                return null;
+            }
         }
 
         public async Task SendMessageAsync(string message)

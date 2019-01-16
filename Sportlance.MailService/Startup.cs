@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Sportlance.Common.Extensions;
 using Sportlance.Common.Providers;
 
 namespace Sportlance.MailService
@@ -29,7 +31,7 @@ namespace Sportlance.MailService
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
             services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
             services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
 
@@ -49,22 +51,27 @@ namespace Sportlance.MailService
             services.AddDataProtection();
             var sp = services.BuildServiceProvider();
 
+//            services.AddMvc(options =>
+//            {
+//                options.Filters.Add(new ErrorHandlingFilter(sp.GetService<ILogger>()));
+//            });
+
             var service = sp.GetService<MailQueueProvider>();
             Task.Run(() => service.CheckMessagesAsync());
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            if (env.IsDevelopment())
+            if (_currentEnvironment.IsLocal())
             {
                 app.UseDeveloperExceptionPage();
             }
+            loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
         }
-
 
         private MailQueueProvider InitializeMailQueueProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new MailQueueProvider(serviceProvider.GetService<IService>());
+            var storageProvider = new MailQueueProvider(serviceProvider.GetService<IService>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
