@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Models;
 
 namespace Sportlance.WebAPI.Core.ExceptionHandler
 {

@@ -119,7 +119,8 @@ namespace Sportlance.WebAPI
             
             if (_currentEnvironment.IsLocal())
             {
-                corsPolicyBuilder.AllowAnyOrigin();
+                //corsPolicyBuilder.AllowAnyOrigin();
+                corsPolicyBuilder.WithOrigins("*");
             }
             else
             {

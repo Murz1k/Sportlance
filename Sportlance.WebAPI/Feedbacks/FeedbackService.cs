@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 

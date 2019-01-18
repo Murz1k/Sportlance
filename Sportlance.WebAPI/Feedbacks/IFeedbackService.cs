@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 

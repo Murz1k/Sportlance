@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Sportlance.WebAPI.Core.Errors;
+using Sportlance.Common.Errors;
 
 namespace Sportlance.WebAPI.Core.Validation
 {

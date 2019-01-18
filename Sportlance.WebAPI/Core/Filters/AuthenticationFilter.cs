@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Sportlance.Common.Extensions;
 using Sportlance.WebAPI.Authentication;
-using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Users;
 
 namespace Sportlance.WebAPI.Core.Filters

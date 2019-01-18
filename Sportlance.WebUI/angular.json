@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sportlance.web-ui": {
+    "sportlance": {
       "root": "",
       "sourceRoot": "src",
       "prefix": "sl",
@@ -49,18 +49,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sportlance.web-ui:build"
+            "browserTarget": "sportlance:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "sportlance.web-ui:build:production"
+              "browserTarget": "sportlance:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sportlance.web-ui:build"
+            "browserTarget": "sportlance:build"
           }
         },
         "lint": {
@@ -78,7 +78,7 @@
       }
     }
   },
-  "defaultProject": "sportlance.web-ui",
+  "defaultProject": "sportlance",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "sl",

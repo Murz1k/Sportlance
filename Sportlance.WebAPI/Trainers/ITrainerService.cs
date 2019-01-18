@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
@@ -18,7 +19,7 @@ namespace Sportlance.WebAPI.Trainers
 
         Task UpdateAboutAsync(long trainerId, string about);
 
-        Task UpdateBackgroundImageAsync(long trainerId, AzureFile photo);
+        Task UpdateBackgroundImageAsync(long trainerId, StorageFile photo);
 
         Task UpdatePriceAsync(long trainerId, double price);
 

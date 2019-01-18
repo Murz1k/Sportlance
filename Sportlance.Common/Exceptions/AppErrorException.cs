@@ -1,7 +1,7 @@
 ﻿using System;
-using Sportlance.WebAPI.Core.Errors;
+using Sportlance.Common.Errors;
 
-namespace Sportlance.WebAPI.Core.Exceptions
+namespace Sportlance.Common.Exceptions
 {
     public class AppErrorException : Exception
     {

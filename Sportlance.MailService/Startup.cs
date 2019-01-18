@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Sportlance.Common.Extensions;
-using Sportlance.Common.Providers;
 
 namespace Sportlance.MailService
 {
@@ -66,7 +65,6 @@ namespace Sportlance.MailService
             {
                 app.UseDeveloperExceptionPage();
             }
-            loggerFactory.AddAWSProvider(Configuration.GetAWSLoggingConfigSection());
         }
 
         private MailQueueProvider InitializeMailQueueProvider(IServiceProvider serviceProvider)

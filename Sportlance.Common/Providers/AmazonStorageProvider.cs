@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
+using Sportlance.Common.Models;
 
-namespace Sportlance.WebAPI.Core.Providers
+namespace Sportlance.Common.Providers
 {
     public class AmazonStorageProvider : IStorageProvider
     {
@@ -14,7 +15,7 @@ namespace Sportlance.WebAPI.Core.Providers
 
         protected AmazonStorageProvider(IAmazonS3 client, string bucketName)
         {
-            _bucketName = bucketName;
+            _bucketName = bucketName.ToLower();
             _client = client;
         }
 
@@ -32,7 +33,7 @@ namespace Sportlance.WebAPI.Core.Providers
             }
         }
 
-        public async Task<AzureFile> DowndloadAsync(string fileName)
+        public async Task<StorageFile> DowndloadAsync(string fileName)
         {
             var request = new GetObjectRequest
             {
@@ -43,11 +44,11 @@ namespace Sportlance.WebAPI.Core.Providers
             using (var stream = new MemoryStream())
             {
                 await response.ResponseStream.CopyToAsync(stream);
-                return new AzureFile(fileName, stream.ToArray());
+                return new StorageFile(fileName, stream.ToArray());
             }
         }
 
-        public async Task<string> UploadAndGetUriAsync(string fileName, AzureFile file)
+        public async Task<string> UploadAndGetUriAsync(string fileName, StorageFile file)
         {
             var fileTransferUtility = new TransferUtility(_client);
 

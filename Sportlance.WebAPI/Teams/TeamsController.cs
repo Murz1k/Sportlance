@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Extensions;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
-using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Teams.Requests;
@@ -56,7 +57,7 @@ namespace Sportlance.WebAPI.Teams
         [HttpPost("{teamId}/photos")]
         public async Task<IActionResult> AddPhotoAsync(long teamId, [FromForm] IFormFile photo)
         {
-            await _service.AddPhotoAsync(teamId, photo.ToAzureFile());
+            await _service.AddPhotoAsync(teamId, photo.ToStorageFile());
             return NoContent();
         }
         
@@ -96,7 +97,7 @@ namespace Sportlance.WebAPI.Teams
                 request.City,
                 request.About,
                 request.PhoneNumber,
-                request.Photo?.ToAzureFile());
+                request.Photo?.ToStorageFile());
 
             return NoContent();
         }
@@ -149,7 +150,7 @@ namespace Sportlance.WebAPI.Teams
             if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
                 throw new AppErrorException(ErrorCode.ServerError);
 
-            await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToAzureFile());
+            await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToStorageFile());
             return NoContent();
         }
 
@@ -160,7 +161,7 @@ namespace Sportlance.WebAPI.Teams
             if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
                 throw new AppErrorException(ErrorCode.ServerError);
 
-            await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToAzureFile());
+            await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToStorageFile());
             return NoContent();
         }
     }

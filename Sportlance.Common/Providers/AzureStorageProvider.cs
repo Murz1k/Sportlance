@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Sportlance.Common.Models;
 
-namespace Sportlance.WebAPI.Core
+namespace Sportlance.Common.Providers
 {
     public abstract class AzureStorageProvider : IStorageProvider
     {
@@ -32,7 +33,7 @@ namespace Sportlance.WebAPI.Core
             await container.SetPermissionsAsync(permissions);
         }
 
-        public async Task<AzureFile> DowndloadAsync(string fileName)
+        public async Task<StorageFile> DowndloadAsync(string fileName)
         {
             var blockBlob = _client.GetContainerReference(_containerName).GetBlockBlobReference(fileName);
             if (!await blockBlob.ExistsAsync())
@@ -43,11 +44,11 @@ namespace Sportlance.WebAPI.Core
             using (var stream = new MemoryStream())
             {
                 await blockBlob.DownloadToStreamAsync(stream);
-                return new AzureFile(fileName, stream.ToArray());
+                return new StorageFile(fileName, stream.ToArray());
             }
         }
 
-        public async Task<string> UploadAndGetUriAsync(string fileName, AzureFile file)
+        public async Task<string> UploadAndGetUriAsync(string fileName, StorageFile file)
         {
             var blockBlob = _client.GetContainerReference(_containerName).GetBlockBlobReference(fileName);
             await blockBlob.DeleteIfExistsAsync();

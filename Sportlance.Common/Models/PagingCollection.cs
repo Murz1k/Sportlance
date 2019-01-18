@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sportlance.WebAPI.Core
+namespace Sportlance.Common.Models
 {
     public class PagingCollection<TEntity> : List<TEntity> where TEntity : class
     {

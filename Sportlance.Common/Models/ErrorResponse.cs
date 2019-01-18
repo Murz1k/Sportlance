@@ -1,6 +1,6 @@
-﻿using Sportlance.WebAPI.Core.Errors;
+﻿using Sportlance.Common.Errors;
 
-namespace Sportlance.WebAPI.Core
+namespace Sportlance.Common.Models
 {
     public class ErrorResponse
     {

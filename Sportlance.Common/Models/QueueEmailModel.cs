@@ -14,16 +14,16 @@ namespace Sportlance.Common.Models
         public static QueueEmailModel FromJson(string json)
         {
             dynamic obj = JsonConvert.DeserializeObject(json);
-            switch (obj.Type)
+            switch ((QueueEmailTypeEnum)obj.Type)
             {
-                default:
-                    return JsonConvert.DeserializeObject<ConfirmRegisterEmailModel>(json);
                 case QueueEmailTypeEnum.ConfirmRegister:
                     return JsonConvert.DeserializeObject<ConfirmRegisterEmailModel>(json);
                 case QueueEmailTypeEnum.ChangeEmail:
                     return JsonConvert.DeserializeObject<ChangeEmailEmailModel>(json);
                 case QueueEmailTypeEnum.ChangePassword:
                     return JsonConvert.DeserializeObject<ChangePasswordModel>(json);
+                default:
+                    return null;
             }
         }
     }

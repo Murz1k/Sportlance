@@ -13,7 +13,7 @@ namespace Sportlance.Common.Providers
 
         public AmazonQueueProvider(string queueName)
         {
-            _queueName = queueName;
+            _queueName = queueName.ToLower();
         }
 
         public async Task InitializeAsync()

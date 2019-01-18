@@ -34,12 +34,8 @@ namespace Sportlance.MailService
                         var jsonObject = QueueEmailModel.FromJson(message.Body);
                         switch (jsonObject.Type)
                         {
-                            default:
-                                var model1 = (ConfirmRegisterEmailModel) jsonObject;
-                                await _service.SendConfirmRegistration(model1.UserId, model1.Email);
-                                break;
                             case QueueEmailTypeEnum.ConfirmRegister:
-                                model1 = (ConfirmRegisterEmailModel) jsonObject;
+                                var model1 = (ConfirmRegisterEmailModel) jsonObject;
                                 await _service.SendConfirmRegistration(model1.UserId, model1.Email);
                                 break;
                             case QueueEmailTypeEnum.ChangeEmail:
@@ -49,6 +45,10 @@ namespace Sportlance.MailService
                             case QueueEmailTypeEnum.ChangePassword:
                                 var model3 = (ChangePasswordModel) jsonObject;
                                 await _service.SendChangePassword(model3.AccessToken, model3.RereshToken, model3.Email);
+                                break;
+                            default:
+                                model1 = (ConfirmRegisterEmailModel)jsonObject;
+                                await _service.SendConfirmRegistration(model1.UserId, model1.Email);
                                 break;
                         }
                             

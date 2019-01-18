@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Sportlance.WebAPI.Core
+namespace Sportlance.Common.Extensions
 {
     public static class ServiceCollectionExtensions
     {

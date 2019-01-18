@@ -1,10 +1,10 @@
 ﻿using System.IO;
 
-namespace Sportlance.WebAPI.Core
+namespace Sportlance.Common.Models
 {
-    public class AzureFile
+    public class StorageFile
     {
-        public AzureFile(string fileName, byte[] data)
+        public StorageFile(string fileName, byte[] data)
         {
             Data = data;
             FileName = fileName;

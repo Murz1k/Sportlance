@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
@@ -9,7 +10,7 @@ namespace Sportlance.WebAPI.Teams
         Task<PagingCollection<TeamListItem>> GetAsync(TeamQuery query, long? userId = null);
 
         Task AddAsync(long authorId, string title, string subTitle, string country, string city, string about,
-            string phoneNumber, AzureFile photo);
+            string phoneNumber, StorageFile photo);
 
         Task UpdateAboutAsync(long teamId, string about);
 
@@ -17,11 +18,11 @@ namespace Sportlance.WebAPI.Teams
 
         Task<TeamProfile> GetByAuthorId(long userId);
 
-        Task UpdateMainPhotoAsync(long teamId, AzureFile photo);
+        Task UpdateMainPhotoAsync(long teamId, StorageFile photo);
 
-        Task UpdateBackgroundImageAsync(long teamId, AzureFile photo);
+        Task UpdateBackgroundImageAsync(long teamId, StorageFile photo);
 
-        Task AddPhotoAsync(long teamId, AzureFile photo);
+        Task AddPhotoAsync(long teamId, StorageFile photo);
 
         Task DeletePhotoAsync(long teamId, long photoId);
 

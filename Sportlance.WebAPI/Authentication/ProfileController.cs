@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Extensions;
 using Sportlance.WebAPI.Authentication.Responses;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
-using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Users;
 
 namespace Sportlance.WebAPI.Authentication

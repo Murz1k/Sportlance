@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sportlance.WebAPI.Core
+namespace Sportlance.Common.Models
 {
     public class CollectionResponse<T> where T : new()
     {

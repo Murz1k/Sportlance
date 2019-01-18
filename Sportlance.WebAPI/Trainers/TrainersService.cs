@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Extensions;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Trainers
@@ -148,7 +150,7 @@ namespace Sportlance.WebAPI.Trainers
                 select trainerTeam).AnyAsync(i => i.TrainerId == trainerId);
         }
 
-        public async Task UpdateBackgroundImageAsync(long trainerId, AzureFile photo)
+        public async Task UpdateBackgroundImageAsync(long trainerId, StorageFile photo)
         {
             var photoName = $"trainer-{trainerId}/background";
             var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
