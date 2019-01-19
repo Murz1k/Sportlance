@@ -116,17 +116,9 @@ namespace Sportlance.WebAPI
             var sp = services.BuildServiceProvider();
             var siteOptions = sp.GetService<SiteOptions>();
             var corsPolicyBuilder = new CorsPolicyBuilder();
-            
-            if (_currentEnvironment.IsLocal())
-            {
-                //corsPolicyBuilder.AllowAnyOrigin();
-                corsPolicyBuilder.WithOrigins("*");
-            }
-            else
-            {
-                corsPolicyBuilder.WithOrigins(siteOptions.Root);
-            }
-            
+
+            corsPolicyBuilder.WithOrigins(siteOptions.Root);
+
             corsPolicyBuilder.AllowAnyHeader();
             corsPolicyBuilder.AllowAnyMethod();
             corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
