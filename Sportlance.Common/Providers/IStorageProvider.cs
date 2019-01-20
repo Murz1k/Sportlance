@@ -3,9 +3,8 @@ using Sportlance.Common.Models;
 
 namespace Sportlance.Common.Providers
 {
-    public interface IStorageProvider
+    public interface IStorageProvider : IProvier
     {
-        Task InitializeAsync();
         Task<StorageFile> DowndloadAsync(string fileName);
         Task<string> UploadAndGetUriAsync(string fileName, StorageFile file);
         Task DeleteAsync(string fileName);

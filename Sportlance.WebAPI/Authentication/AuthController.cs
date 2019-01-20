@@ -33,8 +33,8 @@ namespace Sportlance.WebAPI.Authentication
         public AuthController(
             IUserService userService,
             MailTokenService mailTokenService,
-            IAuthService authService,
-            AmazonQueueProvider queueProvider
+            IAuthService authService
+            ,AmazonQueueProvider queueProvider
         )
         {
             _userService = userService;

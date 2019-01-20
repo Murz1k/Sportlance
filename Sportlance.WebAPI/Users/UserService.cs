@@ -17,10 +17,12 @@ namespace Sportlance.WebAPI.Users
 
         private readonly UsersStorageProvider _usersStorageProvider;
 
-        public UserService(AppDbContext context, UsersStorageProvider usersStorageProvider)
+        public UserService(AppDbContext context
+//            , UsersStorageProvider usersStorageProvider
+        )
         {
             _appContext = context;
-            _usersStorageProvider = usersStorageProvider;
+//            _usersStorageProvider = usersStorageProvider;
         }
 
         public Task<User> GetByInviteLinkAsync(string inviteLink)

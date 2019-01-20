@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Amazon.S3;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -10,23 +8,20 @@ namespace Sportlance.WebAPI.Admin
     [Route("api/Admin")]
     public class AdminController : Controller
     {
-        private IHostingEnvironment _currentEnvironment;
-        private IConfiguration _configuration;
-        private IAmazonS3 _amazon;
+        private readonly IHostingEnvironment _currentEnvironment;
+        private readonly IConfiguration _configuration;
 
         public AdminController(IConfiguration configuration, 
-            IHostingEnvironment currentEnvironment,
-            IAmazonS3 amazon)
+            IHostingEnvironment currentEnvironment)
         {
             _currentEnvironment = currentEnvironment;
             _configuration = configuration;
-            _amazon = amazon;
         }
-        // GET: api/Admin
-        [HttpGet]
-        public Task<IActionResult> Get()
+        
+        [HttpGet("env")]
+        public IActionResult Get()
         {
-            return null;
+            return Ok(_currentEnvironment.EnvironmentName);
         }
 
         [HttpGet("config")]

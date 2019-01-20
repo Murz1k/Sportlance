@@ -1,6 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Amazon;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
 using Amazon.S3;
+using Amazon.SecurityToken.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +51,7 @@ namespace Sportlance.WebAPI
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{currentEnvironment.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
@@ -91,17 +99,10 @@ namespace Sportlance.WebAPI
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SQLDatabase")));
 
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-            services.AddAWSService<IAmazonS3>();
-
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton(InitializeTrainersStorageProvider);
-            services.AddSingleton(InitializeTeamsStorageProvider);
-            services.AddSingleton(InitializeTeamPhotosStorageProvider);
-            services.AddSingleton(InitializeUsersStorageProvider);
 
-            services.AddSingleton(InitializeAmazonQueueProvider);
+            ConfigureAmazonServices(services);
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
@@ -112,21 +113,44 @@ namespace Sportlance.WebAPI
             services.AddTransient<MailTokenService, MailTokenService>();
         }
 
+        private void ConfigureAmazonServices(IServiceCollection services)
+        {
+            var awsOptions = Configuration.GetAWSOptions();
+
+            // Это нужно для амазона, потому что там нельзя прописать дефолтный профиль
+            // В амазоне нужно в environments добавить эти ключи
+            if (!_currentEnvironment.IsLocal())
+            {
+                awsOptions.Credentials =
+                    new BasicAWSCredentials(Configuration["AWS:AccessKey"], Configuration["AWS:SecretKey"]);
+            }
+
+            services.AddDefaultAWSOptions(awsOptions);
+            services.AddAWSService<IAmazonS3>();
+
+            services.AddSingleton(InitializeTrainersStorageProvider);
+            services.AddSingleton(InitializeTeamsStorageProvider);
+            services.AddSingleton(InitializeTeamPhotosStorageProvider);
+            services.AddSingleton(InitializeUsersStorageProvider);
+
+            services.AddSingleton(InitializeAmazonQueueProvider);
+        }
+
         private void ConfigureCorsPolicy(IServiceCollection services)
         {
             var sp = services.BuildServiceProvider();
             var siteOptions = sp.GetService<SiteOptions>();
             var corsPolicyBuilder = new CorsPolicyBuilder();
 
-            //if (_currentEnvironment.IsProduction())
-            //{
-            //    corsPolicyBuilder.WithOrigins(siteOptions.Root);
-            //    corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
-            //}
-            //else
-            //{
-            corsPolicyBuilder.AllowAnyOrigin();
-            //}
+            if (_currentEnvironment.IsProduction())
+            {
+                corsPolicyBuilder.WithOrigins(siteOptions.Root);
+                corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
+            }
+            else
+            {
+                corsPolicyBuilder.AllowAnyOrigin();
+            }
 
             corsPolicyBuilder.AllowAnyHeader();
             //corsPolicyBuilder.WithMethods("GET","POST","PUT","DELETE");
@@ -151,35 +175,40 @@ namespace Sportlance.WebAPI
 
         private TeamPhotosStorageProvider InitializeTeamPhotosStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TeamPhotosStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
+            var storageProvider =
+                new TeamPhotosStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private TrainersStorageProvider InitializeTrainersStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TrainersStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
+            var storageProvider =
+                new TrainersStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private TeamsStorageProvider InitializeTeamsStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new TeamsStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
+            var storageProvider =
+                new TeamsStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private UsersStorageProvider InitializeUsersStorageProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new UsersStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
+            var storageProvider =
+                new UsersStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
         private AmazonQueueProvider InitializeAmazonQueueProvider(IServiceProvider serviceProvider)
         {
-            var storageProvider = new AmazonQueueProvider($"sportlance-{_currentEnvironment.ShortEnvironment()}-mail-queue");
+            var storageProvider =
+                new AmazonQueueProvider($"sportlance-{_currentEnvironment.ShortEnvironment()}-mail-queue");
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
