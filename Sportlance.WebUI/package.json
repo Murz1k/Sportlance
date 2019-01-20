@@ -1,6 +1,6 @@
 {
   "name": "sportlance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -9,13 +9,14 @@
     "build": "ng build --prod",
     "dev-deploy": "dev-aws-s3-deploy.bat",
     "dev-invalidate": "dev-aws-cloudfrond-invalidate.bat",
-    "deploy-prod": "npm run build & npm run prod-deploy & npm run prod-invalidate",
+    "deploy-dev": "ng build --configuration=development & npm run dev-deploy rd /S /Q dist",
+    "deploy-prod": "npm run build & npm run prod-deploy & npm run prod-invalidate rd /S /Q dist",
     "prod-deploy": "prod-aws-s3-deploy.bat",
     "prod-invalidate": "prod-aws-cloudfrond-invalidate.bat",
     "lint": "ng lint",
     "preversion": "ng build --configuration=development",
     "version": "npm run dev-deploy",
-    "postversion": ""
+    "postversion": "rd /S /Q dist"
   },
   "private": true,
   "dependencies": {

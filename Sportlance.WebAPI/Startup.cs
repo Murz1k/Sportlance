@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Sportlance.Common;
 using Sportlance.Common.Extensions;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
@@ -62,7 +63,7 @@ namespace Sportlance.WebAPI
                 options.Filters.Add(new AppErrorsExceptionFilter());
                 options.Filters.Add(new ModelStateFilter());
             });
-            
+
             JwtConfigure(services);
 
             services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
@@ -99,7 +100,7 @@ namespace Sportlance.WebAPI
             services.AddSingleton(InitializeTeamsStorageProvider);
             services.AddSingleton(InitializeTeamPhotosStorageProvider);
             services.AddSingleton(InitializeUsersStorageProvider);
-            
+
             services.AddSingleton(InitializeAmazonQueueProvider);
 
             services.AddTransient<IUserService, UserService>();
@@ -117,11 +118,19 @@ namespace Sportlance.WebAPI
             var siteOptions = sp.GetService<SiteOptions>();
             var corsPolicyBuilder = new CorsPolicyBuilder();
 
-            corsPolicyBuilder.WithOrigins(siteOptions.Root);
+            //if (_currentEnvironment.IsProduction())
+            //{
+            //    corsPolicyBuilder.WithOrigins(siteOptions.Root);
+            //    corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
+            //}
+            //else
+            //{
+            corsPolicyBuilder.AllowAnyOrigin();
+            //}
 
             corsPolicyBuilder.AllowAnyHeader();
+            //corsPolicyBuilder.WithMethods("GET","POST","PUT","DELETE");
             corsPolicyBuilder.AllowAnyMethod();
-            corsPolicyBuilder.WithExposedHeaders(Headers.XNewAuthToken);
             //    Constants.Headers.XNewRoles,
             corsPolicyBuilder.AllowCredentials();
 
