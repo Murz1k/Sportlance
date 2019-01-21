@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Users
@@ -16,10 +17,12 @@ namespace Sportlance.WebAPI.Users
 
         private readonly UsersStorageProvider _usersStorageProvider;
 
-        public UserService(AppDbContext context, UsersStorageProvider usersStorageProvider)
+        public UserService(AppDbContext context
+//            , UsersStorageProvider usersStorageProvider
+        )
         {
             _appContext = context;
-            _usersStorageProvider = usersStorageProvider;
+//            _usersStorageProvider = usersStorageProvider;
         }
 
         public Task<User> GetByInviteLinkAsync(string inviteLink)
@@ -78,7 +81,7 @@ namespace Sportlance.WebAPI.Users
                 string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        public async Task<User> UpdateMainPhotoAsync(long userId, AzureFile photo)
+        public async Task<User> UpdateMainPhotoAsync(long userId, StorageFile photo)
         {
             var user = await _appContext.Users.FirstOrDefaultAsync(i => i.Id == userId);
             if (user == null)

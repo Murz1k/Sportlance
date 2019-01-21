@@ -10,10 +10,10 @@
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
     ],
     "originalTargetFrameworks": [
-      "netcoreapp2.2"
+      "netcoreapp2.0"
     ],
     "frameworks": {
-      "netcoreapp2.2": {
+      "netcoreapp2.0": {
         "projectReferences": {
           "C:\\Users\\Max89701\\Documents\\Visual Studio 2017\\Projects\\sp\\Sportlance.Common\\Sportlance.Common.csproj": {
             "projectPath": "C:\\Users\\Max89701\\Documents\\Visual Studio 2017\\Projects\\sp\\Sportlance.Common\\Sportlance.Common.csproj"
@@ -28,12 +28,8 @@
     }
   },
   "frameworks": {
-    "netcoreapp2.2": {
+    "netcoreapp2.0": {
       "dependencies": {
-        "AWS.Logger.AspNetCore": {
-          "target": "Package",
-          "version": "[1.4.1, )"
-        },
         "AWSSDK.Extensions.NETCore.Setup": {
           "target": "Package",
           "version": "[3.3.6, )"
@@ -42,15 +38,17 @@
           "target": "Package",
           "version": "[1.16.1, )"
         },
-        "Microsoft.AspNetCore.App": {
-          "suppressParent": "All",
+        "Microsoft.AspNetCore.All": {
           "target": "Package",
-          "version": "[2.2.0, )",
-          "autoReferenced": true
+          "version": "[2.0.5, )"
+        },
+        "Microsoft.AspNetCore.Cors": {
+          "target": "Package",
+          "version": "[2.1.1, )"
         },
         "Microsoft.AspNetCore.Hosting.WindowsServices": {
           "target": "Package",
-          "version": "[2.2.0, )"
+          "version": "[2.1.0, )"
         },
         "Microsoft.AspNetCore.Razor.Design": {
           "suppressParent": "All",
@@ -60,7 +58,7 @@
         "Microsoft.NETCore.App": {
           "suppressParent": "All",
           "target": "Package",
-          "version": "[2.2.0, )",
+          "version": "[2.0.9, )",
           "autoReferenced": true
         }
       },
@@ -69,6 +67,11 @@
       ],
       "assetTargetFallback": true,
       "warn": true
+    }
+  },
+  "runtimes": {
+    "win-x64": {
+      "#import": []
     }
   }
 }

@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Extensions;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
-using Sportlance.WebAPI.Core.Extensions;
+using Sportlance.WebAPI.Users.Requests;
+using Sportlance.WebAPI.Users.Responses;
 
 namespace Sportlance.WebAPI.Users
 {
@@ -27,7 +29,7 @@ namespace Sportlance.WebAPI.Users
         [Authorize]
         public async Task<LoginResponse> UploadPhotoAsync([FromForm] IFormFile photo)
         {
-            var user = await _userService.UpdateMainPhotoAsync(User.GetUserId(), photo.ToAzureFile());
+            var user = await _userService.UpdateMainPhotoAsync(User.GetUserId(), photo.ToStorageFile());
 
             return new LoginResponse
             {

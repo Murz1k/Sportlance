@@ -11,18 +11,22 @@ namespace Sportlance.Common.Extensions
             {
                 return "dev";
             }
+
             if (env.IsProduction())
             {
                 return "prod";
             }
+
             if (env.IsStaging())
             {
                 return "stage";
             }
+
             if (env.IsLocal())
             {
                 return Environment.MachineName;
             }
+
             return Environment.MachineName;
         }
 

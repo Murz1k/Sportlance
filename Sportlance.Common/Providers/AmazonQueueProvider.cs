@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 
 namespace Sportlance.Common.Providers
 {
-    public class AmazonQueueProvider
+    public class AmazonQueueProvider: IProvier
     {
         private AmazonSQSClient _sqsClient;
         private string _queueUrl;
@@ -13,7 +14,7 @@ namespace Sportlance.Common.Providers
 
         public AmazonQueueProvider(string queueName)
         {
-            _queueName = queueName;
+            _queueName = queueName.ToLower();
         }
 
         public async Task InitializeAsync()
@@ -38,6 +39,8 @@ namespace Sportlance.Common.Providers
             }
         }
 
+        public string QueueUrl => _queueUrl;
+
         public async Task<string> GetQueueUrlAsync()
         {
             var request = new GetQueueUrlRequest
@@ -47,11 +50,11 @@ namespace Sportlance.Common.Providers
 
             try
             {
-                GetQueueUrlResponse response = await _sqsClient.GetQueueUrlAsync(request);
+                var response = await _sqsClient.GetQueueUrlAsync(request);
 
                 return response.QueueUrl;
             }
-            catch (QueueDoesNotExistException)
+            catch (Exception)
             {
                 return null;
             }

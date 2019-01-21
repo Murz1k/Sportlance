@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sportlance.Common.Extensions;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
@@ -57,7 +59,7 @@ namespace Sportlance.WebAPI.Teams
 
 
         public async Task AddAsync(long authorId, string title, string subTitle, string country, string city,
-            string about, string phoneNumber, AzureFile photo)
+            string about, string phoneNumber, StorageFile photo)
         {
             var author = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
             var roleTeam = await _appContext.Roles.FirstOrDefaultAsync(r => r.Name == "Team");
@@ -160,7 +162,7 @@ namespace Sportlance.WebAPI.Teams
             };
         }
 
-        public async Task AddPhotoAsync(long teamId, AzureFile photo)
+        public async Task AddPhotoAsync(long teamId, StorageFile photo)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             var newPhoto = new TeamPhoto();
@@ -180,7 +182,7 @@ namespace Sportlance.WebAPI.Teams
             await _teamPhotosStorageProvider.DeleteAsync(photoName);
         }
 
-        public async Task UpdateMainPhotoAsync(long teamId, AzureFile photo)
+        public async Task UpdateMainPhotoAsync(long teamId, StorageFile photo)
         {
             var photoName = $"team-{teamId}/main";
             var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);
@@ -189,7 +191,7 @@ namespace Sportlance.WebAPI.Teams
             await _appContext.SaveChangesAsync();
         }
 
-        public async Task UpdateBackgroundImageAsync(long teamId, AzureFile photo)
+        public async Task UpdateBackgroundImageAsync(long teamId, StorageFile photo)
         {
             var photoName = $"team-{teamId}/background";
             var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);

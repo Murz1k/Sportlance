@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Extensions;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
-using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Trainers.Requests;
@@ -139,7 +140,7 @@ namespace Sportlance.WebAPI.Trainers
         [Authorize]
         public async Task<IActionResult> UploadBackgroundAsync([FromForm] IFormFile photo)
         {
-            await _service.UpdateBackgroundImageAsync(User.GetUserId(), photo.ToAzureFile());
+            await _service.UpdateBackgroundImageAsync(User.GetUserId(), photo.ToStorageFile());
             return NoContent();
         }
     }

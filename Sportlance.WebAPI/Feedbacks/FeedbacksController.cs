@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.Common.Extensions;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
-using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Feedbacks.Requests;
 

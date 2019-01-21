@@ -28,3 +28,11 @@ Sportlance\.WebAPI/appsettings\.Development\.json
 Sportlance\.WebAPI/appsettings\.Production\.json
 
 Sportlance\.WebUI/package-lock\.json
+
+Sportlance\.MailService/bin/
+
+Sportlance\.MailService/obj/
+
+Sportlance\.Common/bin/
+
+Sportlance\.Common/obj/

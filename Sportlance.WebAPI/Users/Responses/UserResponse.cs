@@ -1,4 +1,4 @@
-﻿namespace Sportlance.WebAPI.Authentication.Responses
+﻿namespace Sportlance.WebAPI.Users.Responses
 {
     public class UserResponse
     {

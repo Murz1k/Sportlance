@@ -14,7 +14,8 @@ namespace Sportlance.MailService
     {
         private readonly IService _service;
 
-        public MailQueueProvider(IService service, IHostingEnvironment env) : base($"sportlance-{env.ShortEnvironment()}-mail-queue")
+        public MailQueueProvider(IService service, string shortEnvironmentName) : base(
+            $"sportlance-{shortEnvironmentName}-mail-queue")
         {
             _service = service;
         }
@@ -23,23 +24,19 @@ namespace Sportlance.MailService
         {
             while (true)
             {
-                var messages = await ReceiveMessagesAsync();
-                if (messages.Count <= 0) continue;
-                DeleteDublicates(messages);
-
-                foreach (var message in messages)
+                try
                 {
-                    try
+                    var messages = await ReceiveMessagesAsync();
+                    if (messages.Count <= 0) continue;
+                    DeleteDublicates(messages);
+
+                    foreach (var message in messages)
                     {
                         var jsonObject = QueueEmailModel.FromJson(message.Body);
                         switch (jsonObject.Type)
                         {
-                            default:
-                                var model1 = (ConfirmRegisterEmailModel) jsonObject;
-                                await _service.SendConfirmRegistration(model1.UserId, model1.Email);
-                                break;
                             case QueueEmailTypeEnum.ConfirmRegister:
-                                model1 = (ConfirmRegisterEmailModel) jsonObject;
+                                var model1 = (ConfirmRegisterEmailModel) jsonObject;
                                 await _service.SendConfirmRegistration(model1.UserId, model1.Email);
                                 break;
                             case QueueEmailTypeEnum.ChangeEmail:
@@ -50,14 +47,18 @@ namespace Sportlance.MailService
                                 var model3 = (ChangePasswordModel) jsonObject;
                                 await _service.SendChangePassword(model3.AccessToken, model3.RereshToken, model3.Email);
                                 break;
+                            default:
+                                model1 = (ConfirmRegisterEmailModel) jsonObject;
+                                await _service.SendConfirmRegistration(model1.UserId, model1.Email);
+                                break;
                         }
-                            
+
                         await DeleteMessageAsync(message);
                     }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
         }

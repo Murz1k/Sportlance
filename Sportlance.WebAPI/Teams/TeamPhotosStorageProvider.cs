@@ -1,7 +1,7 @@
 ﻿using Amazon.S3;
 using Microsoft.AspNetCore.Hosting;
 using Sportlance.Common.Extensions;
-using Sportlance.WebAPI.Core.Providers;
+using Sportlance.Common.Providers;
 
 namespace Sportlance.WebAPI.Teams
 {

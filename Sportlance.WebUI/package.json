@@ -1,16 +1,22 @@
 {
-  "name": "sportlance.web-ui",
-  "version": "0.0.0",
+  "name": "sportlance",
+  "version": "0.1.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "start-mobile": "ng serve --host 0.0.0.0",
     "build": "ng build --prod",
-    "build&deploy": "npm run build & npm run deploy & npm run invalidate",
-    "deploy": "aws-s3-deploy.bat",
-    "invalidate": "aws-cloudfrond-invalidate.bat",
-    "lint": "ng lint"
+    "dev-deploy": "dev-aws-s3-deploy.bat",
+    "dev-invalidate": "dev-aws-cloudfrond-invalidate.bat",
+    "deploy-dev": "ng build --configuration=development & npm run dev-deploy rd /S /Q dist",
+    "deploy-prod": "npm run build & npm run prod-deploy & npm run prod-invalidate rd /S /Q dist",
+    "prod-deploy": "prod-aws-s3-deploy.bat",
+    "prod-invalidate": "prod-aws-cloudfrond-invalidate.bat",
+    "lint": "ng lint",
+    "preversion": "ng build --configuration=development",
+    "version": "npm run dev-deploy",
+    "postversion": "rd /S /Q dist"
   },
   "private": true,
   "dependencies": {

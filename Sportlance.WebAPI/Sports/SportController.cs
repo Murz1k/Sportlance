@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 

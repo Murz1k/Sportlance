@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.KeyVault.Models;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
+using Sportlance.Common.Extensions;
 using Sportlance.Common.Models;
 using Sportlance.Common.Providers;
 using Sportlance.WebAPI.Authentication.Requests;
 using Sportlance.WebAPI.Authentication.Responses;
-using Sportlance.WebAPI.Core.Errors;
-using Sportlance.WebAPI.Core.Exceptions;
-using Sportlance.WebAPI.Core.Extensions;
 using Sportlance.WebAPI.Core.Utilities;
 using Sportlance.WebAPI.Core.Validation;
 using Sportlance.WebAPI.Requests;
@@ -33,8 +33,8 @@ namespace Sportlance.WebAPI.Authentication
         public AuthController(
             IUserService userService,
             MailTokenService mailTokenService,
-            IAuthService authService,
-            AmazonQueueProvider queueProvider
+            IAuthService authService
+            ,AmazonQueueProvider queueProvider
         )
         {
             _userService = userService;
