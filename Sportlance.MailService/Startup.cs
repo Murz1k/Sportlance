@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.S3;
-using Amazon.SQS;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -86,7 +85,7 @@ namespace Sportlance.MailService
 
         public void Configure(IApplicationBuilder app)
         {
-            if (AspNetCoreEnvironment.IsLocal())
+            if (!AspNetCoreEnvironment.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
             }

@@ -16,12 +16,12 @@ namespace Sportlance.MailService.Admin
 
         public AdminController(IConfiguration configuration,
             IHostingEnvironment currentEnvironment
-            //,MailQueueProvider mailProvider
+            ,MailQueueProvider mailProvider
             )
         {
             _currentEnvironment = currentEnvironment;
             _configuration = configuration;
-            //_mailProvider = mailProvider;
+            _mailProvider = mailProvider;
         }
 
         [HttpGet("env")]
@@ -34,6 +34,12 @@ namespace Sportlance.MailService.Admin
         public IActionResult GetConfig()
         {
             return Ok(_configuration.AsEnumerable());
+        }
+
+        [HttpGet("queueUrl")]
+        public IActionResult GetQueueUrl()
+        {
+            return Ok(_mailProvider.QueueUrl);
         }
 
         [HttpGet("mails")]

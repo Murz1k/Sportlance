@@ -39,6 +39,8 @@ namespace Sportlance.Common.Providers
             }
         }
 
+        public string QueueUrl => _queueUrl;
+
         public async Task<string> GetQueueUrlAsync()
         {
             var request = new GetQueueUrlRequest

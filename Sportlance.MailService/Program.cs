@@ -16,7 +16,7 @@ namespace Sportlance.MailService
 
             builder.AddAppSettings();
 
-            if (AspNetCoreEnvironment.IsLocal())
+            if (!AspNetCoreEnvironment.IsProduction())
             {
                 builder.UseSetting("detailedErrors", "true");
                 builder.CaptureStartupErrors(true);
