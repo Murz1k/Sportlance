@@ -4,7 +4,6 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Sportlance.Common.Extensions;

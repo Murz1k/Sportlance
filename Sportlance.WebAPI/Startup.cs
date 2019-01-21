@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Amazon;
-using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon.S3;
-using Amazon.SecurityToken.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Sportlance.Common;
 using Sportlance.Common.Extensions;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Core;
@@ -45,14 +38,6 @@ namespace Sportlance.WebAPI
         {
             Configuration = configuration;
             _currentEnvironment = currentEnvironment;
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(currentEnvironment.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{currentEnvironment.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -75,7 +60,6 @@ namespace Sportlance.WebAPI
             JwtConfigure(services);
 
             services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
-            services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
             services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
 
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
@@ -118,7 +102,7 @@ namespace Sportlance.WebAPI
             var awsOptions = Configuration.GetAWSOptions();
 
             // Это нужно для амазона, потому что там нельзя прописать дефолтный профиль
-            // В амазоне нужно в environments добавить эти ключи
+            // В амазоне нужно в environments добавить эти ключи и значения
             if (!_currentEnvironment.IsLocal())
             {
                 awsOptions.Credentials =

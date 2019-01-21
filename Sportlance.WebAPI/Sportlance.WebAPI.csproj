@@ -4,7 +4,6 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PreserveCompilationContext>false</PreserveCompilationContext>
     <GenerateProgramFile>false</GenerateProgramFile>
-    <AWSProjectType>Lambda</AWSProjectType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="2.0.4" />

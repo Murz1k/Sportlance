@@ -14,7 +14,7 @@ namespace Sportlance.MailService
     {
         private readonly IService _service;
 
-        public MailQueueProvider(IService service, IHostingEnvironment env) : base($"sportlance-{env.ShortEnvironment()}-mail-queue")
+        public MailQueueProvider(IService service, string shortEnvironmentName) : base($"sportlance-{shortEnvironmentName}-mail-queue")
         {
             _service = service;
         }
