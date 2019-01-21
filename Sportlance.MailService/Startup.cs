@@ -44,22 +44,23 @@ namespace Sportlance.MailService
             services.AddDefaultAWSOptions(awsOptions);
             
             // 1. Нужно для IService (читать темплейты почты)
-            services.AddAWSService<IAmazonS3>();
-            // 2. Нужно для IService (Декодировать токены)
+            services.AddAWSService<IAmazonS3>();            
+            // 2. Нужно для TokenService (Декодировать токены)
+            services.AddDataProtection();
+            // 3. Нужно для IService (Декодировать токены)
             services.AddTransient<TokenService, TokenService>();
-            // 3. Нужно для MailQueue (Отравлять письма)
+            // 4. Нужно для MailQueue (Отравлять письма)
             services.AddTransient<IService, Service>();
             
             services.AddSingleton(InitializeMailQueueProvider);
 
             ConfigureCorsPolicy(services);
 
-            //RunQueue(services);
+            RunQueue(services);
         }
 
         public void RunQueue(IServiceCollection services)
         {
-            services.AddDataProtection();
             var sp = services.BuildServiceProvider();
 
             var service = sp.GetService<MailQueueProvider>();
