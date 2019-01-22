@@ -12,7 +12,10 @@ namespace Sportlance.MailService
         {
             var builder = WebHost.CreateDefaultBuilder(args);
 
-            builder.AddEbConfig();
+            if (!AspNetCoreEnvironment.IsLocal())
+            {
+                builder.AddEbConfig();
+            }
 
             builder.AddAppSettings();
 

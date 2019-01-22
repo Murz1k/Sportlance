@@ -5,6 +5,9 @@
     <PreserveCompilationContext>false</PreserveCompilationContext>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="2.0.4" />
     <PackageReference Include="Amazon.Lambda.Tools" Version="2.2.0" />

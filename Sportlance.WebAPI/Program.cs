@@ -17,15 +17,18 @@ namespace Sportlance.WebAPI
         {
             var builder = WebHost.CreateDefaultBuilder(args);
 
+            if (!AspNetCoreEnvironment.IsLocal())
+            {
+                builder.AddEbConfig();
+            }
+
+            builder.AddAppSettings();
+
             if (!AspNetCoreEnvironment.IsProduction())
             {
                 builder.UseSetting("detailedErrors", "true");
                 builder.CaptureStartupErrors(true);
             }
-            
-            builder.AddEbConfig();
-            
-            builder.AddAppSettings();
 
             return builder.UseStartup<Startup>()
                 .Build();
