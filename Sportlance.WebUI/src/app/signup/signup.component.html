@@ -39,7 +39,7 @@
       </div>
       <button sl-button slType="primary"
               [disabled]="isLoading || submitForm.controls['email'].invalid"
-              [isLoading]="isLoading"
+              [slLoading]="isLoading"
               (click)="checkUserEmail()">
         Продолжить
       </button>
@@ -64,7 +64,7 @@
       </div>
       <button (click)="signUp()"
               [disabled]="isLoading || submitForm.controls['password'].invalid"
-              [isLoading]="isLoading"
+              [slLoading]="isLoading"
               sl-button slType="primary">
         Продолжить
       </button>

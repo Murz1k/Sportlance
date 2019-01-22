@@ -20,7 +20,7 @@
       </div>
       <button (click)="checkLogin()"
               [disabled]="isDisabled || form.controls['email'].invalid"
-              [isLoading]="isLoading"
+              [slLoading]="isLoading"
               sl-button slType="primary">
         Продолжить
       </button>
@@ -52,7 +52,7 @@
             </div>
           </div>
           <button [disabled]="isDisabled || form.controls['forgotPasswordEmail'].invalid"
-                  [isLoading]="isLoading"
+                  [slLoading]="isLoading"
                   (click)="forgotPassword()"
                   sl-button slType="primary">
             Восстановить

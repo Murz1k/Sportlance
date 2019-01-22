@@ -140,7 +140,7 @@
       </div>
       <button (click)="signUp()"
               [disabled]="isLoading || form.controls['password'].invalid"
-              [isLoading]="isLoading"
+              [slLoading]="isLoading"
               sl-button slType="primary">
         Продолжить
       </button>
