@@ -25,6 +25,23 @@ namespace Sportlance.Common
             return Environment.MachineName;
         }
 
+        public static string ShortEnvironment(string environmentName)
+        {
+            switch (environmentName)
+            {
+                case "Local":
+                    return Environment.MachineName;
+                case "Development":
+                    return "dev";
+                case "Production":
+                    return "prod";
+                case "Staging":
+                    return "stage";
+                default:
+                    return Environment.MachineName;
+            }
+        }
+
         public static bool IsLocal()
         {
             return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Local";

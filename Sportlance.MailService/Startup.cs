@@ -52,19 +52,9 @@ namespace Sportlance.MailService
             // 4. Нужно для MailQueue (Отравлять письма)
             services.AddTransient<IService, Service>();
             
-            services.AddSingleton(InitializeMailQueueProvider);
+            services.AddHostedService<MailHostedService>();
 
             ConfigureCorsPolicy(services);
-
-            RunQueue(services);
-        }
-
-        public void RunQueue(IServiceCollection services)
-        {
-            var sp = services.BuildServiceProvider();
-
-            var service = sp.GetService<MailQueueProvider>();
-            Task.Run(() => service.CheckMessagesAsync());
         }
 
         private void ConfigureCorsPolicy(IServiceCollection services)
@@ -94,13 +84,6 @@ namespace Sportlance.MailService
             app.UseCors(CorsPolicyName);
 
             app.UseMvc();
-        }
-
-        private MailQueueProvider InitializeMailQueueProvider(IServiceProvider serviceProvider)
-        {
-            var storageProvider = new MailQueueProvider(serviceProvider.GetService<IService>(), AspNetCoreEnvironment.ShortEnvironment());
-            storageProvider.InitializeAsync().Wait();
-            return storageProvider;
         }
     }
 }

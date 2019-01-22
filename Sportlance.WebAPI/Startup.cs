@@ -26,6 +26,7 @@ using Sportlance.WebAPI.Trainers;
 using Sportlance.WebAPI.Sports;
 using Sportlance.WebAPI.Users;
 using Sportlance.Common.Providers;
+using Sportlance.Common;
 
 namespace Sportlance.WebAPI
 {
@@ -192,7 +193,7 @@ namespace Sportlance.WebAPI
         private AmazonQueueProvider InitializeAmazonQueueProvider(IServiceProvider serviceProvider)
         {
             var storageProvider =
-                new AmazonQueueProvider($"sportlance-{_currentEnvironment.ShortEnvironment()}-mail-queue");
+                new AmazonQueueProvider($"sportlance-{AspNetCoreEnvironment.ShortEnvironment(Configuration["SLEnvironment"])}-mail-queue");
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
