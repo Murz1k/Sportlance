@@ -14,7 +14,6 @@ namespace Sportlance.MailService
     {
         private readonly IHostingEnvironment _env;
         private readonly IAmazonS3 _s3Client;
-        private readonly TokenService _mailTokenService;
         private readonly SiteUrls _siteUrls;
         private readonly SmtpOptions _smtpOptions;
         private readonly string _root;
@@ -23,12 +22,10 @@ namespace Sportlance.MailService
         public Service(IAmazonS3 s3Client,
             IOptions<SmtpOptions> smtpOptions,
             IOptions<SiteOptions> frontendOptions,
-            TokenService mailTokenService,
             IHostingEnvironment env
             //,ILogger logger
         )
         {
-            _mailTokenService = mailTokenService;
             _env = env;
             _s3Client = s3Client;
             _smtpOptions = smtpOptions.Value;

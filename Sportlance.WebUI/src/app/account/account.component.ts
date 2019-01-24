@@ -20,6 +20,7 @@ import {EditBackgroundDialogData} from './edit-background-dialog/edit-background
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AuthService} from '../core/auth/auth.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'sl-account',
@@ -39,6 +40,8 @@ export class AccountComponent implements OnInit {
   private offset = 0;
   private count = 10;
 
+  public href: string;
+
   public feedbacks: Observable<ReviewInfo[]>;
 
   constructor(private authService: AuthService,
@@ -49,6 +52,7 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.href = window.location.origin;
     this.updateUser(this.authService.getCurrent());
     this.authService.userChanged.subscribe((user) => this.updateUser(user));
   }
