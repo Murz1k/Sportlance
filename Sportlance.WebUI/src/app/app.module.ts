@@ -39,10 +39,6 @@ import {GlobalErrorHandler} from "./core/global-error-handler";
       useClass: JwtInterceptor,
       multi: true
     },
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler
-    },
     TrainersService,
     FeedbacksService
   ],

@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {EditPhotoDialogComponent} from '../../../account/edit-photo-dialog/edit-photo-dialog.component';
-import {TeamsService} from '../../teams.service';
+import {EditPhotoDialogComponent} from '../../../../account/edit-photo-dialog/edit-photo-dialog.component';
+import {TeamsService} from '../../../teams.service';
 import {AddTeamPhotoDialogData} from './add-team-photo-dialog-data';
 
 @Component({

@@ -79,7 +79,7 @@ namespace Sportlance.WebAPI.Teams
         
         [HttpPost("{teamId}/members")]
         [Authorize]
-        public async Task<IActionResult> InvitePMemberAsync(long teamId, [FromBody] InviteMemberRequest request)
+        public async Task<IActionResult> InviteMemberAsync(long teamId, [FromBody] InviteMemberRequest request)
         {
             await _service.InviteMemberAsync(teamId, request.MemberId);
             return NoContent();
@@ -93,7 +93,8 @@ namespace Sportlance.WebAPI.Teams
                 User.GetUserId(),
                 request.Title,
                 request.SubTitle,
-                request.Country,
+                //request.Country,
+                "Россия",
                 request.City,
                 request.About,
                 request.PhoneNumber,

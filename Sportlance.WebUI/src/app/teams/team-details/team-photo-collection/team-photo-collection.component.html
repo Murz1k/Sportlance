@@ -1,0 +1,29 @@
+<div class="air-card">
+  <div *ngIf="isLoadingPhotos" class="loading-container"></div>
+  <div class="air-card-header">
+    <h3 class="pull-left">
+      Галерея
+    </h3>
+    <button  sl-button (click)="showAddTeamPhotoDialog()" class="btn-rnd">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+  <section *ngIf="!photos" class="photo-collection">
+    <div class="photo-row">
+      <div class="image-placeholder"></div>
+      <div class="image-placeholder"></div>
+      <div class="image-placeholder"></div>
+      <div class="image-placeholder"></div>
+      <div class="image-placeholder"></div>
+      <div class="image-placeholder"></div>
+    </div>
+  </section>
+  <section *ngIf="photos" class="photo-collection">
+    <div class="photo-container" *ngFor="let photo of photos">
+      <button (click)="deletePhoto(photo.id)" class="remove-button">
+        <i class="material-icons">clear</i>
+      </button>
+      <img src="{{photo.photoUrl}}">
+    </div>
+  </section>
+</div>
