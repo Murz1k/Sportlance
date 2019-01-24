@@ -37,10 +37,8 @@ namespace Sportlance.MailService
             //_logger = logger;
         }
 
-        public async Task<string> SendConfirmRegistration(long userId, string email)
+        public async Task<string> SendConfirmRegistration(long userId, string email, string token)
         {
-            var token = _mailTokenService.EncryptToken(email);
-
             var template = _env.IsLocal()
                     ? await ReadEmailTemplate("confirm-registration-mail.html")
                     : await ReadEmailTemplateFromS3("confirm-registration-mail.html")
@@ -70,10 +68,8 @@ namespace Sportlance.MailService
             await SendMessage(email, "Изменение пароля", template);
         }
 
-        public async Task SendUpdateEmail(string email, string newEmail)
+        public async Task SendUpdateEmail(string email, string newEmail, string token)
         {
-            var token = _mailTokenService.EncryptToken(newEmail);
-
             var template = _env.IsLocal()
                     ? await ReadEmailTemplate("update-email-mail.html")
                     : await ReadEmailTemplateFromS3("update-email-mail.html")

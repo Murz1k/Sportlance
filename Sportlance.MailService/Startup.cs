@@ -13,41 +13,36 @@ namespace Sportlance.MailService
     {
         private const string CorsPolicyName = "SportlancePolicy";
         private readonly IHostingEnvironment _currentEnvironment;
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration, IHostingEnvironment currentEnvironment)
         {
-            Configuration = configuration;
+            _configuration = configuration;
             _currentEnvironment = currentEnvironment;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
 
-            services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
-            services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
+            services.Configure<SmtpOptions>(_configuration.GetSection(nameof(SmtpOptions)));
+            services.Configure<SiteOptions>(_configuration.GetSection(nameof(SiteOptions)));
 
-            var awsOptions = Configuration.GetAWSOptions();
+            var awsOptions = _configuration.GetAWSOptions();
 
             // Это нужно для амазона, потому что там нельзя прописать дефолтный профиль
             // В амазоне нужно в environments добавить эти ключи и значения
             if (!AspNetCoreEnvironment.IsLocal())
             {
                 awsOptions.Credentials =
-                    new BasicAWSCredentials(Configuration["AWS:AccessKey"], Configuration["AWS:SecretKey"]);
+                    new BasicAWSCredentials(_configuration["AWS:AccessKey"], _configuration["AWS:SecretKey"]);
             }
 
             services.AddDefaultAWSOptions(awsOptions);
-            
+
             // 1. Нужно для IService (читать темплейты почты)
             services.AddAWSService<IAmazonS3>();            
-            // 2. Нужно для TokenService (Декодировать токены)
-            services.AddDataProtection();
-            // 3. Нужно для IService (Декодировать токены)
-            services.AddTransient<TokenService, TokenService>();
-            // 4. Нужно для MailQueue (Отравлять письма)
+            // 2. Нужно для MailQueue (Отравлять письма)
             services.AddTransient<IService, Service>();
             
             services.AddHostedService<MailHostedService>();
@@ -57,8 +52,6 @@ namespace Sportlance.MailService
 
         private void ConfigureCorsPolicy(IServiceCollection services)
         {
-            var sp = services.BuildServiceProvider();
-            var siteOptions = sp.GetService<SiteOptions>();
             var corsPolicyBuilder = new CorsPolicyBuilder();
 
             corsPolicyBuilder.AllowAnyOrigin();

@@ -12,10 +12,12 @@ namespace Sportlance.Common.Models
         public long UserId { get; set; }
 
         public string Email { get; set; }
-        
+
+        public string Token { get; set; }
+
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(new {Type, UserId, Email});
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

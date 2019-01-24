@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,11 +18,11 @@ namespace Sportlance.WebAPI.Users
         private readonly UsersStorageProvider _usersStorageProvider;
 
         public UserService(AppDbContext context
-//            , UsersStorageProvider usersStorageProvider
+            , UsersStorageProvider usersStorageProvider
         )
         {
             _appContext = context;
-//            _usersStorageProvider = usersStorageProvider;
+            _usersStorageProvider = usersStorageProvider;
         }
 
         public Task<User> GetByInviteLinkAsync(string inviteLink)

@@ -144,7 +144,9 @@ namespace Sportlance.WebAPI.Authentication
 
             await _userService.AddAsync(user);
 
-            var model = new ConfirmRegisterEmailModel {UserId = user.Id, Email = user.Email};
+            var token = _mailTokenService.EncryptToken(user.Email);
+
+            var model = new ConfirmRegisterEmailModel {UserId = user.Id, Email = user.Email, Token = token };
 
             await _queueProvider.SendMessageAsync(model.ToJson());
 
@@ -202,7 +204,9 @@ namespace Sportlance.WebAPI.Authentication
             if (user.IsEmailConfirm)
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));
 
-            var model = new ConfirmRegisterEmailModel {UserId = user.Id, Email = user.Email};
+            var token = _mailTokenService.EncryptToken(user.Email);
+
+            var model = new ConfirmRegisterEmailModel {UserId = user.Id, Email = user.Email, Token = token };
 
             await _queueProvider.SendMessageAsync(model.ToJson());
         }
@@ -250,7 +254,9 @@ namespace Sportlance.WebAPI.Authentication
             if (!HashUtils.CheckHash(user.PasswordHash, data.Password))
                 throw new AppErrorException(ErrorCode.IncorrectValidation);
 
-            var model = new ChangeEmailEmailModel {OldEmail = user.Email, NewEmail = data.NewEmail};
+            var token = _mailTokenService.EncryptToken(user.Email);
+
+            var model = new ChangeEmailEmailModel {OldEmail = user.Email, NewEmail = data.NewEmail, Token = token };
 
             await _queueProvider.SendMessageAsync(model.ToJson());
 

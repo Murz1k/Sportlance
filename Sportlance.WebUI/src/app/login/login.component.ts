@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     this.titleService.setTitle(`Войти в Sportlance`);
 
     this.form = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       password: ['', Validators.required],
       forgotPasswordEmail: [''],
       rememberMe: [false, [Validators.required]]
@@ -137,8 +137,7 @@ export class LoginComponent implements OnInit {
 
   checkLogin(): void {
     const form = this.form.value;
-    if (isNullOrUndefined(form.email) || form.email === '') {
-      form.email = '';
+    if (this.form.controls['email'].invalid) {
       this.showLoginError = true;
       return;
     }
