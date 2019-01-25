@@ -10,6 +10,7 @@ import {SlSelectCityModule} from "../../shared/select-city/select-city.module";
 import {SlButtonModule} from "../../shared/button/button.module";
 import { TeamPhotoCollectionComponent } from './team-photo-collection/team-photo-collection.component';
 import { TeamMembersCollectionComponent } from './team-members-collection/team-members-collection.component';
+import { TeamServiceCollectionComponent } from './team-service-collection/team-service-collection.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { TeamMembersCollectionComponent } from './team-members-collection/team-m
     AddTeamPhotoDialogComponent,
     TeamDetailsComponent,
     TeamPhotoCollectionComponent,
-    TeamMembersCollectionComponent
+    TeamMembersCollectionComponent,
+    TeamServiceCollectionComponent
   ]
 })
 export class TeamDetailsModule {

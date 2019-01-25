@@ -62,8 +62,9 @@
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
       </button>
     </div>
-    <sl-team-photo-collection [teamId]="profile.id"></sl-team-photo-collection>
+    <!--<sl-team-photo-collection [teamId]="profile.id"></sl-team-photo-collection>-->
     <sl-team-members-collection [teamId]="profile.id"></sl-team-members-collection>
+    <sl-team-service-collection [teamId]="profile.id"></sl-team-service-collection>
   </div>
   <div class="side-bar">
     <div *ngIf="profile.phoneNumber" class="side-bar-item">
