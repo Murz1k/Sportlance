@@ -9,22 +9,26 @@ using Microsoft.Extensions.Hosting;
 using System.Threading;
 using Sportlance.Common;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Sportlance.MailService
 {
     public class MailHostedService : AmazonQueueProvider, IHostedService
     {
         private readonly IService _service;
+        private readonly ILogger _logger;
 
-        public MailHostedService(IService service, IConfiguration configuration)
+        public MailHostedService(ILogger<MailHostedService> logger, IService service, IConfiguration configuration)
             : base($"sportlance-{AspNetCoreEnvironment.ShortEnvironment(configuration["SLEnvironment"])}-mail-queue")
         {
             _service = service;
+            _logger = logger;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await InitializeAsync();
+            _logger.LogInformation($"Подключение к очереди {QueueName} успешно.");
             await CheckMessagesAsync(cancellationToken);
         }
 
@@ -39,6 +43,7 @@ namespace Sportlance.MailService
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    _logger.LogInformation($"Получение сообщений прекращено.");
                     return;
                 }
 

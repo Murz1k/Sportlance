@@ -17,6 +17,8 @@ namespace Sportlance.Common.Providers
             _queueName = queueName.ToLower();
         }
 
+        public string QueueName => _queueName;
+
         public async Task InitializeAsync()
         {
             var sqsConfig = new AmazonSQSConfig { ServiceURL = "http://sqs.us-east-1.amazonaws.com" };
