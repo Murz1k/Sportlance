@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../core/auth/user';
 import {MatDialog} from '@angular/material';
-import {EditAccountInfoDialogComponent} from './edit-account-info-dialog/edit-account-info-dialog.component';
 import {AuthService} from '../../core/auth/auth.service';
 import {Title} from "@angular/platform-browser";
 
