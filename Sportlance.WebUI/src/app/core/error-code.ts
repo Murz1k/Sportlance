@@ -7,6 +7,8 @@ export enum ErrorCode {
   // Team
   TeamNotFound = 'TeamNotFound',
   TeamServiceNotFound = 'TeamServiceNotFound',
+  DurationIsRequired = 'DurationIsRequired',
+  PriceMustBeGreaterThanZero = 'PriceMustBeGreaterThanZero',
   // Trainer
   TrainerNotFound = 'TrainerNotFound',
   // User
@@ -15,6 +17,8 @@ export enum ErrorCode {
   UserAlreadyExist = 'UserAlreadyExist',
   RoleNotFound = 'RoleNotFound',
   UserAccessDenied = 'UserAccessDenied',
+  // Common
+  NameIsRequired = 'NameIsRequired',
   // Other
   IncorrectData = 'IncorrectData',
   IncorrectValidation = 'IncorrectValidation',

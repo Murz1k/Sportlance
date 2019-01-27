@@ -32,6 +32,10 @@ export class TeamsService {
     return this.http.get<TeamProfileResponse>(`/teams/${teamId}`);
   }
 
+  canInviteTrainer(teamId: number, trainerId: number): Observable<boolean> {
+    return this.http.get<boolean>(`/teams/${teamId}/trainers/${trainerId}/canInvite`);
+  }
+
   getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse>> {
     return this.http.get<CollectionResponse<TeamPhotoResponse>>(`/teams/${teamId}/photos`);
   }
