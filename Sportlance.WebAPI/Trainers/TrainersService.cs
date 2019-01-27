@@ -12,7 +12,7 @@ using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Trainers
 {
-    public class TrainersService : ITrainerService
+    public class TrainersService : ITrainersService
     {
         private readonly AppDbContext _appContext;
         private readonly TrainersStorageProvider _trainerStorageProvider;

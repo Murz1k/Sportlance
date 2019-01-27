@@ -87,14 +87,14 @@ namespace Sportlance.WebAPI.Teams
         [Authorize]
         public async Task<TeamServiceResponse> AddServiceAsync(long teamId, UpdateTeamServiceRequest request)
         {
-            return new TeamServiceResponse(await _service.AddServiceAsync(teamId));
+            return new TeamServiceResponse(await _service.AddServiceAsync(teamId, request.Name, request.Description, request.Duration, request.Price));
         }
 
         [HttpPut("{teamId}/services/{serviceId}")]
         [Authorize]
         public async Task<TeamServiceResponse> UpdateServiceAsync(long teamId, long serviceId, UpdateTeamServiceRequest request)
         {
-            return new TeamServiceResponse(await _service.UpdateServiceAsync(teamId, serviceId));
+            return new TeamServiceResponse(await _service.UpdateServiceAsync(teamId, serviceId, request.Name, request.Description, request.Duration, request.Price));
         }
 
         [HttpDelete("{teamId}/services/{serviceId}")]

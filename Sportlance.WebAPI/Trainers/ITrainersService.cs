@@ -6,7 +6,7 @@ using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Trainers
 {
-    public interface ITrainerService
+    public interface ITrainersService
     {
         Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query);
 

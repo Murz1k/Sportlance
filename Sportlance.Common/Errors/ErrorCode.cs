@@ -20,6 +20,8 @@
         UserAlreadyExist,
         RoleNotFound,
         UserAccessDenied,
+        // Orders
+        OrderNotFound,
         // Common
         NameIsRequired,
         // Other

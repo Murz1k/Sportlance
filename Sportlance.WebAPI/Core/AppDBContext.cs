@@ -28,6 +28,8 @@ namespace Sportlance.WebAPI.Core
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
         public DbSet<Sport> Sports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,7 +43,13 @@ namespace Sportlance.WebAPI.Core
 
             modelBuilder.Entity<Trainer>()
                 .HasKey(r => r.UserId);
-            
+
+            modelBuilder.Entity<Order>()
+                .HasOne(r => r.Customer);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(r => r.Executor);
+
             modelBuilder.Entity<Trainer>()
                 .HasMany(i => i.TrainerTeams);
             

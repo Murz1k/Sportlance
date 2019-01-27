@@ -39,9 +39,9 @@ namespace Sportlance.WebAPI.Teams
 
         Task<TeamService> GetServiceByIdAsync(long teamId, long serviceId);
 
-        Task<TeamService> AddServiceAsync(long teamId);
+        Task<TeamService> AddServiceAsync(long teamId, string name, string description, string duration, long price);
 
-        Task<TeamService> UpdateServiceAsync(long teamId, long serviceId);
+        Task<TeamService> UpdateServiceAsync(long teamId, long serviceId, string name, string description, string duration, long price);
 
         Task DeleteServiceAsync(long teamId, long serviceId);
         #endregion

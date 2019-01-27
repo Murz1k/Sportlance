@@ -22,12 +22,12 @@ namespace Sportlance.WebAPI.Trainers
     [Route("trainers")]
     public class TrainersController : Controller
     {
-        private readonly ITrainerService _service;
+        private readonly ITrainersService _service;
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
 
         public TrainersController(
-            ITrainerService service,
+            ITrainersService service,
             IUserService userService,
             IAuthService authService
             )
