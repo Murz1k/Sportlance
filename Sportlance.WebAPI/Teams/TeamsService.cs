@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
 using Sportlance.Common.Extensions;
 using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
@@ -51,6 +53,11 @@ namespace Sportlance.WebAPI.Teams
         public async Task<PagingCollection<TeamPhoto>> GetPhotosAsync(int offset, int count, long teamId)
         {
             var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
             return new PagingCollection<TeamPhoto>(team.TeamPhotos.Skip(offset).Take(count),
                 team.TeamPhotos.Count,
                 offset
@@ -94,14 +101,24 @@ namespace Sportlance.WebAPI.Teams
         public async Task UpdateAboutAsync(long teamId, string about)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
             team.About = about;
+
             await _appContext.SaveChangesAsync();
         }
 
         public async Task<TeamProfile> GetByAuthorId(long userId)
         {
-            var team = await _appContext.Teams
-                .FirstOrDefaultAsync(i => i.AuthorId == userId);
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.AuthorId == userId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
             return new TeamProfile
             {
                 Id = team.Id,
@@ -129,11 +146,10 @@ namespace Sportlance.WebAPI.Teams
 
         public async Task<TeamProfile> GetById(long teamId)
         {
-            var team = await _appContext.Teams
-                .FirstOrDefaultAsync(i => i.Id == teamId);
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
             {
-                return null;
+                throw new AppErrorException(ErrorCode.TeamNotFound);
             }
 
             return new TeamProfile
@@ -164,55 +180,119 @@ namespace Sportlance.WebAPI.Teams
 
         public async Task AddPhotoAsync(long teamId, StorageFile photo)
         {
-            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
             var newPhoto = new TeamPhoto();
             team.TeamPhotos.Add(newPhoto);
+
             await _appContext.SaveChangesAsync();
+
             var photoName = $"team-{teamId}/photo-{newPhoto.Id}";
             newPhoto.PhotoUrl = await _teamPhotosStorageProvider.UploadAndGetUriAsync(photoName, photo);
+
             await _appContext.SaveChangesAsync();
         }
 
         public async Task DeletePhotoAsync(long teamId, long photoId)
         {
             var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
-            team.DeletePhoto(photoId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            var photo = team.TeamPhotos.FirstOrDefault(i => i.Id == photoId);
+            team.TeamPhotos.Remove(photo);
+            
             await _appContext.SaveChangesAsync();
+
             var photoName = $"team-{teamId}/photo-{photoId}";
             await _teamPhotosStorageProvider.DeleteAsync(photoName);
         }
 
+        public async Task DeleteServiceAsync(long teamId, long serviceId)
+        {
+            var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
+            if(team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            var service = team.Services.FirstOrDefault(i => i.Id == serviceId);
+            if (service == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamServiceNotFound);
+            }
+
+            service.IsDeleted = true;
+
+            await _appContext.SaveChangesAsync();
+        }
+
         public async Task UpdateMainPhotoAsync(long teamId, StorageFile photo)
         {
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
             var photoName = $"team-{teamId}/main";
             var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);
-            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+
             team.PhotoUrl = link;
+
             await _appContext.SaveChangesAsync();
         }
 
         public async Task UpdateBackgroundImageAsync(long teamId, StorageFile photo)
         {
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
             var photoName = $"team-{teamId}/background";
             var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);
-            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+
             team.BackgroundUrl = link;
+
             await _appContext.SaveChangesAsync();
         }
 
         public async Task InviteMemberAsync(long teamId, long memberId)
         {
-            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            var team = await _appContext.Teams.Include(i => i.TrainerTeams).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
             var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == memberId);
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
 
             team.TrainerTeams.Add(new TrainerTeam {Trainer = trainer});
 
             await _appContext.SaveChangesAsync();
         }
 
-        public Task<bool> IsTeamAuthorAsync(long userId, long teamId)
+        public async Task<bool> IsTeamAuthorAsync(long userId, long teamId)
         {
-            return _appContext.Teams.AnyAsync(i => i.AuthorId == userId && i.Id == teamId);
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            return team.AuthorId == userId;
         }
     }
 }

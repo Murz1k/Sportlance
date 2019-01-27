@@ -43,11 +43,5 @@ namespace Sportlance.WebAPI.Entities
         public ICollection<TeamPhoto> TeamPhotos { get; set; }
 
         public ICollection<TrainerTeam> TrainerTeams { get; set; }
-
-        public void DeletePhoto(long photoId)
-        {
-            var photo = TeamPhotos.FirstOrDefault(i => i.Id == photoId);
-            TeamPhotos.Remove(photo);
-        }
     }
 }

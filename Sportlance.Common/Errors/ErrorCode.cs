@@ -15,6 +15,8 @@
         UpdateInProgress,
         TxIsInvalid,
         TeamNotFound,
-        UserAlreadyExist
+        UserAlreadyExist,
+        TeamServiceNotFound,
+        TrainerNotFound
     }
 }

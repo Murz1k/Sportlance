@@ -69,6 +69,14 @@ namespace Sportlance.WebAPI.Teams
             return NoContent();
         }
 
+        [HttpDelete("{teamId}/services/{serviceId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteServiceAsync(long teamId, long serviceId)
+        {
+            await _service.DeleteServiceAsync(teamId, serviceId);
+            return NoContent();
+        }
+
         [HttpGet("{teamId}/members")]
         public async Task<PartialCollectionResponse<TeamPhoto>> GetMembersCollection(long teamId)
         {
