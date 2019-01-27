@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sportlance.Common.Models;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Trainers
@@ -22,8 +21,6 @@ namespace Sportlance.WebAPI.Trainers
         Task UpdateBackgroundImageAsync(long trainerId, StorageFile photo);
 
         Task UpdatePriceAsync(long trainerId, double price);
-
-        Task<bool> CanInviteTrainer(long userId, long trainerId);
 
         Task<IReadOnlyCollection<TraningItem>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate,
             DateTimeOffset toDate);

@@ -2,21 +2,27 @@
 {
     public enum ErrorCode
     {
+        // Auth
         AuthenticationError,
         IncorrectPassword,
         EmailIsNotConfirmed,
-        IncorrectData,
         RegistrationIsAlreadyConfirmed,
+        // Team
+        TeamNotFound,
+        TeamServiceNotFound,
+        // Trainer
+        TrainerNotFound,
+        // User
+        UserNotFound,
+        UserAlreadyHasRole,
+        UserAlreadyExist,
+        RoleNotFound,
+        UserAccessDenied,
+        // Other
+        IncorrectData,
         IncorrectValidation,
         ServerError,
-        UserNotFound,
-        RoleNotFound,
-        UserAlreadyHasRole,
         UpdateInProgress,
-        TxIsInvalid,
-        TeamNotFound,
-        UserAlreadyExist,
-        TeamServiceNotFound,
-        TrainerNotFound
+        TxIsInvalid
     }
 }

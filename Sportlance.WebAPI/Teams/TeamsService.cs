@@ -50,6 +50,21 @@ namespace Sportlance.WebAPI.Teams
                 }).GetPageAsync(query.Offset, query.Count);
         }
 
+        public async Task<bool> CanInviteTrainer(long authorId, long trainerId, long teamId)
+        {
+            var team = await _appContext.Teams.Include(i => i.TrainerTeams).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+            if (team.AuthorId != authorId)
+            {
+                throw new AppErrorException(ErrorCode.UserAccessDenied);
+            }
+
+            return !team.TrainerTeams.Any(i => i.TrainerId == trainerId);
+        }
+
         public async Task<PagingCollection<TeamPhoto>> GetPhotosAsync(int offset, int count, long teamId)
         {
             var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
@@ -69,7 +84,17 @@ namespace Sportlance.WebAPI.Teams
             string about, string phoneNumber, StorageFile photo)
         {
             var author = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
+            if (author == null)
+            {
+                throw new AppErrorException(ErrorCode.UserNotFound);
+            }
+
             var roleTeam = await _appContext.Roles.FirstOrDefaultAsync(r => r.Name == "Team");
+            if (roleTeam == null)
+            {
+                throw new AppErrorException(ErrorCode.RoleNotFound);
+            }
+
             var newTeam = new Team
             {
                 AuthorId = authorId,

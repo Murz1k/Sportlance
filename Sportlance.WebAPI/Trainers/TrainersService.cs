@@ -80,6 +80,11 @@ namespace Sportlance.WebAPI.Trainers
                 .Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
                 .Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Client)
                 .FirstOrDefaultAsync(i => i.UserId == trainerId);
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
             return new TrainerProfile
             {
                 Id = trainer.UserId,
@@ -124,38 +129,55 @@ namespace Sportlance.WebAPI.Trainers
         public async Task SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus)
         {
             var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
             trainer.Status = trainerStatus;
+
             await _appContext.SaveChangesAsync();
         }
 
         public async Task UpdateAboutAsync(long trainerId, string about)
         {
             var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
             trainer.About = about;
+
             await _appContext.SaveChangesAsync();
         }
 
         public async Task UpdatePriceAsync(long trainerId, double price)
         {
             var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
-            trainer.Price = price;
-            await _appContext.SaveChangesAsync();
-        }
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
 
-        public Task<bool> CanInviteTrainer(long userId, long trainerId)
-        {
-            return (from team in _appContext.Teams
-                where team.AuthorId == userId
-                join trainerTeam in _appContext.TrainerTeams on team.Id equals trainerTeam.TeamId
-                select trainerTeam).AnyAsync(i => i.TrainerId == trainerId);
+            trainer.Price = price;
+
+            await _appContext.SaveChangesAsync();
         }
 
         public async Task UpdateBackgroundImageAsync(long trainerId, StorageFile photo)
         {
+            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
             var photoName = $"trainer-{trainerId}/background";
             var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
-            var team = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
-            team.BackgroundUrl = link;
+
+            trainer.BackgroundUrl = link;
+
             await _appContext.SaveChangesAsync();
         }
 

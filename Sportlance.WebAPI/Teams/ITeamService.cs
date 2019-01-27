@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Sportlance.Common.Models;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Teams
@@ -25,6 +24,8 @@ namespace Sportlance.WebAPI.Teams
         Task AddPhotoAsync(long teamId, StorageFile photo);
 
         Task DeletePhotoAsync(long teamId, long photoId);
+
+        Task<bool> CanInviteTrainer(long authorId, long trainerId, long teamId);
 
         Task DeleteServiceAsync(long teamId, long serviceId);
 

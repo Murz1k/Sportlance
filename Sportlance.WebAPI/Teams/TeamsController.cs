@@ -6,7 +6,6 @@ using Sportlance.Common.Errors;
 using Sportlance.Common.Exceptions;
 using Sportlance.Common.Extensions;
 using Sportlance.Common.Models;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Teams.Requests;
@@ -36,13 +35,9 @@ namespace Sportlance.WebAPI.Teams
         [Route("{teamId}")]
         public async Task<IActionResult> GetById(long teamId)
         {
-                var profile = await _service.GetById(teamId);
-                if (profile == null)
-                {
-                    throw new AppErrorException(ErrorCode.TeamNotFound);
-                }
+            var profile = await _service.GetById(teamId);
 
-                return Ok(profile);
+            return Ok(profile);
         }
 
         [HttpGet("{teamId}/photos")]
@@ -52,20 +47,22 @@ namespace Sportlance.WebAPI.Teams
 
             return trainers.ToPartialCollectionResponse();
         }
-        
+
         [Authorize]
         [HttpPost("{teamId}/photos")]
         public async Task<IActionResult> AddPhotoAsync(long teamId, [FromForm] IFormFile photo)
         {
             await _service.AddPhotoAsync(teamId, photo.ToStorageFile());
+
             return NoContent();
         }
-        
+
         [HttpDelete("{teamId}/photos/{photoId}")]
         [Authorize]
         public async Task<IActionResult> RemovePhotoAsync(long teamId, long photoId)
         {
             await _service.DeletePhotoAsync(teamId, photoId);
+
             return NoContent();
         }
 
@@ -74,6 +71,7 @@ namespace Sportlance.WebAPI.Teams
         public async Task<IActionResult> DeleteServiceAsync(long teamId, long serviceId)
         {
             await _service.DeleteServiceAsync(teamId, serviceId);
+
             return NoContent();
         }
 
@@ -84,12 +82,13 @@ namespace Sportlance.WebAPI.Teams
 
             return trainers.ToPartialCollectionResponse();
         }
-        
+
         [HttpPost("{teamId}/members")]
         [Authorize]
         public async Task<IActionResult> InviteMemberAsync(long teamId, [FromBody] InviteMemberRequest request)
         {
             await _service.InviteMemberAsync(teamId, request.MemberId);
+
             return NoContent();
         }
 
@@ -113,6 +112,14 @@ namespace Sportlance.WebAPI.Teams
 
         [HttpGet]
         [Authorize]
+        [Route("{teamId}/trainers/{trainerId}/canInvite")]
+        public Task<bool> CanInviteTrainer(long teamId, long trainerId)
+        {
+            return _service.CanInviteTrainer(User.GetUserId(), trainerId, teamId);
+        }
+
+        [HttpGet]
+        [Authorize]
         [Route("self")]
         public async Task<PartialCollectionResponse<TeamListItem>> GetSelfTeams([FromQuery] TeamQuery query)
         {
@@ -121,16 +128,16 @@ namespace Sportlance.WebAPI.Teams
             return teams.ToPartialCollectionResponse();
         }
 
-//        [HttpPost]
-//        [Authorize]
-//        [Route("availability")]
-//        public async Task<IActionResult> SetAvailabilityAsync([FromBody] SetAvailabilityRequest request)
-//        {
-//            await _service.SetAvailabilityAsync(User.GetUserId(),
-//                request.IsAvailable ? TrainerStatus.Available : TrainerStatus.NotAvailable);
-//
-//            return NoContent();
-//        }
+        //        [HttpPost]
+        //        [Authorize]
+        //        [Route("availability")]
+        //        public async Task<IActionResult> SetAvailabilityAsync([FromBody] SetAvailabilityRequest request)
+        //        {
+        //            await _service.SetAvailabilityAsync(User.GetUserId(),
+        //                request.IsAvailable ? TrainerStatus.Available : TrainerStatus.NotAvailable);
+        //
+        //            return NoContent();
+        //        }
 
         [HttpPut]
         [Authorize]
@@ -142,24 +149,27 @@ namespace Sportlance.WebAPI.Teams
             return NoContent();
         }
 
-//        [HttpPut]
-//        [Authorize]
-//        [Route("price")]
-//        public async Task<IActionResult> UpdatePriceAsync([FromBody] UpdatePriceRequest request)
-//        {
-//            await _service.UpdatePriceAsync(User.GetUserId(), request.Price);
-//
-//            return NoContent();
-//        }
+        //        [HttpPut]
+        //        [Authorize]
+        //        [Route("price")]
+        //        public async Task<IActionResult> UpdatePriceAsync([FromBody] UpdatePriceRequest request)
+        //        {
+        //            await _service.UpdatePriceAsync(User.GetUserId(), request.Price);
+        //
+        //            return NoContent();
+        //        }
 
         [HttpPut("photo")]
         [Authorize]
         public async Task<IActionResult> UploadPhotoAsync([FromForm] ChangeTeamPhotoRequest request)
         {
             if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
-                throw new AppErrorException(ErrorCode.ServerError);
+            {
+                throw new AppErrorException(ErrorCode.UserAccessDenied);
+            }
 
             await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToStorageFile());
+
             return NoContent();
         }
 
@@ -168,9 +178,12 @@ namespace Sportlance.WebAPI.Teams
         public async Task<IActionResult> UploadBackgroundAsync([FromForm] ChangeTeamPhotoRequest request)
         {
             if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
-                throw new AppErrorException(ErrorCode.ServerError);
+            {
+                throw new AppErrorException(ErrorCode.UserAccessDenied);
+            }
 
             await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToStorageFile());
+
             return NoContent();
         }
     }
