@@ -9,6 +9,7 @@ using Sportlance.Common.Models;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Teams.Requests;
+using Sportlance.WebAPI.Teams.Responses;
 using Sportlance.WebAPI.Trainers.Requests;
 
 namespace Sportlance.WebAPI.Teams
@@ -64,6 +65,36 @@ namespace Sportlance.WebAPI.Teams
             await _service.DeletePhotoAsync(teamId, photoId);
 
             return NoContent();
+        }
+
+        [HttpGet("{teamId}/services")]
+        [Authorize]
+        public async Task<IActionResult> GetAllServicesAsync(long teamId)
+        {
+            await _service.GetServicesAsync(teamId);
+
+            return NoContent();
+        }
+
+        [HttpGet("{teamId}/services/{serviceId}")]
+        [Authorize]
+        public async Task<TeamServiceResponse> GetServiceByIdAsync(long teamId, long serviceId)
+        {
+            return new TeamServiceResponse(await _service.GetServiceByIdAsync(teamId, serviceId));
+        }
+
+        [HttpPost("{teamId}/services")]
+        [Authorize]
+        public async Task<TeamServiceResponse> AddServiceAsync(long teamId, UpdateTeamServiceRequest request)
+        {
+            return new TeamServiceResponse(await _service.AddServiceAsync(teamId));
+        }
+
+        [HttpPut("{teamId}/services/{serviceId}")]
+        [Authorize]
+        public async Task<TeamServiceResponse> UpdateServiceAsync(long teamId, long serviceId, UpdateTeamServiceRequest request)
+        {
+            return new TeamServiceResponse(await _service.UpdateServiceAsync(teamId, serviceId));
         }
 
         [HttpDelete("{teamId}/services/{serviceId}")]

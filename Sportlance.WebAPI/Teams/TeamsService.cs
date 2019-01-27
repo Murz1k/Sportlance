@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -30,24 +31,24 @@ namespace Sportlance.WebAPI.Teams
         public async Task<PagingCollection<TeamListItem>> GetAsync(TeamQuery query, long? userId = null)
         {
             var teamQuery = from team in _appContext.Teams.Include(i => i.TrainerTeams)
-                where team.Status == TeamStatus.Available
-                      && (!userId.HasValue || userId.Value == team.AuthorId ||
-                          team.TrainerTeams.Any(i => i.TrainerId == userId.Value))
-                      && (query.Country == null || team.Country.Contains(query.Country))
-                      && (query.City == null || team.City.Contains(query.City))
-                select team;
+                            where team.Status == TeamStatus.Available
+                                  && (!userId.HasValue || userId.Value == team.AuthorId ||
+                                      team.TrainerTeams.Any(i => i.TrainerId == userId.Value))
+                                  && (query.Country == null || team.Country.Contains(query.Country))
+                                  && (query.City == null || team.City.Contains(query.City))
+                            select team;
             return await (from team in teamQuery
-                select new TeamListItem
-                {
-                    Id = team.Id,
-                    City = team.City,
-                    Country = team.Country,
-                    PhotoUrl = team.PhotoUrl,
-                    Title = team.Title,
-                    PhoneNumber = team.PhoneNumber,
-                    SubTitle = team.SubTitle,
-                    About = team.About
-                }).GetPageAsync(query.Offset, query.Count);
+                          select new TeamListItem
+                          {
+                              Id = team.Id,
+                              City = team.City,
+                              Country = team.Country,
+                              PhotoUrl = team.PhotoUrl,
+                              Title = team.Title,
+                              PhoneNumber = team.PhoneNumber,
+                              SubTitle = team.SubTitle,
+                              About = team.About
+                          }).GetPageAsync(query.Offset, query.Count);
         }
 
         public async Task<bool> CanInviteTrainer(long authorId, long trainerId, long teamId)
@@ -110,7 +111,7 @@ namespace Sportlance.WebAPI.Teams
 
             if (author.UserRoles.All(i => i.RoleId != roleTeam.Id))
             {
-                _appContext.Add(new UserRole {RoleId = roleTeam.Id, UserId = authorId});
+                _appContext.Add(new UserRole { RoleId = roleTeam.Id, UserId = authorId });
             }
 
             _appContext.Add(newTeam);
@@ -154,18 +155,18 @@ namespace Sportlance.WebAPI.Teams
                 PhotoUrl = team.PhotoUrl,
                 About = team.About,
                 Status = team.Status
-//                Score = team.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback?.Score),
-//                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
-//                    .OrderByDescending(i => i.Feedback.CreateDate).Select(i =>
-//                        new ReviewInfo
-//                        {
-//                            ClientName = i.Client.User.FirstName,
-//                            Score = i.Feedback.Score,
-//                            Description = i.Feedback.Description,
-//                            CreateDate = i.Feedback.CreateDate
-//                        }).ToArray(),
-//                Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray(),
-//                TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
+                //                Score = team.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback?.Score),
+                //                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
+                //                    .OrderByDescending(i => i.Feedback.CreateDate).Select(i =>
+                //                        new ReviewInfo
+                //                        {
+                //                            ClientName = i.Client.User.FirstName,
+                //                            Score = i.Feedback.Score,
+                //                            Description = i.Feedback.Description,
+                //                            CreateDate = i.Feedback.CreateDate
+                //                        }).ToArray(),
+                //                Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray(),
+                //                TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
             };
         }
 
@@ -188,18 +189,18 @@ namespace Sportlance.WebAPI.Teams
                 About = team.About,
                 PhoneNumber = team.PhoneNumber,
                 Status = team.Status
-//                Score = team.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback?.Score),
-//                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
-//                    .OrderByDescending(i => i.Feedback.CreateDate).Select(i =>
-//                        new ReviewInfo
-//                        {
-//                            ClientName = i.Client.User.FirstName,
-//                            Score = i.Feedback.Score,
-//                            Description = i.Feedback.Description,
-//                            CreateDate = i.Feedback.CreateDate
-//                        }).ToArray(),
-//                Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray(),
-//                TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
+                //                Score = team.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback?.Score),
+                //                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
+                //                    .OrderByDescending(i => i.Feedback.CreateDate).Select(i =>
+                //                        new ReviewInfo
+                //                        {
+                //                            ClientName = i.Client.User.FirstName,
+                //                            Score = i.Feedback.Score,
+                //                            Description = i.Feedback.Description,
+                //                            CreateDate = i.Feedback.CreateDate
+                //                        }).ToArray(),
+                //                Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray(),
+                //                TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
             };
         }
 
@@ -232,30 +233,11 @@ namespace Sportlance.WebAPI.Teams
 
             var photo = team.TeamPhotos.FirstOrDefault(i => i.Id == photoId);
             team.TeamPhotos.Remove(photo);
-            
+
             await _appContext.SaveChangesAsync();
 
             var photoName = $"team-{teamId}/photo-{photoId}";
             await _teamPhotosStorageProvider.DeleteAsync(photoName);
-        }
-
-        public async Task DeleteServiceAsync(long teamId, long serviceId)
-        {
-            var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
-            if(team == null)
-            {
-                throw new AppErrorException(ErrorCode.TeamNotFound);
-            }
-
-            var service = team.Services.FirstOrDefault(i => i.Id == serviceId);
-            if (service == null)
-            {
-                throw new AppErrorException(ErrorCode.TeamServiceNotFound);
-            }
-
-            service.IsDeleted = true;
-
-            await _appContext.SaveChangesAsync();
         }
 
         public async Task UpdateMainPhotoAsync(long teamId, StorageFile photo)
@@ -304,7 +286,7 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.TrainerNotFound);
             }
 
-            team.TrainerTeams.Add(new TrainerTeam {Trainer = trainer});
+            team.TrainerTeams.Add(new TrainerTeam { Trainer = trainer });
 
             await _appContext.SaveChangesAsync();
         }
@@ -318,6 +300,130 @@ namespace Sportlance.WebAPI.Teams
             }
 
             return team.AuthorId == userId;
+        }
+
+        public async Task<ICollection<TeamService>> GetServicesAsync(long teamId)
+        {
+            var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            return team.Services;
+        }
+
+        public async Task<TeamService> GetServiceByIdAsync(long teamId, long serviceId)
+        {
+            var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            var service = team.Services.FirstOrDefault(i => i.Id == serviceId);
+            if (service == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamServiceNotFound);
+            }
+
+            return service;
+        }
+
+        public async Task<TeamService> AddServiceAsync(long teamId, string name, string description, string duration, long price)
+        {
+            if (name == string.Empty)
+            {
+                throw new AppErrorException(ErrorCode.NameIsRequired);
+            }
+
+            if (duration == string.Empty)
+            {
+                throw new AppErrorException(ErrorCode.DurationIsRequired);
+            }
+
+            if (price < 0)
+            {
+                throw new AppErrorException(ErrorCode.PriceMustBeGreaterThanZero);
+            }
+
+            var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            var newService = new TeamService
+            {
+                Description = description,
+                Duration = duration,
+                Name = name,
+                Price = price
+            };
+
+            team.Services.Add(newService);
+
+            await _appContext.SaveChangesAsync();
+
+            return newService;
+        }
+
+        public async Task<TeamService> UpdateServiceAsync(long teamId, long serviceId, string name, string description, string duration, long price)
+        {
+            if (name == string.Empty)
+            {
+                throw new AppErrorException(ErrorCode.NameIsRequired);
+            }
+
+            if (duration == string.Empty)
+            {
+                throw new AppErrorException(ErrorCode.DurationIsRequired);
+            }
+
+            if (price < 0)
+            {
+                throw new AppErrorException(ErrorCode.PriceMustBeGreaterThanZero);
+            }
+
+            var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            var service = team.Services.FirstOrDefault(i => i.Id == serviceId);
+            if (service == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamServiceNotFound);
+            }
+
+            service.Description = description;
+            service.Duration = duration;
+            service.Name = name;
+            service.Price = price;
+
+            await _appContext.SaveChangesAsync();
+
+            return service;
+        }
+
+        public async Task DeleteServiceAsync(long teamId, long serviceId)
+        {
+            var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            var service = team.Services.FirstOrDefault(i => i.Id == serviceId);
+            if (service == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamServiceNotFound);
+            }
+
+            service.IsDeleted = true;
+
+            await _appContext.SaveChangesAsync();
         }
     }
 }

@@ -10,6 +10,8 @@
         // Team
         TeamNotFound,
         TeamServiceNotFound,
+        DurationIsRequired,
+        PriceMustBeGreaterThanZero,
         // Trainer
         TrainerNotFound,
         // User
@@ -18,6 +20,8 @@
         UserAlreadyExist,
         RoleNotFound,
         UserAccessDenied,
+        // Common
+        NameIsRequired,
         // Other
         IncorrectData,
         IncorrectValidation,
