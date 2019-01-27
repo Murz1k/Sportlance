@@ -1,14 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Feedback = Sportlance.WebAPI.Entities.Feedback;
-using Role = Sportlance.WebAPI.Entities.Role;
-using Sport = Sportlance.WebAPI.Entities.Sport;
-using TeamPhoto = Sportlance.WebAPI.Entities.TeamPhoto;
-using Trainer = Sportlance.WebAPI.Entities.Trainer;
-using TrainerSport = Sportlance.WebAPI.Entities.TrainerSport;
-using TrainerTeam = Sportlance.WebAPI.Entities.TrainerTeam;
-using Training = Sportlance.WebAPI.Entities.Training;
-using User = Sportlance.WebAPI.Entities.User;
-using UserRole = Sportlance.WebAPI.Entities.UserRole;
+using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Core
 {
@@ -29,7 +20,7 @@ namespace Sportlance.WebAPI.Core
 
         public DbSet<Trainer> Trainers { get; set; }
 
-        public DbSet<Entities.Team> Teams { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         public DbSet<TrainerSport> TrainerSports { get; set; }
 
@@ -54,7 +45,7 @@ namespace Sportlance.WebAPI.Core
             modelBuilder.Entity<Trainer>()
                 .HasMany(i => i.TrainerTeams);
             
-            modelBuilder.Entity<Entities.Team>()
+            modelBuilder.Entity<Team>()
                 .HasMany(i => i.TrainerTeams);
 
             modelBuilder.Entity<Trainer>()
@@ -76,6 +67,9 @@ namespace Sportlance.WebAPI.Core
 
             modelBuilder.Entity<Feedback>()
                 .HasKey(r => r.TrainingId);
+
+            modelBuilder.Entity<TeamService>()
+                .HasOne(c => c.Team);
 
             modelBuilder.Entity<TrainerSport>()
                 .HasOne(c => c.Sport);

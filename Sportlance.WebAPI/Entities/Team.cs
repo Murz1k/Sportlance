@@ -38,6 +38,8 @@ namespace Sportlance.WebAPI.Entities
 
         public User Author { get; set; }
 
+        public ICollection<TeamService> Services { get; set; }
+
         public ICollection<TeamPhoto> TeamPhotos { get; set; }
 
         public ICollection<TrainerTeam> TrainerTeams { get; set; }
