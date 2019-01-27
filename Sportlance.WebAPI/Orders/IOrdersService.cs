@@ -7,6 +7,14 @@ namespace Sportlance.WebAPI.Orders
     public interface IOrdersService
     {
         /// <summary>
+        /// Добавление заказа
+        /// </summary>
+        /// <param name="customerId">Идентификатор заказчика (пользователя)</param>
+        /// <param name="description">Описание заказа</param>
+        /// <returns></returns>
+        Task<Order> AddAsync(long customerId, string description);
+
+        /// <summary>
         /// Показать заказы для пользователя (заказчика)
         /// </summary>
         /// <param name="customerId">Идентификатор заказчика (пользователя)</param>

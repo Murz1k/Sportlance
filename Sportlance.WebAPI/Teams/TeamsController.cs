@@ -7,6 +7,7 @@ using Sportlance.Common.Exceptions;
 using Sportlance.Common.Extensions;
 using Sportlance.Common.Models;
 using Sportlance.WebAPI.Entities;
+using Sportlance.WebAPI.Orders;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Teams.Requests;
 using Sportlance.WebAPI.Teams.Responses;
@@ -18,10 +19,12 @@ namespace Sportlance.WebAPI.Teams
     public class TeamsController : Controller
     {
         private readonly ITeamService _service;
+        private readonly IOrdersService _ordersService;
 
-        public TeamsController(ITeamService service)
+        public TeamsController(ITeamService service, IOrdersService ordersService)
         {
             _service = service;
+            _ordersService = ordersService;
         }
 
         [HttpGet]

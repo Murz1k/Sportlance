@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,39 @@ namespace Sportlance.WebAPI.Orders
         }
 
         /// <summary>
+        /// Добавление заказа
+        /// </summary>
+        /// <param name="customerId">Идентификатор заказчика (пользователя)</param>
+        /// <param name="description">Описание заказа</param>
+        /// <returns></returns>
+        public async Task<Order> AddAsync(long customerId, string description)
+        {
+            var customer = await _appContext.Users.FirstOrDefaultAsync(i => i.Id == customerId);
+            if (customer == null)
+            {
+                throw new AppErrorException(ErrorCode.UserNotFound);
+            }
+
+            var nowDateTimeOffset = DateTimeOffset.Now;
+
+            var newOrder = new Order
+            {
+                Status = OrderStatus.Ready,
+                CreateDate = nowDateTimeOffset,
+                UpdateDate = nowDateTimeOffset,
+                IsPaid = false,
+                CustomerId = customerId,
+                Description = description
+            };
+
+            _appContext.Add(newOrder);
+
+            await _appContext.SaveChangesAsync();
+
+            return newOrder;
+        }
+
+        /// <summary>
         /// Изменение статуса заказа
         /// </summary>
         /// <param name="orderId">Идентификатор заказа</param>
@@ -85,6 +119,7 @@ namespace Sportlance.WebAPI.Orders
             }
 
             order.Status = status;
+            order.UpdateDate = DateTimeOffset.Now;
 
             await _appContext.SaveChangesAsync();
 
