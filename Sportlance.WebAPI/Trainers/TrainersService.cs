@@ -104,7 +104,7 @@ namespace Sportlance.WebAPI.Trainers
             };
         }
 
-        public async Task<User> AddAsync(User user)
+        public async Task<Trainer> AddAsync(User user)
         {
             var role = await _appContext.Roles.FirstOrDefaultAsync(i => i.Name == "Trainer");
             if (role == null)
@@ -119,11 +119,13 @@ namespace Sportlance.WebAPI.Trainers
 
             user.AddRole(role);
 
-            await _appContext.AddAsync(new Trainer {UserId = user.Id});
+            var newTrainer = new Trainer { UserId = user.Id };
+
+            _appContext.Add(newTrainer);
 
             await _appContext.SaveChangesAsync();
 
-            return user;
+            return newTrainer;
         }
 
         public async Task SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus)

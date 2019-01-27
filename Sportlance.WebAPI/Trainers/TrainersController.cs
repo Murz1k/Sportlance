@@ -55,7 +55,7 @@ namespace Sportlance.WebAPI.Trainers
                 throw new AppErrorException(ErrorCode.UserNotFound);
             }
             
-            user = await _service.AddAsync(user);
+            await _service.AddAsync(user);
 
             return new LoginResponse
             {
