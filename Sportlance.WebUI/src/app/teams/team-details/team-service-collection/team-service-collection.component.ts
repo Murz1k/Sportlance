@@ -1,4 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {AddTeamPhotoDialogData} from "../team-photo-collection/add-team-photo-dialog/add-team-photo-dialog-data";
+import {EditServiceDialogComponent} from "./edit-service-dialog/edit-service-dialog.component";
+import {MatDialog} from "@angular/material";
+import {TeamsService} from "../../teams.service";
+import {map, tap} from "rxjs/operators";
+import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
 
 @Component({
   selector: 'sl-team-service-collection',
@@ -9,22 +15,35 @@ export class TeamServiceCollectionComponent implements OnInit {
 
   @Input() teamId: number;
 
-  teamServices = [];
+  teamServices: TeamServiceResponse[];
 
-  constructor() {
+  constructor(
+    private dialog: MatDialog, private teamsService: TeamsService) {
   }
 
   ngOnInit() {
-    this.teamServices = [
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'},
-      {title: 'Абонемент 12', description: 'прикольно', price: 50000, period: '12 месяцев'}
-    ];
+    this.loadData();
+  }
+
+  showModal() {
+    this.dialog.open(EditServiceDialogComponent, {data: <AddTeamPhotoDialogData>{teamId: this.teamId}})
+      .afterClosed()
+      .pipe((map((newService) => {
+        if (newService) {
+          this.teamServices.unshift(newService);
+        }
+      })))
+      .subscribe();
+  }
+
+  loadData() {
+    this.teamsService.getServicesByTeamId(this.teamId)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.teamServices = response.items;
+        } else {
+          this.teamServices = [];
+        }
+      })).subscribe();
   }
 }

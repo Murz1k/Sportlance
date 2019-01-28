@@ -31,7 +31,7 @@ export class CreateTeamComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: ['', [Validators.required]],
       subtitle: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(12)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       // country: ['', Validators.required],
       city: ['', [Validators.required]],
       about: ['']

@@ -2,35 +2,7 @@
   display: flex;
   width: max-content;
 
-  .service-item {
-    padding: 20px;
-    width: 258px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    &:not(:last-of-type) {
-      margin-right: 24px;
-    }
-
-    .title {
-      text-align: center;
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    .duration strong, .price strong {
-      font-size: 20px;
-    }
-
-    p {
-      margin-bottom: 10px;
-    }
-
-    button {
-      margin-top: 20px;
-    }
+  sl-team-service-collection-item:not(:last-of-type) {
+    margin-right: 24px;
   }
 }

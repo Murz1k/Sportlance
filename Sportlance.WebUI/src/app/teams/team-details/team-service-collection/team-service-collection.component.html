@@ -4,24 +4,14 @@
     <h3 class="m-0-bottom pull-left">
       Услуги
     </h3>
+    <button (click)="showModal()" sl-button class="btn-rnd"
+            style="position: absolute;     right: 30px;    top: 20px;">
+      <i class="material-icons" style="font-size: 20px;">add</i>
+    </button>
     <!--<a *ngIf="!teamMembers" [routerLink]="['/trainers']" style="float: right">Найти тренеров</a>-->
   </div>
   <section class="service-collection">
-    <div class="air-card service-item" *ngFor="let service of teamServices">
-      <div class="title">{{service.title}}</div>
-      <p>{{service.description}}</p>
-      <div class="duration">Длительность: <strong>{{service.period}}</strong></div>
-      <div class="price">Стоимость: <strong>{{service.price}} руб.</strong></div>
-      <button sl-button slType="primary">Купить</button>
-      <!--<img *ngIf="teamMember.photoUrl" src="{{teamMember.photoUrl}}">-->
-      <!--<div *ngIf="!teamMember.photoUrl" class="empty-avatar">-->
-      <!--<i class="material-icons">account_circle</i>-->
-      <!--</div>-->
-      <!--<a [routerLink]="['/trainers',teamMember.id]" class="member-title">{{teamMember.firstName}}-->
-      <!--{{teamMember.secondName}}</a>-->
-      <!--<button sl-button slType="primary" class="member-button">-->
-      <!--Записаться-->
-      <!--</button>-->
-    </div>
+    <sl-team-service-collection-item [service]="service" *ngFor="let service of teamServices">
+    </sl-team-service-collection-item>
   </section>
 </div>

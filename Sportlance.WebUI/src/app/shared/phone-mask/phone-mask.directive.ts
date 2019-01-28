@@ -47,6 +47,10 @@ const format = (number) => {
       }
 
       lastCharIndex++;
+      if(i === 0 && cleanValue[i] === '7'){
+        return `+${cleanValue[lastCharIndex - 1]}`;
+      }
+
       return cleanValue[lastCharIndex - 1];
     } else {
       return c;
@@ -59,7 +63,7 @@ const format = (number) => {
 
   cursorPosition++;
   return {
-    formatted: `+${formatted}`,
+    formatted: `${formatted}`,
     cursorPosition
   };
 };
@@ -115,7 +119,7 @@ export class PhoneMaskDirective {
   emitValue(v) {
     let value;
     if (this.valueType === 'clean') {
-      value = v.replace(/[^\d+]/gm, '');
+      value = v.replace('+', '').replace(/[^\d+]/gm, '');
     } else if (this.valueType === 'full') {
       value = v;
     }

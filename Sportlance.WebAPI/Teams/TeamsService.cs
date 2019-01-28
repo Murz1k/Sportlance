@@ -332,7 +332,7 @@ namespace Sportlance.WebAPI.Teams
 
         public async Task<TeamService> AddServiceAsync(long teamId, string name, string description, string duration, long price)
         {
-            if (name == string.Empty)
+            if (name == null || name == string.Empty)
             {
                 throw new AppErrorException(ErrorCode.NameIsRequired);
             }
@@ -342,7 +342,7 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.DurationIsRequired);
             }
 
-            if (price < 0)
+            if (price <= 0)
             {
                 throw new AppErrorException(ErrorCode.PriceMustBeGreaterThanZero);
             }

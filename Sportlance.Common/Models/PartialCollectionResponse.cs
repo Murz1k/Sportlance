@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Sportlance.Common.Models
 {
@@ -10,6 +11,14 @@ namespace Sportlance.Common.Models
             Count = items.Count;
             TotalCount = totalCount;
             Items = items;
+        }
+
+        public PartialCollectionResponse(IEnumerable<TItem> items, int offset, int totalCount)
+        {
+            Offset = offset;
+            Items = items.ToArray();
+            Count = Items.Count;
+            TotalCount = totalCount;
         }
 
         public IReadOnlyCollection<TItem> Items { get; }

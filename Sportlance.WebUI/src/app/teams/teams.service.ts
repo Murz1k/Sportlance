@@ -8,6 +8,9 @@ import {InviteMemberRequest} from '../shared/teams/requests/invite-member-reques
 import {GetTeamQuery} from '../shared/teams/requests/get-team-query';
 import {TeamResponse} from '../shared/teams/requests/team-response';
 import {Observable} from 'rxjs/internal/Observable';
+import {TeamServiceResponse} from "../shared/teams/responses/team-service-response";
+import {ErrorResponse} from "../core/error-response";
+import {UpdateTeamServiceRequest} from "../shared/teams/requests/update-team-service-request";
 
 @Injectable()
 export class TeamsService {
@@ -38,6 +41,14 @@ export class TeamsService {
 
   getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse>> {
     return this.http.get<CollectionResponse<TeamPhotoResponse>>(`/teams/${teamId}/photos`);
+  }
+
+  addService(teamId: number, request: UpdateTeamServiceRequest) {
+    return this.http.post<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services`, request);
+  }
+
+  getServicesByTeamId(teamId: number): Observable<CollectionResponse<TeamServiceResponse> & ErrorResponse> {
+    return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`);
   }
 
   deletePhoto(teamId: number, photoId: number) {

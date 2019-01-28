@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -72,11 +73,11 @@ namespace Sportlance.WebAPI.Teams
 
         [HttpGet("{teamId}/services")]
         [Authorize]
-        public async Task<IActionResult> GetAllServicesAsync(long teamId)
+        public async Task<PartialCollectionResponse<TeamServiceResponse>> GetAllServicesAsync(long teamId)
         {
-            await _service.GetServicesAsync(teamId);
+            var items = await _service.GetServicesAsync(teamId);
 
-            return NoContent();
+            return new PartialCollectionResponse<TeamServiceResponse>(items.Select(item => new TeamServiceResponse(item)), 0, 0);
         }
 
         [HttpGet("{teamId}/services/{serviceId}")]
@@ -88,14 +89,14 @@ namespace Sportlance.WebAPI.Teams
 
         [HttpPost("{teamId}/services")]
         [Authorize]
-        public async Task<TeamServiceResponse> AddServiceAsync(long teamId, UpdateTeamServiceRequest request)
+        public async Task<TeamServiceResponse> AddServiceAsync(long teamId, [FromBody]UpdateTeamServiceRequest request)
         {
             return new TeamServiceResponse(await _service.AddServiceAsync(teamId, request.Name, request.Description, request.Duration, request.Price));
         }
 
         [HttpPut("{teamId}/services/{serviceId}")]
         [Authorize]
-        public async Task<TeamServiceResponse> UpdateServiceAsync(long teamId, long serviceId, UpdateTeamServiceRequest request)
+        public async Task<TeamServiceResponse> UpdateServiceAsync(long teamId, long serviceId, [FromBody]UpdateTeamServiceRequest request)
         {
             return new TeamServiceResponse(await _service.UpdateServiceAsync(teamId, serviceId, request.Name, request.Description, request.Duration, request.Price));
         }
