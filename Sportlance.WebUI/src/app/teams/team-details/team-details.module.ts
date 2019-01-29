@@ -13,6 +13,7 @@ import {TeamServiceCollectionComponent} from './team-service-collection/team-ser
 import {EditServiceDialogComponent} from './team-service-collection/edit-service-dialog/edit-service-dialog.component';
 import {TeamServiceCollectionItemComponent} from './team-service-collection/team-service-collection-item/team-service-collection-item.component';
 import {SlInputModule} from "../../shared/input/input.module";
+import {PhoneMaskPipeModule} from '../../shared/phone-mask-pipe/phone-mask-pipe.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import {SlInputModule} from "../../shared/input/input.module";
     NumberOnlyModule,
     MatDialogModule,
     SlInputModule,
+    PhoneMaskPipeModule,
     SlButtonModule
   ],
   entryComponents: [

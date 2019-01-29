@@ -69,7 +69,7 @@
   <div class="side-bar">
     <div *ngIf="profile.phoneNumber" class="side-bar-item">
       <a class="phone-number" href="tel:{{profile.phoneNumber}}">
-        {{profile.phoneNumber}}
+        {{profile.phoneNumber | phoneMask}}
       </a>
     </div>
   </div>
