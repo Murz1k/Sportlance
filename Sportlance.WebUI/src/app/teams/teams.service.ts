@@ -47,6 +47,15 @@ export class TeamsService {
     return this.http.post<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services`, request);
   }
 
+  updateService(teamId: number, serviceId: number, request: UpdateTeamServiceRequest) {
+    return this.http.put<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`, request);
+  }
+
+  deleteService(teamId: number, serviceId: number) {
+    return this.http.delete<ErrorResponse>(`/teams/${teamId}/services/${serviceId}`);
+  }
+
+
   getServicesByTeamId(teamId: number): Observable<CollectionResponse<TeamServiceResponse> & ErrorResponse> {
     return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`);
   }

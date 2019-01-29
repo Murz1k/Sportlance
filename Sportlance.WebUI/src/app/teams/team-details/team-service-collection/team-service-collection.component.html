@@ -11,7 +11,7 @@
     <!--<a *ngIf="!teamMembers" [routerLink]="['/trainers']" style="float: right">Найти тренеров</a>-->
   </div>
   <section class="service-collection">
-    <sl-team-service-collection-item [service]="service" *ngFor="let service of teamServices">
+    <sl-team-service-collection-item [teamId]="teamId" [service]="service" *ngFor="let service of teamServices">
     </sl-team-service-collection-item>
   </section>
 </div>

@@ -18,7 +18,7 @@
            sl-input placeholder="Цена" required>
   </form>
   <sl-team-service-collection-item *ngIf="form" [service]="form.value"></sl-team-service-collection-item>
-  <button sl-button slType="primary" (click)="submit()">
+  <button [slLoading]="isLoading" [disabled]="isLoading" sl-button slType="primary" (click)="submit()">
     Сохранить
   </button>
 </div>

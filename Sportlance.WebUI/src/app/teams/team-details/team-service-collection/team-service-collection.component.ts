@@ -17,8 +17,9 @@ export class TeamServiceCollectionComponent implements OnInit {
 
   teamServices: TeamServiceResponse[];
 
-  constructor(
-    private dialog: MatDialog, private teamsService: TeamsService) {
+  constructor(private dialog: MatDialog,
+              private teamsService: TeamsService
+  ) {
   }
 
   ngOnInit() {
@@ -26,7 +27,7 @@ export class TeamServiceCollectionComponent implements OnInit {
   }
 
   showModal() {
-    this.dialog.open(EditServiceDialogComponent, {data: <AddTeamPhotoDialogData>{teamId: this.teamId}})
+    this.dialog.open(EditServiceDialogComponent, {data: {teamId: this.teamId}})
       .afterClosed()
       .pipe((map((newService) => {
         if (newService) {
