@@ -9,6 +9,7 @@ import {InviteTrainerDialogComponent} from './invite-trainer-dialog/invite-train
 import {MatDialog} from '@angular/material';
 import {AuthService} from '../../core/auth/auth.service';
 import {Title} from "@angular/platform-browser";
+import {TeamsService} from "../../teams/teams.service";
 
 @Component({
   selector: 'sl-trainer-details',
@@ -30,7 +31,7 @@ export class TrainerDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private dialog: MatDialog,
               private titleService: Title,
-              private trainerService: TrainersService) {
+              private teamService: TeamsService) {
   }
 
   ngOnInit() {
@@ -52,7 +53,7 @@ export class TrainerDetailsComponent implements OnInit {
 
     this.trainerId = this.route.snapshot.params['id'];
     if (this.account && this.account.isTeam) {
-      this.trainerService.canInviteTrainer(this.trainerId).subscribe((canInvited) => {
+      this.teamService.canInviteTrainer(null, this.trainerId).subscribe((canInvited) => {
         this.canInvited = canInvited;
       });
     }

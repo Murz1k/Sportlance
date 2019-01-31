@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Amazon.Runtime;
+﻿using Amazon.Runtime;
 using Amazon.S3;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Sportlance.Common;
 
 namespace Sportlance.MailService
@@ -15,62 +14,55 @@ namespace Sportlance.MailService
     {
         private const string CorsPolicyName = "SportlancePolicy";
         private readonly IHostingEnvironment _currentEnvironment;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger _logger;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment currentEnvironment)
+        public Startup(ILogger<Startup> logger, IConfiguration configuration, IHostingEnvironment currentEnvironment)
         {
-            Configuration = configuration;
+            _configuration = configuration;
             _currentEnvironment = currentEnvironment;
+            _logger = logger;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            _logger.LogInformation($"Начинается конфигурация сервисов...");
+            //if (AspNetCoreEnvironment.IsLocal())
+            //{
             services.AddMvc();
+            //}
 
-            services.Configure<SmtpOptions>(Configuration.GetSection(nameof(SmtpOptions)));
-            services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
+            services.Configure<SmtpOptions>(_configuration.GetSection(nameof(SmtpOptions)));
+            services.Configure<SiteOptions>(_configuration.GetSection(nameof(SiteOptions)));
 
-            var awsOptions = Configuration.GetAWSOptions();
+            var awsOptions = _configuration.GetAWSOptions();
 
             // Это нужно для амазона, потому что там нельзя прописать дефолтный профиль
             // В амазоне нужно в environments добавить эти ключи и значения
             if (!AspNetCoreEnvironment.IsLocal())
             {
                 awsOptions.Credentials =
-                    new BasicAWSCredentials(Configuration["AWS:AccessKey"], Configuration["AWS:SecretKey"]);
+                    new BasicAWSCredentials(_configuration["AWS:AccessKey"], _configuration["AWS:SecretKey"]);
             }
 
             services.AddDefaultAWSOptions(awsOptions);
-            
+
             // 1. Нужно для IService (читать темплейты почты)
-            services.AddAWSService<IAmazonS3>();            
-            // 2. Нужно для TokenService (Декодировать токены)
-            services.AddDataProtection();
-            // 3. Нужно для IService (Декодировать токены)
-            services.AddTransient<TokenService, TokenService>();
-            // 4. Нужно для MailQueue (Отравлять письма)
+            services.AddAWSService<IAmazonS3>();
+            // 2. Нужно для MailQueue (Отравлять письма)
             services.AddTransient<IService, Service>();
-            
-            services.AddSingleton(InitializeMailQueueProvider);
 
-            ConfigureCorsPolicy(services);
+            services.AddHostedService<MailHostedService>();
 
-            RunQueue(services);
-        }
-
-        public void RunQueue(IServiceCollection services)
-        {
-            var sp = services.BuildServiceProvider();
-
-            var service = sp.GetService<MailQueueProvider>();
-            Task.Run(() => service.CheckMessagesAsync());
+            //if (AspNetCoreEnvironment.IsLocal())
+            //{
+                ConfigureCorsPolicy(services);
+            //}
+            _logger.LogInformation($"Конфигурация сервисов успешна.");
         }
 
         private void ConfigureCorsPolicy(IServiceCollection services)
         {
-            var sp = services.BuildServiceProvider();
-            var siteOptions = sp.GetService<SiteOptions>();
             var corsPolicyBuilder = new CorsPolicyBuilder();
 
             corsPolicyBuilder.AllowAnyOrigin();
@@ -94,13 +86,6 @@ namespace Sportlance.MailService
             app.UseCors(CorsPolicyName);
 
             app.UseMvc();
-        }
-
-        private MailQueueProvider InitializeMailQueueProvider(IServiceProvider serviceProvider)
-        {
-            var storageProvider = new MailQueueProvider(serviceProvider.GetService<IService>(), AspNetCoreEnvironment.ShortEnvironment());
-            storageProvider.InitializeAsync().Wait();
-            return storageProvider;
         }
     }
 }

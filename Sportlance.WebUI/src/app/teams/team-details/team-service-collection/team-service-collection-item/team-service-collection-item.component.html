@@ -1,0 +1,8 @@
+<div class="air-card service-item">
+  <div class="title">{{service.name}}</div>
+  <p>{{service.description}}</p>
+  <div class="duration">Длительность: <strong>{{service.duration}}</strong></div>
+  <div class="price">Стоимость: <strong>{{service.price}} руб.</strong></div>
+  <button sl-button slType="primary" *ngIf="service.authorId !== currentId">Купить</button>
+  <button sl-button slType="primary" *ngIf="service.authorId === currentId" (click)="showModal()">Изменить</button>
+</div>

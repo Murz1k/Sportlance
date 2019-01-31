@@ -14,7 +14,6 @@ import {MomentModule} from 'ngx-moment';
 import {BrowserModule} from '@angular/platform-browser';
 import {AboutComponent} from './about/about.component';
 import {SlButtonModule} from "./shared/button/button.module";
-import {GlobalErrorHandler} from "./core/global-error-handler";
 
 @NgModule({
   declarations: [
@@ -38,10 +37,6 @@ import {GlobalErrorHandler} from "./core/global-error-handler";
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-    },
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler
     },
     TrainersService,
     FeedbacksService

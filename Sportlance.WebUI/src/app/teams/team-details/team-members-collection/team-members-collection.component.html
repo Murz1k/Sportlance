@@ -1,0 +1,31 @@
+<div class="air-card" style="margin-top: 2em;">
+  <div class="air-card-header">
+    <h3 class="m-0-bottom pull-left">
+      Команда
+    </h3>
+    <a *ngIf="!teamMembers" [routerLink]="['/trainers']" style="float: right">Найти тренеров</a>
+  </div>
+  <section *ngIf="!teamMembers">
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+  </section>
+  <section *ngIf="teamMembers" class="photo-collection">
+    <div class="photo-row" *ngFor="let teamMemberRow of teamMembers">
+      <div class="photo-container" *ngFor="let teamMember of teamMemberRow">
+        <img *ngIf="teamMember.photoUrl" src="{{teamMember.photoUrl}}">
+        <div *ngIf="!teamMember.photoUrl" class="empty-avatar">
+          <i class="material-icons">account_circle</i>
+        </div>
+        <a [routerLink]="['/trainers',teamMember.id]" class="member-title">{{teamMember.firstName}}
+          {{teamMember.secondName}}</a>
+        <button sl-button slType="primary" class="member-button">
+          Записаться
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

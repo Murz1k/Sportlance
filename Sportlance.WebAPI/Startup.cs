@@ -26,6 +26,8 @@ using Sportlance.WebAPI.Trainers;
 using Sportlance.WebAPI.Sports;
 using Sportlance.WebAPI.Users;
 using Sportlance.Common.Providers;
+using Sportlance.Common;
+using Sportlance.WebAPI.Orders;
 
 namespace Sportlance.WebAPI
 {
@@ -33,17 +35,22 @@ namespace Sportlance.WebAPI
     {
         private const string CorsPolicyName = "SportlancePolicy";
         private readonly IHostingEnvironment _currentEnvironment;
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration, IHostingEnvironment currentEnvironment)
         {
-            Configuration = configuration;
+            _configuration = configuration;
             _currentEnvironment = currentEnvironment;
         }
 
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureOptions(_configuration, 
+                typeof(AuthenticationOptions), 
+                typeof(SiteOptions), 
+                typeof(JwtIssuerOptions)
+                );
+
             services.AddAuthorization(options =>
             {
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
@@ -57,31 +64,12 @@ namespace Sportlance.WebAPI
                 options.Filters.Add(new ModelStateFilter());
             });
 
-            JwtConfigure(services);
-
-            services.ConfigureOptions(Configuration, typeof(AuthenticationOptions), typeof(SiteOptions));
-            services.Configure<SiteOptions>(Configuration.GetSection(nameof(SiteOptions)));
-
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-
-            var signingKey =
-                new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(jwtAppSettingOptions[nameof(JwtIssuerOptions.SecretKey)]));
-            services.Configure<JwtIssuerOptions>(options =>
-            {
-                options.AccessTokenExpiration =
-                    TimeSpan.Parse(jwtAppSettingOptions[nameof(JwtIssuerOptions.AccessTokenExpiration)]);
-                options.AccessTokenRefreshInterval =
-                    TimeSpan.Parse(jwtAppSettingOptions[nameof(JwtIssuerOptions.AccessTokenRefreshInterval)]);
-                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
-                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-            });
+            ConfigureJwt(services);
 
             ConfigureCorsPolicy(services);
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("SQLDatabase")));
+                options.UseSqlServer(_configuration.GetConnectionString("SQLDatabase")));
 
             services.AddTransient<IDateTime, UtcDateTime>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -90,23 +78,24 @@ namespace Sportlance.WebAPI
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
-            services.AddTransient<ITrainerService, TrainersService>();
+            services.AddTransient<ITrainersService, TrainersService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<ITeamService, TeamsService>();
+            services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<MailTokenService, MailTokenService>();
         }
 
         private void ConfigureAmazonServices(IServiceCollection services)
         {
-            var awsOptions = Configuration.GetAWSOptions();
+            var awsOptions = _configuration.GetAWSOptions();
 
             // Это нужно для амазона, потому что там нельзя прописать дефолтный профиль
             // В амазоне нужно в environments добавить эти ключи и значения
-            if (!_currentEnvironment.IsLocal())
+            if (!AspNetCoreEnvironment.IsLocal())
             {
                 awsOptions.Credentials =
-                    new BasicAWSCredentials(Configuration["AWS:AccessKey"], Configuration["AWS:SecretKey"]);
+                    new BasicAWSCredentials(_configuration["AWS:AccessKey"], _configuration["AWS:SecretKey"]);
             }
 
             services.AddDefaultAWSOptions(awsOptions);
@@ -192,26 +181,27 @@ namespace Sportlance.WebAPI
         private AmazonQueueProvider InitializeAmazonQueueProvider(IServiceProvider serviceProvider)
         {
             var storageProvider =
-                new AmazonQueueProvider($"sportlance-{_currentEnvironment.ShortEnvironment()}-mail-queue");
+                new AmazonQueueProvider($"sportlance-{AspNetCoreEnvironment.ShortEnvironment(_configuration["SLEnvironment"])}-mail-queue");
             storageProvider.InitializeAsync().Wait();
             return storageProvider;
         }
 
-        private void JwtConfigure(IServiceCollection services)
+        private void ConfigureJwt(IServiceCollection services)
         {
-            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            var sp = services.BuildServiceProvider();
+            var jwtAppSettingOptions = sp.GetService<JwtIssuerOptions>();
 
             var signingKey =
                 new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(jwtAppSettingOptions[nameof(JwtIssuerOptions.SecretKey)]));
+                    Encoding.ASCII.GetBytes(jwtAppSettingOptions.SecretKey));
 
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+                ValidIssuer = jwtAppSettingOptions.Issuer,
 
                 ValidateAudience = true,
-                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+                ValidAudience = jwtAppSettingOptions.Audience,
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = signingKey,
@@ -224,6 +214,15 @@ namespace Sportlance.WebAPI
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => { options.TokenValidationParameters = tokenValidationParameters; });
+
+            services.Configure<JwtIssuerOptions>(options =>
+            {
+                options.AccessTokenExpiration = jwtAppSettingOptions.AccessTokenExpiration;
+                options.AccessTokenRefreshInterval = jwtAppSettingOptions.AccessTokenRefreshInterval;
+                options.Issuer = jwtAppSettingOptions.Issuer;
+                options.Audience = jwtAppSettingOptions.Audience;
+                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+            });
         }
     }
 }

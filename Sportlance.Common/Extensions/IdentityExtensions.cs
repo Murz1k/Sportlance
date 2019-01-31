@@ -9,7 +9,7 @@ namespace Sportlance.Common.Extensions
     {
         public static long GetUserId(this ClaimsPrincipal user)
         {
-            var userIdClaim = user.FindFirst("userId");
+            var userIdClaim = user.FindFirstValue("userId");
             if (userIdClaim == null)
                 throw new AppErrorException(ErrorCode.AuthenticationError);
             return Convert.ToInt64(userIdClaim);

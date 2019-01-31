@@ -8,6 +8,7 @@ const routes: Routes = [
     path: '', component: SettingsComponent, children: [
       {path: '', pathMatch: 'full', redirectTo: 'contact-info'},
       {path: 'contact-info', loadChildren: './contact-info/contact-info.module#ContactInfoModule'},
+      {path: 'orders', loadChildren: './my-user-orders/my-user-orders.module#MyUserOrdersModule'},
       {path: 'my-teams', loadChildren: './my-teams/my-teams.module#MyTeamsModule'},
       {path: 'security', loadChildren: './password-and-security/password-and-security.module#PasswordAndSecurityModule'},
       {path: 'be-trainer', pathMatch: 'full', component: BeTrainerComponent}

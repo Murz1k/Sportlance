@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Sportlance.Common.Models;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Teams
@@ -26,10 +26,24 @@ namespace Sportlance.WebAPI.Teams
 
         Task DeletePhotoAsync(long teamId, long photoId);
 
+        Task<bool> CanInviteTrainer(long authorId, long trainerId, long teamId);
+
         Task<PagingCollection<TeamPhoto>> GetPhotosAsync(int offset, int count, long teamId);
 
         Task InviteMemberAsync(long teamId, long memberId);
 
         Task<bool> IsTeamAuthorAsync(long userId, long teamId);
+
+        #region Services
+        Task<IEnumerable<TeamService>> GetServicesAsync(long teamId);
+
+        Task<TeamService> GetServiceByIdAsync(long teamId, long serviceId);
+
+        Task<TeamService> AddServiceAsync(long teamId, string name, string description, string duration, long price);
+
+        Task<TeamService> UpdateServiceAsync(long teamId, long serviceId, string name, string description, string duration, long price);
+
+        Task DeleteServiceAsync(long teamId, long serviceId);
+        #endregion
     }
 }

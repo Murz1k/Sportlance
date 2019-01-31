@@ -4,7 +4,7 @@
     "profile" : "admin",
     "region"  : "us-east-1",
     "application" : "Sportlance.MailService",
-    "environment" : "Sportlance-Mail-Prod",
+    "environment" : "Sportlance-Mail-Dev",
     "cname"       : "sportlance-mail-prod",
     "solution-stack" : "64bit Windows Server 2016 v1.2.0 running IIS 10.0",
     "environment-type" : "SingleInstance",

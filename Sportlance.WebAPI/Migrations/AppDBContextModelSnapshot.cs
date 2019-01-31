@@ -38,6 +38,34 @@ namespace Sportlance.WebAPI.Migrations
                     b.ToTable("Feedbacks");
                 });
 
+            modelBuilder.Entity("Sportlance.WebAPI.Entities.Order", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("CreateDate");
+
+                    b.Property<long>("CustomerId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<long?>("ExecutorId");
+
+                    b.Property<bool>("IsPaid");
+
+                    b.Property<int>("Status");
+
+                    b.Property<DateTimeOffset>("UpdateDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ExecutorId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("Sportlance.WebAPI.Entities.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -112,6 +140,30 @@ namespace Sportlance.WebAPI.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("TeamPhoto");
+                });
+
+            modelBuilder.Entity("Sportlance.WebAPI.Entities.TeamService", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Duration");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<long>("Price");
+
+                    b.Property<long>("TeamId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("TeamService");
                 });
 
             modelBuilder.Entity("Sportlance.WebAPI.Entities.Trainer", b =>
@@ -260,6 +312,18 @@ namespace Sportlance.WebAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Sportlance.WebAPI.Entities.Order", b =>
+                {
+                    b.HasOne("Sportlance.WebAPI.Entities.User", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Sportlance.WebAPI.Entities.User", "Executor")
+                        .WithMany()
+                        .HasForeignKey("ExecutorId");
+                });
+
             modelBuilder.Entity("Sportlance.WebAPI.Entities.Team", b =>
                 {
                     b.HasOne("Sportlance.WebAPI.Entities.User", "Author")
@@ -272,6 +336,14 @@ namespace Sportlance.WebAPI.Migrations
                 {
                     b.HasOne("Sportlance.WebAPI.Entities.Team", "Team")
                         .WithMany("TeamPhotos")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Sportlance.WebAPI.Entities.TeamService", b =>
+                {
+                    b.HasOne("Sportlance.WebAPI.Entities.Team", "Team")
+                        .WithMany("Services")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

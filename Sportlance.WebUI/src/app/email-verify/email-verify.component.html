@@ -51,7 +51,7 @@
           Изменить email
         </button>
         <button [disabled]="isDisabled || seconds > 0"
-                [isLoading]="isLoading" sl-button slType="primary" (click)="resendEmail()">
+                [slLoading]="isLoading" sl-button slType="primary" (click)="resendEmail()">
           Переслать email
         </button>
         <div *ngIf="lastTime && seconds > 0">

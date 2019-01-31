@@ -14,7 +14,6 @@ namespace Sportlance.MailService
     {
         private readonly IHostingEnvironment _env;
         private readonly IAmazonS3 _s3Client;
-        private readonly TokenService _mailTokenService;
         private readonly SiteUrls _siteUrls;
         private readonly SmtpOptions _smtpOptions;
         private readonly string _root;
@@ -23,12 +22,10 @@ namespace Sportlance.MailService
         public Service(IAmazonS3 s3Client,
             IOptions<SmtpOptions> smtpOptions,
             IOptions<SiteOptions> frontendOptions,
-            TokenService mailTokenService,
             IHostingEnvironment env
             //,ILogger logger
         )
         {
-            _mailTokenService = mailTokenService;
             _env = env;
             _s3Client = s3Client;
             _smtpOptions = smtpOptions.Value;
@@ -37,10 +34,8 @@ namespace Sportlance.MailService
             //_logger = logger;
         }
 
-        public async Task<string> SendConfirmRegistration(long userId, string email)
+        public async Task<string> SendConfirmRegistration(long userId, string email, string token)
         {
-            var token = _mailTokenService.EncryptToken(email);
-
             var template = _env.IsLocal()
                     ? await ReadEmailTemplate("confirm-registration-mail.html")
                     : await ReadEmailTemplateFromS3("confirm-registration-mail.html")
@@ -70,10 +65,8 @@ namespace Sportlance.MailService
             await SendMessage(email, "Изменение пароля", template);
         }
 
-        public async Task SendUpdateEmail(string email, string newEmail)
+        public async Task SendUpdateEmail(string email, string newEmail, string token)
         {
-            var token = _mailTokenService.EncryptToken(newEmail);
-
             var template = _env.IsLocal()
                     ? await ReadEmailTemplate("update-email-mail.html")
                     : await ReadEmailTemplateFromS3("update-email-mail.html")

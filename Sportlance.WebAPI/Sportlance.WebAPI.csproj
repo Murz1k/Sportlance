@@ -5,6 +5,9 @@
     <PreserveCompilationContext>false</PreserveCompilationContext>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="2.0.4" />
     <PackageReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
@@ -23,10 +26,5 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sportlance.Common\Sportlance.Common.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="AWSSDK.SQS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604">
-      <HintPath>..\..\..\..\..\.nuget\packages\awssdk.sqs\3.3.3.49\lib\netstandard1.3\AWSSDK.SQS.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
