@@ -10,6 +10,7 @@
         // Team
         TeamNotFound,
         TeamServiceNotFound,
+        TeamServiceAlreadyDeleted,
         DurationIsRequired,
         PriceMustBeGreaterThanZero,
         // Trainer

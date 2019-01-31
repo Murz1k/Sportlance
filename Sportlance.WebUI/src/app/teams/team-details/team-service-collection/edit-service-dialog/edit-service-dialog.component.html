@@ -1,6 +1,7 @@
 <div class="dialog-header">
   <button class="dialog-close" mat-dialog-close><i class="material-icons">close</i></button>
-  <h3>Изменить фото</h3>
+  <h3 *ngIf="form.controls['id'].value">Редактирование услуги</h3>
+  <h3 *ngIf="!form.controls['id'].value">Создание услуги</h3>
 </div>
 <div class="dialog-content">
   <form [formGroup]="form">
@@ -20,5 +21,8 @@
   <sl-team-service-collection-item *ngIf="form" [service]="form.value"></sl-team-service-collection-item>
   <button [slLoading]="isLoading" [disabled]="isLoading" sl-button slType="primary" (click)="submit()">
     Сохранить
+  </button>
+  <button [slLoading]="isLoading" [disabled]="isLoading" sl-button (click)="deleteService()">
+    Удалить
   </button>
 </div>

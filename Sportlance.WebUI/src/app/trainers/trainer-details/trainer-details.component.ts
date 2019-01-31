@@ -31,8 +31,7 @@ export class TrainerDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private dialog: MatDialog,
               private titleService: Title,
-              private teamService: TeamsService,
-              private trainerService: TrainersService) {
+              private teamService: TeamsService) {
   }
 
   ngOnInit() {

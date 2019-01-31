@@ -302,7 +302,7 @@ namespace Sportlance.WebAPI.Teams
             return team.AuthorId == userId;
         }
 
-        public async Task<ICollection<TeamService>> GetServicesAsync(long teamId)
+        public async Task<IEnumerable<TeamService>> GetServicesAsync(long teamId)
         {
             var team = await _appContext.Teams.Include(i => i.Services).FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
@@ -310,7 +310,7 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.TeamNotFound);
             }
 
-            return team.Services;
+            return team.Services.Where(i=>!i.IsDeleted);
         }
 
         public async Task<TeamService> GetServiceByIdAsync(long teamId, long serviceId)
@@ -419,6 +419,11 @@ namespace Sportlance.WebAPI.Teams
             if (service == null)
             {
                 throw new AppErrorException(ErrorCode.TeamServiceNotFound);
+            }
+
+            if (service.IsDeleted)
+            {
+                throw new AppErrorException(ErrorCode.TeamServiceAlreadyDeleted);
             }
 
             service.IsDeleted = true;

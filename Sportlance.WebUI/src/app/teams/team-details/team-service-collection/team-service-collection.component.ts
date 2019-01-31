@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AddTeamPhotoDialogData} from "../team-photo-collection/add-team-photo-dialog/add-team-photo-dialog-data";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {EditServiceDialogComponent} from "./edit-service-dialog/edit-service-dialog.component";
 import {MatDialog} from "@angular/material";
 import {TeamsService} from "../../teams.service";
-import {map, tap} from "rxjs/operators";
+import {tap} from "rxjs/operators";
 import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
 
 @Component({
@@ -29,9 +28,13 @@ export class TeamServiceCollectionComponent implements OnInit {
   showModal() {
     this.dialog.open(EditServiceDialogComponent, {data: {teamId: this.teamId}})
       .afterClosed()
-      .pipe((map((newService) => {
+      .pipe((tap((newService) => {
         if (newService) {
-          this.teamServices.unshift(newService);
+          if (!newService.isDeleted) {
+            this.teamServices.unshift(newService);
+          } else {
+            this.teamServices = this.teamServices.filter(i => i.id !== newService.id);
+          }
         }
       })))
       .subscribe();

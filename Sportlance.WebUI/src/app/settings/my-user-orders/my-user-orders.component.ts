@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from '../../core/auth/user';
-import {MatDialog} from '@angular/material';
 import {AuthService} from '../../core/auth/auth.service';
 import {Title} from "@angular/platform-browser";
 
@@ -18,7 +17,7 @@ export class MyUserOrdersComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle(`Контактная информация | Sportlance`);
+    this.titleService.setTitle(`Мои заказы | Sportlance`);
     this.account = this.authService.getCurrent();
   }
 }

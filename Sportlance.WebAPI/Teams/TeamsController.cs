@@ -59,7 +59,7 @@ namespace Sportlance.WebAPI.Teams
         {
             await _service.AddPhotoAsync(teamId, photo.ToStorageFile());
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("{teamId}/photos/{photoId}")]
@@ -68,7 +68,7 @@ namespace Sportlance.WebAPI.Teams
         {
             await _service.DeletePhotoAsync(teamId, photoId);
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpGet("{teamId}/services")]
@@ -142,7 +142,7 @@ namespace Sportlance.WebAPI.Teams
                 request.PhoneNumber,
                 request.Photo?.ToStorageFile());
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpGet]
@@ -205,7 +205,7 @@ namespace Sportlance.WebAPI.Teams
 
             await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToStorageFile());
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPut("background")]
@@ -219,7 +219,7 @@ namespace Sportlance.WebAPI.Teams
 
             await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToStorageFile());
 
-            return NoContent();
+            return Ok();
         }
     }
 }

@@ -19,7 +19,12 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "./assets/scripts/yandex-maps.js",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "src/styles.scss"

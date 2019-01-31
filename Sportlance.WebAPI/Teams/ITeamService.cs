@@ -35,7 +35,7 @@ namespace Sportlance.WebAPI.Teams
         Task<bool> IsTeamAuthorAsync(long userId, long teamId);
 
         #region Services
-        Task<ICollection<TeamService>> GetServicesAsync(long teamId);
+        Task<IEnumerable<TeamService>> GetServicesAsync(long teamId);
 
         Task<TeamService> GetServiceByIdAsync(long teamId, long serviceId);
 

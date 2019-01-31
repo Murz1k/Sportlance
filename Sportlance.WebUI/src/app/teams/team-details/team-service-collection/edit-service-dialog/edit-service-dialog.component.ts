@@ -42,6 +42,27 @@ export class EditServiceDialogComponent implements OnInit {
     this.form.controls['price'].setValue(this.data.price);
   }
 
+  public deleteService() {
+    this.isLoading = true;
+    if (this.form.controls['id'].value) {
+      this.teamsService.deleteService(this.teamId, this.form.controls['id'].value)
+        .pipe(
+          tap((response) => {
+            if (!response) {
+              const result = {id: this.form.controls['id'].value, isDeleted: true};
+              this.dialogRef.close(true);
+            }
+            this.isLoading = false;
+          }),
+          catchError((error) => {
+            this.isLoading = false;
+            return throwError(error);
+          })
+        )
+        .subscribe();
+    }
+  }
+
   public submit() {
     this.isLoading = true;
     if (this.form.controls['id'].value) {

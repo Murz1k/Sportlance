@@ -7,11 +7,16 @@
   margin-bottom: 24px;
 }
 
+#map {
+  margin-top: 24px;
+}
+
 .background {
   height: 160px;
   user-select: none;
   outline: none;
   position: relative;
+
   button {
     position: absolute;
     width: 100%;
@@ -22,6 +27,7 @@
     user-select: none;
     outline: none;
   }
+
   img, .background-placeholder {
     -o-object-fit: cover;
     object-fit: cover;
@@ -31,6 +37,7 @@
     user-select: none;
     outline: none;
   }
+
   :hover {
     color: white;
     background-color: #0000008a;
@@ -43,21 +50,25 @@
   margin-left: -20px;
   margin-top: -20px;
   flex-wrap: wrap;
+
   .photo-container {
     display: inline-block;
     position: relative;
     width: 120px;
     vertical-align: top;
   }
+
   .member-button {
     width: 100%;
     font-weight: 600;
     margin-top: 12px;
   }
+
   .member-title {
     text-align: center;
     display: block;
   }
+
   .remove-button {
     position: absolute;
     background: #00a51d24;
@@ -67,22 +78,27 @@
     height: 16px;
     top: 4px;
     right: 4px;
+
     i {
       font-size: 16px;
     }
   }
+
   .remove-button:hover {
     cursor: pointer;
     background: #00a51d5e;
   }
+
   img, .image-placeholder {
     width: 120px;
     height: 120px;
   }
+
   .photo-container, .image-placeholder {
     margin-left: 20px;
     margin-top: 20px;
   }
+
   .image-placeholder {
     background-color: #f2f2f2;
     display: inline-block;
@@ -101,6 +117,7 @@
 
 .empty-avatar {
   text-align: center;
+
   i {
     font-size: 100px;
     color: #6c757c;
