@@ -4,23 +4,23 @@
     <h3 class="pull-left">
       Галерея
     </h3>
-    <button  sl-button (click)="showAddTeamPhotoDialog()" class="btn-rnd">
+    <button *ngIf="authService.hasPermissions('teams:photos:add:' + team.id)"
+            sl-button (click)="showAddTeamPhotoDialog()" class="btn-rnd">
       <i class="material-icons">add</i>
     </button>
   </div>
   <section *ngIf="!photos" class="photo-collection">
-    <div class="photo-row">
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-    </div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
   </section>
-  <section *ngIf="photos" class="photo-collection">
+  <section *ngIf="photos.length" class="photo-collection">
     <div class="photo-container" *ngFor="let photo of photos">
-      <button (click)="deletePhoto(photo.id)" class="remove-button">
+      <button *ngIf="authService.hasPermissions('teams:photos:add:' + team.id)"
+              (click)="deletePhoto(photo.id)" class="remove-button">
         <i class="material-icons">clear</i>
       </button>
       <img src="{{photo.photoUrl}}">

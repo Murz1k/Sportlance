@@ -2,28 +2,28 @@
   <div class="main-bar">
     <div class="air-card">
       <div class="background">
-        <img *ngIf="profile.backgroundUrl" src="{{profile.backgroundUrl}}">
-        <div *ngIf="!profile.backgroundUrl" class="background-placeholder">
+        <img *ngIf="team.backgroundUrl" src="{{team.backgroundUrl}}">
+        <div *ngIf="!team.backgroundUrl" class="background-placeholder">
         </div>
       </div>
       <section>
         <article class="row" style="position: relative">
-          <div class="empty-avatar-lg" *ngIf="!profile.photoUrl">
+          <div class="empty-avatar-lg" *ngIf="!team.photoUrl">
             <i class="material-icons">account_circle</i>
           </div>
-          <div *ngIf="profile.photoUrl" class="photo-input">
-            <img src="{{profile.photoUrl}}">
-            <button>
+          <div *ngIf="team.photoUrl" class="photo-input">
+            <img src="{{team.photoUrl}}">
+            <button *ngIf="authService.hasPermissions('teams:photo:edit:' + team.id)">
               <i class="material-icons" style="display:  inherit;font-size:  36px;">wallpaper</i>
               Изменить
             </button>
           </div>
           <div style="margin-left: 175px;">
             <h4 class="name">
-              {{profile.title}}
+              {{team.title}}
             </h4>
             <div>
-              <h4 class="title">{{profile.subTitle}}</h4>
+              <h4 class="title">{{team.subTitle}}</h4>
             </div>
             <ul class="list-inline m-0-bottom">
               <!--<li (click)="changePaid()">-->
@@ -36,41 +36,42 @@
               <!--</li>-->
             </ul>
           </div>
-          <div *ngIf="profile.country && profile.city" style="margin-left: auto;">
+          <div *ngIf="team.country && team.city" style="margin-left: auto;">
             <i class="material-icons position-icon text-muted">place</i>
-            <strong class="hidden-xs" title="Bulgaria">{{profile.country}}, {{profile.city}} </strong>
+            <strong class="hidden-xs" title="Bulgaria">{{team.country}}, {{team.city}} </strong>
           </div>
         </article>
       </section>
       <div class="air-card-header">
         <h3 class="pull-left">О нас</h3>
         <button sl-button class="btn-rnd"
+                *ngIf="authService.hasPermissions('teams:photo:edit:' + team.id)"
                 style="position: absolute;     right: 30px;    top: 20px;">
           <i class="material-icons" style="font-size: 20px;">create</i>
         </button>
       </div>
-      <section *ngIf="!profile.about" class="pull-left" style="position: relative;">
+      <section *ngIf="!team.about" class="pull-left" style="position: relative;">
         Расскажите о себе.
       </section>
-      <section *ngIf="profile.about" [class.collapsed]="!isShowAbout && profile.about.length > 500" class="pull-left"
+      <section *ngIf="team.about" [class.collapsed]="!isShowAbout && team.about.length > 500" class="pull-left"
                style="position: relative; text-overflow: ellipsis; overflow: hidden;">
-        {{profile.about}}
+        {{team.about}}
       </section>
-      <button *ngIf="profile.about.length > 500" (click)="showAbout()" class="air-expand-btn">
+      <button *ngIf="team.about.length > 500" (click)="showAbout()" class="air-expand-btn">
         Развернуть
         <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
       </button>
     </div>
-    <!--<sl-team-photo-collection [teamId]="profile.id"></sl-team-photo-collection>-->
-    <sl-team-members-collection [teamId]="profile.id"></sl-team-members-collection>
-    <sl-team-service-collection [teamId]="profile.id"></sl-team-service-collection>
-    <div id="map" style="width: 868px; height: 500px"></div>
+    <sl-team-photo-collection [team]="team"></sl-team-photo-collection>
+    <sl-team-members-collection [team]="team"></sl-team-members-collection>
+    <sl-team-service-collection [team]="team"></sl-team-service-collection>
+    <sl-team-location [team]="team"></sl-team-location>
   </div>
   <div class="side-bar">
-    <div *ngIf="profile.phoneNumber" class="side-bar-item">
-      <a class="phone-number" href="tel:{{profile.phoneNumber}}">
-        {{profile.phoneNumber | phoneMask}}
+    <div *ngIf="team.phoneNumber" class="side-bar-item">
+      <a class="phone-number" href="tel:{{team.phoneNumber}}">
+        {{team.phoneNumber | phoneMask}}
       </a>
     </div>
   </div>

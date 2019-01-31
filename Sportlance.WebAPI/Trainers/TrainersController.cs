@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,14 +9,10 @@ using Sportlance.Common.Extensions;
 using Sportlance.Common.Models;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Trainers.Requests;
 using Sportlance.WebAPI.Users;
-using TrainerListItem = Sportlance.WebAPI.Entities.TrainerListItem;
-using TrainerProfile = Sportlance.WebAPI.Entities.TrainerProfile;
-using TrainerStatus = Sportlance.WebAPI.Entities.TrainerStatus;
 
 namespace Sportlance.WebAPI.Trainers
 {
@@ -38,11 +35,11 @@ namespace Sportlance.WebAPI.Trainers
         }
 
         [HttpGet]
-        public async Task<PartialCollectionResponse<TrainerListItem>> GetAll([FromQuery] GetTrainersQueryRequest request)
+        public async Task<PartialCollectionResponse<TrainerResponse>> GetAll([FromQuery] GetTrainersQueryRequest request)
         {
             var trainers = await _service.GetAsync(request.ToBLE());
 
-            return trainers.ToPartialCollectionResponse();
+            return new PartialCollectionResponse<TrainerResponse>(trainers.Select(i => new TrainerResponse(i)), trainers.Offset, trainers.TotalCount);
         }
         
         [HttpPost]
@@ -66,35 +63,41 @@ namespace Sportlance.WebAPI.Trainers
 
         [HttpGet]
         [Route("{trainerId}")]
-        public async Task<TrainerProfile> GetById(long trainerId)
+        public async Task<TrainerResponse> GetById(long trainerId)
         {
-            return await _service.GetById(trainerId);
+            var trainer = await _service.GetByIdAsync(trainerId);
+
+            return new TrainerResponse(trainer);
         }
 
         [HttpGet("{trainerId}/trainings")]
-        public async Task<CollectionResponse<TraningItem>> GetTrainings(long trainerId, [FromQuery] GetTrainingsRequest request)
+        public async Task<CollectionResponse<Training>> GetTrainings(long trainerId, [FromQuery] GetTrainingsRequest request)
         {
-            return new CollectionResponse<TraningItem>
+            var trainings = await _service.GetTrainingsAsync(trainerId, request.StartDate, request.EndDate);
+
+            return new CollectionResponse<Training>
             {
-                Items = await _service.GetTrainingsAsync(trainerId, request.StartDate, request.EndDate)
+                Items = trainings
             };
         }
 
         [Authorize]
         [HttpPost("{trainerId}/trainings")]
-        public async Task<IActionResult> AddTraining(long trainerId, [FromBody] AddTrainingRequest request)
+        public async Task<Training> AddTraining(long trainerId, [FromBody] AddTrainingRequest request)
         {
-            await _service.AddTrainingAsync(trainerId, User.GetUserId(), request.SportId, request.StartDate);
+            var training = await _service.AddTrainingAsync(trainerId, User.GetUserId(), request.SportId, request.StartDate);
 
-            return NoContent();
+            return training;
         }
 
         [HttpGet]
         [Authorize]
         [Route("self")]
-        public async Task<TrainerProfile> GetSelf()
+        public async Task<TrainerResponse> GetSelf()
         {
-            return await _service.GetById(User.GetUserId());
+            var trainer = await _service.GetByIdAsync(User.GetUserId());
+
+            return new TrainerResponse(trainer);
         }
 
         [HttpPost]

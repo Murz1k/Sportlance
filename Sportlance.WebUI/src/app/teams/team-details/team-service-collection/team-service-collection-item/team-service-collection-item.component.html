@@ -3,6 +3,6 @@
   <p>{{service.description}}</p>
   <div class="duration">Длительность: <strong>{{service.duration}}</strong></div>
   <div class="price">Стоимость: <strong>{{service.price}} руб.</strong></div>
-  <button sl-button slType="primary" *ngIf="service.authorId !== currentId">Купить</button>
-  <button sl-button slType="primary" *ngIf="service.authorId === currentId" (click)="showModal()">Изменить</button>
+  <button sl-button slType="primary" *ngIf="!canEdit">Купить</button>
+  <button sl-button slType="primary" *ngIf="canEdit" (click)="showModal()">Изменить</button>
 </div>

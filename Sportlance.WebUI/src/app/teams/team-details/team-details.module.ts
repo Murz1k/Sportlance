@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material';
 import {NumberOnlyModule} from '../../shared/number-only/number-only.module';
 import {AddTeamPhotoDialogComponent} from './team-photo-collection/add-team-photo-dialog/add-team-photo-dialog.component';
-import {TeamDetailsRoutingModule} from './team-details-routing.module';
 import {TeamDetailsComponent} from './team-details.component';
 import {SlButtonModule} from "../../shared/button/button.module";
 import {TeamPhotoCollectionComponent} from './team-photo-collection/team-photo-collection.component';
@@ -14,13 +13,20 @@ import {EditServiceDialogComponent} from './team-service-collection/edit-service
 import {TeamServiceCollectionItemComponent} from './team-service-collection/team-service-collection-item/team-service-collection-item.component';
 import {SlInputModule} from "../../shared/input/input.module";
 import {PhoneMaskPipeModule} from '../../shared/phone-mask-pipe/phone-mask-pipe.module';
+import {TeamLocationComponent} from './team-location/team-location.component';
+import {RouterModule, Routes} from "@angular/router";
+
+const routes: Routes = [
+  {path: '', pathMatch: 'full', component: TeamDetailsComponent},
+  {path: '**', redirectTo: ''}
+];
 
 @NgModule({
   imports: [
+    RouterModule.forChild(routes),
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TeamDetailsRoutingModule,
     NumberOnlyModule,
     MatDialogModule,
     SlInputModule,
@@ -38,7 +44,8 @@ import {PhoneMaskPipeModule} from '../../shared/phone-mask-pipe/phone-mask-pipe.
     TeamMembersCollectionComponent,
     TeamServiceCollectionComponent,
     EditServiceDialogComponent,
-    TeamServiceCollectionItemComponent
+    TeamServiceCollectionItemComponent,
+    TeamLocationComponent
   ]
 })
 export class TeamDetailsModule {

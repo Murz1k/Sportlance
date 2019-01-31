@@ -16,7 +16,7 @@
   <section *ngIf="teams.length > 0">
     <ul class="my-teams">
       <li *ngFor="let team of teams">
-        <a [routerLink]="['/',Paths.Teams, team.id]">{{team.title}}</a>
+        <a [routerLink]="['/teams', team.id]">{{team.title}}</a>
       </li>
     </ul>
   </section>

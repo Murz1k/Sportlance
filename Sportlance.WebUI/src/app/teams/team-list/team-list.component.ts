@@ -144,6 +144,10 @@ export class TeamListComponent implements OnInit {
   }
 
   private cutAbout(about: string): string {
+    if (!about) {
+      return '';
+    }
+
     if (about.length <= 167) {
       return about;
     }

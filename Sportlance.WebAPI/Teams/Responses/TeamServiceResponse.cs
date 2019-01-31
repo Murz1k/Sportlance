@@ -6,8 +6,6 @@ namespace Sportlance.WebAPI.Teams.Responses
     {
         public long Id { get; set; }
 
-        public long AuthorId { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -24,7 +22,6 @@ namespace Sportlance.WebAPI.Teams.Responses
         public TeamServiceResponse(TeamService service)
         {
             Id = service.Id;
-            AuthorId = service.Team.AuthorId;
             Name = service.Name;
             Description = service.Description;
             Duration = service.Duration;

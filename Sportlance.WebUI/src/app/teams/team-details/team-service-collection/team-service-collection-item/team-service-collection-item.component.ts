@@ -13,21 +13,16 @@ import {TeamsService} from "../../../teams.service";
 export class TeamServiceCollectionItemComponent implements OnInit {
 
   @Input() service;
-  @Input() teamId;
+  @Input() canEdit: boolean;
 
-  public currentId: number;
-
-  constructor(private dialog: MatDialog,
-              private authService: AuthService
+  constructor(private dialog: MatDialog
   ) {
-    this.currentId = this.authService.getCurrent().id;
   }
 
   ngOnInit() {
   }
 
   showModal() {
-    this.service.teamId = this.teamId;
     this.dialog.open(EditServiceDialogComponent, {data: this.service})
       .afterClosed()
       .pipe((map((newService) => {

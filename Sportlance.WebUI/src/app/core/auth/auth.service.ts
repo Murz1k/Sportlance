@@ -26,6 +26,7 @@ export class AuthService {
 
   privateRefreshToken: string;
   userChanged: EventEmitter<User> = new EventEmitter<User>();
+  permissions = {};
 
   constructor(private activatedRoute: ActivatedRoute,
               private http: HttpClient,
@@ -38,6 +39,14 @@ export class AuthService {
 
   get isAuthorized(): boolean {
     return !!localStorage.getItem('access-token');
+  }
+
+  setPermissions(permissionName: string, value: boolean) {
+    this.permissions[permissionName] = value;
+  }
+
+  hasPermissions(permissionName: string): boolean {
+    return this.permissions[permissionName];
   }
 
   private get refreshToken(): string {

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Sportlance.WebAPI.Entities
+﻿namespace Sportlance.WebAPI.Entities
 {
-    public class TrainerProfile
+    public class TrainerResponse
     {
         public long Id { get; set; }
 
@@ -22,14 +20,28 @@ namespace Sportlance.WebAPI.Entities
 
         public string Title { get; set; }
 
-        public TrainerStatus Status { get; set; }
-
-        public IReadOnlyCollection<Sport> Sports { get; set; }
-
         public int TrainingsCount { get; set; }
         
         public string PhotoUrl { get; set; }
         
         public string BackgroundUrl { get; set; }
+
+        public TrainerResponse()
+        {
+
+        }
+
+        public TrainerResponse(Trainer trainer)
+        {
+            Id = trainer.UserId;
+            FirstName = trainer.User.FirstName;
+            SecondName = trainer.User.LastName;
+            Country = trainer.Country;
+            City = trainer.City;
+            Price = trainer.Price;
+            About = trainer.About;
+            PhotoUrl = trainer.User.PhotoUrl;
+            BackgroundUrl = trainer.BackgroundUrl;
+        }
     }
 }

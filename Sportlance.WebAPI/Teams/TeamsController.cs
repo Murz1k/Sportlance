@@ -29,37 +29,113 @@ namespace Sportlance.WebAPI.Teams
         }
 
         [HttpGet]
-        public async Task<PartialCollectionResponse<TeamListItem>> GetAll([FromQuery] TeamQuery request)
+        public async Task<PartialCollectionResponse<TeamResponse>> GetAll([FromQuery] TeamQuery request)
         {
             var teams = await _service.GetAsync(request);
 
-            return teams.ToPartialCollectionResponse();
+            return new PartialCollectionResponse<TeamResponse>(teams.Select(i=>new TeamResponse(i)), teams.Offset, teams.TotalCount);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<TeamResponse> PostAsync([FromForm] CreateTeamRequest request)
+        {
+            var team = await _service.AddAsync(
+                User.GetUserId(),
+                request.Title,
+                request.SubTitle,
+                //request.Country,
+                "Россия",
+                request.City,
+                request.About,
+                request.PhoneNumber,
+                request.Photo?.ToStorageFile());
+
+            return new TeamResponse(team);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("self")]
+        public async Task<PartialCollectionResponse<TeamResponse>> GetSelfTeams([FromQuery] TeamQuery query)
+        {
+            var teams = await _service.GetAsync(query, User.GetUserId());
+
+            return new PartialCollectionResponse<TeamResponse>(teams.Select(i => new TeamResponse(i)), teams.Offset, teams.TotalCount);
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("about")]
+        public async Task<TeamResponse> UpdateAboutAsync([FromBody] UpdateAboutRequest request)
+        {
+            var team = await _service.UpdateAboutAsync(User.GetUserId(), request.About);
+
+            return new TeamResponse(team);
+        }
+
+        //        [HttpPut]
+        //        [Authorize]
+        //        [Route("price")]
+        //        public async Task<IActionResult> UpdatePriceAsync([FromBody] UpdatePriceRequest request)
+        //        {
+        //            await _service.UpdatePriceAsync(User.GetUserId(), request.Price);
+        //
+        //            return NoContent();
+        //        }
+
+        [HttpPut("photo")]
+        [Authorize]
+        public async Task<TeamResponse> UploadPhotoAsync([FromForm] ChangeTeamPhotoRequest request)
+        {
+            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
+            {
+                throw new AppErrorException(ErrorCode.UserAccessDenied);
+            }
+
+            var team = await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToStorageFile());
+
+            return new TeamResponse(team);
+        }
+
+        [HttpPut("background")]
+        [Authorize]
+        public async Task<IActionResult> UploadBackgroundAsync([FromForm] ChangeTeamPhotoRequest request)
+        {
+            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
+            {
+                throw new AppErrorException(ErrorCode.UserAccessDenied);
+            }
+
+            await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToStorageFile());
+
+            return Ok();
         }
 
         [HttpGet]
         [Route("{teamId}")]
-        public async Task<IActionResult> GetById(long teamId)
+        public async Task<TeamResponse> GetById(long teamId)
         {
-            var profile = await _service.GetById(teamId);
+            var team = await _service.GetById(teamId);
 
-            return Ok(profile);
+            return new TeamResponse(team);
         }
 
         [HttpGet("{teamId}/photos")]
-        public async Task<PartialCollectionResponse<TeamPhoto>> GetPhotoCollection(long teamId)
+        public async Task<PartialCollectionResponse<TeamPhotoResponse>> GetPhotoCollection(long teamId)
         {
-            var trainers = await _service.GetPhotosAsync(0, 10, teamId);
+            var photos = await _service.GetPhotosAsync(0, 10, teamId);
 
-            return trainers.ToPartialCollectionResponse();
+            return new PartialCollectionResponse<TeamPhotoResponse>(photos.Select(i => new TeamPhotoResponse(i)), photos.Offset, photos.TotalCount);
         }
 
         [Authorize]
         [HttpPost("{teamId}/photos")]
-        public async Task<IActionResult> AddPhotoAsync(long teamId, [FromForm] IFormFile photo)
+        public async Task<TeamPhotoResponse> AddPhotoAsync(long teamId, [FromForm] IFormFile photo)
         {
-            await _service.AddPhotoAsync(teamId, photo.ToStorageFile());
+            var teamPhoto = await _service.AddPhotoAsync(teamId, photo.ToStorageFile());
 
-            return Ok();
+            return new TeamPhotoResponse(teamPhoto);
         }
 
         [HttpDelete("{teamId}/photos/{photoId}")]
@@ -127,24 +203,6 @@ namespace Sportlance.WebAPI.Teams
             return NoContent();
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> PostAsync([FromForm] CreateTeamRequest request)
-        {
-            await _service.AddAsync(
-                User.GetUserId(),
-                request.Title,
-                request.SubTitle,
-                //request.Country,
-                "Россия",
-                request.City,
-                request.About,
-                request.PhoneNumber,
-                request.Photo?.ToStorageFile());
-
-            return Ok();
-        }
-
         [HttpGet]
         [Authorize]
         [Route("{teamId}/trainers/{trainerId}/canInvite")]
@@ -153,73 +211,15 @@ namespace Sportlance.WebAPI.Teams
             return _service.CanInviteTrainer(User.GetUserId(), trainerId, teamId);
         }
 
-        [HttpGet]
-        [Authorize]
-        [Route("self")]
-        public async Task<PartialCollectionResponse<TeamListItem>> GetSelfTeams([FromQuery] TeamQuery query)
-        {
-            var teams = await _service.GetAsync(query, User.GetUserId());
+        //[HttpPost]
+        //[Authorize]
+        //[Route("availability")]
+        //public async Task<IActionResult> SetAvailabilityAsync([FromBody] SetAvailabilityRequest request)
+        //{
+        //    await _service.SetAvailabilityAsync(User.GetUserId(),
+        //        request.IsAvailable ? TrainerStatus.Available : TrainerStatus.NotAvailable);
 
-            return teams.ToPartialCollectionResponse();
-        }
-
-        //        [HttpPost]
-        //        [Authorize]
-        //        [Route("availability")]
-        //        public async Task<IActionResult> SetAvailabilityAsync([FromBody] SetAvailabilityRequest request)
-        //        {
-        //            await _service.SetAvailabilityAsync(User.GetUserId(),
-        //                request.IsAvailable ? TrainerStatus.Available : TrainerStatus.NotAvailable);
-        //
-        //            return NoContent();
-        //        }
-
-        [HttpPut]
-        [Authorize]
-        [Route("about")]
-        public async Task<IActionResult> UpdateAboutAsync([FromBody] UpdateAboutRequest request)
-        {
-            await _service.UpdateAboutAsync(User.GetUserId(), request.About);
-
-            return NoContent();
-        }
-
-        //        [HttpPut]
-        //        [Authorize]
-        //        [Route("price")]
-        //        public async Task<IActionResult> UpdatePriceAsync([FromBody] UpdatePriceRequest request)
-        //        {
-        //            await _service.UpdatePriceAsync(User.GetUserId(), request.Price);
-        //
-        //            return NoContent();
-        //        }
-
-        [HttpPut("photo")]
-        [Authorize]
-        public async Task<IActionResult> UploadPhotoAsync([FromForm] ChangeTeamPhotoRequest request)
-        {
-            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
-            {
-                throw new AppErrorException(ErrorCode.UserAccessDenied);
-            }
-
-            await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToStorageFile());
-
-            return Ok();
-        }
-
-        [HttpPut("background")]
-        [Authorize]
-        public async Task<IActionResult> UploadBackgroundAsync([FromForm] ChangeTeamPhotoRequest request)
-        {
-            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
-            {
-                throw new AppErrorException(ErrorCode.UserAccessDenied);
-            }
-
-            await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToStorageFile());
-
-            return Ok();
-        }
+        //    return NoContent();
+        //}
     }
 }
