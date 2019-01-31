@@ -62,13 +62,15 @@
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
       </button>
     </div>
-    <sl-team-photo-collection [teamId]="profile.id"></sl-team-photo-collection>
+    <!--<sl-team-photo-collection [teamId]="profile.id"></sl-team-photo-collection>-->
     <sl-team-members-collection [teamId]="profile.id"></sl-team-members-collection>
+    <sl-team-service-collection [teamId]="profile.id"></sl-team-service-collection>
+    <div id="map" style="width: 868px; height: 500px"></div>
   </div>
   <div class="side-bar">
     <div *ngIf="profile.phoneNumber" class="side-bar-item">
       <a class="phone-number" href="tel:{{profile.phoneNumber}}">
-        {{profile.phoneNumber}}
+        {{profile.phoneNumber | phoneMask}}
       </a>
     </div>
   </div>

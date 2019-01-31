@@ -5,10 +5,29 @@ import {AppModule} from './app/app.module';
 import {environment} from './environments/environment';
 import * as moment from 'moment';
 
-
 moment.locale('ru');
 
 if (environment.production) {
+  enableProdMode();
+  enableYandexMetrika();
+}
+
+enableYandexMaps();
+
+platformBrowserDynamic().bootstrapModule(AppModule);
+
+function enableYandexMaps() {
+  document.write(
+    `
+  <!-- Yandex Maps -->
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=de4ba415-f957-4ec5-8c59-fe27e4060a48&lang=ru_RU"
+  type="text/javascript">
+    </script>
+    `
+  );
+}
+
+function enableYandexMetrika() {
   document.write(
     `
       <!-- Yandex.Metrika counter -->
@@ -42,7 +61,4 @@ if (environment.production) {
   <!-- /Yandex.Metrika counter -->
     `
   );
-  enableProdMode();
 }
-
-platformBrowserDynamic().bootstrapModule(AppModule);

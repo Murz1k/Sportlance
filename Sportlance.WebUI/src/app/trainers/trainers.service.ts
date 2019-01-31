@@ -32,10 +32,6 @@ export class TrainersService {
     return this.http.get<CollectionResponse<TrainerInfoResponse>>(`/trainers`, {params: parameters});
   }
 
-  canInviteTrainer(trainerId: number): Observable<boolean> {
-    return this.http.get<boolean>(`/trainers/${trainerId}/canInvite`);
-  }
-
   getById(trainerId: number): Observable<TrainerProfileResponse> {
     return this.http.get<TrainerProfileResponse>(`/trainers/${trainerId}`);
   }

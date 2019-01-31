@@ -6,12 +6,12 @@ namespace Sportlance.WebAPI.Admin
 {
     [Produces("application/json")]
     [Route("api/Admin")]
-    public class AdminController : Controller
+    public class OrdersController : Controller
     {
         private readonly IHostingEnvironment _currentEnvironment;
         private readonly IConfiguration _configuration;
 
-        public AdminController(IConfiguration configuration, 
+        public OrdersController(IConfiguration configuration, 
             IHostingEnvironment currentEnvironment)
         {
             _currentEnvironment = currentEnvironment;

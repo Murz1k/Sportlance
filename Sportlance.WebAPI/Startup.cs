@@ -27,6 +27,7 @@ using Sportlance.WebAPI.Sports;
 using Sportlance.WebAPI.Users;
 using Sportlance.Common.Providers;
 using Sportlance.Common;
+using Sportlance.WebAPI.Orders;
 
 namespace Sportlance.WebAPI
 {
@@ -77,9 +78,10 @@ namespace Sportlance.WebAPI
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ISportService, SportService>();
-            services.AddTransient<ITrainerService, TrainersService>();
+            services.AddTransient<ITrainersService, TrainersService>();
             services.AddTransient<IFeedbackService, FeedbackService>();
             services.AddTransient<ITeamService, TeamsService>();
+            services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<MailTokenService, MailTokenService>();
         }

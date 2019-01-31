@@ -22,12 +22,12 @@ namespace Sportlance.WebAPI.Trainers
     [Route("trainers")]
     public class TrainersController : Controller
     {
-        private readonly ITrainerService _service;
+        private readonly ITrainersService _service;
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
 
         public TrainersController(
-            ITrainerService service,
+            ITrainersService service,
             IUserService userService,
             IAuthService authService
             )
@@ -55,21 +55,13 @@ namespace Sportlance.WebAPI.Trainers
                 throw new AppErrorException(ErrorCode.UserNotFound);
             }
             
-            user = await _service.AddAsync(user);
+            await _service.AddAsync(user);
 
             return new LoginResponse
             {
                 AccessToken = _authService.GenerateAccessToken(user),
                 RefreshToken = _authService.GenerateRefreshToken(user)
             };
-        }
-
-        [HttpGet]
-        [Authorize]
-        [Route("{trainerId}/canInvite")]
-        public async Task<bool> CanInviteTrainer(long trainerId)
-        {
-            return await _service.CanInviteTrainer(User.GetUserId(), trainerId);
         }
 
         [HttpGet]

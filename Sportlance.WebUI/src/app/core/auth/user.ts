@@ -19,7 +19,7 @@ export class User {
   constructor(firstName: string, secondName: string, roles: any, email: string, isConfirmed: boolean, photoUrl: string, userId: number, inviteLink: string) {
     this.firstName = firstName;
     this.secondName = secondName;
-    this.id = userId;
+    this.id = +userId;
     if (roles instanceof Array) {
       this.roles = roles;
     }

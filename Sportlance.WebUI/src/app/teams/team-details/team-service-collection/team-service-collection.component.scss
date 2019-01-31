@@ -1,0 +1,8 @@
+.service-collection {
+  display: flex;
+  width: max-content;
+
+  sl-team-service-collection-item:not(:last-of-type) {
+    margin-right: 24px;
+  }
+}

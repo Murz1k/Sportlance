@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Sportlance.Common.Models;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Trainers
 {
-    public interface ITrainerService
+    public interface ITrainersService
     {
         Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query);
 
         Task<TrainerProfile> GetById(long trainerId);
 
-        Task<User> AddAsync(User user);
+        Task<Trainer> AddAsync(User user);
         
         Task SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus);
 
@@ -22,8 +21,6 @@ namespace Sportlance.WebAPI.Trainers
         Task UpdateBackgroundImageAsync(long trainerId, StorageFile photo);
 
         Task UpdatePriceAsync(long trainerId, double price);
-
-        Task<bool> CanInviteTrainer(long userId, long trainerId);
 
         Task<IReadOnlyCollection<TraningItem>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate,
             DateTimeOffset toDate);

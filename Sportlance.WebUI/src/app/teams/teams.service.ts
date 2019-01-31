@@ -8,6 +8,9 @@ import {InviteMemberRequest} from '../shared/teams/requests/invite-member-reques
 import {GetTeamQuery} from '../shared/teams/requests/get-team-query';
 import {TeamResponse} from '../shared/teams/requests/team-response';
 import {Observable} from 'rxjs/internal/Observable';
+import {TeamServiceResponse} from "../shared/teams/responses/team-service-response";
+import {ErrorResponse} from "../core/error-response";
+import {UpdateTeamServiceRequest} from "../shared/teams/requests/update-team-service-request";
 
 @Injectable()
 export class TeamsService {
@@ -32,8 +35,29 @@ export class TeamsService {
     return this.http.get<TeamProfileResponse>(`/teams/${teamId}`);
   }
 
+  canInviteTrainer(teamId: number, trainerId: number): Observable<boolean> {
+    return this.http.get<boolean>(`/teams/${teamId}/trainers/${trainerId}/canInvite`);
+  }
+
   getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse>> {
     return this.http.get<CollectionResponse<TeamPhotoResponse>>(`/teams/${teamId}/photos`);
+  }
+
+  addService(teamId: number, request: UpdateTeamServiceRequest) {
+    return this.http.post<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services`, request);
+  }
+
+  updateService(teamId: number, serviceId: number, request: UpdateTeamServiceRequest) {
+    return this.http.put<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`, request);
+  }
+
+  deleteService(teamId: number, serviceId: number) {
+    return this.http.delete<ErrorResponse>(`/teams/${teamId}/services/${serviceId}`);
+  }
+
+
+  getServicesByTeamId(teamId: number): Observable<CollectionResponse<TeamServiceResponse> & ErrorResponse> {
+    return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`);
   }
 
   deletePhoto(teamId: number, photoId: number) {
