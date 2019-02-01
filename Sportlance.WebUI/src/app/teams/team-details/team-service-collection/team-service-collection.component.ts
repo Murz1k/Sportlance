@@ -36,14 +36,14 @@ export class TeamServiceCollectionComponent implements OnInit {
       .afterClosed()
       .pipe((tap((newService) => {
         if (newService) {
-          if (!newService.isDeleted) {
-            this.teamServices.unshift(newService);
-          } else {
-            this.teamServices = this.teamServices.filter(i => i.id !== newService.id);
-          }
+          this.teamServices.unshift(newService);
         }
       })))
       .subscribe();
+  }
+
+  deleteById(id: number) {
+    this.teamServices = this.teamServices.filter(i => i.id !== id);
   }
 
   loadData() {

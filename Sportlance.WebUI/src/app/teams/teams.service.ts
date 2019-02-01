@@ -36,22 +36,46 @@ export class TeamsService {
   }
 
   canInviteTrainer(teamId: number, trainerId: number): Observable<boolean> {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+    if (trainerId === undefined || trainerId === null) {
+      throw new Error('Param "trainerId" is required');
+    }
     return this.http.get<boolean>(`/teams/${teamId}/trainers/${trainerId}/canInvite`);
   }
 
   getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse>> {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
     return this.http.get<CollectionResponse<TeamPhotoResponse>>(`/teams/${teamId}/photos`);
   }
 
   addService(teamId: number, request: UpdateTeamServiceRequest) {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
     return this.http.post<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services`, request);
   }
 
   updateService(teamId: number, serviceId: number, request: UpdateTeamServiceRequest) {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+    if (serviceId === undefined || serviceId === null) {
+      throw new Error('Param "serviceId" is required');
+    }
     return this.http.put<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`, request);
   }
 
   deleteService(teamId: number, serviceId: number) {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+    if (serviceId === undefined || serviceId === null) {
+      throw new Error('Param "serviceId" is required');
+    }
     return this.http.delete<ErrorResponse>(`/teams/${teamId}/services/${serviceId}`);
   }
 
