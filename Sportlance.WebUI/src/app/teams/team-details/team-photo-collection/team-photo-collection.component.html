@@ -9,7 +9,7 @@
       <i class="material-icons">add</i>
     </button>
   </div>
-  <section *ngIf="!photos" class="photo-collection">
+  <section *ngIf="isLoadingPhotos" class="photo-collection">
     <div class="image-placeholder"></div>
     <div class="image-placeholder"></div>
     <div class="image-placeholder"></div>
@@ -17,7 +17,7 @@
     <div class="image-placeholder"></div>
     <div class="image-placeholder"></div>
   </section>
-  <section *ngIf="photos.length" class="photo-collection">
+  <section *ngIf="!isLoadingPhotos" class="photo-collection">
     <div class="photo-container" *ngFor="let photo of photos">
       <button *ngIf="authService.hasPermissions('teams:photos:add:' + team.id)"
               (click)="deletePhoto(photo.id)" class="remove-button">

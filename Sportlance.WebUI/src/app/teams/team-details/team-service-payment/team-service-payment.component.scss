@@ -1,0 +1,32 @@
+
+section {
+  display: grid;
+
+  .payment-info {
+    grid-column: 1;
+
+    h3 {
+      font-size: 20px;
+    }
+
+    h4 {
+      font-size: 16px;
+      margin-bottom: 4px;
+      margin-top: 24px;
+    }
+  }
+
+  .payment-actions {
+    grid-column: 2;
+
+    h2 {
+      font-size: 30px;
+      margin-bottom: 24px;
+    }
+
+    .sl-btn {
+      width: fit-content;
+      margin-top: 24px;
+    }
+  }
+}

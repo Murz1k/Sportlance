@@ -13,7 +13,7 @@ export class RedirectTeamServiceResolver implements Resolve<TeamServiceResponse>
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<TeamServiceResponse> {
-    return this.service.getServiceById(route.params['id'], route.params['id'])
+    return this.service.getServiceById(route.params['id'], route.params['serviceId'])
       .pipe(tap((response: any) => {
       if (response.error) {
         return this.router.navigate(['/teams',route.params['id']]);

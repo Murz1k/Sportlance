@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'sl-team-service-payment',
@@ -10,11 +11,22 @@ import {ActivatedRoute} from "@angular/router";
 export class TeamServicePaymentComponent implements OnInit {
 
   teamService: TeamServiceResponse;
+  public form: FormGroup;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private formBuilder: FormBuilder,
+              private router: Router,
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.teamService = this.route.snapshot.data['teamService'];
-    console.log(this.teamService);
+
+    this.form = this.formBuilder.group({
+      paymentType: [undefined, [Validators.required]],
+    });
+  }
+
+  redirectToPayment() {
+    this.router.navigate(['/', 0, 'cash-complete'])
   }
 }

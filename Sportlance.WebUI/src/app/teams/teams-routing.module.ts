@@ -5,7 +5,7 @@ import {RedirectTeamProfileResolver} from './team-details/redirect-team-profile.
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: TeamListComponent},
-  {path: ':id', pathMatch: 'full', loadChildren: './team-details/team-details.module#TeamDetailsModule', resolve: {profile: RedirectTeamProfileResolver}},
+  {path: ':id', loadChildren: './team-details/team-details.module#TeamDetailsModule', resolve: {profile: RedirectTeamProfileResolver}},
   {path: '**', redirectTo: ''}
 ];
 

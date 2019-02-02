@@ -22,7 +22,7 @@ import {EditTeamAboutDialogComponent} from "./edit-team-about-dialog/edit-team-a
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: TeamDetailsComponent},
   {
-    path: 'services/:serviceId/payment', pathMatch: 'full',
+    path: 'services/:serviceId/payment',
     loadChildren: './team-service-payment/team-service-payment.module#TeamServicePaymentModule'
   },
   {path: '**', redirectTo: ''}
