@@ -12,6 +12,8 @@
         
         public string PhotoUrl { get; set; }
 
+        public string BackgroundUrl { get; set; }
+
         public string Country { get; set; }
 
         public string City { get; set; }
@@ -34,6 +36,7 @@
             Title = team.Title;
             SubTitle = team.SubTitle;
             PhotoUrl = team.PhotoUrl;
+            BackgroundUrl = team.BackgroundUrl;
             Country = team.Country;
             City = team.City;
             About = team.About;

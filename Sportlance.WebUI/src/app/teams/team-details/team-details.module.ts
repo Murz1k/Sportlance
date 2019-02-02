@@ -15,6 +15,9 @@ import {SlInputModule} from "../../shared/input/input.module";
 import {PhoneMaskPipeModule} from '../../shared/phone-mask-pipe/phone-mask-pipe.module';
 import {TeamLocationComponent} from './team-location/team-location.component';
 import {RouterModule, Routes} from "@angular/router";
+import {EditTeamPhotoDialogComponent} from "./edit-team-photo-dialog/edit-team-photo-dialog.component";
+import {EditTeamBackgroundDialogComponent} from "./edit-team-background-dialog/edit-team-background-dialog.component";
+import {EditTeamAboutDialogComponent} from "./edit-team-about-dialog/edit-team-about-dialog.component";
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: TeamDetailsComponent},
@@ -35,7 +38,10 @@ const routes: Routes = [
   ],
   entryComponents: [
     AddTeamPhotoDialogComponent,
-    EditServiceDialogComponent
+    EditServiceDialogComponent,
+    EditTeamPhotoDialogComponent,
+    EditTeamBackgroundDialogComponent,
+    EditTeamAboutDialogComponent
   ],
   declarations: [
     AddTeamPhotoDialogComponent,
@@ -44,6 +50,9 @@ const routes: Routes = [
     TeamMembersCollectionComponent,
     TeamServiceCollectionComponent,
     EditServiceDialogComponent,
+    EditTeamPhotoDialogComponent,
+    EditTeamBackgroundDialogComponent,
+    EditTeamAboutDialogComponent,
     TeamServiceCollectionItemComponent,
     TeamLocationComponent
   ]

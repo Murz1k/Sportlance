@@ -1,0 +1,30 @@
+.dialog-content {
+  img {
+    width: 270px;
+  }
+
+  label {
+    width: 270px;
+    margin-top: 16px;
+    margin-right: 0;
+    display: block;
+  }
+
+  input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    direction: ltr;
+    cursor: pointer;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display: none;
+  }
+}

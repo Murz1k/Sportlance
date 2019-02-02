@@ -101,16 +101,20 @@ export class TeamsService {
     return this.http.get<CollectionResponse<TeamResponse>>(`/teams/self`, {params: parameters});
   }
 
-  uploadMainPhoto(teamId: number, photo: Blob) {
-    const data = new FormData();
-    data.append('photo', photo);
-    return this.http.put(`/trainers/photo`, data);
+  updateAbout(teamId: number, about: string): Observable<TeamResponse & ErrorResponse> {
+    return this.http.put<TeamResponse & ErrorResponse>(`/teams/${teamId}/about`, {about: about});
   }
 
-  uploadBackgroundImage(teamId: number, photo: Blob) {
+  uploadMainPhoto(teamId: number, photo: Blob): Observable<TeamResponse & ErrorResponse> {
     const data = new FormData();
     data.append('photo', photo);
-    return this.http.put(`/trainers/background`, data);
+    return this.http.put<TeamResponse & ErrorResponse>(`/teams/${teamId}/photo`, data);
+  }
+
+  uploadBackgroundImage(teamId: number, photo: Blob): Observable<TeamResponse & ErrorResponse> {
+    const data = new FormData();
+    data.append('photo', photo);
+    return this.http.put<TeamResponse & ErrorResponse>(`/teams/${teamId}/background`, data);
   }
 
   inviteMember(teamId: number, memberId: number) {

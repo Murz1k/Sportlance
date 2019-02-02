@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../../core/auth/user';
 import {MatDialogRef} from '@angular/material';
 import {AuthService} from '../../../core/auth/auth.service';
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'sl-edit-trainer-paid-dialog',
@@ -13,6 +14,7 @@ export class EditAccountInfoDialogComponent implements OnInit {
 
   public form: FormGroup;
   private account: User;
+  public isLoading = false;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -33,8 +35,15 @@ export class EditAccountInfoDialogComponent implements OnInit {
       if (this.form.value.firstName !== this.account.firstName
         || this.form.value.secondName !== this.account.secondName
         || this.form.value.email !== this.account.email) {
+        this.isLoading = true;
         this.authService.updateAccount(this.form.value.firstName, this.form.value.secondName, this.form.value.email)
-          .subscribe(() => this.dialogRef.close(true));
+          .pipe(tap((response) => {
+            if (!response.error) {
+              this.dialogRef.close(true);
+            }
+            this.isLoading = false;
+          }))
+          .subscribe();
       }
     } else {
       this.dialogRef.close(false);

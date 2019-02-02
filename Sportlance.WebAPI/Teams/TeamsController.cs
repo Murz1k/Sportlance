@@ -64,12 +64,11 @@ namespace Sportlance.WebAPI.Teams
             return new PartialCollectionResponse<TeamResponse>(teams.Select(i => new TeamResponse(i)), teams.Offset, teams.TotalCount);
         }
 
-        [HttpPut]
+        [HttpPut("{teamId}/about")]
         [Authorize]
-        [Route("about")]
-        public async Task<TeamResponse> UpdateAboutAsync([FromBody] UpdateAboutRequest request)
+        public async Task<TeamResponse> UpdateAboutAsync(long teamId, [FromBody] UpdateAboutRequest request)
         {
-            var team = await _service.UpdateAboutAsync(User.GetUserId(), request.About);
+            var team = await _service.UpdateAboutAsync(teamId, request.About);
 
             return new TeamResponse(team);
         }
@@ -84,32 +83,32 @@ namespace Sportlance.WebAPI.Teams
         //            return NoContent();
         //        }
 
-        [HttpPut("photo")]
+        [HttpPut("{teamId}/photo")]
         [Authorize]
-        public async Task<TeamResponse> UploadPhotoAsync([FromForm] ChangeTeamPhotoRequest request)
+        public async Task<TeamResponse> UploadPhotoAsync(long teamId, [FromForm] IFormFile photo)
         {
-            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
+            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), teamId))
             {
                 throw new AppErrorException(ErrorCode.UserAccessDenied);
             }
 
-            var team = await _service.UpdateMainPhotoAsync(request.TeamId, request.photo.ToStorageFile());
+            var team = await _service.UpdateMainPhotoAsync(teamId, photo.ToStorageFile());
 
             return new TeamResponse(team);
         }
 
-        [HttpPut("background")]
+        [HttpPut("{teamId}/background")]
         [Authorize]
-        public async Task<IActionResult> UploadBackgroundAsync([FromForm] ChangeTeamPhotoRequest request)
+        public async Task<TeamResponse> UploadBackgroundAsync(long teamId, [FromForm] IFormFile photo)
         {
-            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), request.TeamId))
+            if (!await _service.IsTeamAuthorAsync(User.GetUserId(), teamId))
             {
                 throw new AppErrorException(ErrorCode.UserAccessDenied);
             }
 
-            await _service.UpdateBackgroundImageAsync(request.TeamId, request.photo.ToStorageFile());
+            var team = await _service.UpdateBackgroundImageAsync(teamId, photo.ToStorageFile());
 
-            return Ok();
+            return new TeamResponse(team);
         }
 
         [HttpGet]
