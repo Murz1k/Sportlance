@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {finalize, tap} from 'rxjs/operators';
 import {TeamsService} from "../../teams.service";
 import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
+import {TeamResponse} from "../../../shared/teams/requests/team-response";
 
 @Component({
   selector: 'sl-edit-team-photo-dialog',
@@ -17,7 +18,7 @@ export class EditTeamPhotoDialogComponent implements OnInit {
   private maxLength = 500;
   private newPhoto: File;
   isLoading = false;
-  team: TeamServiceResponse;
+  team: TeamResponse;
 
   constructor(private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: EditTeamPhotoDialogData,

@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Sportlance.Common.Errors;
-using Sportlance.Common.Exceptions;
 using Sportlance.Common.Extensions;
 using Sportlance.WebAPI.Authentication;
 using Sportlance.WebAPI.Authentication.Responses;
@@ -38,12 +36,10 @@ namespace Sportlance.WebAPI.Users
             };
         }
 
-        [HttpPost]
-        [Route("invite")]
+        [HttpPost("invite")]
         public async Task<UserResponse> GetUserByInviteLinkAsync([FromBody] GetUserByInviteLinkRequest request)
         {
             var user = await _userService.GetByInviteLinkAsync(request.InviteLink);
-            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             return new UserResponse
             {

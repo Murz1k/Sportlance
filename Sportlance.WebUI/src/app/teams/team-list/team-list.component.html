@@ -87,7 +87,7 @@
         </div>
       </section>
       <ng-template #loading>
-        <section *ngIf="trainers.length === 0">
+        <section *ngIf="teams.length === 0">
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="145px"
                  height="130px" viewBox="0 0 145 130">
@@ -452,55 +452,53 @@
             <h2 class="text-muted">Попробуйте изменить свой поиск, чтобы получить больше результатов.</h2>
           </div>
         </section>
-        <section (click)="openProfile(trainer.id)" *ngFor="let trainer of trainers">
+        <section class="profiles-list-card" (click)="openProfile(team.id)" *ngFor="let team of teams">
           <div class="avatar-container">
-            <div *ngIf="!trainer.photoUrl" class="empty-avatar">
+            <div *ngIf="!team.photoUrl" class="empty-avatar">
               <i class="material-icons">account_circle</i>
             </div>
-            <img *ngIf="trainer.photoUrl" src="{{trainer.photoUrl}}" class="avatar avatar-lg">
+            <img *ngIf="team.photoUrl" src="{{team.photoUrl}}" class="avatar avatar-lg">
             <div style="padding-top: 1em;">
-              <i *ngFor="let scoreStar of trainer.stars" class="material-icons star-icon">
+              <i *ngFor="let scoreStar of team.stars" class="material-icons star-icon">
                 {{scoreStar.isFull ? 'star' : ''}}
                 {{scoreStar.isEmpty ? 'star_border' : ''}}
                 {{scoreStar.isHalf ? 'star_half' : ''}}
               </i>
             </div>
             <div style="position: relative; text-align: center;">
-              <span class="text-muted">{{trainer.reviewTitle}}</span>
+              <span class="text-muted">{{team.reviewTitle}}</span>
             </div>
           </div>
           <div class="info-container">
-            <h4>
-              <a [routerLink]="'/' + Paths.Trainers + '/' + trainer.id">
-                {{trainer.firstName}} {{trainer.secondName}}
-              </a>
-            </h4>
-            <h4 class="info-section">{{trainer.title}}</h4>
+            <h4 class="info-title"><a [routerLink]="['/teams', team.id]">
+              {{team.title}}
+            </a></h4>
+            <h4 class="info-sub-title info-section">{{team.subTitle}}</h4>
             <div class="info-section counts-list">
-              <div class="counts-list-item">
-                <strong>{{trainer.price}}₽</strong>
+              <div *ngIf="team.price" class="counts-list-item">
+                <strong>{{team.price}}₽</strong>
                 <span class="text-muted">/ час</span>
               </div>
-              <div class="counts-list-item">
+              <div *ngIf="team.trainingsCount" class="counts-list-item">
                 <i class="material-icons position-icon text-muted">access_time</i>
-                <strong>{{trainer.trainingsCount}}</strong>
-                <span class="text-muted"> {{trainer.trainingsTitle}}</span>
-              </div>
-              <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
-                <i class="material-icons position-icon text-muted">place</i>
-                <strong>{{trainer.country}}, {{trainer.city}} </strong>
+                <strong>{{team.trainingsCount}}</strong>
+                <span class="text-muted"> {{team.trainingsTitle}}</span>
               </div>
             </div>
-            <p class="info-section">{{trainer.about}}</p>
-            <div>
-              <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+            <p class="info-description info-section">{{team.about}}</p>
+            <div class="info-services">
+              <a class="o-tag-skill" *ngFor="let sport of team.sports">
                 {{sport.name}}
               </a>
-              <a title="6 more" routerLink="{{'/' + Paths.Trainers + '/' + trainer.id}}">6 more</a>
+              <a title="6 more" routerLink="{{'/' + Paths.Trainers + '/' + team.id}}">6 more</a>
+            </div>
+            <div class="position-container" *ngIf="team.country && team.city">
+              <i class="material-icons position-icon text-muted">place</i>
+              <strong>{{team.country}}, {{team.city}} </strong>
             </div>
           </div>
         </section>
-        <div class="search-results" *ngIf="trainers.length <= count"
+        <div class="search-results" *ngIf="teams.length <= count"
              infiniteScroll
              [infiniteScrollDistance]="1"
              [infiniteScrollThrottle]="200"
@@ -525,12 +523,12 @@
         <div class="filters">
           <div class="filters-container">
             <!--<div class="filter-column">-->
-              <!--<label>Страна</label>-->
-              <!--<input type="text" placeholder="Россия"-->
-                     <!--[(ngModel)]="country"-->
-                     <!--(keyup)="changeParams()"-->
-                     <!--style="display: inline-block;"-->
-                     <!--sl-input/>-->
+            <!--<label>Страна</label>-->
+            <!--<input type="text" placeholder="Россия"-->
+            <!--[(ngModel)]="country"-->
+            <!--(keyup)="changeParams()"-->
+            <!--style="display: inline-block;"-->
+            <!--sl-input/>-->
             <!--</div>-->
             <div class="filter-column">
               <label>Город</label>

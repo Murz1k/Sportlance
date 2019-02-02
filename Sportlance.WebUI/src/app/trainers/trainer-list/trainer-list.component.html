@@ -452,7 +452,7 @@
             <h2 class="text-muted">Попробуйте изменить свой поиск, чтобы получить больше результатов.</h2>
           </div>
         </section>
-        <section (click)="openProfile(trainer.id)" *ngFor="let trainer of trainers">
+        <section class="profiles-list-card" (click)="openProfile(trainer.id)" *ngFor="let trainer of trainers">
           <div class="avatar-container">
             <div *ngIf="!trainer.photoUrl" class="empty-avatar">
               <i class="material-icons">account_circle</i>
@@ -470,14 +470,14 @@
             </div>
           </div>
           <div class="info-container">
-            <a routerLink="/{{Paths.Trainers}}/{{trainer.id}}/appointment" sl-button slType="primary"
-               style="float: right;">Записаться</a>
-            <h4 class="info-section">
+            <a class="add-training-btn" routerLink="/{{Paths.Trainers}}/{{trainer.id}}/appointment" sl-button
+               slType="primary">Записаться</a>
+            <h4 class="info-title">
               <a [routerLink]="'/' + Paths.Trainers + '/' + trainer.id">
                 {{trainer.firstName}} {{trainer.secondName}}
               </a>
             </h4>
-            <h4 class="info-section">{{trainer.title}}</h4>
+            <h4 class="info-sub-title">{{trainer.title}}</h4>
             <div class="info-section counts-list">
               <div class="counts-list-item">
                 <strong>{{trainer.price}}₽</strong>
@@ -488,17 +488,17 @@
                 <strong>{{trainer.trainingsCount}}</strong>
                 <span class="text-muted"> {{trainer.trainingsTitle}}</span>
               </div>
-              <div *ngIf="trainer.country && trainer.city" class="counts-list-item position">
-                <i class="material-icons position-icon text-muted">place</i>
-                <strong>{{trainer.country}}, {{trainer.city}} </strong>
-              </div>
             </div>
-            <p class="info-section">{{trainer.about}}</p>
-            <div>
+            <p class="info-description info-section">{{trainer.about}}</p>
+            <div class="info-services">
               <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
                 {{sport.name}}
               </a>
               <a title="6 more" routerLink="{{'/' + Paths.Trainers + '/' + trainer.id}}">6 more</a>
+            </div>
+            <div class="position-container" *ngIf="trainer.country && trainer.city">
+              <i class="material-icons position-icon text-muted">place</i>
+              <strong>{{trainer.country}}, {{trainer.city}} </strong>
             </div>
           </div>
         </section>

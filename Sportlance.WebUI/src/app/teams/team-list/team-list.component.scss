@@ -2,9 +2,11 @@
 
 .counts-list {
   display: flex;
+
   .counts-list-item:not(:last-child) {
     margin-right: 20px;
   }
+
   .counts-list-item.position {
     margin-left: auto;
   }
@@ -17,6 +19,12 @@
 .air-card footer section {
   margin: 0;
   padding: 0 0 20px;
+}
+
+.info-container {
+  h4 {
+    margin: 0;
+  }
 }
 
 .info-section {
@@ -109,17 +117,21 @@ button:focus {
   padding: 0 !important;
   transition: height 0.3s ease-out, opacity 0.3s ease-out;
   opacity: 1;
+
   .btn {
     margin: 20px 0 0;
   }
+
   .filters-container {
     .filter-column {
       margin-top: 20px;
+
       label {
         margin-bottom: 10px !important;
         font-weight: 700;
         display: block;
       }
+
       h4 {
         margin-bottom: 15px;
       }

@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {isNullOrUndefined} from 'util';
 import {Paths} from '../../core/paths';
-import {GetTrainersQuery} from '../../shared/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {TeamsService} from '../teams.service';
-import {TrainerInfo} from '../../trainers/trainer-list/trainer-info';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {AuthService} from '../../core/auth/auth.service';
@@ -16,7 +14,7 @@ import {AuthService} from '../../core/auth/auth.service';
 })
 export class TeamListComponent implements OnInit {
 
-  trainers = [];
+  teams = [];
   isRendering = true;
   public isAuthorized = false;
   public Paths = Paths;
@@ -67,7 +65,7 @@ export class TeamListComponent implements OnInit {
       return;
     }
     this.offset = this.count + this.offset;
-    this.subscription = this.teamsService.get(<GetTrainersQuery>{
+    this.subscription = this.teamsService.get(<any>{
       searchString: this.searchString,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
@@ -78,13 +76,15 @@ export class TeamListComponent implements OnInit {
       feedbacksMinCount: this.minFeedbacksCount,
       feedbacksMaxCount: this.maxFeedbacksCount
     }).subscribe(response => {
-      response.items.map(i => <TrainerInfo>{
+      response.items.map(i => <any>{
         id: i.id,
         city: i.city,
         country: i.country,
+        title: i.title,
+        subTitle: i.subTitle,
         photoUrl: i.photoUrl,
         about: this.cutAbout(i.about)
-      }).forEach(item => this.trainers.push(item));
+      }).forEach(item => this.teams.push(item));
       this.totalCount = response.totalCount;
     });
   }
@@ -95,7 +95,7 @@ export class TeamListComponent implements OnInit {
       this.subscription.unsubscribe();
       this.offset = 0;
     }
-    this.subscription = this.teamsService.get(<GetTrainersQuery>{
+    this.subscription = this.teamsService.get(<any>{
       searchString: this.searchString,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
@@ -107,11 +107,12 @@ export class TeamListComponent implements OnInit {
       feedbacksMaxCount: this.maxFeedbacksCount
     }).subscribe(response => {
       if (response.items) {
-        this.trainers = response.items.map(i => <TrainerInfo>{
+        this.teams = response.items.map(i => <any>{
           id: i.id,
           city: i.city,
           country: i.country,
           title: i.title,
+          subTitle: i.subTitle,
           photoUrl: i.photoUrl,
           about: this.cutAbout(i.about)
         });

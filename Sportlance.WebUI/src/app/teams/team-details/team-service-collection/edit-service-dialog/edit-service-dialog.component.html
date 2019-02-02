@@ -22,7 +22,8 @@
   <button [slLoading]="isLoading" [disabled]="isLoading" sl-button slType="primary" (click)="submit()">
     Сохранить
   </button>
-  <button [slLoading]="isLoading" [disabled]="isLoading" sl-button (click)="deleteService()">
+  <button *ngIf="form.controls['id'].value" [slLoading]="isLoading" [disabled]="isLoading" sl-button
+          (click)="deleteService()">
     Удалить
   </button>
 </div>

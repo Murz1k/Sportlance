@@ -15,7 +15,7 @@ import {AuthService} from '../../core/auth/auth.service';
   templateUrl: './trainer-list.component.html',
   styleUrls: ['./trainer-list.component.scss']
 })
-export class TrainerListComponent implements OnInit{
+export class TrainerListComponent implements OnInit {
 
   starsNumber = 5;
   trainers: Array<TrainerInfo> = [];
@@ -177,6 +177,12 @@ export class TrainerListComponent implements OnInit{
 
   private convertAverageScoreToStars(score: number): Array<Star> {
     const allStars = [];
+    if (!score) {
+      for (let i = 0; i < 5; i++) {
+        allStars.push(<Star>{isEmpty: true});
+      }
+      return allStars;
+    }
     if (score > 4.5) {
       for (let i = 0; i < 5; i++) {
         allStars.push(<Star>{isFull: true});
@@ -219,6 +225,9 @@ export class TrainerListComponent implements OnInit{
   }
 
   private convertReviewsToReviewTitle(feedbacksCount: number): string {
+    if (!feedbacksCount) {
+      return 'Нет отзывов';
+    }
     let title = 'отзыв';
     const lastOneNumber = +feedbacksCount.toString().slice(-1);
     const lastTwoNumbers = +feedbacksCount.toString().slice(-2);

@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {EditTeamAboutDialogData} from './edit-team-about-dialog-data';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {TeamsService} from "../../teams.service";
 import {finalize, tap} from "rxjs/operators";

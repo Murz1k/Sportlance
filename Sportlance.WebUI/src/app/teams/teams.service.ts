@@ -79,6 +79,15 @@ export class TeamsService {
     return this.http.delete<ErrorResponse>(`/teams/${teamId}/services/${serviceId}`);
   }
 
+  getServiceById(teamId: number, serviceId: number): Observable<TeamServiceResponse & ErrorResponse> {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+    if (serviceId === undefined || serviceId === null) {
+      throw new Error('Param "serviceId" is required');
+    }
+    return this.http.get<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`);
+  }
 
   getServicesByTeamId(teamId: number): Observable<CollectionResponse<TeamServiceResponse> & ErrorResponse> {
     return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`);

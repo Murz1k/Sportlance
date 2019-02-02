@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Sportlance.Common.Models;
-using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
 
 namespace Sportlance.WebAPI.Users
@@ -17,16 +15,12 @@ namespace Sportlance.WebAPI.Users
 
         Task<bool> IsEmailExistsAsync(string email);
 
-        Task AddAsync(User entity);
+        Task<User> AddAsync(User entity);
 
         Task<User> UpdateMainPhotoAsync(long userId, StorageFile photo);
 
         IQueryable<User> Entities();
 
         Task SaveChangesAsync();
-
-        void RemoveRange(IEnumerable<User> entities);
-
-        Task AddRangeAsync(IEnumerable<User> entities);
     }
 }

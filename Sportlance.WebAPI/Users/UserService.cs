@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -25,23 +24,44 @@ namespace Sportlance.WebAPI.Users
             _usersStorageProvider = usersStorageProvider;
         }
 
-        public Task<User> GetByInviteLinkAsync(string inviteLink)
+        public async Task<User> GetByInviteLinkAsync(string inviteLink)
         {
-            return Entities().FirstOrDefaultAsync(i => i.InviteLink == inviteLink);
+            var user = await Entities().FirstOrDefaultAsync(i => i.InviteLink == inviteLink);
+
+            if (user == null)
+            {
+                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
+            }
+
+            return user;
         }
 
-        public Task<User> GetByIdAsync(long id)
+        public async Task<User> GetByIdAsync(long id)
         {
-            return Entities()
+            var user = await Entities()
                 .Include(i => i.UserRoles)
                 .ThenInclude(i => i.Role)
                 .FirstOrDefaultAsync(i => i.Id == id);
+
+            if (user == null)
+            {
+                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
+            }
+
+            return user;
         }
 
-        public Task<User> GetByEmailAsync(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
-            return Entities().FirstOrDefaultAsync(x =>
+            var user = await Entities().FirstOrDefaultAsync(x =>
                 string.Equals(x.Email, email, StringComparison.CurrentCultureIgnoreCase));
+
+            if (user == null)
+            {
+                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
+            }
+
+            return user;
         }
 
         public Task<bool> IsEmailExistsAsync(string email)
@@ -49,10 +69,13 @@ namespace Sportlance.WebAPI.Users
             return _appContext.Users.AnyAsync(i => i.Email == email);
         }
 
-        public async Task AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
             await _appContext.AddAsync(user);
+
             await _appContext.SaveChangesAsync();
+
+            return user;
         }
 
         public IQueryable<User> Entities()
@@ -63,16 +86,6 @@ namespace Sportlance.WebAPI.Users
         public Task SaveChangesAsync()
         {
             return _appContext.SaveChangesAsync();
-        }
-
-        public void RemoveRange(IEnumerable<User> entities)
-        {
-            _appContext.RemoveRange(entities);
-        }
-
-        public Task AddRangeAsync(IEnumerable<User> entities)
-        {
-            return _appContext.AddRangeAsync(entities);
         }
 
         public Task<bool> IsEmailExists(string email)
@@ -93,6 +106,7 @@ namespace Sportlance.WebAPI.Users
             var link = await _usersStorageProvider.UploadAndGetUriAsync(photoName, photo);
 
             user.PhotoUrl = link;
+
             await _appContext.SaveChangesAsync();
 
             return user;
