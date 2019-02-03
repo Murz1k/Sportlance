@@ -14,6 +14,8 @@ export class TeamMembersCollectionComponent implements OnInit {
 
   @Input() team: TeamServiceResponse;
 
+  isLoading = false;
+
   public teamMembers: TrainerInfoResponse[];
 
   constructor(private trainersService: TrainersService, public authService: AuthService) {
@@ -27,12 +29,14 @@ export class TeamMembersCollectionComponent implements OnInit {
   }
 
   private updateTeamMembers(teamId: number) {
+    this.isLoading = true;
     this.trainersService.get(<GetTrainersQuery>{
       teamId: teamId,
       offset: 0,
       count: 10
     }).subscribe((response) => {
       this.teamMembers = response.items;
+      this.isLoading = false;
     });
   }
 }

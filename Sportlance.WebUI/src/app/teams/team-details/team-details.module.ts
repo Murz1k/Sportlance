@@ -18,11 +18,12 @@ import {RouterModule, Routes} from "@angular/router";
 import {EditTeamPhotoDialogComponent} from "./edit-team-photo-dialog/edit-team-photo-dialog.component";
 import {EditTeamBackgroundDialogComponent} from "./edit-team-background-dialog/edit-team-background-dialog.component";
 import {EditTeamAboutDialogComponent} from "./edit-team-about-dialog/edit-team-about-dialog.component";
+import {SlSpinnerModule} from 'app/shared/spinner/spinner.module';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: TeamDetailsComponent},
   {
-    path: 'services/:serviceId/payment',
+    path: 'services/:serviceId/payments',
     loadChildren: './team-service-payment/team-service-payment.module#TeamServicePaymentModule'
   },
   {path: '**', redirectTo: ''}
@@ -38,7 +39,8 @@ const routes: Routes = [
     MatDialogModule,
     SlInputModule,
     PhoneMaskPipeModule,
-    SlButtonModule
+    SlButtonModule,
+    SlSpinnerModule
   ],
   entryComponents: [
     AddTeamPhotoDialogComponent,

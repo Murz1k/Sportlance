@@ -17,6 +17,7 @@ export class TeamServiceCollectionComponent implements OnInit {
   @Input() team: TeamServiceResponse;
 
   teamServices: TeamServiceResponse[];
+  isLoading = false;
 
   constructor(private dialog: MatDialog,
               private teamsService: TeamsService,
@@ -47,6 +48,7 @@ export class TeamServiceCollectionComponent implements OnInit {
   }
 
   loadData() {
+    this.isLoading = true;
     this.teamsService.getServicesByTeamId(this.team.id)
       .pipe(tap((response) => {
         if (!response.error) {
@@ -59,6 +61,7 @@ export class TeamServiceCollectionComponent implements OnInit {
         } else {
           this.teamServices = [];
         }
+        this.isLoading = false;
       })).subscribe();
   }
 }

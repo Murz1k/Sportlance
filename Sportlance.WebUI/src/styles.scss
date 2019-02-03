@@ -869,6 +869,62 @@ i.material-icons {
   height: 18px;
 }
 
+//Spinner styles
+.sl-spinner-wrapper {
+  display: none;
+}
+
+.sl-spinner-loading .sl-spinner-wrapper {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: inherit;
+  opacity: 0.85;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.sl-spinner {
+  display: block;
+  position: relative;
+  animation: sl-spinner-rotate 2s linear infinite;
+  svg {
+    position: absolute;
+    transform: rotate(-90deg);
+    top: 0;
+    left: 0;
+    transform-origin: center;
+    overflow: visible;
+  }
+  circle {
+    fill: transparent;
+    transform-origin: center;
+    transition: stroke-dashoffset 225ms linear;
+    animation-duration: 4s;
+    animation-timing-function: cubic-bezier(.35, 0, .25, 1);
+    animation-iteration-count: infinite;
+    stroke: $primary-color;
+  }
+}
+
+@keyframes sl-spinner-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 //Button spinner styles
 .spinner-button {
   display: none;
