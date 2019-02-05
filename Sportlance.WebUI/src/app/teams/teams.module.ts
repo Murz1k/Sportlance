@@ -11,10 +11,6 @@ import {TeamsService} from './teams.service';
 import {SlInputModule} from "../shared/input/input.module";
 import {SlSelectCityModule} from "../shared/select-city/select-city.module";
 import {SlButtonModule} from "../shared/button/button.module";
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
-import {TeamEffects} from "./store/effects/team.effects";
-import {teamReducersMap} from "./store/reducers/team.reducer.map";
 
 @NgModule({
   imports: [
@@ -25,8 +21,6 @@ import {teamReducersMap} from "./store/reducers/team.reducer.map";
     TeamsRoutingModule,
     NumberOnlyModule,
     MatDialogModule,
-    StoreModule.forRoot(teamReducersMap),
-    EffectsModule.forRoot(TeamEffects),
     SlInputModule,
     SlSelectCityModule,
     SlButtonModule

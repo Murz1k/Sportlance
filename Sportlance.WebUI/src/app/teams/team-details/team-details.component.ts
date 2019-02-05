@@ -9,8 +9,6 @@ import {EditTeamBackgroundDialogData} from "./edit-team-background-dialog/edit-t
 import {EditTeamBackgroundDialogComponent} from "./edit-team-background-dialog/edit-team-background-dialog.component";
 import {TeamResponse} from "../../shared/teams/requests/team-response";
 import {EditTeamAboutDialogComponent} from "./edit-team-about-dialog/edit-team-about-dialog.component";
-import {ITeamState} from "../store/states/team.state";
-import {GetTeam} from "../store/actions/team.actions";
 
 @Component({
   selector: 'sl-team-details',
@@ -22,21 +20,16 @@ export class TeamDetailsComponent implements OnInit {
   public team: TeamResponse;
   public isShowAbout = false;
 
-  $team = this._store.pipe(select(selectUser));
-
   constructor(private route: ActivatedRoute,
               private sanitizer: DomSanitizer,
               public authService: AuthService,
               private dialog: MatDialog,
-              private _store: Store<ITeamState>,
               private titleService: Title) {
   }
 
   ngOnInit() {
     this._store.dispatch(new GetTeam(+this.route.snapshot.params['id']));
     this.team = this.route.snapshot.data['profile'];
-
-    this.$team.subscribe((team) => console.log(team));
 
     this.authService.setPermissions(
       `teams:photo:edit:${this.team.id}`,
