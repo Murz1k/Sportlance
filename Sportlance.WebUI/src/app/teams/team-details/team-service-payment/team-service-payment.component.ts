@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {TeamsService} from "../../teams.service";
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'sl-team-service-payment',
@@ -15,6 +17,7 @@ export class TeamServicePaymentComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
+              private teamsService: TeamsService,
               private route: ActivatedRoute) {
   }
 
@@ -27,6 +30,12 @@ export class TeamServicePaymentComponent implements OnInit {
   }
 
   redirectToPayment() {
-    this.router.navigate(['/', 0, 'cash-complete'])
+    this.teamsService.addTeamServiceOrder(this.teamService.teamId, this.teamService.id)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.router.navigate([response.id, 'cash-complete']);
+        }
+      }))
+      .subscribe();
   }
 }

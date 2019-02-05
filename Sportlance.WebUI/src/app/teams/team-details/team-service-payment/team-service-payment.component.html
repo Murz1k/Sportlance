@@ -20,9 +20,9 @@
             <sl-radio-button [value]="1">Наличными в клубе</sl-radio-button>
           </sl-radio-group>
 
-          <a [routerLink]="[0, 'cash-complete']" sl-button slType="primary">Перейти к
+          <button (click)="redirectToPayment()" sl-button slType="primary">Перейти к
             оплате
-          </a>
+          </button>
         </form>
       </div>
     </section>

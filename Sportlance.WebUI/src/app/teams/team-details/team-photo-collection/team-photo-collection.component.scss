@@ -55,6 +55,16 @@
   .image-placeholder {
     background-color: #f2f2f2;
     display: inline-block;
+    animation-name: _3ikwJZoFKM;
+    animation-timing-function: linear;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+  }
+}
+
+@keyframes _3ikwJZoFKM {
+  50% {
+    opacity: .5;
   }
 }
 

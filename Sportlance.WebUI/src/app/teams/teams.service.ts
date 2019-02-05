@@ -11,6 +11,7 @@ import {Observable} from 'rxjs/internal/Observable';
 import {TeamServiceResponse} from "../shared/teams/responses/team-service-response";
 import {ErrorResponse} from "../core/error-response";
 import {UpdateTeamServiceRequest} from "../shared/teams/requests/update-team-service-request";
+import {TeamServiceOrderResponse} from "../shared/teams/responses/team-service-order-response";
 
 @Injectable()
 export class TeamsService {
@@ -91,6 +92,16 @@ export class TeamsService {
 
   getServicesByTeamId(teamId: number): Observable<CollectionResponse<TeamServiceResponse> & ErrorResponse> {
     return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`);
+  }
+
+  addTeamServiceOrder(teamId: number, serviceId: number): Observable<TeamServiceOrderResponse & ErrorResponse> {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+    if (serviceId === undefined || serviceId === null) {
+      throw new Error('Param "serviceId" is required');
+    }
+    return this.http.post<TeamServiceOrderResponse & ErrorResponse>(`/orders/team-service`,{teamId: teamId, serviceId: serviceId});
   }
 
   deletePhoto(teamId: number, photoId: number) {

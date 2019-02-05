@@ -29,13 +29,14 @@
   }
 
   img, .background-placeholder {
-    -o-object-fit: cover;
     object-fit: cover;
-    width: 100%;
+    width: calc(100% + 2px);
     height: 160px;
     position: absolute;
     user-select: none;
     outline: none;
+    margin-left: -1px;
+    margin-top: -1px;
   }
 
   :hover {
