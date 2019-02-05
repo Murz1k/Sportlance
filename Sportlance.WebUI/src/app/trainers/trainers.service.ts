@@ -8,13 +8,33 @@ import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from '../shared/trainers/responses/training-response';
 import {LoginResponse} from '../core/auth/responses/login-response';
+import {ErrorResponse} from "../core/error-response";
+import {of} from "rxjs";
+import {tap} from "rxjs/operators";
+
+
+function deepEqual(x, y) {
+  const ok = Object.keys, tx = typeof x, ty = typeof y;
+  return x && y && tx === 'object' && tx === ty ? (
+    ok(x).length === ok(y).length &&
+    ok(x).every(key => deepEqual(x[key], y[key]))
+  ) : (x === y);
+}
 
 @Injectable()
 export class TrainersService {
   constructor(private http: HttpClient) {
   }
 
-  get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerInfoResponse>> {
+  trainersGetQuery: GetTrainersQuery;
+  trainersCollection: CollectionResponse<TrainerInfoResponse> & ErrorResponse;
+
+  get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerInfoResponse> & ErrorResponse> {
+
+    if (this.trainersCollection && this.trainersCollection.items.length > 0 && deepEqual(this.trainersGetQuery, query)) {
+      return of(this.trainersCollection);
+    }
+
     const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
       .append('feedbacksMinCount', checkParam(query.feedbacksMinCount))
@@ -29,7 +49,14 @@ export class TrainersService {
       .append('teamId', checkParam(query.teamId))
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
-    return this.http.get<CollectionResponse<TrainerInfoResponse>>(`/trainers`, {params: parameters});
+
+    return this.http.get<CollectionResponse<TrainerInfoResponse> & ErrorResponse>(`/trainers`, {params: parameters})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.trainersGetQuery = query;
+          this.trainersCollection = response;
+        }
+      }));
   }
 
   getById(trainerId: number): Observable<TrainerProfileResponse> {

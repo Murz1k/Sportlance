@@ -28,7 +28,6 @@ export class TeamDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._store.dispatch(new GetTeam(+this.route.snapshot.params['id']));
     this.team = this.route.snapshot.data['profile'];
 
     this.authService.setPermissions(

@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {CollectionResponse} from '../core/collection-response';
 import {isNullOrUndefined} from 'util';
-import {TeamProfileResponse} from '../shared/teams/responses/team-profile-response';
 import {TeamPhotoResponse} from '../shared/teams/responses/team-photo-response';
 import {InviteMemberRequest} from '../shared/teams/requests/invite-member-request';
 import {GetTeamQuery} from '../shared/teams/requests/get-team-query';
@@ -12,6 +11,8 @@ import {TeamServiceResponse} from "../shared/teams/responses/team-service-respon
 import {ErrorResponse} from "../core/error-response";
 import {UpdateTeamServiceRequest} from "../shared/teams/requests/update-team-service-request";
 import {TeamServiceOrderResponse} from "../shared/teams/responses/team-service-order-response";
+import {tap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Injectable()
 export class TeamsService {
@@ -32,8 +33,24 @@ export class TeamsService {
     return this.http.get<CollectionResponse<TeamResponse>>(`/teams`, {params: parameters});
   }
 
-  getById(teamId: number): Observable<TeamProfileResponse> {
-    return this.http.get<TeamProfileResponse>(`/teams/${teamId}`);
+  selectedTeam: TeamResponse & ErrorResponse;
+
+  getById(teamId: number): Observable<TeamResponse & ErrorResponse> {
+
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+
+    if (this.selectedTeam && this.selectedTeam.id === +teamId) {
+      return of(this.selectedTeam);
+    }
+
+    return this.http.get<TeamResponse & ErrorResponse>(`/teams/${teamId}`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTeam = response;
+        }
+      }));
   }
 
   canInviteTrainer(teamId: number, trainerId: number): Observable<boolean> {
@@ -46,11 +63,25 @@ export class TeamsService {
     return this.http.get<boolean>(`/teams/${teamId}/trainers/${trainerId}/canInvite`);
   }
 
-  getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse>> {
+  teamPhotoCollection: CollectionResponse<TeamPhotoResponse> & ErrorResponse;
+
+  getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse> & ErrorResponse> {
+
     if (teamId === undefined || teamId === null) {
       throw new Error('Param "teamId" is required');
     }
-    return this.http.get<CollectionResponse<TeamPhotoResponse>>(`/teams/${teamId}/photos`);
+
+    if (this.teamPhotoCollection && this.teamPhotoCollection.items.length > 0 && this.serviceCollectionTeamId === +teamId) {
+      return of(this.teamPhotoCollection);
+    }
+
+    return this.http.get<CollectionResponse<TeamPhotoResponse> & ErrorResponse>(`/teams/${teamId}/photos`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.serviceCollectionTeamId = +teamId;
+          this.teamPhotoCollection = response;
+        }
+      }));
   }
 
   addService(teamId: number, request: UpdateTeamServiceRequest) {
@@ -71,27 +102,74 @@ export class TeamsService {
   }
 
   deleteService(teamId: number, serviceId: number) {
+
     if (teamId === undefined || teamId === null) {
       throw new Error('Param "teamId" is required');
     }
     if (serviceId === undefined || serviceId === null) {
       throw new Error('Param "serviceId" is required');
     }
-    return this.http.delete<ErrorResponse>(`/teams/${teamId}/services/${serviceId}`);
+
+    return this.http.delete<ErrorResponse>(`/teams/${teamId}/services/${serviceId}`)
+      .pipe(tap((response) => {
+        if (!response) {
+          if (this.serviceCollectionTeamId && this.serviceCollectionTeamId === +teamId
+            && this.serviceCollection && this.serviceCollection.items.some(service => service.id === +serviceId)) {
+            this.serviceCollection.items = this.serviceCollection.items.filter(service => service.id !== +serviceId);
+            this.serviceCollection.totalCount--;
+          }
+        }
+      }));
   }
+
+  selectedTeamService: TeamServiceResponse & ErrorResponse;
 
   getServiceById(teamId: number, serviceId: number): Observable<TeamServiceResponse & ErrorResponse> {
+
     if (teamId === undefined || teamId === null) {
       throw new Error('Param "teamId" is required');
     }
     if (serviceId === undefined || serviceId === null) {
       throw new Error('Param "serviceId" is required');
     }
-    return this.http.get<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`);
+
+    if (this.serviceCollectionTeamId && this.serviceCollectionTeamId === +teamId
+      && this.serviceCollection && this.serviceCollection.items.some(service => service.id === +serviceId)) {
+      this.selectedTeamService = <TeamServiceResponse & ErrorResponse>this.serviceCollection.items.find(service => service.id === +serviceId);
+    }
+
+    if (this.selectedTeamService && this.selectedTeamService.id === +teamId) {
+      return of(this.selectedTeamService);
+    }
+
+    return this.http.get<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTeamService = response;
+        }
+      }));
   }
 
+  serviceCollectionTeamId: number;
+  serviceCollection: CollectionResponse<TeamServiceResponse> & ErrorResponse;
+
   getServicesByTeamId(teamId: number): Observable<CollectionResponse<TeamServiceResponse> & ErrorResponse> {
-    return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`);
+
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+
+    if (this.serviceCollection && this.serviceCollection.items.length > 0 && this.serviceCollectionTeamId === +teamId) {
+      return of(this.serviceCollection);
+    }
+
+    return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.serviceCollectionTeamId = +teamId;
+          this.serviceCollection = response;
+        }
+      }));
   }
 
   addTeamServiceOrder(teamId: number, serviceId: number): Observable<TeamServiceOrderResponse & ErrorResponse> {
@@ -101,7 +179,10 @@ export class TeamsService {
     if (serviceId === undefined || serviceId === null) {
       throw new Error('Param "serviceId" is required');
     }
-    return this.http.post<TeamServiceOrderResponse & ErrorResponse>(`/orders/team-service`,{teamId: teamId, serviceId: serviceId});
+    return this.http.post<TeamServiceOrderResponse & ErrorResponse>(`/orders/team-service`, {
+      teamId: teamId,
+      serviceId: serviceId
+    });
   }
 
   deletePhoto(teamId: number, photoId: number) {
