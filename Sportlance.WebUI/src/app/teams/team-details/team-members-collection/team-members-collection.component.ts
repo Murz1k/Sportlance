@@ -16,7 +16,7 @@ export class TeamMembersCollectionComponent implements OnInit {
 
   isLoading = false;
 
-  public teamMembers: TrainerInfoResponse[];
+  public teamMembers: TrainerInfoResponse[] = [];
 
   constructor(private trainersService: TrainersService, public authService: AuthService) {
   }

@@ -1,11 +1,10 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {EditServiceDialogComponent} from "./edit-service-dialog/edit-service-dialog.component";
 import {MatDialog} from "@angular/material";
 import {TeamsService} from "../../teams.service";
 import {tap} from "rxjs/operators";
 import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
 import {AuthService} from "../../../core/auth/auth.service";
-import {any} from "codelyzer/util/function";
 
 @Component({
   selector: 'sl-team-service-collection',
@@ -16,7 +15,7 @@ export class TeamServiceCollectionComponent implements OnInit {
 
   @Input() team: TeamServiceResponse;
 
-  teamServices: TeamServiceResponse[];
+  teamServices: TeamServiceResponse[] = [];
   isLoading = false;
 
   constructor(private dialog: MatDialog,
@@ -37,7 +36,7 @@ export class TeamServiceCollectionComponent implements OnInit {
       .afterClosed()
       .pipe((tap((newService) => {
         if (newService) {
-          this.teamServices.unshift(newService);
+          this.loadData();
         }
       })))
       .subscribe();

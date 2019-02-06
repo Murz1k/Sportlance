@@ -1,10 +1,14 @@
 <div class="air-card" sl-spinner [slLoading]="isLoadingPhotos">
-  <div *ngIf="isLoadingPhotos" class="loading-container"></div>
+  <div *ngIf="!photos.length && !isLoadingPhotos && authService.hasPermissions('teams:photos:add:' + team.id)"
+       class="empty-container">
+    <span>У команды пока нет фотографий</span>
+    <button sl-button slType="primary" (click)="showAddTeamPhotoDialog()">Добавить</button>
+  </div>
   <div class="air-card-header">
     <h3 class="pull-left">
       Галерея
     </h3>
-    <button *ngIf="authService.hasPermissions('teams:photos:add:' + team.id)"
+    <button *ngIf="photos.length && authService.hasPermissions('teams:photos:add:' + team.id)"
             sl-button (click)="showAddTeamPhotoDialog()" class="btn-rnd">
       <i class="material-icons">add</i>
     </button>

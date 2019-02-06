@@ -1,10 +1,14 @@
-<div class="air-card" sl-spinner [slLoading]="isLoading"
-     style="margin-top: 2em; overflow-x: auto;">
+<div class="air-card" sl-spinner [slLoading]="isLoading" style="margin-top: 2em; overflow-x: auto;">
+  <div *ngIf="!teamServices.length && !isLoading && authService.hasPermissions('teams:services:add:' + team.id)"
+       class="empty-container">
+    <span>У команды пока нет услуг</span>
+    <button sl-button slType="primary" (click)="showModal()">Добавить</button>
+  </div>
   <div class="air-card-header">
     <h3 class="m-0-bottom pull-left">
       Услуги
     </h3>
-    <button *ngIf="authService.hasPermissions('teams:services:add:' + team.id)"
+    <button *ngIf="teamServices.length && authService.hasPermissions('teams:services:add:' + team.id)"
             (click)="showModal()"
             sl-button class="btn-rnd"
             style="position: absolute;     right: 30px;    top: 20px;">

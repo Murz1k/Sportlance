@@ -3,6 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {EditPhotoDialogComponent} from '../../../../account/edit-photo-dialog/edit-photo-dialog.component';
 import {TeamsService} from '../../../teams.service';
 import {AddTeamPhotoDialogData} from './add-team-photo-dialog-data';
+import {catchError, tap} from "rxjs/operators";
+import {throwError} from "rxjs";
 
 @Component({
   selector: 'sl-add-team-photo-dialog',
@@ -14,6 +16,8 @@ export class AddTeamPhotoDialogComponent {
   private newPhoto: File;
   private teamId: number;
   public url: string;
+
+  public isLoading: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: AddTeamPhotoDialogData,
               private dialogRef: MatDialogRef<EditPhotoDialogComponent>,
@@ -37,7 +41,20 @@ export class AddTeamPhotoDialogComponent {
   }
 
   public submit() {
+    this.isLoading = true;
     this.teamsService.addPhoto(this.teamId, this.newPhoto)
-      .subscribe(() => this.dialogRef.close(true));
+      .pipe(
+        tap((response) => {
+          if (!response.error) {
+            this.dialogRef.close(response);
+          }
+          this.isLoading = false;
+        }),
+        catchError((error) => {
+          this.isLoading = false;
+          return throwError(error);
+        })
+      )
+      .subscribe();
   }
 }
