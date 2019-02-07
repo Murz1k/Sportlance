@@ -16,6 +16,7 @@ export class TeamListComponent implements OnInit {
 
   teams = [];
   isRendering = true;
+  isLoading = false;
   public isAuthorized = false;
   public Paths = Paths;
 
@@ -64,6 +65,7 @@ export class TeamListComponent implements OnInit {
     if (this.offset + this.count >= this.totalCount) {
       return;
     }
+    this.isLoading = true;
     this.offset = this.count + this.offset;
     this.subscription = this.teamsService.get(<any>{
       searchString: this.searchString,
@@ -86,6 +88,7 @@ export class TeamListComponent implements OnInit {
         about: this.cutAbout(i.about)
       }).forEach(item => this.teams.push(item));
       this.totalCount = response.totalCount;
+      this.isLoading = false;
     });
   }
 

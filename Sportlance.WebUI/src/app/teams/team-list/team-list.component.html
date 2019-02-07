@@ -498,13 +498,17 @@
             </div>
           </div>
         </section>
-        <div class="search-results" *ngIf="teams.length <= count"
+        <div *ngIf="teams.length <= count"
              infiniteScroll
              [infiniteScrollDistance]="1"
              [infiniteScrollThrottle]="200"
              (scrolled)="onScrollDown()">
         </div>
       </ng-template>
+    </div>
+    <div class="infinite-container" *ngIf="isLoading">
+      <div sl-spinner [slLoading]="true">
+      </div>
     </div>
   </div>
   <div class="side-bar page">

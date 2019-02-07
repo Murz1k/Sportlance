@@ -145,3 +145,13 @@ button:focus {
     color: #6c757c;
   }
 }
+
+.infinite-container {
+  height: 40px;
+  position: relative;
+  margin-top: 30px;
+
+  .sl-spinner-loading .sl-spinner-wrapper {
+    background-color: transparent;
+  }
+}
