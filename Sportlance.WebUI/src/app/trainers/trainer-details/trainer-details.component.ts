@@ -41,6 +41,7 @@ export class TrainerDetailsComponent implements OnInit {
       secondName: this.route.snapshot.data['profile'].secondName,
       trainingsCount: this.route.snapshot.data['profile'].trainingsCount,
       price: this.route.snapshot.data['profile'].price,
+      photoUrl: this.route.snapshot.data['profile'].photoUrl,
       city: this.route.snapshot.data['profile'].city,
       about: this.route.snapshot.data['profile'].about,
       title: this.route.snapshot.data['profile'].title,
@@ -52,11 +53,11 @@ export class TrainerDetailsComponent implements OnInit {
     this.titleService.setTitle(`${this.trainer.firstName} ${this.trainer.secondName} | Sportlance`);
 
     this.trainerId = this.route.snapshot.params['id'];
-    if (this.account && this.account.isTeam) {
-      this.teamService.canInviteTrainer(null, this.trainerId).subscribe((canInvited) => {
-        this.canInvited = canInvited;
-      });
-    }
+    // if (this.account && this.account.isTeam) {
+    //   this.teamService.canInviteTrainer(null, this.trainerId).subscribe((canInvited) => {
+    //     this.canInvited = canInvited;
+    //   });
+    // }
   }
 
   public showAbout() {
