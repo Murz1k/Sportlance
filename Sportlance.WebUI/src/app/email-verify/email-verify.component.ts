@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { LOCAL_STORAGE } from '@ng-toolkit/universal';
+import {Component, OnInit, Inject} from '@angular/core';
 import {AuthService} from '../core/auth/auth.service';
 import {finalize, tap} from "rxjs/operators";
 import {Router} from "@angular/router";
@@ -19,7 +20,7 @@ export class EmailVerifyComponent implements OnInit {
   public isLoading = false;
   public isDisabled = false;
 
-  constructor(private titleService: Title,
+  constructor(@Inject(LOCAL_STORAGE) private localStorage: any, private titleService: Title,
               private router: Router,
               private authService: AuthService) {
   }
@@ -33,7 +34,7 @@ export class EmailVerifyComponent implements OnInit {
     }
     this.email = this.authService.getCurrent().email;
 
-    const cooldown = localStorage.getItem(this.secondsKey);
+    const cooldown = this.localStorage.getItem(this.secondsKey);
     if (cooldown != undefined) {
       this.seconds = +cooldown;
     }
@@ -45,7 +46,7 @@ export class EmailVerifyComponent implements OnInit {
       this.seconds--;
       this.lastTime = new Date(null, null, null, null, null, this.seconds).toTimeString()
         .match(/\d{2}:\d{2}:\d{2}/)[0].slice(3);
-      localStorage.setItem(this.secondsKey, this.seconds.toString());
+      this.localStorage.setItem(this.secondsKey, this.seconds.toString());
     }
   }
 
@@ -56,7 +57,7 @@ export class EmailVerifyComponent implements OnInit {
       .pipe(tap((response: any) => {
         if (!response || !response.error) {
           this.seconds = 300;
-          localStorage.setItem(this.secondsKey, this.seconds.toString());
+          this.localStorage.setItem(this.secondsKey, this.seconds.toString());
         }
       }), finalize(() => {
         this.isDisabled = false;

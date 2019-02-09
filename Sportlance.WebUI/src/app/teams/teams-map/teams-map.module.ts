@@ -12,7 +12,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [TeamsMapComponent],
   imports: [
-    RouterModule.forChild(routes, {scrollPositionRestoration: 'enabled'}),
+    RouterModule.forChild(routes),
     CommonModule,
     HeaderModule
   ]

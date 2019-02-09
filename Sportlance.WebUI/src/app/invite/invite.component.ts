@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { WINDOW } from '@ng-toolkit/universal';
+import {Component, OnInit, Inject} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {AuthService} from "../core/auth/auth.service";
 import {tap} from "rxjs/operators";
@@ -25,7 +26,7 @@ export class InviteComponent implements OnInit {
 
   public form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(@Inject(WINDOW) private window: Window, private formBuilder: FormBuilder,
               private titleService: Title,
               private router: Router,
               private authService: AuthService,
@@ -84,7 +85,7 @@ export class InviteComponent implements OnInit {
 
   public scrollToForm(): void {
     const offsetTop1 = document.getElementById('form').offsetTop;
-    window.scrollTo({left: 0, top: offsetTop1 - 40, behavior: 'smooth'});
+    this.window.scrollTo({left: 0, top: offsetTop1 - 40, behavior: 'smooth'});
     return;
   }
 }

@@ -1,4 +1,5 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import { LOCAL_STORAGE } from '@ng-toolkit/universal';
+import {EventEmitter, Inject, Injectable} from '@angular/core';
 
 import * as jwt_decode from 'jwt-decode';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -28,7 +29,7 @@ export class AuthService {
   userChanged: EventEmitter<User> = new EventEmitter<User>();
   permissions = {};
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(@Inject(LOCAL_STORAGE) private localStorage: any, private activatedRoute: ActivatedRoute,
               private http: HttpClient,
               private router: Router) {
   }
@@ -55,7 +56,7 @@ export class AuthService {
 
   // Проверяем наличие токена в сторадже или памяти
   hasRefreshToken(): boolean {
-    return localStorage.getItem('refresh-token') !== null || !isNullOrUndefined(this.privateRefreshToken);
+    return this.localStorage.getItem('refresh-token') !== null || !isNullOrUndefined(this.privateRefreshToken);
   }
 
   getCurrent(): User {
@@ -135,9 +136,9 @@ export class AuthService {
   }
 
   public saveTokens(response: LoginResponse, isRememberMe = false) {
-    localStorage.setItem('access-token', response.accessToken);
+    this.localStorage.setItem('access-token', response.accessToken);
     if (isRememberMe) {
-      localStorage.setItem('refresh-token', response.refreshToken);
+      this.localStorage.setItem('refresh-token', response.refreshToken);
     } else {
       this.privateRefreshToken = response.refreshToken;
     }
@@ -200,8 +201,8 @@ export class AuthService {
   }
 
   logout(redirectUrl = '') {
-    localStorage.removeItem('access-token');
-    localStorage.removeItem('refresh-token');
+    this.localStorage.removeItem('access-token');
+    this.localStorage.removeItem('refresh-token');
     this.privateRefreshToken = undefined;
     this.userChanged.emit();
     if (redirectUrl) {

@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { WINDOW } from '@ng-toolkit/universal';
+import {Component, OnInit, Inject} from '@angular/core';
 import {User} from '../core/auth/user';
 import {TrainerInfo} from '../trainers/trainer-list/trainer-info';
 import {TrainersService} from '../trainers/trainers.service';
@@ -43,7 +44,7 @@ export class AccountComponent implements OnInit {
 
   public feedbacks: Observable<ReviewInfo[]>;
 
-  constructor(private authService: AuthService,
+  constructor(@Inject(WINDOW) private window: Window, private authService: AuthService,
               private titleService: Title,
               private dialog: MatDialog,
               private feedbackService: FeedbacksService,
@@ -51,7 +52,7 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.href = window.location.origin;
+    this.href = this.window.location.origin;
     this.updateUser(this.authService.getCurrent());
     this.authService.userChanged.subscribe((user) => this.updateUser(user));
   }

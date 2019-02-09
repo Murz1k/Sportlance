@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Sportlance</title>
+  <base href="/production/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    .loading {
+      bottom: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .big-icon {
+      width: 48px;
+      height: 48px;
+      position: relative;
+      background-size: cover;
+      display: inline-block;
+      top: 5px;
+      background-color: #37a000;;
+      -webkit-mask-size: 48px;
+    }
+
+    .icon__logo {
+      -webkit-mask-image: url(/assets/logo.svg);
+    }
+
+    @font-face {
+      font-family: 'Material Icons';
+      font-style: normal;
+      font-weight: 400;
+      src: url(assets/material-icons.woff2) format('woff2');
+    }
+
+    .material-icons {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: Gotham SSm, Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.42857;
+      color: #222;
+      background-color: #f2f2f2;
+      margin: 0;
+    }
+
+    .initial-load-animation, .loading-bg .initial-load-animation {
+      padding-top: 196px;
+      width: 200px;
+      margin: 0 auto;
+      transform: scale(1);
+      transition: transform .5s ease;
+    }
+
+    .initial-load-animation .loading-bar, .loading-bg .initial-load-animation .loading-bar {
+      width: 130px;
+      height: 2px;
+      margin: 0 auto;
+      border-radius: 2px;
+      background-color: #cfcfcf;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transform: rotateY(0);
+      transition: transform .3s ease-in;
+    }
+
+    .initial-load-animation .loading-bar .blue-bar, .loading-bg .initial-load-animation .loading-bar .blue-bar {
+      height: 100%;
+      width: 68px;
+      position: absolute;
+      transform: translate(-34px, 0);
+      background-color: #37a000;
+      border-radius: 2px;
+      animation: initial-loading 1.5s infinite ease;
+    }
+
+    .initial-load-animation .linkedin-image, .loading-bg .initial-load-animation .linkedin-image {
+      margin: 16px;
+      transform: translate(0, 0);
+      opacity: 1;
+      transition: all .5s ease-out;
+      font-size: 24px;
+      text-align: center;
+      font-weight: 600;
+      color: #8e8e8e;
+    }
+
+    @keyframes initial-loading {
+      0%, 100% {
+        transform: translate(-34px, 0);
+      }
+      50% {
+        transform: translate(96px, 0);
+      }
+    }
+  </style>
+<link rel="stylesheet" href="styles.f252c744f81980fcf51a.css"></head>
+<body>
+<sl-root></sl-root>
+<div class="content loading">
+  <div class="initial-load-animation">
+    <div class="linkedin-image">
+      <div class="big-icon icon__logo"></div>
+      Sportlance
+    </div>
+    <div class="loading-bar">
+      <div class="blue-bar"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="runtime.0d448f152a843cd6f50c.js"></script><script type="text/javascript" src="polyfills.059bcd3cad1696d582ab.js"></script><script type="text/javascript" src="main.5fc6207e98f8a276eda9.js"></script></body>
+</html>

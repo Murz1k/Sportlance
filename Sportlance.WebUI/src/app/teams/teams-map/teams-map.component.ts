@@ -1,4 +1,5 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import { WINDOW } from '@ng-toolkit/universal';
+import {Component, HostListener, OnInit, Inject} from '@angular/core';
 
 @Component({
   selector: 'sl-teams-map',
@@ -10,7 +11,7 @@ export class TeamsMapComponent implements OnInit {
   map;
   myMap;
 
-  constructor() {
+  constructor(@Inject(WINDOW) private window: Window, ) {
   }
 
   ngOnInit() {

@@ -1,13 +1,24 @@
+import { AppComponent } from './app.component';
+import { AppModule } from './app.module';
 import {NgModule} from '@angular/core';
-import {ServerModule} from '@angular/platform-server';
+    import {ServerModule, ServerTransferStateModule} from '@angular/platform-server';
+    import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
+    import { BrowserModule } from '@angular/platform-browser';
+    import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+    
+    @NgModule({
+ bootstrap: [AppComponent],
 
-import {AppModule} from "./app.module";
-
-@NgModule({
-  imports: [
-    AppModule,
-    ServerModule
-  ]
-})
-export class AppServerModule {
-}
+        imports:[
+ BrowserModule.withServerTransition({appId: 'sl-root'}),
+ 
+ AppModule,
+ 
+            ServerModule,
+            NoopAnimationsModule,
+            ModuleMapLoaderModule,
+            ServerTransferStateModule, // comment
+        ]
+    })
+    export class AppServerModule {}
+    
