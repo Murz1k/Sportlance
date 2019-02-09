@@ -12,7 +12,6 @@ import {SlInputModule} from "../shared/input/input.module";
 import {SlSelectCityModule} from "../shared/select-city/select-city.module";
 import {SlButtonModule} from "../shared/button/button.module";
 import {SlSpinnerModule} from "../shared/spinner/spinner.module";
-import { TeamMapComponent } from './team-map/team-map.component';
 
 @NgModule({
   imports: [
@@ -29,8 +28,7 @@ import { TeamMapComponent } from './team-map/team-map.component';
     SlButtonModule
   ],
   declarations: [
-    TeamListComponent,
-    TeamMapComponent
+    TeamListComponent
   ],
   providers: [
     TeamsService,
