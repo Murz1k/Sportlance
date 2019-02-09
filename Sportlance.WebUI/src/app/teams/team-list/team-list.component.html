@@ -3,6 +3,11 @@
     <div *ngIf="!isAuthorized">
       <h1 class="ellipsis">Лучшие команды Sportlance</h1>
     </div>
+    <div *ngIf="teams.length" style="margin-bottom: 14px;
+    font-size: 14px;
+    height: 28px;">
+      Найдено {{totalCount}} предложений
+    </div>
     <div class="air-card">
       <section *ngIf="isRendering; else loading">
         <div class="tile-placeholder tile-placeholder_index_1">
@@ -516,11 +521,23 @@
     width: 100%;">
       Начни тренироваться сейчас!
     </button>
+    <div style="margin-bottom: 14px; text-align: right; height: 28px;">
+      <a [routerLink]="['list']" style="margin-left: 16px; font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    color: black;
+    align-items: center;"><i class="material-icons" style="margin-right: 4px;">menu</i>Список</a>
+      <a [routerLink]="['map']" style="margin-left: 16px; font-size: 14px;
+    text-decoration: none;
+    color: #666;
+    display: inline-flex;
+    align-items: center;"><i class="material-icons" style="margin-right: 4px;">place</i>На карте</a>
+    </div>
     <div class="air-card">
       <section>
         <div style="position: relative;">
           <input (keyup)="changeParams()" [(ngModel)]="searchString" type="text"
-                 placeholder="Введите Имя или Фамилию"
+                 placeholder="Введите название клуба"
                  sl-input class="form-input"/>
           <i class="material-icons input-icon">search</i>
         </div>

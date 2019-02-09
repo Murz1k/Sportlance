@@ -22,6 +22,7 @@ import {SlInputModule} from "../shared/input/input.module";
 import {TrainersAboutComponent} from './trainers-about/trainers-about.component';
 import {SlSelectCityModule} from "../shared/select-city/select-city.module";
 import {SlButtonModule} from "../shared/button/button.module";
+import {TeamsService} from "../teams/teams.service";
 
 @NgModule({
   imports: [
@@ -60,6 +61,8 @@ import {SlButtonModule} from "../shared/button/button.module";
   ],
   providers: [
     {provide: DateAdapter, useClass: MyDateAdapter},
+
+    TeamsService,
     RedirectTrainerProfileResolver
   ]
 })
