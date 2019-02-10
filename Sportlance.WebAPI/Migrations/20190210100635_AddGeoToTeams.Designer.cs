@@ -12,7 +12,7 @@ using System;
 namespace Sportlance.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190210094438_AddGeoToTeams")]
+    [Migration("20190210100635_AddGeoToTeams")]
     partial class AddGeoToTeams
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,9 +112,9 @@ namespace Sportlance.WebAPI.Migrations
 
                     b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<decimal>("Latitude");
+                    b.Property<string>("Latitude");
 
-                    b.Property<decimal>("Longitude");
+                    b.Property<string>("Longitude");
 
                     b.Property<string>("PhoneNumber");
 

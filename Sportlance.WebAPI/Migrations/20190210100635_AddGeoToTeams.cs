@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
 
 namespace Sportlance.WebAPI.Migrations
 {
@@ -11,17 +13,15 @@ namespace Sportlance.WebAPI.Migrations
                 table: "Teams",
                 nullable: true);
 
-            migrationBuilder.AddColumn<decimal>(
+            migrationBuilder.AddColumn<string>(
                 name: "Latitude",
                 table: "Teams",
-                nullable: false,
-                defaultValue: 0m);
+                nullable: true);
 
-            migrationBuilder.AddColumn<decimal>(
+            migrationBuilder.AddColumn<string>(
                 name: "Longitude",
                 table: "Teams",
-                nullable: false,
-                defaultValue: 0m);
+                nullable: true);
 
             migrationBuilder.AddColumn<short>(
                 name: "Zoom",
@@ -38,7 +38,7 @@ namespace Sportlance.WebAPI.Migrations
 
                                     if not exists(select * from Roles where Name = ('Trainer'))
                                     insert Roles(Name) values ('Trainer')
-                                "); 
+                                ");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

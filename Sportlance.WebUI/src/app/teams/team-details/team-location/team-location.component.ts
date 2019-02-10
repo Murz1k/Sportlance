@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
+import {TeamResponse} from '../../../shared/teams/requests/team-response';
 
 @Component({
   selector: 'sl-team-location',
@@ -8,22 +8,27 @@ import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-
 })
 export class TeamLocationComponent implements OnInit {
 
-  @Input() team: TeamServiceResponse;
+  @Input() team: TeamResponse;
 
   constructor() {
   }
 
   ngOnInit() {
-    this.buildMaps(55.751574, 37.573856);
+    this.buildMaps(this.team.geo);
   }
 
-  private buildMaps(longitude: number, latitude: number) {
+  private buildMaps(geo: any) {
+    if (!geo) {
+      return;
+    }
     // Функция ymaps.ready() будет вызвана, когда
     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
-    ymaps.ready(function () {
+    ymaps.ready(() => {
+      console.log(+geo.longitude);
+      console.log(+geo.latitude);
       const myMap = new ymaps.Map('map', {
-          center: [longitude, latitude],
-          zoom: 16,
+          center: [+geo.latitude, +geo.longitude],
+          zoom: geo.zoom,
           // Также доступны наборы 'default' и 'largeMapDefaultSet'
           // Элементы управления в наборах подобраны оптимальным образом
           // для карт маленького, среднего и крупного размеров.
@@ -33,11 +38,11 @@ export class TeamLocationComponent implements OnInit {
           suppressMapOpenBlock: true
         });
 
-      myMap.geoObjects.add(new ymaps.Placemark([longitude, latitude], {
+      myMap.geoObjects.add(new ymaps.Placemark([+geo.latitude, +geo.longitude], {
         balloonContent: 'цвет <strong>красный</strong>'
       }, {
         preset: 'islands#redSportIcon'
-      }))
+      }));
     });
   }
 }

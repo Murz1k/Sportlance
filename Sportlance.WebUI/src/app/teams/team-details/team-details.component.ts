@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {DomSanitizer, Title} from '@angular/platform-browser';
-import {AuthService} from "../../core/auth/auth.service";
-import {EditTeamPhotoDialogData} from "./edit-team-photo-dialog/edit-team-photo-dialog-data";
-import {EditTeamPhotoDialogComponent} from "./edit-team-photo-dialog/edit-team-photo-dialog.component";
-import {MatDialog} from "@angular/material";
-import {EditTeamBackgroundDialogData} from "./edit-team-background-dialog/edit-team-background-dialog-data";
-import {EditTeamBackgroundDialogComponent} from "./edit-team-background-dialog/edit-team-background-dialog.component";
-import {TeamResponse} from "../../shared/teams/requests/team-response";
-import {EditTeamAboutDialogComponent} from "./edit-team-about-dialog/edit-team-about-dialog.component";
+import {AuthService} from '../../core/auth/auth.service';
+import {EditTeamPhotoDialogData} from './edit-team-photo-dialog/edit-team-photo-dialog-data';
+import {EditTeamPhotoDialogComponent} from './edit-team-photo-dialog/edit-team-photo-dialog.component';
+import {MatDialog} from '@angular/material';
+import {EditTeamBackgroundDialogData} from './edit-team-background-dialog/edit-team-background-dialog-data';
+import {EditTeamBackgroundDialogComponent} from './edit-team-background-dialog/edit-team-background-dialog.component';
+import {TeamResponse} from '../../shared/teams/requests/team-response';
+import {EditTeamAboutDialogComponent} from './edit-team-about-dialog/edit-team-about-dialog.component';
 
 @Component({
   selector: 'sl-team-details',

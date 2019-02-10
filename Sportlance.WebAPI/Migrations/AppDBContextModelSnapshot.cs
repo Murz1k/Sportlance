@@ -111,9 +111,9 @@ namespace Sportlance.WebAPI.Migrations
 
                     b.Property<DateTime>("CreateDateTime");
 
-                    b.Property<decimal>("Latitude");
+                    b.Property<string>("Latitude");
 
-                    b.Property<decimal>("Longitude");
+                    b.Property<string>("Longitude");
 
                     b.Property<string>("PhoneNumber");
 

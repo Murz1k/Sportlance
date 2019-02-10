@@ -72,7 +72,7 @@ namespace Sportlance.WebAPI.Teams
 
 
         public async Task<Team> AddAsync(long authorId, string title, string subTitle, string country, string city, string address,
-            string about, string phoneNumber, decimal latitude, decimal longitude, short zoom, StorageFile photo = null)
+            string about, string phoneNumber, string latitude, string longitude, short zoom, StorageFile photo = null)
         {
             var author = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
             if (author == null)

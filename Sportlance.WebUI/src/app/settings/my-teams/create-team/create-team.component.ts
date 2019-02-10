@@ -75,7 +75,7 @@ export class CreateTeamComponent implements OnInit {
       this.form.controls['phoneNumber'].value,
       this.form.controls['country'].value,
       this.form.controls['city'].value,
-      this.form.controls['address'].value,
+      this.form.controls['address'].value.getAddressLine(),
       this.form.controls['about'].value,
       null,
       this.form.controls['geo'].value

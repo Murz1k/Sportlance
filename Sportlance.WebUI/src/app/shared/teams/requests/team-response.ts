@@ -9,4 +9,10 @@ export interface TeamResponse {
   photoUrl: string;
   backgroundUrl: string;
   phoneNumber: string;
+  address: string;
+  geo: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
 }
