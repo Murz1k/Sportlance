@@ -38,17 +38,20 @@ namespace Sportlance.WebAPI.Teams
 
         [HttpPost]
         [Authorize]
-        public async Task<TeamResponse> PostAsync([FromForm] CreateTeamRequest request)
+        public async Task<TeamResponse> PostAsync([FromBody] CreateTeamRequest request)
         {
             var team = await _service.AddAsync(
                 User.GetUserId(),
                 request.Title,
                 request.SubTitle,
-                //request.Country,
-                "Россия",
+                request.Country,
                 request.City,
+                request.Address,
                 request.About,
                 request.PhoneNumber,
+                request.Geo.Latitude,
+                request.Geo.Longitude,
+                request.Geo.Zoom,
                 request.Photo?.ToStorageFile());
 
             return new TeamResponse(team);

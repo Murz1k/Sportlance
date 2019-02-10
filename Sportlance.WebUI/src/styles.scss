@@ -898,6 +898,7 @@ i.material-icons {
   display: block;
   position: relative;
   animation: sl-spinner-rotate 2s linear infinite;
+
   svg {
     position: absolute;
     transform: rotate(-90deg);
@@ -906,6 +907,7 @@ i.material-icons {
     transform-origin: center;
     overflow: visible;
   }
+
   circle {
     fill: transparent;
     transform-origin: center;
@@ -1058,3 +1060,27 @@ i.material-icons {
     transform: rotateX(180deg) rotate(341.5deg);
   }
 }
+
+[class*='suggest-item'] {
+  [class*='search__suggest-item'] {
+    color: #2D2D2D;
+    font-size: 13px;
+    padding: 10px 19px;
+    line-height: 18px;
+    min-height: 40px;
+    box-sizing: border-box;
+    transition: .2s background-color, .2s color;
+
+    &[class*='search__suggest-item_selected_yes'] {
+      background-color: #f6f6f6;
+    }
+  }
+}
+
+[class*='-custom-scroll'][class*='search__suggest'] {
+  top: -2px;
+  right: 0;
+  left: 0;
+}
+
+

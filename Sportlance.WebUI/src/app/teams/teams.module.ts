@@ -8,10 +8,10 @@ import {NumberOnlyModule} from '../shared/number-only/number-only.module';
 import {MatDialogModule} from '@angular/material';
 import {RedirectTeamProfileResolver} from './team-details/redirect-team-profile.resolver';
 import {TeamsService} from './teams.service';
-import {SlInputModule} from "../shared/input/input.module";
-import {SlSelectCityModule} from "../shared/select-city/select-city.module";
-import {SlButtonModule} from "../shared/button/button.module";
-import {SlSpinnerModule} from "../shared/spinner/spinner.module";
+import {SlInputModule} from '../shared/input/input.module';
+import {SlSelectCityModule} from '../shared/select-city/select-city.module';
+import {SlButtonModule} from '../shared/button/button.module';
+import {SlSpinnerModule} from '../shared/spinner/spinner.module';
 
 @NgModule({
   imports: [

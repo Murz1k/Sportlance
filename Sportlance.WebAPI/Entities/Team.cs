@@ -23,6 +23,14 @@ namespace Sportlance.WebAPI.Entities
 
         public string City { get; set; }
 
+        public string Address { get; set; }
+
+        public decimal Latitude { get; set; }
+
+        public decimal Longitude { get; set; }
+
+        public short Zoom { get; set; }
+
         public string About { get; set; }
 
         public string PhoneNumber { get; set; }

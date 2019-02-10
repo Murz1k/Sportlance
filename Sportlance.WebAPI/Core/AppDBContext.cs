@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using Sportlance.WebAPI.Entities;
+using System;
+using System.IO;
 
 namespace Sportlance.WebAPI.Core
 {
@@ -90,6 +94,21 @@ namespace Sportlance.WebAPI.Core
 
             modelBuilder.Entity<TeamPhoto>()
                 .HasOne(c => c.Team);
+        }
+    }
+
+    public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    {
+        public AppDbContext CreateDbContext(string[] args)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile($"appsettings.Local.json", optional: true)
+                .Build();
+            var builder = new DbContextOptionsBuilder<AppDbContext>();
+            var connectionString = configuration.GetConnectionString("SQLDatabase");
+            builder.UseSqlServer(connectionString);
+            return new AppDbContext(builder.Options);
         }
     }
 }

@@ -71,8 +71,8 @@ namespace Sportlance.WebAPI.Teams
         }
 
 
-        public async Task<Team> AddAsync(long authorId, string title, string subTitle, string country, string city,
-            string about, string phoneNumber, StorageFile photo)
+        public async Task<Team> AddAsync(long authorId, string title, string subTitle, string country, string city, string address,
+            string about, string phoneNumber, decimal latitude, decimal longitude, short zoom, StorageFile photo = null)
         {
             var author = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
             if (author == null)
@@ -92,11 +92,15 @@ namespace Sportlance.WebAPI.Teams
                 Title = title,
                 SubTitle = subTitle,
                 City = city,
+                Address = address,
                 Country = country,
                 About = about,
                 PhoneNumber = phoneNumber,
                 CreateDateTime = DateTime.Now,
-                Status = TeamStatus.Available
+                Status = TeamStatus.Available,
+                Latitude = latitude,
+                Longitude = longitude,
+                Zoom = zoom
             };
 
             if (author.UserRoles.All(i => i.RoleId != roleTeam.Id))

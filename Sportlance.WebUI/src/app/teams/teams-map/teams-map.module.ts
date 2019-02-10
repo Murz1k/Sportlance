@@ -1,3 +1,4 @@
+/* tslint:disable:quotemark */
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TeamsMapComponent} from "./teams-map.component";
@@ -12,7 +13,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [TeamsMapComponent],
   imports: [
-    RouterModule.forChild(routes, {scrollPositionRestoration: 'enabled'}),
+    RouterModule.forChild(routes),
     CommonModule,
     HeaderModule
   ]

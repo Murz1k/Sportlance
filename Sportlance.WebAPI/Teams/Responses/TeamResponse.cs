@@ -1,4 +1,6 @@
-﻿namespace Sportlance.WebAPI.Entities
+﻿using Sportlance.WebAPI.Teams.Responses;
+
+namespace Sportlance.WebAPI.Entities
 {
     public class TeamResponse
     {
@@ -18,11 +20,15 @@
 
         public string City { get; set; }
 
+        public string Address { get; set; }
+
         public double? Score { get; set; }
 
         public string About { get; set; }
 
         public string PhoneNumber { get; set; }
+
+        public GetGeoResponse Geo { get; set; }
 
         public TeamResponse()
         {
@@ -39,8 +45,15 @@
             BackgroundUrl = team.BackgroundUrl;
             Country = team.Country;
             City = team.City;
+            Address = team.Address;
             About = team.About;
             PhoneNumber = team.PhoneNumber;
+            Geo = new GetGeoResponse
+            {
+                Latitude = team.Latitude,
+                Longitude = team.Longitude,
+                Zoom = team.Zoom
+            };
         }
     }
 }

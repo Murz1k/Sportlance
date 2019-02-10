@@ -1,3 +1,4 @@
+/* tslint:disable:quotemark */
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -10,6 +11,7 @@ import {MyTeamsService} from './my-teams.service';
 import {SlInputModule} from "../../shared/input/input.module";
 import {SlButtonModule} from "../../shared/button/button.module";
 import {SlSelectCityModule} from "../../shared/select-city/select-city.module";
+import {SlSelectAddressModule} from '../../shared/select-address/select-address.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import {SlSelectCityModule} from "../../shared/select-city/select-city.module";
     ReactiveFormsModule,
     SlSelectCityModule,
     SlInputModule,
-    SlButtonModule
+    SlButtonModule,
+    SlSelectAddressModule
   ],
   providers: [
     MyTeamsService,

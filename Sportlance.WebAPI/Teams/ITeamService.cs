@@ -9,8 +9,8 @@ namespace Sportlance.WebAPI.Teams
     {
         Task<PagingCollection<Team>> GetAsync(TeamQuery query, long? userId = null);
 
-        Task<Team> AddAsync(long authorId, string title, string subTitle, string country, string city, string about,
-            string phoneNumber, StorageFile photo);
+        Task<Team> AddAsync(long authorId, string title, string subTitle, string country, string city, string address, string about,
+            string phoneNumber, decimal latitude, decimal longitude, short zoom, StorageFile photo);
 
         Task<Team> UpdateAboutAsync(long teamId, string about);
 

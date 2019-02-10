@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4900",
     "start-mobile": "ng serve --host 0.0.0.0",
     "build": "ng build --prod",
     "dev-deploy": "dev-aws-s3-deploy.bat",
@@ -37,6 +37,7 @@
     "jwt-decode": "latest",
     "ngx-infinite-scroll": "^6.0.1",
     "ngx-moment": "^3.1.0",
+    "node-sass": "^4.11.0",
     "popper.js": "^1.14.3",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
@@ -66,6 +67,6 @@
     "rxjs-tslint": "^0.1.6",
     "ts-node": "~4.1.0",
     "tslint": "^5.11.0",
-    "typescript": "^3.1.6"
+    "typescript": "^3.2.4"
   }
 }
