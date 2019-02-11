@@ -1,20 +1,41 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" [class.active]="showMenu">
   <mat-toolbar-row>
     <div class="content">
-      <div style="display: flex;
-    padding-left: 10px;">
-        <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
-        <ng-container *ngIf="!isEmpty">
+      <ng-container *ngIf="!isEmpty && !isMobile">
+        <div style="display: flex; padding-left: 10px;">
+          <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
           <div class="nav">
             <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
             <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
           </div>
-        </ng-container>
-      </div>
-      <ng-container *ngIf="!isEmpty">
+        </div>
         <sl-menu></sl-menu>
-        <button class="menu-btn btn-link"><i class="material-icons">menu</i></button>
+      </ng-container>
+      <ng-container *ngIf="isEmpty || isMobile">
+        <div style="display: flex; justify-content: center; height: 46px; width: 60px;">
+          <a [routerLink]="'/'"><i class="small-icon icon__logo"></i></a>
+        </div>
+        <div class="sandwich" [class.close]="showMenu"
+             (click)="changeShowMenu()">
+          <div class="one"></div>
+          <div class="two"></div>
+          <div class="three"></div>
+        </div>
       </ng-container>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<div class="mobile-menu" [class.active]="showMenu">
+  <div class="mobile-menu-item">
+    <a [routerLink]="['/','login']">Войти</a>
+  </div>
+  <hr>
+  <div class="mobile-menu-item">
+    <a [routerLink]="['/','trainers']">Тренеры</a>
+  </div>
+  <div class="mobile-menu-item">
+    <a [routerLink]="['/','teams']">Команды</a>
+  </div>
+  <hr>
+</div>

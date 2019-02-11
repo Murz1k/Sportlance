@@ -1,35 +1,40 @@
-<div class="carousel">
-  <ul class="slides">
-    <!--<li *ngFor="let image of images">-->
-    <!--<img src="{{image.url}}" alt="">-->
-    <!--<div class="content">-->
-    <!--<div class="cta-container">-->
-    <!--<span class="cta-title">{{image.title}}</span>-->
-    <!--<span class="cta-descr">{{image.descr}}</span>-->
-    <!--<a routerLink="/{{image.btnLink}}" class="btn btn-primary">{{image.btnText}}</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</li>-->
-    <li style="height: 100vh;
+<ng-container *ngIf="!isMobile">
+  <div class="carousel">
+    <ul class="slides">
+      <!--<li *ngFor="let image of images">-->
+      <!--<img src="{{image.url}}" alt="">-->
+      <!--<div class="content">-->
+      <!--<div class="cta-container">-->
+      <!--<span class="cta-title">{{image.title}}</span>-->
+      <!--<span class="cta-descr">{{image.descr}}</span>-->
+      <!--<a routerLink="/{{image.btnLink}}" class="btn btn-primary">{{image.btnText}}</a>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</li>-->
+      <li style="height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(90deg, #4443438f 0%, #4443438f 100%) , url(https://static.timesofisrael.com/www/uploads/2016/06/Obit-Muhammad-Ali-_Horo-1-e1465015863137.jpg) no-repeat center;
     background-size: cover;">
-      <div class="cta-container">
-        <span class="cta-title">Невозможно</span>
-        <span class="cta-descr">
+        <div class="cta-container">
+          <span class="cta-title">Невозможно</span>
+          <span class="cta-descr">
             - это всего лишь громкое слово, за которым прячутся маленькие люди. <br>
             Им проще жить в привычном мире, чем найти в себе силы что-то изменить. <br>
             Невозможное – это не факт. Это только мнение. <br>
             Невозможное – это не приговор. Это вызов. <br>
             Невозможное – это шанс проявить себя. Невозможно – это не навсегда. Невозможное возможно.
           </span>
-        <span style="font-size: 16px;
+          <span style="font-size: 16px;
     text-align: right;
     display: block;margin-bottom: 24px;">Мохаммед Али</span>
-        <a routerLink="/" sl-button slType="primary">Сделай невозможное</a>
-      </div>
-    </li>
-  </ul>
-</div>
+          <a routerLink="/" sl-button slType="primary">Сделай невозможное</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+<ng-container *ngIf="isMobile">
+
+</ng-container>

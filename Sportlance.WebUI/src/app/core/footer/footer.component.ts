@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'sl-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit {
 
   startDate = 2018;
 
@@ -13,7 +14,14 @@ export class FooterComponent {
 
   @Input() public isEmpty: false;
 
-  constructor() {
+  public isMobile = false;
+
+  constructor(private deviceService: DeviceDetectorService
+  ) {
+  }
+
+  ngOnInit(): void {
     this.endDate = (new Date()).getFullYear();
+    this.isMobile = this.deviceService.isMobile();
   }
 }
