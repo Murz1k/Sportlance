@@ -27,15 +27,15 @@
 </mat-toolbar>
 
 <div class="mobile-menu" [class.active]="showMenu">
-  <div class="mobile-menu-item">
-    <a [routerLink]="['/','login']">Войти</a>
+  <div class="mobile-menu-item" (click)="navigateTo('/login')">
+    Войти
   </div>
   <hr>
-  <div class="mobile-menu-item">
-    <a [routerLink]="['/','trainers']">Тренеры</a>
+  <div class="mobile-menu-item" (click)="navigateTo('/trainers')">
+    Тренеры
   </div>
-  <div class="mobile-menu-item">
-    <a [routerLink]="['/','teams']">Команды</a>
+  <div class="mobile-menu-item" (click)="navigateTo('/teams')">
+    Команды
   </div>
   <hr>
 </div>

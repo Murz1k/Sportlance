@@ -134,6 +134,7 @@ mat-toolbar {
   justify-content: center;
   position: relative;
   align-self: center;
+  background-color: transparent;
 
   &.close {
     .one {
@@ -209,7 +210,7 @@ mat-toolbar {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: 46px;
   bottom: 0;
   z-index: -1;
   background-color: transparent;
@@ -231,13 +232,9 @@ mat-toolbar {
 
   .mobile-menu-item {
     display: flex;
-
-    a {
-      line-height: 33px;
-      width: 100%;
-      padding-left: 13px;
-      color: #fff !important;
-      font-size: 18px;
-    }
+    line-height: 33px;
+    padding-left: 18px;
+    color: #fff;
+    font-size: 18px;
   }
 }

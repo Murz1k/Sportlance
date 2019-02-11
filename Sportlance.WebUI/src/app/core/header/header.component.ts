@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Paths} from '../paths';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'header',
@@ -16,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   public showMenu = false;
 
-  constructor(private deviceService: DeviceDetectorService
+  constructor(private router: Router, private deviceService: DeviceDetectorService
   ) {
   }
 
@@ -26,5 +27,10 @@ export class HeaderComponent implements OnInit {
 
   changeShowMenu() {
     this.showMenu = !this.showMenu;
+  }
+
+  navigateTo(routerName: string) {
+    this.router.navigate([routerName]);
+    this.showMenu = false;
   }
 }
