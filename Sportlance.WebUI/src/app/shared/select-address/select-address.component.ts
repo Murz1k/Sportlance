@@ -41,7 +41,7 @@ export class SelectAddressComponent implements OnInit, ControlValueAccessor {
 
   private geocode() {
     // Забираем запрос из поля ввода.
-    let request = document.getElementById('suggest').value;
+    let request = (document.getElementById('suggest') as HTMLInputElement).value;
     // Геокодируем введённые данные.
     ymaps.geocode(request).then((res) => {
       let obj = res.geoObjects.get(0),
