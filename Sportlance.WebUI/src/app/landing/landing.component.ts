@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Image} from './image';
 import {Paths} from '../core/paths';
 import {AuthService} from '../core/auth/auth.service';
-import {Title} from "@angular/platform-browser";
+import {Title} from '@angular/platform-browser';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'sl-landing',
@@ -15,12 +16,17 @@ export class LandingComponent implements OnInit {
   public clubLink: string;
   public images: Image[] = [];
 
-  constructor(private titleService: Title,
+  public isMobile = false;
+
+  constructor(private deviceService: DeviceDetectorService,
+              private titleService: Title,
               private authService: AuthService
   ) {
   }
 
   ngOnInit(): void {
+    this.isMobile = this.deviceService.isMobile();
+
     this.titleService.setTitle(`Sportlance`);
 
     this.trainerLink = this.authService.isAuthorized ? Paths.Trainers : Paths.Login;

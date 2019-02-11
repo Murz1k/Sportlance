@@ -125,3 +125,116 @@ mat-toolbar {
 .menu-btn {
   margin-right: 10px;
 }
+
+.sandwich {
+  height: 15px;
+  width: 60px;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  align-self: center;
+  background-color: transparent;
+
+  &.close {
+    .one {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .two {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .three {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .one, .three {
+      background-color: #fff;
+    }
+  }
+
+  .one, .two, .three {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: #475258;
+    border-radius: 1px;
+    transition-duration: .3s;
+    transition-property: transform, opacity;
+  }
+
+  .one {
+    top: 0;
+  }
+
+  .two {
+    top: 6px;
+  }
+
+  .three {
+    top: 12px;
+  }
+}
+
+.small-icon {
+  width: 24px;
+  -webkit-mask-size: 24px;
+  height: 24px;
+  background-color: #666;
+}
+
+.mat-toolbar.mat-primary {
+  &.active {
+    background-color: #666;
+    transition: background-color .5s, box-shadow .5s;
+    box-shadow: none;
+
+    .mat-toolbar-row {
+      background-color: #666;
+      transition: background-color .5s;
+    }
+  }
+
+  ::ng-deep .sandwich.mobile-close-button {
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    position: absolute;
+    right: 0;
+  }
+}
+
+.mobile-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46px;
+  bottom: 0;
+  z-index: -1;
+  background-color: transparent;
+  transition: background-color .5s, z-index .5s;
+
+  &.active {
+    background-color: #666;
+    z-index: 1;
+    transition: background-color .5s, z-index 0s;
+  }
+
+  hr {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 0 0.2px rgba(255, 255, 255, 1);
+    background-color: transparent;
+    border: none;
+  }
+
+  .mobile-menu-item {
+    display: flex;
+    line-height: 33px;
+    padding-left: 18px;
+    color: #fff;
+    font-size: 18px;
+  }
+}

@@ -12,7 +12,7 @@ export interface TeamResponse {
   address: string;
   geo: {
     latitude: number;
-    longitude: number;
+    longitutde: number;
     zoom: number;
   };
 }
