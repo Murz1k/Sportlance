@@ -47,7 +47,7 @@ export class CreateTeamComponent implements OnInit {
       const geo = ymaps.util.bounds.getCenterAndZoom(value.properties.get('boundedBy'),
         [mapContainer.clientWidth, mapContainer.clientHeight]
       );
-      this.form.controls['geo'].setValue({latitude: geo.center[0], longitude: geo.center[1], zoom: geo.zoom});
+      this.form.controls['geo'].setValue({longitude: geo.center[0], latitude: geo.center[1], zoom: geo.zoom});
       console.log(this.form.controls['geo'].value);
       this.showResult(value);
     });

@@ -4,4 +4,9 @@ export interface GetTeamQuery {
   searchString?: string;
   country?: string;
   city?: string;
+
+  leftUpperCornerLongitude?: number;
+  leftUpperCornerLatitude?: number;
+  rightLowerCornerLongitude?: number;
+  rightLowerCornerLatitude?: number;
 }

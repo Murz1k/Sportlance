@@ -15,5 +15,13 @@
         public string Country { get; set; }
 
         public string City { get; set; }
+
+        public string LeftUpperCornerLongitude { get; set; }
+
+        public string LeftUpperCornerLatitude { get; set; }
+
+        public string RightLowerCornerLongitude { get; set; }
+
+        public string RightLowerCornerLatitude { get; set; }
     }
 }

@@ -27,7 +27,7 @@ export class TeamLocationComponent implements OnInit {
       console.log(+geo.longitude);
       console.log(+geo.latitude);
       const myMap = new ymaps.Map('map', {
-          center: [+geo.latitude, +geo.longitude],
+          center: [+geo.longitude, +geo.latitude],
           zoom: geo.zoom,
           // Также доступны наборы 'default' и 'largeMapDefaultSet'
           // Элементы управления в наборах подобраны оптимальным образом

@@ -7,12 +7,12 @@ import {InviteMemberRequest} from '../shared/teams/requests/invite-member-reques
 import {GetTeamQuery} from '../shared/teams/requests/get-team-query';
 import {TeamResponse} from '../shared/teams/requests/team-response';
 import {Observable} from 'rxjs/internal/Observable';
-import {TeamServiceResponse} from "../shared/teams/responses/team-service-response";
-import {ErrorResponse} from "../core/error-response";
-import {UpdateTeamServiceRequest} from "../shared/teams/requests/update-team-service-request";
-import {TeamServiceOrderResponse} from "../shared/teams/responses/team-service-order-response";
-import {tap} from "rxjs/operators";
-import {of} from "rxjs";
+import {TeamServiceResponse} from '../shared/teams/responses/team-service-response';
+import {ErrorResponse} from '../core/error-response';
+import {UpdateTeamServiceRequest} from '../shared/teams/requests/update-team-service-request';
+import {TeamServiceOrderResponse} from '../shared/teams/responses/team-service-order-response';
+import {tap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 function deepEqual(x, y) {
   const ok = Object.keys, tx = typeof x, ty = typeof y;
@@ -40,12 +40,37 @@ export class TeamsService {
       return of(this.teamsCollection);
     }
 
-    const parameters = new HttpParams()
-      .append('offset', this.checkParam(query.offset))
-      .append('searchString', this.checkParam(query.searchString))
-      .append('country', this.checkParam(query.country))
-      .append('city', this.checkParam(query.city))
-      .append('count', this.checkParam(query.count));
+    let parameters = new HttpParams();
+
+    if (query.offset) {
+      parameters = parameters.append('offset', this.checkParam(query.offset));
+    }
+    if (query.searchString) {
+      parameters = parameters.append('searchString', this.checkParam(query.searchString));
+    }
+    if (query.country) {
+      parameters = parameters.append('country', this.checkParam(query.country));
+    }
+    if (query.city) {
+      parameters = parameters.append('city', this.checkParam(query.city));
+    }
+    if (query.count) {
+      parameters = parameters.append('count', this.checkParam(query.count));
+    }
+
+    //GEO
+    if (query.leftUpperCornerLongitude) {
+      parameters = parameters.append('leftUpperCornerLongitude', this.checkParam(query.leftUpperCornerLongitude));
+    }
+    if (query.leftUpperCornerLatitude) {
+      parameters = parameters.append('leftUpperCornerLatitude', this.checkParam(query.leftUpperCornerLatitude));
+    }
+    if (query.rightLowerCornerLongitude) {
+      parameters = parameters.append('rightLowerCornerLongitude', this.checkParam(query.rightLowerCornerLongitude));
+    }
+    if (query.rightLowerCornerLatitude) {
+      parameters = parameters.append('rightLowerCornerLatitude', this.checkParam(query.rightLowerCornerLatitude));
+    }
 
     return this.http.get<CollectionResponse<TeamResponse> & ErrorResponse>(`/teams`, {params: parameters})
       .pipe(tap((response) => {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,12 @@ namespace Sportlance.WebAPI.Teams
                                       team.TrainerTeams.Any(i => i.TrainerId == userId.Value))
                                   && (query.Country == null || team.Country.Contains(query.Country))
                                   && (query.City == null || team.City.Contains(query.City))
+                                  // Левый верхний угол
+                                  && (query.LeftUpperCornerLatitude == null || decimal.Parse(team.Latitude, CultureInfo.InvariantCulture) >= decimal.Parse(query.LeftUpperCornerLatitude, CultureInfo.InvariantCulture))
+                                  && (query.LeftUpperCornerLongitude == null || decimal.Parse(team.Longitude, CultureInfo.InvariantCulture) >= decimal.Parse(query.LeftUpperCornerLongitude, CultureInfo.InvariantCulture))
+                                  // Правый нижний угол
+                                  && (query.RightLowerCornerLatitude == null || decimal.Parse(team.Latitude, CultureInfo.InvariantCulture) <= decimal.Parse(query.RightLowerCornerLatitude, CultureInfo.InvariantCulture))
+                                  && (query.RightLowerCornerLongitude == null || decimal.Parse(team.Longitude, CultureInfo.InvariantCulture) <= decimal.Parse(query.RightLowerCornerLongitude, CultureInfo.InvariantCulture))
                             select team;
             return await (from team in teamQuery
                           select team).GetPageAsync(query.Offset, query.Count);
