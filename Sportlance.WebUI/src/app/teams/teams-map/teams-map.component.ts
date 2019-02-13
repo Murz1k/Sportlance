@@ -92,7 +92,7 @@ export class TeamsMapComponent implements OnInit {
   private buildMaps(longitude: number, latitude: number) {
     // Функция ymaps.ready() будет вызвана, когда
     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
-    ymaps.ready(() => {
+    window.onload = () => ymaps.ready(() => {
       this.myMap = new ymaps.Map('map', {
           center: [longitude, latitude],
           zoom: 11,

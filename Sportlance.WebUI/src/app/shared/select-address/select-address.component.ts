@@ -1,4 +1,4 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
@@ -20,11 +20,13 @@ export class SelectAddressComponent implements OnInit, ControlValueAccessor {
 
   _value;
 
+  @Input() placeholder;
+
   constructor() {
   }
 
   ngOnInit() {
-    ymaps.ready(() => this.init());
+    window.onload = () => ymaps.ready(() => this.init());
   }
 
   private init() {

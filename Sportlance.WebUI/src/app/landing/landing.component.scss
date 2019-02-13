@@ -2,6 +2,86 @@ section {
   height: 100vh;
 }
 
+.main-title {
+  font-size: 38px;
+  line-height: 44px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  z-index: 1;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+
+  .overlay {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.25);
+    height: 100%;
+    width: 100%;
+  }
+}
+
+// url картинки https://akspic.ru/download/19831-sportsmen-otdyx-fitness_centr-beg-zanyatie_sportom/2560x1440
+
+.landing-image {
+  /* Large desktops and laptops */
+  @media screen and (min-width: 2000px) {
+    background: url("../../assets/images/landing-2560.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Large desktops and laptops */
+  @media screen and (min-width: 1366px) and (max-width: 2000px)  {
+    background: url("../../assets/images/landing-1920.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Portrait tablets and medium desktops */
+  @media screen and (min-width: 992px) and (max-width: 1366px)  {
+    background: url("../../assets/images/landing-1366.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Portrait tablets and small desktops */
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    background: url("../../assets/images/landing-1080.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Landscape phones and portrait tablets */
+  @media screen and (max-width: 767px) {
+    background: url("../../assets/images/landing-750.jpg") no-repeat;
+    background-size: cover;
+  }
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.search {
+  display: flex;
+  width: 900px;
+  margin: 0 auto 200px;
+  z-index: 1;
+
+  input, sl-select-address, button:first-of-type {
+    margin-right: 10px;
+  }
+
+  input {
+    width: 248px;
+  }
+
+  sl-select-address {
+    width: 380px;
+  }
+}
+
 .title-section {
   height: 80vh;
 }
@@ -28,9 +108,7 @@ section .title {
 }
 
 h2 {
-  margin-top: 2em;
   text-align: center;
-  margin-bottom: 2em;
   font-size: 30px;
   font-family: "Gotham Bold", Helvetica, Arial, sans-serif;
 }
@@ -81,17 +159,20 @@ h2 {
 
 .cta-container {
   color: white;
+
   .cta-title {
     font-size: 56px;
     font-weight: 600;
     display: block;
   }
+
   .cta-descr {
     font-size: 24px;
     font-weight: 600;
     display: block;
     margin-bottom: 24px;
   }
+
   a {
     font-size: 24px;
     padding: 24px;
