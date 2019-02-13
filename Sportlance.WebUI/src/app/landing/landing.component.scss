@@ -1,9 +1,15 @@
 section {
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
+  z-index: 1;
+  height: 100vh;
+
+  /* Portrait tablets and medium desktops */
+  @media screen and (max-width: 1366px) {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .main-title {
