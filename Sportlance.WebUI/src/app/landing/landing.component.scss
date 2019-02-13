@@ -1,5 +1,9 @@
 section {
-  height: 100vh;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .main-title {
@@ -10,6 +14,12 @@ section {
   z-index: 1;
   color: #fff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+
+  /* Landscape phones and portrait tablets */
+  @media screen and (max-width: 767px) {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
 }
 
 .main-container {
@@ -36,13 +46,13 @@ section {
   }
 
   /* Large desktops and laptops */
-  @media screen and (min-width: 1366px) and (max-width: 2000px)  {
+  @media screen and (min-width: 1366px) and (max-width: 2000px) {
     background: url("../../assets/images/landing-1920.jpg") no-repeat;
     background-size: cover;
   }
 
   /* Portrait tablets and medium desktops */
-  @media screen and (min-width: 992px) and (max-width: 1366px)  {
+  @media screen and (min-width: 992px) and (max-width: 1366px) {
     background: url("../../assets/images/landing-1366.jpg") no-repeat;
     background-size: cover;
   }
@@ -69,7 +79,7 @@ section {
   margin: 0 auto 200px;
   z-index: 1;
 
-  input, sl-select-address, button:first-of-type {
+  input, sl-select-address, .sl-btn-primary {
     margin-right: 10px;
   }
 
@@ -79,6 +89,41 @@ section {
 
   sl-select-address {
     width: 380px;
+  }
+
+
+  /* Portrait tablets and small desktops */
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: auto;
+    input {
+      //width: auto;
+    }
+
+    sl-select-address {
+      //width: auto;
+    }
+    .sl-btn-default {
+      display: none;
+    }
+  }
+
+  /* Landscape phones and portrait tablets */
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    flex-direction: column;
+    margin: initial;
+    input {
+      width: auto;
+    }
+
+    sl-select-address {
+      width: auto;
+    }
+    sl-select-address, input, button, button.sl-btn-primary {
+      margin-bottom: 10px;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
   }
 }
 

@@ -1,17 +1,24 @@
 <mat-toolbar color="primary" [class.active]="showMenu">
   <mat-toolbar-row>
     <div class="content">
-      <ng-container *ngIf="!isEmpty && !isMobile">
-        <div style="display: flex; padding-left: 10px;">
-          <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
-          <div class="nav">
-            <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
-            <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
+      <ng-container *ngIf="!isMobile">
+        <ng-container *ngIf="isEmpty">
+          <div style="display: flex; justify-content: center; height: 46px; width: 60px;">
+            <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
           </div>
-        </div>
-        <sl-menu></sl-menu>
+        </ng-container>
+        <ng-container *ngIf="!isEmpty">
+          <div style="display: flex; padding-left: 10px;">
+            <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
+            <div class="nav">
+              <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
+              <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
+            </div>
+          </div>
+          <sl-menu></sl-menu>
+        </ng-container>
       </ng-container>
-      <ng-container *ngIf="isEmpty || isMobile">
+      <ng-container *ngIf="isMobile">
         <div style="display: flex; justify-content: center; height: 46px; width: 60px;">
           <a [routerLink]="'/'"><i class="small-icon icon__logo"></i></a>
         </div>
