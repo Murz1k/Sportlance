@@ -4,7 +4,7 @@
       <input [disabled]="disabled" [placeholder]="placeholder" class="selected-item" readonly type="text"
              (click)="clickedInside($event)"
              [ngModel]="_selectedItem.label"/>
-      <span class="scroll-arrow" [class.up]="showList">
+      <span class="scroll-arrow" [class.up]="showList" (click)="clickedInside($event)">
         <i class="sl-icons sl-arrow-down"></i>
       </span>
       <div class="scroll-container">

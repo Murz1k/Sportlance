@@ -17,6 +17,8 @@ import {SlButtonModule} from './shared/button/button.module';
 import {DeviceDetectorModule} from 'ngx-device-detector';
 import {SlInputModule} from './shared/input/input.module';
 import {SlSelectAddressModule} from './shared/select-address/select-address.module';
+import {SlSelectModule} from './shared/select/select.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import {SlSelectAddressModule} from './shared/select-address/select-address.modu
     HttpClientModule,
     SlInputModule,
     SlButtonModule,
+    SlSelectModule,
+    ReactiveFormsModule,
     SlSelectAddressModule,
     MomentModule,
     HeaderModule,
