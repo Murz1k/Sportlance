@@ -9,6 +9,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {AuthService} from '../../core/auth/auth.service';
+import {Meta} from '@angular/platform-browser';
 
 @Component({
   selector: 'sl-trainer-list',
@@ -40,7 +41,8 @@ export class TrainerListComponent implements OnInit {
 
   public subscription: Subscription;
 
-  constructor(private router: Router,
+  constructor(private meta: Meta,
+              private router: Router,
               private authService: AuthService,
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
@@ -49,6 +51,23 @@ export class TrainerListComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle(`Тренеры | Sportlance`);
+
+    // this.meta.addTags([
+    //   {name: 'description', content: 'Поиск тренеров Sportlance - Поиск тренеров, запись на тренировку'},
+    //   {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+    //   {name: 'robots', content: 'INDEX, FOLLOW'},
+    //   {name: 'author', content: 'ABCD'},
+    //   {name: 'keywords', content: 'TypeScript, Angular'},
+    //   {name: 'date', content: '2018-06-02', scheme: 'YYYY-MM-DD'},
+    //   {httpEquiv: 'Content-Type', content: 'text/html'},
+    //   {property: 'og:title', content: 'My Text'},
+    //   {property: 'og:type', content: 'website'},
+    //   {charset: 'UTF-8'}
+    // ]);
+
+    this.meta.updateTag({name: 'description', content: 'Поиск тренеров Sportlance - Поиск тренеров, запись на тренировку'});
+    this.meta.updateTag({name: 'og:description', content: 'Поиск тренеров Sportlance - Поиск тренеров, запись на тренировку'});
+    this.meta.updateTag({name: 'og:title', content: 'Поиск тренеров Sportlance - Поиск тренеров, запись на тренировку'});
 
     this.isAuthorized = this.authService.isAuthorized;
     this.activatedRoute.queryParams.subscribe(async (params: Params) => {

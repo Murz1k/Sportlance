@@ -39,6 +39,9 @@ export class LandingComponent implements OnInit {
       {selectLabel: 'Купить', showLabel: 'Купить', value: 1}
     ];
 
+    // Найти тренера по фитнесу от 1000 до 2000 рублей в Москве
+    // (Найти) (фитнес клуб) (с бассейном, с SPA) за 20000 - 30000 рублей в Москве
+
     this.targets = [
       {selectLabel: 'Тренера', showLabel: 'Тренера', value: 0},
       {selectLabel: 'Фитнес клуб', showLabel: 'Фитнес клуб', value: 1},

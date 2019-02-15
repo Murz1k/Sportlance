@@ -46,7 +46,11 @@ namespace Sportlance.Common.Providers
         {
             var createQueueRequest = new CreateQueueRequest { QueueName = _queueName };
 
-            var attrs = new Dictionary<string, string> { { QueueAttributeName.VisibilityTimeout, "10" } };
+            var attrs = new Dictionary<string, string> {
+                { QueueAttributeName.VisibilityTimeout, "10" },
+                // Long Polling
+                { QueueAttributeName.ReceiveMessageWaitTimeSeconds, "20" }
+            };
             createQueueRequest.Attributes = attrs;
 
             try
@@ -95,7 +99,12 @@ namespace Sportlance.Common.Providers
 
         public async Task<List<Message>> ReceiveMessagesAsync()
         {
-            var receiveMessageRequest = new ReceiveMessageRequest { QueueUrl = _queueUrl };
+            var receiveMessageRequest = new ReceiveMessageRequest {
+                QueueUrl = _queueUrl,
+                MaxNumberOfMessages = 10,
+                MessageAttributeNames = { "All"},
+                WaitTimeSeconds = 20
+            };
 
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             return receiveMessageResponse.Messages;
