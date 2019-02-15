@@ -79,7 +79,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sportlance:build"
+            "browserTarget": "sportlance:build",
+            "proxyConfig": "proxy.config.json"
           },
           "configurations": {
             "development": {

@@ -31,7 +31,7 @@ export class JwtInterceptor implements HttpInterceptor {
       HttpUserEvent<any> |
       any> {
 
-    request = request.clone({url: `${environment.baseUrl}${request.url}`});
+    // request = request.clone({url: `${environment.baseUrl}${request.url}`});
     // this.authService
 
     //return this.updateAccessTokenIfNeed(request, next);

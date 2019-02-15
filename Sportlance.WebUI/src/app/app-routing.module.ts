@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {RootComponent} from './root/root.component';
 import {LandingComponent} from './landing/landing.component';
-import {AboutComponent} from "./about/about.component";
+import {AboutComponent} from './about/about.component';
 
 const routes: Routes = [
   {path: 'teams/map', loadChildren: './teams/teams-map/teams-map.module#TeamsMapModule'},
@@ -26,7 +26,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'})],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled', initialNavigation: 'enabled'})],
   exports: [
     RouterModule
   ]
