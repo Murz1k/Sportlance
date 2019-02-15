@@ -36,3 +36,7 @@ Sportlance\.MailService/obj/
 Sportlance\.Common/bin/
 
 Sportlance\.Common/obj/
+
+Sportlance\.WebUI/output/dist/
+
+Sportlance\.WebUI/output\.zip
