@@ -28,7 +28,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     AboutComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'sportlance'}),
     AppRoutingModule,
     HttpClientModule,
     SlInputModule,

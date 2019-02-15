@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from 'environments/environment';
+// import {environment} from 'environments/environment';
 
 @Component({
   selector: 'sl-root',
@@ -10,8 +10,8 @@ export class AppComponent implements OnInit {
   title = 'app';
 
   ngOnInit() {
-    if (environment.production) {
-      console.log('%c Псс не хочешь немного поработать? Приходи к нам - frontend@sportlance.com', 'background: #008329; color: #fff');
-    }
+    // if (environment.production) {
+    //   console.log('%c Псс не хочешь немного поработать? Приходи к нам - frontend@sportlance.com', 'background: #008329; color: #fff');
+    // }
   }
 }
