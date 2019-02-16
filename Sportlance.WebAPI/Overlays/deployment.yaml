@@ -36,7 +36,7 @@ spec:
     spec:
       containers:
       - name: sportlance-gateway
-     #   image: git.wildberries.ru:4567/hr/frontend/portal-frontend:latest
+        image: 149144269799.dkr.ecr.us-east-1.amazonaws.com/sportlance-gateway:latest
         resources:
           requests:
             memory: "64Mi"
