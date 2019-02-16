@@ -43,9 +43,6 @@ export class TeamsMapComponent implements OnInit {
     };
 
     this.buildMaps(55.751574, 37.573856);
-
-    this.getUserPosition();
-    this.updateData(this.myMap.getBounds());
   }
 
   @HostListener('window:resize', ['$event'])
@@ -104,6 +101,9 @@ export class TeamsMapComponent implements OnInit {
         {
           suppressMapOpenBlock: true
         });
+
+      this.getUserPosition();
+      this.updateData(this.myMap.getBounds());
 
       this.myMap.events.add('actionend', () => {
         this.updateData(this.myMap.getBounds());

@@ -144,7 +144,7 @@ export class TeamListComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate([Paths.Login]);
+    this.router.navigate(['/', 'login'], {queryParams: {redirectUrl: this.router.url}});
   }
 
   private cutAbout(about: string): string {

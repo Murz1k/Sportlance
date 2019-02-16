@@ -50,7 +50,7 @@ export class TeamServiceCollectionComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['/', 'login']);
+    this.router.navigate(['/', 'login'], {queryParams: {redirectUrl: this.router.url}});
   }
 
   deleteById(id: number) {

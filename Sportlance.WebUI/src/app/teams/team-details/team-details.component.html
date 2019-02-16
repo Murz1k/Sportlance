@@ -63,7 +63,7 @@
                style="position: relative; text-overflow: ellipsis; overflow: hidden;">
         {{team.about}}
       </section>
-      <button *ngIf="team.about.length > 500" (click)="showAbout()" class="air-expand-btn">
+      <button *ngIf="team.about && team.about.length > 500" (click)="showAbout()" class="air-expand-btn">
         Развернуть
         <i *ngIf="!isShowAbout" class="material-icons">expand_more</i>
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>

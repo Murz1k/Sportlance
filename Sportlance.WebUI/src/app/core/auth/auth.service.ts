@@ -187,6 +187,7 @@ export class AuthService {
 
             if (!url.split('?')[1]) {
               this.router.navigate([root]);
+              return response;
             }
 
             const params = {};

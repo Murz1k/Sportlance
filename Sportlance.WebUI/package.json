@@ -1,20 +1,21 @@
 {
   "name": "sportlance",
-  "version": "0.1.7",
+  "version": "0.2.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4900",
     "start-mobile": "ng serve --host 0.0.0.0",
     "build": "ng build --prod && gzipper ./output/dist -r",
+    "zip-build": "cd output/ && bestzip ../output.zip * & cd ../",
     "build-dev": "ng build --configuration=development && gzipper ./output/dist -r",
-    "deploy-prod": "npm run build & npm run prod-deploy & npm run prod-invalidate rd /S /Q dist",
+    "deploy-prod": "npm run build & npm run prod-deploy & npm run prod-invalidate rd /S /Q ./output\\dist",
     "prod-deploy": "prod-aws-s3-deploy.bat",
     "prod-invalidate": "prod-aws-cloudfrond-invalidate.bat",
     "lint": "ng lint",
-    "preversion": "",
-    "version": "npm run build-dev",
-    "postversion": "rd /S /Q dist"
+    "preversion": "npm run build-dev",
+    "version": "npm run zip-build",
+    "postversion": "rd /S /Q ./output\\dist"
   },
   "private": true,
   "dependencies": {
