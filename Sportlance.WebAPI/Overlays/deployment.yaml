@@ -1,0 +1,59 @@
+﻿#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#	name: nginx
+#spec:
+#	selector:
+#		matchLabels:
+#			run: nginx
+#		replicas: 2
+#		template:
+#			metadata:
+#				labels:
+#					run: nginx
+#			spec:
+#				containers:
+#					- name: nginx
+#						image: nginx:1.7.9
+#						ports:
+#						 -containerPort: 80
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sportlance-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sportlance-gateway
+  template:
+    metadata:
+      name: sportlance-gateway
+      labels:
+        app: sportlance-gateway
+        restart: "3"
+    spec:
+      containers:
+      - name: sportlance-gateway
+     #   image: git.wildberries.ru:4567/hr/frontend/portal-frontend:latest
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+          protocol: TCP
+       # volumeMounts:
+       # - name: nginx-config-volume
+       #   mountPath: /etc/nginx/conf.d/default.conf
+       #   subPath: nginx.config
+     # volumes:
+     # - name: nginx-config-volume
+     #   configMap:
+     #     name: "portal-nginx-configmap"
+     # imagePullSecrets:
+     # - name: hr-image-secret

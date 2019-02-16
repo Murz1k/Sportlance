@@ -13,6 +13,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Dockerfile" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="2.0.4" />
     <PackageReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.6" />

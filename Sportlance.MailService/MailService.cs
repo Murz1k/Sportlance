@@ -61,7 +61,8 @@ namespace Sportlance.MailService
 
             template = template
                 .Replace("{HOST}", _root)
-                .Replace("{CHANGEPASSWORDLINK}", _siteUrls.GetChangePassword(accessToken, refreshToken));
+                .Replace("{CHANGEPASSWORDLINK}", _siteUrls.GetChangePassword(accessToken, refreshToken))
+                .Replace("{SETTINGSLINK}", _siteUrls.GetSettingsLink());
             await SendMessage(email, "Изменение пароля", template);
         }
 
