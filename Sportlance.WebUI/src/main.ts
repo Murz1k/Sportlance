@@ -25,15 +25,6 @@ function enableYandexMaps() {
     </script>
     `
   );
-
-  // document.write(
-  //   `
-  // <!-- Yandex Maps -->
-  // <script src="assets/scripts/yandex-maps.js"
-  // type="text/javascript">
-  //   </script>
-  //   `
-  // );
 }
 
 function enableYandexMetrika() {

@@ -18,7 +18,7 @@ export class FeedbacksService {
     const parameters = new HttpParams()
       .append('offset', checkParam(offset))
       .append('count', checkParam(count));
-    return this.http.get<CollectionResponse<ReviewInfoResponse>>(`/trainers/${trainerId}/feedbacks`, {params: parameters});
+    return this.http.get<CollectionResponse<ReviewInfoResponse>>(`/api/trainers/${trainerId}/feedbacks`, {params: parameters});
   }
 
   getSelfTrainerFeedbacks(offset: number, count: number): Observable<CollectionResponse<ReviewInfoResponse>> {
@@ -26,6 +26,6 @@ export class FeedbacksService {
     const parameters = new HttpParams()
       .append('offset', checkParam(offset))
       .append('count', checkParam(count));
-    return this.http.get<CollectionResponse<ReviewInfoResponse>>(`/trainers/self/feedbacks`, {params: parameters});
+    return this.http.get<CollectionResponse<ReviewInfoResponse>>(`/api/trainers/self/feedbacks`, {params: parameters});
   }
 }

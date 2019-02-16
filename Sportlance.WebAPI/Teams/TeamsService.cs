@@ -37,6 +37,7 @@ namespace Sportlance.WebAPI.Teams
                                       team.TrainerTeams.Any(i => i.TrainerId == userId.Value))
                                   && (query.Country == null || team.Country.Contains(query.Country))
                                   && (query.City == null || team.City.Contains(query.City))
+                                  && (query.Search == null || team.SubTitle.ToLower().Contains(query.Search.ToLower()) || team.Title.ToLower().Contains(query.Search.ToLower()))
                                   // Левый верхний угол
                                   && (query.LeftUpperCornerLatitude == null || decimal.Parse(team.Latitude, CultureInfo.InvariantCulture) >= decimal.Parse(query.LeftUpperCornerLatitude, CultureInfo.InvariantCulture))
                                   && (query.LeftUpperCornerLongitude == null || decimal.Parse(team.Longitude, CultureInfo.InvariantCulture) >= decimal.Parse(query.LeftUpperCornerLongitude, CultureInfo.InvariantCulture))

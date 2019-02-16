@@ -28,9 +28,9 @@ export class MyTeamsService {
       if (geo) {
         data.append('geo', JSON.stringify(geo));
       }
-      return this.http.post(`/teams`, data);
+      return this.http.post(`/api/teams`, data);
     } else {
-      return this.http.post(`/teams`, {title, subtitle, phoneNumber, country, city, about, geo, address});
+      return this.http.post(`/api/teams`, {title, subtitle, phoneNumber, country, city, about, geo, address});
     }
   }
 
@@ -38,6 +38,6 @@ export class MyTeamsService {
     const parameters = new HttpParams()
       .append('offset', this.checkParam(query.offset))
       .append('count', this.checkParam(query.count));
-    return this.http.get<CollectionResponse<TeamResponse>>(`/teams/self`, {params: parameters});
+    return this.http.get<CollectionResponse<TeamResponse>>(`/api/teams/self`, {params: parameters});
   }
 }

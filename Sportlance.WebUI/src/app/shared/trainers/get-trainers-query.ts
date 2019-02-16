@@ -1,7 +1,7 @@
 export interface GetTrainersQuery {
   minPrice?: number;
   maxPrice?: number;
-  searchString?: string;
+  search?: string;
   country?: string;
   city?: string;
   trainingsMinCount?: number;

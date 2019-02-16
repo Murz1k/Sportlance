@@ -21,7 +21,7 @@ export class TeamsMapComponent implements OnInit {
   public isAuthorized = false;
   public Paths = Paths;
 
-  public searchString: string;
+  public search: string;
   public country: string;
   public city: string;
 
@@ -117,7 +117,7 @@ export class TeamsMapComponent implements OnInit {
       this.subscription.unsubscribe();
     }
     this.subscription = this.teamsService.get(<any>{
-      searchString: this.searchString,
+      search: this.search,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
       city: this.city,

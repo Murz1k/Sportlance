@@ -35,10 +35,10 @@ namespace Sportlance.WebAPI.Trainers
                 where trainer.Status == TrainerStatus.Available
                       && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
                       && (query.MaxPrice == null || trainer.Price <= query.MaxPrice.Value)
-                      && (query.SearchString == null || trainer.Title.Contains(query.SearchString) ||
-                          trainer.TrainerSports.Any(i => i.Sport.Name.Contains(query.SearchString)) ||
-                          query.SearchString.Contains(trainer.User.FirstName) ||
-                          query.SearchString.Contains(trainer.User.LastName))
+                      && (query.Search == null || trainer.Title.ToLower().Contains(query.Search.ToLower()) ||
+                          trainer.TrainerSports.Any(i => i.Sport.Name.ToLower().Contains(query.Search.ToLower())) ||
+                          trainer.User.FirstName.ToLower().Contains(query.Search.ToLower()) ||
+                          trainer.User.LastName.ToLower().Contains(query.Search.ToLower()))
                       && (query.Country == null || trainer.Country.Contains(query.Country))
                       && (query.City == null || trainer.City.Contains(query.City))
                                     //&& (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <=

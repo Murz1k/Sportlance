@@ -12,7 +12,7 @@
 
         public double? MaxPrice { get; set; }
 
-        public string SearchString { get; set; }
+        public string Search { get; set; }
 
         public string Country { get; set; }
 

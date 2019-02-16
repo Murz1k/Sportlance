@@ -94,25 +94,25 @@ export class AuthService {
   }
 
   updateAccessToken() {
-    return this.http.put<any>(`/auth/token`, {refreshToken: this.refreshToken});
+    return this.http.put<any>(`/api/auth/token`, {refreshToken: this.refreshToken});
   }
 
   public register(request: RegistrationRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/auth/register', request);
+    return this.http.post<LoginResponse>('/api/auth/register', request);
   }
 
   public reSendEmail(token: string) {
-    return this.http.post('/auth/re-send', <ResendEmailRequest>{token: token});
+    return this.http.post('/api/auth/re-send', <ResendEmailRequest>{token: token});
   }
 
   changePassword(email: string) {
-    return this.http.post('/auth/password', {email: email});
+    return this.http.post('/api/auth/password', {email: email});
   }
 
   public updatePassword(oldPassword: string,
                         password: string,
                         confirmPassword: string): Observable<LoginResponse | ErrorResponse | any> {
-    return this.http.put<ErrorResponse>('/auth/password', <UpdatePasswordRequest>{
+    return this.http.put<ErrorResponse>('/api/auth/password', <UpdatePasswordRequest>{
       oldPassword: oldPassword,
       newPassword: password,
       confirmPassword: confirmPassword
@@ -120,7 +120,7 @@ export class AuthService {
   }
 
   public updateAccount(firstName: string, secondName: string, email: string): Observable<LoginResponse> {
-    return this.http.put<LoginResponse>('/auth', <UpdateAccountRequest>{
+    return this.http.put<LoginResponse>('/api/auth', <UpdateAccountRequest>{
       firstName: firstName,
       secondName: secondName,
       email: email
@@ -133,7 +133,7 @@ export class AuthService {
   }
 
   public confirmEmail(request: ConfirmRegistrationRequest): Observable<LoginResponse> {
-    return this.http.put<LoginResponse>('/auth/confirm', request)
+    return this.http.put<LoginResponse>('/api/auth/confirm', request)
       .pipe(map((response) => {
         if (!response.error) {
           this.saveTokens(response);
@@ -156,19 +156,19 @@ export class AuthService {
   uploadPhoto(photo: Blob): Observable<any> {
     const data = new FormData();
     data.append('photo', photo);
-    return this.http.put(`/users/photo`, data);
+    return this.http.put(`/api/users/photo`, data);
   }
 
   getUserByInviteLink(inviteLink: string): Observable<ErrorResponse | any> {
-    return this.http.post(`/users/invite`, {inviteLink: inviteLink});
+    return this.http.post(`/api/users/invite`, {inviteLink: inviteLink});
   }
 
   public checkUser(email: string): Observable<CheckUserResponse> {
-    return this.http.post<CheckUserResponse>('/auth/check', <CheckUserRequest>{email: email});
+    return this.http.post<CheckUserResponse>('/api/auth/check', <CheckUserRequest>{email: email});
   }
 
   public login(request: LoginRequest, isRememberMe = false): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/auth', request)
+    return this.http.post<LoginResponse>('/api/auth', request)
       .pipe(map((response) => {
         if (!response.error) {
 

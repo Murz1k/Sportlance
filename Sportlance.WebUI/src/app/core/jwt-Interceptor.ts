@@ -10,7 +10,6 @@ import {
   HttpUserEvent
 } from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import {environment} from '../../environments/environment';
 import {AuthService} from './auth/auth.service';
 import {isNullOrUndefined} from "util";
 
@@ -30,11 +29,6 @@ export class JwtInterceptor implements HttpInterceptor {
       HttpResponse<any> |
       HttpUserEvent<any> |
       any> {
-
-    request = request.clone({url: `${environment.baseUrl}${request.url}`});
-    // this.authService
-
-    //return this.updateAccessTokenIfNeed(request, next);
     return next.handle(this.addAccessTokenToRequest(request, this.authService.accessToken))
       .pipe(catchError(err => {
         if (err instanceof HttpErrorResponse) {

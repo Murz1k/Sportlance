@@ -45,8 +45,8 @@ export class TeamsService {
     if (query.offset) {
       parameters = parameters.append('offset', this.checkParam(query.offset));
     }
-    if (query.searchString) {
-      parameters = parameters.append('searchString', this.checkParam(query.searchString));
+    if (query.search) {
+      parameters = parameters.append('search', this.checkParam(query.search));
     }
     if (query.country) {
       parameters = parameters.append('country', this.checkParam(query.country));
@@ -72,7 +72,7 @@ export class TeamsService {
       parameters = parameters.append('rightLowerCornerLatitude', this.checkParam(query.rightLowerCornerLatitude));
     }
 
-    return this.http.get<CollectionResponse<TeamResponse> & ErrorResponse>(`/teams`, {params: parameters})
+    return this.http.get<CollectionResponse<TeamResponse> & ErrorResponse>(`/api/teams`, {params: parameters})
       .pipe(tap((response) => {
         if (!response.error) {
           this.teamsGetQuery = query;
@@ -97,7 +97,7 @@ export class TeamsService {
       return of(this.selectedTeam);
     }
 
-    return this.http.get<TeamResponse & ErrorResponse>(`/teams/${teamId}`)
+    return this.http.get<TeamResponse & ErrorResponse>(`/api/teams/${teamId}`)
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTeam = response;
@@ -112,7 +112,7 @@ export class TeamsService {
     if (trainerId === undefined || trainerId === null) {
       throw new Error('Param "trainerId" is required');
     }
-    return this.http.get<boolean>(`/teams/${teamId}/trainers/${trainerId}/canInvite`);
+    return this.http.get<boolean>(`/api/teams/${teamId}/trainers/${trainerId}/canInvite`);
   }
 
   teamPhotoCollection: CollectionResponse<TeamPhotoResponse> & ErrorResponse;
@@ -127,7 +127,7 @@ export class TeamsService {
       return of(this.teamPhotoCollection);
     }
 
-    return this.http.get<CollectionResponse<TeamPhotoResponse> & ErrorResponse>(`/teams/${teamId}/photos`)
+    return this.http.get<CollectionResponse<TeamPhotoResponse> & ErrorResponse>(`/api/teams/${teamId}/photos`)
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -140,7 +140,7 @@ export class TeamsService {
     if (teamId === undefined || teamId === null) {
       throw new Error('Param "teamId" is required');
     }
-    return this.http.post<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services`, request)
+    return this.http.post<TeamServiceResponse & ErrorResponse>(`/api/teams/${teamId}/services`, request)
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -167,7 +167,7 @@ export class TeamsService {
       throw new Error('Param "serviceId" is required');
     }
 
-    return this.http.put<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`, request)
+    return this.http.put<TeamServiceResponse & ErrorResponse>(`/api/teams/${teamId}/services/${serviceId}`, request)
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -186,7 +186,7 @@ export class TeamsService {
       throw new Error('Param "serviceId" is required');
     }
 
-    return this.http.delete<ErrorResponse>(`/teams/${teamId}/services/${serviceId}`)
+    return this.http.delete<ErrorResponse>(`/api/teams/${teamId}/services/${serviceId}`)
       .pipe(tap((response) => {
         if (!response) {
           if (this.serviceCollectionTeamId && this.serviceCollectionTeamId === +teamId
@@ -218,7 +218,7 @@ export class TeamsService {
       return of(this.selectedTeamService);
     }
 
-    return this.http.get<TeamServiceResponse & ErrorResponse>(`/teams/${teamId}/services/${serviceId}`)
+    return this.http.get<TeamServiceResponse & ErrorResponse>(`/api/teams/${teamId}/services/${serviceId}`)
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTeamService = response;
@@ -239,7 +239,7 @@ export class TeamsService {
       return of(this.serviceCollection);
     }
 
-    return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/teams/${teamId}/services`)
+    return this.http.get<CollectionResponse<TeamServiceResponse> & ErrorResponse>(`/api/teams/${teamId}/services`)
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -255,14 +255,14 @@ export class TeamsService {
     if (serviceId === undefined || serviceId === null) {
       throw new Error('Param "serviceId" is required');
     }
-    return this.http.post<TeamServiceOrderResponse & ErrorResponse>(`/orders/team-service`, {
+    return this.http.post<TeamServiceOrderResponse & ErrorResponse>(`/api/orders/team-service`, {
       teamId: teamId,
       serviceId: serviceId
     });
   }
 
   deletePhoto(teamId: number, photoId: number) {
-    return this.http.delete(`/teams/${teamId}/photos/${photoId}`)
+    return this.http.delete(`/api/teams/${teamId}/photos/${photoId}`)
       .pipe(tap((response) => {
         if (!response) {
           if (this.teamPhotoCollection && this.teamPhotoCollection.items.some(photo => photo.id === +photoId)) {
@@ -276,7 +276,7 @@ export class TeamsService {
   addPhoto(teamId: number, photo: Blob): Observable<TeamPhotoResponse & ErrorResponse> {
     const data = new FormData();
     data.append('photo', photo);
-    return this.http.post<TeamPhotoResponse & ErrorResponse>(`/teams/${teamId}/photos`, data)
+    return this.http.post<TeamPhotoResponse & ErrorResponse>(`/api/teams/${teamId}/photos`, data)
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -298,11 +298,11 @@ export class TeamsService {
     const parameters = new HttpParams()
       .append('offset', this.checkParam(query.offset))
       .append('count', this.checkParam(query.count));
-    return this.http.get<CollectionResponse<TeamResponse>>(`/teams/self`, {params: parameters});
+    return this.http.get<CollectionResponse<TeamResponse>>(`/api/teams/self`, {params: parameters});
   }
 
   updateAbout(teamId: number, about: string): Observable<TeamResponse & ErrorResponse> {
-    return this.http.put<TeamResponse & ErrorResponse>(`/teams/${teamId}/about`, {about: about})
+    return this.http.put<TeamResponse & ErrorResponse>(`/api/teams/${teamId}/about`, {about: about})
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -316,7 +316,7 @@ export class TeamsService {
   uploadMainPhoto(teamId: number, photo: Blob): Observable<TeamResponse & ErrorResponse> {
     const data = new FormData();
     data.append('photo', photo);
-    return this.http.put<TeamResponse & ErrorResponse>(`/teams/${teamId}/photo`, data)
+    return this.http.put<TeamResponse & ErrorResponse>(`/api/teams/${teamId}/photo`, data)
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -330,7 +330,7 @@ export class TeamsService {
   uploadBackgroundImage(teamId: number, photo: Blob): Observable<TeamResponse & ErrorResponse> {
     const data = new FormData();
     data.append('photo', photo);
-    return this.http.put<TeamResponse & ErrorResponse>(`/teams/${teamId}/background`, data)
+    return this.http.put<TeamResponse & ErrorResponse>(`/api/teams/${teamId}/background`, data)
       .pipe(tap((response) => {
         if (!response.error) {
           this.serviceCollectionTeamId = +teamId;
@@ -342,6 +342,6 @@ export class TeamsService {
   }
 
   inviteMember(teamId: number, memberId: number) {
-    return this.http.post(`/teams/${teamId}/members`, <InviteMemberRequest>{memberId: memberId});
+    return this.http.post(`/api/teams/${teamId}/members`, <InviteMemberRequest>{memberId: memberId});
   }
 }

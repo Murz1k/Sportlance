@@ -17,10 +17,11 @@ export class TeamListComponent implements OnInit {
   teams = [];
   isRendering = true;
   isLoading = false;
+  public showInfinityScroll: boolean;
   public isAuthorized = false;
   public Paths = Paths;
 
-  public searchString: string;
+  public search: string;
   public country: string;
   public city: string;
 
@@ -48,7 +49,7 @@ export class TeamListComponent implements OnInit {
 
     this.isAuthorized = this.authService.isAuthorized;
     this.activatedRoute.queryParams.subscribe((params: Params) => {
-      this.searchString = params['q'];
+      this.search = params['q'];
       this.country = params['country'];
       this.city = params['city'];
       this.minPrice = params['minPrice'];
@@ -57,7 +58,6 @@ export class TeamListComponent implements OnInit {
       this.maxFeedbacksCount = params['maxFeedbacksCount'];
 
       this.updateData();
-      //this.isRendering = false;
     });
   }
 
@@ -65,10 +65,10 @@ export class TeamListComponent implements OnInit {
     if (this.offset + this.count >= this.totalCount) {
       return;
     }
-    this.isLoading = true;
+    this.showInfinityScroll = true;
     this.offset = this.count + this.offset;
     this.subscription = this.teamsService.get(<any>{
-      searchString: this.searchString,
+      search: this.search,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
       offset: this.offset,
@@ -88,18 +88,18 @@ export class TeamListComponent implements OnInit {
         about: this.cutAbout(i.about)
       }).forEach(item => this.teams.push(item));
       this.totalCount = response.totalCount;
-      this.isLoading = false;
+      this.showInfinityScroll = false;
     });
   }
 
   updateData() {
-    this.isRendering = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
       this.offset = 0;
     }
+    this.isLoading = true;
     this.subscription = this.teamsService.get(<any>{
-      searchString: this.searchString,
+      search: this.search,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
       offset: this.offset,
@@ -121,7 +121,7 @@ export class TeamListComponent implements OnInit {
         });
         this.offset = response.offset;
         this.totalCount = response.totalCount;
-
+        this.isLoading = false;
         this.isRendering = false;
       }
     });
@@ -132,7 +132,7 @@ export class TeamListComponent implements OnInit {
     const checkString = (param) => isNullOrUndefined(param) || param === '' ? null : '' + param;
     this.router.navigate([Paths.Teams], {
       queryParams: {
-        q: checkString(this.searchString),
+        q: checkString(this.search),
         country: checkString(this.country),
         city: checkString(this.city),
         minPrice: checkNumber(this.minPrice),
@@ -163,7 +163,7 @@ export class TeamListComponent implements OnInit {
   }
 
   reset() {
-    this.searchString = undefined;
+    this.search = undefined;
     this.country = undefined;
     this.city = undefined;
     this.minPrice = undefined;
