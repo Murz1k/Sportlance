@@ -24,26 +24,46 @@ export class TeamLocationComponent implements OnInit {
     // Функция ymaps.ready() будет вызвана, когда
     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
 
-    window.onload = () => ymaps.ready(() => {
-      console.log(+geo.longitude);
-      console.log(+geo.latitude);
-      const myMap = new ymaps.Map('map', {
-          center: [+geo.longitude, +geo.latitude],
-          zoom: geo.zoom,
-          // Также доступны наборы 'default' и 'largeMapDefaultSet'
-          // Элементы управления в наборах подобраны оптимальным образом
-          // для карт маленького, среднего и крупного размеров.
-          controls: []
-        },
-        {
-          suppressMapOpenBlock: true
-        });
+    if (ymaps) {
+      ymaps.ready(() => {
+        const myMap = new ymaps.Map('map', {
+            center: [+geo.longitude, +geo.latitude],
+            zoom: geo.zoom,
+            // Также доступны наборы 'default' и 'largeMapDefaultSet'
+            // Элементы управления в наборах подобраны оптимальным образом
+            // для карт маленького, среднего и крупного размеров.
+            controls: []
+          },
+          {
+            suppressMapOpenBlock: true
+          });
 
-      myMap.geoObjects.add(new ymaps.Placemark([+geo.latitude, +geo.longitude], {
-        balloonContent: 'цвет <strong>красный</strong>'
-      }, {
-        preset: 'islands#redSportIcon'
-      }));
-    });
+        myMap.geoObjects.add(new ymaps.Placemark([+geo.longitude, +geo.latitude], {
+          balloonContent: 'цвет <strong>красный</strong>'
+        }, {
+          preset: 'islands#redSportIcon'
+        }));
+      });
+    } else {
+      window.onload = () => ymaps.ready(() => {
+        const myMap = new ymaps.Map('map', {
+            center: [+geo.longitude, +geo.latitude],
+            zoom: geo.zoom,
+            // Также доступны наборы 'default' и 'largeMapDefaultSet'
+            // Элементы управления в наборах подобраны оптимальным образом
+            // для карт маленького, среднего и крупного размеров.
+            controls: []
+          },
+          {
+            suppressMapOpenBlock: true
+          });
+
+        myMap.geoObjects.add(new ymaps.Placemark([+geo.longitude, +geo.latitude], {
+          balloonContent: 'цвет <strong>красный</strong>'
+        }, {
+          preset: 'islands#redSportIcon'
+        }));
+      });
+    }
   }
 }

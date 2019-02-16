@@ -16,7 +16,10 @@
     </button>
     <!--<a *ngIf="!teamMembers" [routerLink]="['/trainers']" style="float: right">Найти тренеров</a>-->
   </div>
-  <section class="service-collection">
+  <div class="empty-container" *ngIf="!isAuthorized">
+    <button sl-button slType="primary" (click)="login()">Войдите чтобы посмотреть услуги</button>
+  </div>
+  <section class="service-collection" *ngIf="isAuthorized">
     <sl-team-service-collection-item
       (onDeleted)="deleteById($event)"
       [canEdit]="authService.hasPermissions('teams:services:add:' + team.id)"

@@ -32,7 +32,7 @@ export class TeamDetailsComponent implements OnInit {
 
     this.authService.setPermissions(
       `teams:photo:edit:${this.team.id}`,
-      this.authService.getCurrent().id === this.team.authorId);
+      this.authService.isCurrentUser(this.team.authorId));
 
     this.titleService.setTitle(`${this.team.title} | Sportlance`);
   }

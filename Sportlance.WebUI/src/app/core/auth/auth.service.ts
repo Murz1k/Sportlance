@@ -76,6 +76,15 @@ export class AuthService {
     return user;
   }
 
+  isCurrentUser(id: number): boolean {
+    const user = this.getCurrent();
+    if (!user || user.id !== id) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   private getDecodedAccessToken(token: string): any {
     try {
       return jwt_decode(token);

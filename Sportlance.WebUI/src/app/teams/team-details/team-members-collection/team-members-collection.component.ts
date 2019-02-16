@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TrainerInfoResponse} from "../../../shared/trainers/responses/trainer-info-response";
-import {GetTrainersQuery} from "../../../shared/trainers/get-trainers-query";
-import {TrainersService} from "../../../trainers/trainers.service";
-import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
-import {AuthService} from "../../../core/auth/auth.service";
+import {TrainerInfoResponse} from '../../../shared/trainers/responses/trainer-info-response';
+import {GetTrainersQuery} from '../../../shared/trainers/get-trainers-query';
+import {TrainersService} from '../../../trainers/trainers.service';
+import {TeamServiceResponse} from '../../../shared/teams/responses/team-service-response';
+import {AuthService} from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'sl-team-members-collection',
@@ -24,7 +24,7 @@ export class TeamMembersCollectionComponent implements OnInit {
   ngOnInit() {
     this.authService.setPermissions(
       `teams:members:add:${this.team.id}`,
-      this.authService.getCurrent().id === this.team.authorId);
+      this.authService.isCurrentUser(this.team.authorId));
     this.updateTeamMembers(this.team.teamId);
   }
 

@@ -1,10 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EditServiceDialogComponent} from "./edit-service-dialog/edit-service-dialog.component";
-import {MatDialog} from "@angular/material";
-import {TeamsService} from "../../teams.service";
-import {tap} from "rxjs/operators";
-import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
-import {AuthService} from "../../../core/auth/auth.service";
+import {EditServiceDialogComponent} from './edit-service-dialog/edit-service-dialog.component';
+import {MatDialog} from '@angular/material';
+import {TeamsService} from '../../teams.service';
+import {tap} from 'rxjs/operators';
+import {TeamServiceResponse} from '../../../shared/teams/responses/team-service-response';
+import {AuthService} from '../../../core/auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'sl-team-service-collection',
@@ -17,8 +18,10 @@ export class TeamServiceCollectionComponent implements OnInit {
 
   teamServices: TeamServiceResponse[] = [];
   isLoading = false;
+  public isAuthorized: boolean;
 
   constructor(private dialog: MatDialog,
+              private router: Router,
               private teamsService: TeamsService,
               public authService: AuthService
   ) {
@@ -27,8 +30,12 @@ export class TeamServiceCollectionComponent implements OnInit {
   ngOnInit() {
     this.authService.setPermissions(
       `teams:services:add:${this.team.id}`,
-      this.authService.getCurrent().id === this.team.authorId);
-    this.loadData();
+      this.authService.isCurrentUser(this.team.authorId));
+
+    this.isAuthorized = this.authService.isAuthorized;
+    if (this.isAuthorized) {
+      this.loadData();
+    }
   }
 
   showModal() {
@@ -40,6 +47,10 @@ export class TeamServiceCollectionComponent implements OnInit {
         }
       })))
       .subscribe();
+  }
+
+  login() {
+    this.router.navigate(['/', 'login']);
   }
 
   deleteById(id: number) {

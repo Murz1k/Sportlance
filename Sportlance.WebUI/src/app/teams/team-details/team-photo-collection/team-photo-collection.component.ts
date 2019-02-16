@@ -1,13 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TeamPhotoResponse} from "../../../shared/teams/responses/team-photo-response";
-import {TeamsService} from "../../teams.service";
-import {catchError, map, tap} from "rxjs/operators";
-import {throwError} from "rxjs";
-import {AddTeamPhotoDialogComponent} from "./add-team-photo-dialog/add-team-photo-dialog.component";
-import {AddTeamPhotoDialogData} from "./add-team-photo-dialog/add-team-photo-dialog-data";
-import {MatDialog} from "@angular/material";
-import {TeamServiceResponse} from "../../../shared/teams/responses/team-service-response";
-import {AuthService} from "../../../core/auth/auth.service";
+import {TeamPhotoResponse} from '../../../shared/teams/responses/team-photo-response';
+import {TeamsService} from '../../teams.service';
+import {catchError, map, tap} from 'rxjs/operators';
+import {throwError} from 'rxjs';
+import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
+import {AddTeamPhotoDialogData} from './add-team-photo-dialog/add-team-photo-dialog-data';
+import {MatDialog} from '@angular/material';
+import {TeamServiceResponse} from '../../../shared/teams/responses/team-service-response';
+import {AuthService} from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'sl-team-photo-collection',
@@ -30,7 +30,7 @@ export class TeamPhotoCollectionComponent implements OnInit {
   ngOnInit() {
     this.authService.setPermissions(
       `teams:photos:add:${this.team.id}`,
-      this.authService.getCurrent().id === this.team.authorId);
+      this.authService.isCurrentUser(this.team.authorId));
     this.updatePhotos(this.team.id);
   }
 
