@@ -8,9 +8,9 @@ import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from '../shared/trainers/responses/training-response';
 import {LoginResponse} from '../core/auth/responses/login-response';
-import {ErrorResponse} from "../core/error-response";
-import {of} from "rxjs";
-import {tap} from "rxjs/operators";
+import {ErrorResponse} from '../core/error-response';
+import {of} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 
 function deepEqual(x, y) {
@@ -102,5 +102,9 @@ export class TrainersService {
       startDate: startDate,
       sportId: sportId
     });
+  }
+
+  updateSkills(skills: any[]): Observable<ErrorResponse & any> {
+    return this.http.put<ErrorResponse & any>(`/api/trainers/skills`, {skills: skills});
   }
 }

@@ -13,7 +13,7 @@ export interface TrainerProfileResponse {
   title: string;
   status: TrainerStatus;
   trainingsCount: number;
-  sports: Array<SportResponse>;
+  skills: Array<SportResponse>;
   photoUrl: string;
   backgroundUrl: string;
 }

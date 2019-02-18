@@ -113,7 +113,7 @@ export class TrainerListComponent implements OnInit {
         reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
         trainingsCount: i.trainingsCount,
         trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
-        sports: i.sports,
+        skills: i.skills,
         photoUrl: i.photoUrl,
         about: this.cutAbout(i.about)
       }).forEach(item => this.trainers.push(item));
@@ -152,7 +152,7 @@ export class TrainerListComponent implements OnInit {
           reviewTitle: this.convertReviewsToReviewTitle(i.feedbacksCount),
           trainingsCount: i.trainingsCount,
           trainingsTitle: this.convertTrainingsToTrainingTitle(i.trainingsCount),
-          sports: i.sports,
+          skills: i.skills,
           photoUrl: i.photoUrl,
           about: this.cutAbout(i.about)
         });

@@ -177,7 +177,7 @@ export class AppointmentComponent implements OnInit {
     this.dialog.open(AddTrainerTrainingDialogComponent, {
       data: <AddTrainerTrainingDialogData> {
         trainerId: this.trainer.id,
-        sports: this.trainer.sports
+        skills: this.trainer.skills
       }
     })
       .afterClosed()

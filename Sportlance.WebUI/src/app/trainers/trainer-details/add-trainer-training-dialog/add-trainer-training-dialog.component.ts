@@ -14,7 +14,7 @@ import * as moment from 'moment';
 export class AddTrainerTrainingDialogComponent implements OnInit {
 
   public form: FormGroup;
-  public trainerSports: SelectItem[] = [];
+  public trainerskills: SelectItem[] = [];
   @ViewChild('dp') datePicker: MatDatepicker<any>;
 
   private readonly currentDate = new Date().getDate();
@@ -46,7 +46,7 @@ export class AddTrainerTrainingDialogComponent implements OnInit {
       const date = this.form.controls.startDate.value.split('/').reverse().join('-');
       this.form.controls.hiddenDate.setValue(new Date(date));
     });
-    this.trainerSports = this.data.sports.map(i => <SelectItem>{label: i.name, value: i.id});
+    this.trainerskills = this.data.skills.map(i => <SelectItem>{label: i.name, value: i.id});
   }
 
   private

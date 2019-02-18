@@ -37,6 +37,7 @@ export class TrainerDetailsComponent implements OnInit {
   ngOnInit() {
     this.account = this.authService.getCurrent();
     this.trainer = <TrainerInfo>{
+      id: this.route.snapshot.data['profile'].id,
       firstName: this.route.snapshot.data['profile'].firstName,
       secondName: this.route.snapshot.data['profile'].secondName,
       trainingsCount: this.route.snapshot.data['profile'].trainingsCount,
@@ -47,7 +48,7 @@ export class TrainerDetailsComponent implements OnInit {
       title: this.route.snapshot.data['profile'].title,
       country: this.route.snapshot.data['profile'].country,
       stars: this.convertAverageScoreToStars(this.route.snapshot.data['profile'].score),
-      sports: this.route.snapshot.data['profile'].sports
+      skills: this.route.snapshot.data['profile'].skills
     };
 
     this.titleService.setTitle(`${this.trainer.firstName} ${this.trainer.secondName} | Sportlance`);

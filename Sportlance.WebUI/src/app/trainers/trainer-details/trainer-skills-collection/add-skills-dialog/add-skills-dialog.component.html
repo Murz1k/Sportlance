@@ -1,0 +1,21 @@
+<div class="dialog-header">
+  <button class="dialog-close" mat-dialog-close><i class="material-icons">close</i></button>
+  <h3>Редактировать навыки</h3>
+</div>
+<div class="dialog-content">
+  <div class="skills-wrapper">
+    <div class="skills-collection">
+      <div class="skills-collection-item" *ngFor="let skill of skills">{{skill}}
+        <button (click)="deleteSkill(skill)" class="delete-btn">
+          <i class="material-icons">clear</i>
+        </button>
+      </div>
+    </div>
+    <div class="input-wrapper" *ngIf="skills.length < 10">
+      <input sl-input placeholder="Введите навык здесь" [(ngModel)]="inputString" (keydown)="onKeyEnter($event)"/>
+    </div>
+  </div>
+  <button sl-button slType="primary" [slLoading]="isLoading" [disabled]="isLoading" (click)="submit()">
+    Сохранить
+  </button>
+</div>

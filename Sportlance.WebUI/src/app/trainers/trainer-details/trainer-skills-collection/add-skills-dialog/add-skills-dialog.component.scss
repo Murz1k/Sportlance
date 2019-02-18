@@ -1,0 +1,63 @@
+.dialog-content {
+  width: 800px;
+
+  img {
+    width: 300px;
+    padding: 15px;
+  }
+
+  label {
+    width: 270px;
+    margin: 15px;
+  }
+}
+
+.skills-wrapper {
+  cursor: text;
+  padding: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.input-wrapper {
+  width: 100%;
+  display: flex;
+
+  input {
+    margin-top: 10px;
+    padding-left: 12px;
+    border: none;
+  }
+}
+
+.delete-btn {
+  border: none;
+  background-color: transparent;
+  height: 15px;
+  margin-left: 4px;
+  cursor: pointer;
+  user-select: none;
+
+  i {
+    font-size: 15px;
+  }
+}
+
+.skills-collection {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px;
+  margin-top: -10px;
+
+  .skills-collection-item {
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #e7e7e7;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+  }
+}

@@ -52,7 +52,7 @@
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
       </button>
     </div>
-    <sl-trainer-skills-collection></sl-trainer-skills-collection>
+    <sl-trainer-skills-collection [trainer]="trainer"></sl-trainer-skills-collection>
     <sl-feedback *ngIf="trainerId" [objectId]="trainerId"></sl-feedback>
   </div>
   <div class="side-bar">

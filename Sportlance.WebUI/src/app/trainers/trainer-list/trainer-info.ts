@@ -17,7 +17,7 @@ export interface TrainerInfo {
   reviewTitle: string;
   trainingsCount: number;
   trainingsTitle: string;
-  sports: Array<SportResponse>;
+  skills: Array<SportResponse>;
   status: TrainerStatus;
   photoUrl: string;
   backgroundUrl: string;

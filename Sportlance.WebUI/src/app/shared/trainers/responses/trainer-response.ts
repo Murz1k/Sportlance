@@ -15,6 +15,6 @@ export interface TrainerResponse {
   photoUrl: string;
   about: string;
   status: TrainerStatus;
-  sports: Array<SportResponse>;
+  skills: Array<SportResponse>;
   backgroundUrl: string;
 }

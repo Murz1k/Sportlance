@@ -96,7 +96,7 @@ export class AccountComponent implements OnInit {
           title: response.title,
           country: response.country,
           stars: this.convertAverageScoreToStars(response.score),
-          sports: response.sports,
+          skills: response.skills,
           status: response.status,
           id: response.id,
           photoUrl: response.photoUrl,
