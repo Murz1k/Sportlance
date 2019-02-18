@@ -1,0 +1,16 @@
+<form [formGroup]="form">
+  <div class="dialog-header">
+    <button class="dialog-close" mat-dialog-close><i class="material-icons">close</i></button>
+    <h3>Изменить фото</h3>
+  </div>
+  <div class="dialog-content">
+    <img src="{{form.value.url}}"/>
+    <label sl-button class="btn-block">
+      Загрузить другое фото
+      <input type="file" name="name" (change)="onChange($event)"/>
+    </label>
+    <button sl-button slType="primary" (click)="submit()" [slLoading]="isLoading" [disabled]="isLoading">
+      Сохранить
+    </button>
+  </div>
+</form>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,7 @@ namespace Sportlance.WebAPI.Teams
             _teamPhotosStorageProvider = teamPhotosStorageProvider;
         }
 
-        public async Task<PagingCollection<TeamListItem>> GetAsync(TeamQuery query, long? userId = null)
+        public async Task<PagingCollection<Team>> GetAsync(TeamQuery query, long? userId = null)
         {
             var teamQuery = from team in _appContext.Teams.Include(i => i.TrainerTeams)
                             where team.Status == TeamStatus.Available
@@ -36,19 +37,16 @@ namespace Sportlance.WebAPI.Teams
                                       team.TrainerTeams.Any(i => i.TrainerId == userId.Value))
                                   && (query.Country == null || team.Country.Contains(query.Country))
                                   && (query.City == null || team.City.Contains(query.City))
+                                  && (query.Search == null || team.SubTitle.ToLower().Contains(query.Search.ToLower()) || team.Title.ToLower().Contains(query.Search.ToLower()))
+                                  // Левый верхний угол
+                                  && (query.LeftUpperCornerLatitude == null || decimal.Parse(team.Latitude, CultureInfo.InvariantCulture) >= decimal.Parse(query.LeftUpperCornerLatitude, CultureInfo.InvariantCulture))
+                                  && (query.LeftUpperCornerLongitude == null || decimal.Parse(team.Longitude, CultureInfo.InvariantCulture) >= decimal.Parse(query.LeftUpperCornerLongitude, CultureInfo.InvariantCulture))
+                                  // Правый нижний угол
+                                  && (query.RightLowerCornerLatitude == null || decimal.Parse(team.Latitude, CultureInfo.InvariantCulture) <= decimal.Parse(query.RightLowerCornerLatitude, CultureInfo.InvariantCulture))
+                                  && (query.RightLowerCornerLongitude == null || decimal.Parse(team.Longitude, CultureInfo.InvariantCulture) <= decimal.Parse(query.RightLowerCornerLongitude, CultureInfo.InvariantCulture))
                             select team;
             return await (from team in teamQuery
-                          select new TeamListItem
-                          {
-                              Id = team.Id,
-                              City = team.City,
-                              Country = team.Country,
-                              PhotoUrl = team.PhotoUrl,
-                              Title = team.Title,
-                              PhoneNumber = team.PhoneNumber,
-                              SubTitle = team.SubTitle,
-                              About = team.About
-                          }).GetPageAsync(query.Offset, query.Count);
+                          select team).GetPageAsync(query.Offset, query.Count);
         }
 
         public async Task<bool> CanInviteTrainer(long authorId, long trainerId, long teamId)
@@ -81,8 +79,8 @@ namespace Sportlance.WebAPI.Teams
         }
 
 
-        public async Task AddAsync(long authorId, string title, string subTitle, string country, string city,
-            string about, string phoneNumber, StorageFile photo)
+        public async Task<Team> AddAsync(long authorId, string title, string subTitle, string country, string city, string address,
+            string about, string phoneNumber, string latitude, string longitude, short zoom, StorageFile photo = null)
         {
             var author = await _appContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
             if (author == null)
@@ -102,11 +100,15 @@ namespace Sportlance.WebAPI.Teams
                 Title = title,
                 SubTitle = subTitle,
                 City = city,
+                Address = address,
                 Country = country,
                 About = about,
                 PhoneNumber = phoneNumber,
                 CreateDateTime = DateTime.Now,
-                Status = TeamStatus.Available
+                Status = TeamStatus.Available,
+                Latitude = latitude,
+                Longitude = longitude,
+                Zoom = zoom
             };
 
             if (author.UserRoles.All(i => i.RoleId != roleTeam.Id))
@@ -120,11 +122,13 @@ namespace Sportlance.WebAPI.Teams
 
             if (photo != null)
             {
-                await UpdateMainPhotoAsync(newTeam.Id, photo);
+                newTeam = await UpdateMainPhotoAsync(newTeam.Id, photo);
             }
+
+            return newTeam;
         }
 
-        public async Task UpdateAboutAsync(long teamId, string about)
+        public async Task<Team> UpdateAboutAsync(long teamId, string about)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
@@ -135,9 +139,11 @@ namespace Sportlance.WebAPI.Teams
             team.About = about;
 
             await _appContext.SaveChangesAsync();
+
+            return team;
         }
 
-        public async Task<TeamProfile> GetByAuthorId(long userId)
+        public async Task<Team> GetByAuthorId(long userId)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.AuthorId == userId);
             if (team == null)
@@ -145,32 +151,10 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.TeamNotFound);
             }
 
-            return new TeamProfile
-            {
-                Id = team.Id,
-                Title = team.Title,
-                SubTitle = team.SubTitle,
-                City = team.City,
-                Country = team.Country,
-                PhotoUrl = team.PhotoUrl,
-                About = team.About,
-                Status = team.Status
-                //                Score = team.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback?.Score),
-                //                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
-                //                    .OrderByDescending(i => i.Feedback.CreateDate).Select(i =>
-                //                        new ReviewInfo
-                //                        {
-                //                            ClientName = i.Client.User.FirstName,
-                //                            Score = i.Feedback.Score,
-                //                            Description = i.Feedback.Description,
-                //                            CreateDate = i.Feedback.CreateDate
-                //                        }).ToArray(),
-                //                Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray(),
-                //                TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
-            };
+            return team;
         }
 
-        public async Task<TeamProfile> GetById(long teamId)
+        public async Task<Team> GetById(long teamId)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
@@ -178,33 +162,10 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.TeamNotFound);
             }
 
-            return new TeamProfile
-            {
-                Id = team.Id,
-                Title = team.Title,
-                SubTitle = team.SubTitle,
-                City = team.City,
-                Country = team.Country,
-                PhotoUrl = team.PhotoUrl,
-                About = team.About,
-                PhoneNumber = team.PhoneNumber,
-                Status = team.Status
-                //                Score = team.TrainerSports.SelectMany(i => i.Trainings).Average(f => f.Feedback?.Score),
-                //                Reviews = trainer.TrainerSports.SelectMany(i => i.Trainings).Where(i => i.Feedback != null)
-                //                    .OrderByDescending(i => i.Feedback.CreateDate).Select(i =>
-                //                        new ReviewInfo
-                //                        {
-                //                            ClientName = i.Client.User.FirstName,
-                //                            Score = i.Feedback.Score,
-                //                            Description = i.Feedback.Description,
-                //                            CreateDate = i.Feedback.CreateDate
-                //                        }).ToArray(),
-                //                Sports = trainer.TrainerSports.Select(i => i.Sport).ToArray(),
-                //                TrainingsCount = trainer.TrainerSports.SelectMany(i => i.Trainings).Count()
-            };
+            return team;
         }
 
-        public async Task AddPhotoAsync(long teamId, StorageFile photo)
+        public async Task<TeamPhoto> AddPhotoAsync(long teamId, StorageFile photo)
         {
             var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
@@ -221,6 +182,8 @@ namespace Sportlance.WebAPI.Teams
             newPhoto.PhotoUrl = await _teamPhotosStorageProvider.UploadAndGetUriAsync(photoName, photo);
 
             await _appContext.SaveChangesAsync();
+
+            return newPhoto;
         }
 
         public async Task DeletePhotoAsync(long teamId, long photoId)
@@ -240,7 +203,7 @@ namespace Sportlance.WebAPI.Teams
             await _teamPhotosStorageProvider.DeleteAsync(photoName);
         }
 
-        public async Task UpdateMainPhotoAsync(long teamId, StorageFile photo)
+        public async Task<Team> UpdateMainPhotoAsync(long teamId, StorageFile photo)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
@@ -254,9 +217,11 @@ namespace Sportlance.WebAPI.Teams
             team.PhotoUrl = link;
 
             await _appContext.SaveChangesAsync();
+
+            return team;
         }
 
-        public async Task UpdateBackgroundImageAsync(long teamId, StorageFile photo)
+        public async Task<Team> UpdateBackgroundImageAsync(long teamId, StorageFile photo)
         {
             var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
@@ -270,6 +235,8 @@ namespace Sportlance.WebAPI.Teams
             team.BackgroundUrl = link;
 
             await _appContext.SaveChangesAsync();
+
+            return team;
         }
 
         public async Task InviteMemberAsync(long teamId, long memberId)

@@ -1,9 +1,7 @@
 @import "../../styles";
 
 .menu-list {
-  width: 220px;;
-  display: inline-block;
-  float: left;
+  width: 220px;
   margin-right: 24px;
 }
 
@@ -59,8 +57,7 @@
 }
 
 .view-container {
-  width: 556px;
-  display: inline-block;
+  width: 100%;
 }
 
 .air-card .name {
@@ -125,4 +122,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .text-muted {
   color: #656565;
+}
+
+.content {
+  display: flex;
 }

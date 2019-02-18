@@ -20,7 +20,6 @@ import {EditBackgroundDialogData} from './edit-background-dialog/edit-background
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AuthService} from '../core/auth/auth.service';
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'sl-account',

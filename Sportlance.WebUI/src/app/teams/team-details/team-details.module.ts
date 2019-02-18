@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material';
 import {NumberOnlyModule} from '../../shared/number-only/number-only.module';
 import {AddTeamPhotoDialogComponent} from './team-photo-collection/add-team-photo-dialog/add-team-photo-dialog.component';
-import {TeamDetailsRoutingModule} from './team-details-routing.module';
 import {TeamDetailsComponent} from './team-details.component';
 import {SlButtonModule} from "../../shared/button/button.module";
 import {TeamPhotoCollectionComponent} from './team-photo-collection/team-photo-collection.component';
@@ -14,22 +13,41 @@ import {EditServiceDialogComponent} from './team-service-collection/edit-service
 import {TeamServiceCollectionItemComponent} from './team-service-collection/team-service-collection-item/team-service-collection-item.component';
 import {SlInputModule} from "../../shared/input/input.module";
 import {PhoneMaskPipeModule} from '../../shared/phone-mask-pipe/phone-mask-pipe.module';
+import {TeamLocationComponent} from './team-location/team-location.component';
+import {RouterModule, Routes} from "@angular/router";
+import {EditTeamPhotoDialogComponent} from "./edit-team-photo-dialog/edit-team-photo-dialog.component";
+import {EditTeamBackgroundDialogComponent} from "./edit-team-background-dialog/edit-team-background-dialog.component";
+import {EditTeamAboutDialogComponent} from "./edit-team-about-dialog/edit-team-about-dialog.component";
+import {SlSpinnerModule} from 'app/shared/spinner/spinner.module';
+
+const routes: Routes = [
+  {path: '', pathMatch: 'full', component: TeamDetailsComponent},
+  {
+    path: 'services/:serviceId/payments',
+    loadChildren: './team-service-payment/team-service-payment.module#TeamServicePaymentModule'
+  },
+  {path: '**', redirectTo: ''}
+];
 
 @NgModule({
   imports: [
+    RouterModule.forChild(routes),
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TeamDetailsRoutingModule,
     NumberOnlyModule,
     MatDialogModule,
     SlInputModule,
     PhoneMaskPipeModule,
-    SlButtonModule
+    SlButtonModule,
+    SlSpinnerModule
   ],
   entryComponents: [
     AddTeamPhotoDialogComponent,
-    EditServiceDialogComponent
+    EditServiceDialogComponent,
+    EditTeamPhotoDialogComponent,
+    EditTeamBackgroundDialogComponent,
+    EditTeamAboutDialogComponent
   ],
   declarations: [
     AddTeamPhotoDialogComponent,
@@ -38,7 +56,11 @@ import {PhoneMaskPipeModule} from '../../shared/phone-mask-pipe/phone-mask-pipe.
     TeamMembersCollectionComponent,
     TeamServiceCollectionComponent,
     EditServiceDialogComponent,
-    TeamServiceCollectionItemComponent
+    EditTeamPhotoDialogComponent,
+    EditTeamBackgroundDialogComponent,
+    EditTeamAboutDialogComponent,
+    TeamServiceCollectionItemComponent,
+    TeamLocationComponent
   ]
 })
 export class TeamDetailsModule {

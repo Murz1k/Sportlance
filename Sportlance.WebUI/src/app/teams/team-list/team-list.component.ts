@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {isNullOrUndefined} from 'util';
 import {Paths} from '../../core/paths';
-import {GetTrainersQuery} from '../../shared/trainers/get-trainers-query';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {TeamsService} from '../teams.service';
-import {TrainerInfo} from '../../trainers/trainer-list/trainer-info';
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {AuthService} from '../../core/auth/auth.service';
@@ -16,12 +14,14 @@ import {AuthService} from '../../core/auth/auth.service';
 })
 export class TeamListComponent implements OnInit {
 
-  trainers = [];
+  teams = [];
   isRendering = true;
+  isLoading = false;
+  public showInfinityScroll: boolean;
   public isAuthorized = false;
   public Paths = Paths;
 
-  public searchString: string;
+  public search: string;
   public country: string;
   public city: string;
 
@@ -49,7 +49,7 @@ export class TeamListComponent implements OnInit {
 
     this.isAuthorized = this.authService.isAuthorized;
     this.activatedRoute.queryParams.subscribe((params: Params) => {
-      this.searchString = params['q'];
+      this.search = params['q'];
       this.country = params['country'];
       this.city = params['city'];
       this.minPrice = params['minPrice'];
@@ -58,7 +58,6 @@ export class TeamListComponent implements OnInit {
       this.maxFeedbacksCount = params['maxFeedbacksCount'];
 
       this.updateData();
-      //this.isRendering = false;
     });
   }
 
@@ -66,9 +65,10 @@ export class TeamListComponent implements OnInit {
     if (this.offset + this.count >= this.totalCount) {
       return;
     }
+    this.showInfinityScroll = true;
     this.offset = this.count + this.offset;
-    this.subscription = this.teamsService.get(<GetTrainersQuery>{
-      searchString: this.searchString,
+    this.subscription = this.teamsService.get(<any>{
+      search: this.search,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
       offset: this.offset,
@@ -78,25 +78,28 @@ export class TeamListComponent implements OnInit {
       feedbacksMinCount: this.minFeedbacksCount,
       feedbacksMaxCount: this.maxFeedbacksCount
     }).subscribe(response => {
-      response.items.map(i => <TrainerInfo>{
+      response.items.map(i => <any>{
         id: i.id,
         city: i.city,
         country: i.country,
+        title: i.title,
+        subTitle: i.subTitle,
         photoUrl: i.photoUrl,
         about: this.cutAbout(i.about)
-      }).forEach(item => this.trainers.push(item));
+      }).forEach(item => this.teams.push(item));
       this.totalCount = response.totalCount;
+      this.showInfinityScroll = false;
     });
   }
 
   updateData() {
-    this.isRendering = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
       this.offset = 0;
     }
-    this.subscription = this.teamsService.get(<GetTrainersQuery>{
-      searchString: this.searchString,
+    this.isLoading = true;
+    this.subscription = this.teamsService.get(<any>{
+      search: this.search,
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
       offset: this.offset,
@@ -107,17 +110,18 @@ export class TeamListComponent implements OnInit {
       feedbacksMaxCount: this.maxFeedbacksCount
     }).subscribe(response => {
       if (response.items) {
-        this.trainers = response.items.map(i => <TrainerInfo>{
+        this.teams = response.items.map(i => <any>{
           id: i.id,
           city: i.city,
           country: i.country,
           title: i.title,
+          subTitle: i.subTitle,
           photoUrl: i.photoUrl,
           about: this.cutAbout(i.about)
         });
         this.offset = response.offset;
         this.totalCount = response.totalCount;
-
+        this.isLoading = false;
         this.isRendering = false;
       }
     });
@@ -128,7 +132,7 @@ export class TeamListComponent implements OnInit {
     const checkString = (param) => isNullOrUndefined(param) || param === '' ? null : '' + param;
     this.router.navigate([Paths.Teams], {
       queryParams: {
-        q: checkString(this.searchString),
+        q: checkString(this.search),
         country: checkString(this.country),
         city: checkString(this.city),
         minPrice: checkNumber(this.minPrice),
@@ -140,10 +144,14 @@ export class TeamListComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate([Paths.Login]);
+    this.router.navigate(['/', 'login'], {queryParams: {redirectUrl: this.router.url}});
   }
 
   private cutAbout(about: string): string {
+    if (!about) {
+      return '';
+    }
+
     if (about.length <= 167) {
       return about;
     }
@@ -155,7 +163,7 @@ export class TeamListComponent implements OnInit {
   }
 
   reset() {
-    this.searchString = undefined;
+    this.search = undefined;
     this.country = undefined;
     this.city = undefined;
     this.minPrice = undefined;

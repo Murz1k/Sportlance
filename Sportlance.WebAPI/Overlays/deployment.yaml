@@ -1,0 +1,29 @@
+﻿apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sportlance-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sportlance-gateway
+  template:
+    metadata:
+      name: sportlance-gateway
+      labels:
+        app: sportlance-gateway
+        restart: "3"
+    spec:
+      containers:
+      - name: sportlance-gateway
+        image: 149144269799.dkr.ecr.us-east-1.amazonaws.com/sportlance-gateway:1.0.14
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+          protocol: TCP

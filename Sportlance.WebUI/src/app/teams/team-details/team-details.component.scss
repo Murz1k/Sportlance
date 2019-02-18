@@ -7,8 +7,8 @@
   margin-bottom: 24px;
 }
 
-#map {
-  margin-top: 24px;
+.air-card-header {
+  position: relative;
 }
 
 .background {
@@ -29,79 +29,20 @@
   }
 
   img, .background-placeholder {
-    -o-object-fit: cover;
     object-fit: cover;
-    width: 100%;
+    width: calc(100% + 2px);
     height: 160px;
     position: absolute;
     user-select: none;
     outline: none;
+    margin-left: -1px;
+    margin-top: -1px;
   }
 
   :hover {
     color: white;
     background-color: #0000008a;
     cursor: pointer;
-  }
-}
-
-.photo-collection {
-  display: inline-flex;
-  margin-left: -20px;
-  margin-top: -20px;
-  flex-wrap: wrap;
-
-  .photo-container {
-    display: inline-block;
-    position: relative;
-    width: 120px;
-    vertical-align: top;
-  }
-
-  .member-button {
-    width: 100%;
-    font-weight: 600;
-    margin-top: 12px;
-  }
-
-  .member-title {
-    text-align: center;
-    display: block;
-  }
-
-  .remove-button {
-    position: absolute;
-    background: #00a51d24;
-    border: none;
-    color: white;
-    line-height: 16px;
-    height: 16px;
-    top: 4px;
-    right: 4px;
-
-    i {
-      font-size: 16px;
-    }
-  }
-
-  .remove-button:hover {
-    cursor: pointer;
-    background: #00a51d5e;
-  }
-
-  img, .image-placeholder {
-    width: 120px;
-    height: 120px;
-  }
-
-  .photo-container, .image-placeholder {
-    margin-left: 20px;
-    margin-top: 20px;
-  }
-
-  .image-placeholder {
-    background-color: #f2f2f2;
-    display: inline-block;
   }
 }
 

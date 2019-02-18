@@ -15,7 +15,8 @@
            sl-input placeholder="Email" required>
   </div>
   <div class="dialog-footer">
-    <button sl-button slType="primary" (click)="submit(true)">Сохранить</button>
+    <button [disabled]="isLoading" [slLoading]="isLoading" sl-button slType="primary"
+            (click)="submit(true)">Сохранить</button>
     <button sl-button (click)="submit(false)">Отмена</button>
   </div>
 </form>

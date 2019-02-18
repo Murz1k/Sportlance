@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {SelectItem} from './select-item';
-import {SlOptionComponent} from "../option/option.component";
+import {SlOptionComponent} from '../option/option.component';
 
 @Component({
   selector: 'sl-select',
@@ -79,9 +79,7 @@ export class SlSelectComponent implements OnInit, ControlValueAccessor, AfterCon
     this.listHeight = 0;
     this.scrollHeight = 40;
 
-    setTimeout(() => {
-      this.showList = false;
-    }, 450);
+    this.showList = false;
   }
 
   @HostListener('document:click', ['$event.target']) clickedOutside(targetElement: ElementRef) {
@@ -136,15 +134,12 @@ export class SlSelectComponent implements OnInit, ControlValueAccessor, AfterCon
 
   writeValue(obj: any): void {
 
-    if (obj === this._selectedItem.value) {
+    if (this._items.length === 0) {
+      this._selectedItem.value = obj;
       return;
     }
 
-    if (!this._items) {
-      return;
-    }
-
-    const currentItem = this._items.find(i => i.value === obj);
+    const currentItem = this._items.find(i => JSON.stringify(i.value) === JSON.stringify(obj));
 
     if (!currentItem) {
       this._selectedItem = {label: '', value: undefined};
@@ -157,10 +152,34 @@ export class SlSelectComponent implements OnInit, ControlValueAccessor, AfterCon
   }
 
   ngAfterContentInit(): void {
-    this._items = this.options.map(i => <SelectItem> {value: i.value, label: i.getLabel()});
+    this._items = this.options.map(i => <SelectItem>{value: i.value, label: i.getLabel()});
+    if (this._selectedItem.value !== undefined) {
+      const currentItem = this._items.find(i => JSON.stringify(i.value) === JSON.stringify(this._selectedItem.value));
+      if (!currentItem) {
+        this._selectedItem = {label: '', value: undefined};
+      } else {
+        this._selectedItem = currentItem;
+        this.onChange(this._selectedItem.value);
+      }
 
-    this.options.changes.subscribe((options: SlOptionComponent[]) =>
-      this._items = options.map(i => <SelectItem> {value: i.value, label: i.getLabel()})
+      this._value = this._selectedItem.value;
+    }
+
+
+    this.options.changes.subscribe((options: SlOptionComponent[]) => {
+        this._items = options.map(i => <SelectItem>{value: i.value, label: i.getLabel()});
+        if (this._selectedItem.value !== undefined) {
+          const currentItem = this._items.find(i => JSON.stringify(i.value) === JSON.stringify(this._selectedItem.value));
+          if (!currentItem) {
+            this._selectedItem = {label: '', value: undefined};
+          } else {
+            this._selectedItem = currentItem;
+            this.onChange(this._selectedItem.value);
+          }
+
+          this._value = this._selectedItem.value;
+        }
+      }
     );
   }
 }

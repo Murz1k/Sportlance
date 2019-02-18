@@ -20,7 +20,7 @@ function enableYandexMaps() {
   document.write(
     `
   <!-- Yandex Maps -->
-  <script src="https://api-maps.yandex.ru/2.1/?apikey=de4ba415-f957-4ec5-8c59-fe27e4060a48&lang=ru_RU"
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=de4ba415-f957-4ec5-8c59-fe27e4060a48&lang=ru_RU" async
   type="text/javascript">
     </script>
     `

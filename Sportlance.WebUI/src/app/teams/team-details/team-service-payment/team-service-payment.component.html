@@ -1,0 +1,30 @@
+<div class="content page">
+  <div class="air-card">
+    <section>
+      <div class="payment-info">
+        <h3>Приобретение услуги {{teamService.name}}</h3>
+
+        <h4>Описание</h4>
+        {{teamService.description}}
+
+        <h4>Длительность</h4>
+        {{teamService.duration}}
+      </div>
+
+      <div class="payment-actions">
+        <h2>К оплате: {{teamService.price}} руб.</h2>
+
+        <form [formGroup]="form">
+          <sl-radio-group formControlName="paymentType">
+            <sl-radio-button [value]="0">Банковская карта</sl-radio-button>
+            <sl-radio-button [value]="1">Наличными в клубе</sl-radio-button>
+          </sl-radio-group>
+
+          <button (click)="redirectToPayment()" sl-button slType="primary">Перейти к
+            оплате
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

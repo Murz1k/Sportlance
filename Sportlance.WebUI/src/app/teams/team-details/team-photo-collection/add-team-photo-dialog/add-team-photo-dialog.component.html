@@ -8,7 +8,7 @@
     Загрузить другое фото
     <input type="file" name="name" (change)="onChange($event)"/>
   </label>
-  <button sl-button slType="primary" (click)="submit()">
+  <button sl-button slType="primary" [slLoading]="isLoading" [disabled]="isLoading" (click)="submit()">
     Сохранить
   </button>
 </div>

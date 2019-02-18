@@ -1,20 +1,48 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" [class.active]="showMenu">
   <mat-toolbar-row>
     <div class="content">
-      <div style="display: flex;
-    padding-left: 10px;">
-        <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
-        <ng-container *ngIf="!isEmpty">
-          <div class="nav">
-            <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
-            <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
+      <ng-container *ngIf="!isMobile">
+        <ng-container *ngIf="isEmpty">
+          <div style="display: flex; justify-content: center; height: 46px; width: 60px;">
+            <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
           </div>
         </ng-container>
-      </div>
-      <ng-container *ngIf="!isEmpty">
-        <sl-menu></sl-menu>
-        <button class="menu-btn btn-link"><i class="material-icons">menu</i></button>
+        <ng-container *ngIf="!isEmpty">
+          <div style="display: flex; padding-left: 10px;">
+            <a [routerLink]="'/'"><i class="medium-icon icon__logo"></i></a>
+            <div class="nav">
+              <a routerLink="/{{Paths.Trainers}}" routerLinkActive="active">Тренеры</a>
+              <a routerLink="/{{Paths.Teams}}" routerLinkActive="active">Команды</a>
+            </div>
+          </div>
+          <sl-menu></sl-menu>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="isMobile">
+        <div style="display: flex; justify-content: center; height: 46px; width: 60px;">
+          <a [routerLink]="'/'"><i class="small-icon icon__logo"></i></a>
+        </div>
+        <div class="sandwich" [class.close]="showMenu"
+             (click)="changeShowMenu()">
+          <div class="one"></div>
+          <div class="two"></div>
+          <div class="three"></div>
+        </div>
       </ng-container>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<div class="mobile-menu" [class.active]="showMenu">
+  <div class="mobile-menu-item" (click)="navigateTo('/login')">
+    Войти
+  </div>
+  <hr>
+  <div class="mobile-menu-item" (click)="navigateTo('/trainers')">
+    Тренеры
+  </div>
+  <div class="mobile-menu-item" (click)="navigateTo('/teams')">
+    Команды
+  </div>
+  <hr>
+</div>

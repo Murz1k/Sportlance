@@ -2,12 +2,6 @@
   "/api/*": {
     "target": "http://localhost:5000",
     "secure": false,
-    "logLevel": "debug",
-    "pathRewrite": {"^/api" : ""},
-    "changeOrigin": false,
-    "router": {
-      "localhost:4200" : "http://localhost:5000",
-      "https://sportlance.com" : "http://api.sportlance.com"
-    }
+    "pathRewrite": {"^/api" : ""}
   }
 }

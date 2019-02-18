@@ -8,23 +8,23 @@ namespace Sportlance.WebAPI.Trainers
 {
     public interface ITrainersService
     {
-        Task<PagingCollection<TrainerListItem>> GetAsync(TrainersQuery query);
+        Task<PagingCollection<Trainer>> GetAsync(TrainersQuery query);
 
-        Task<TrainerProfile> GetById(long trainerId);
+        Task<Trainer> GetByIdAsync(long trainerId);
 
         Task<Trainer> AddAsync(User user);
         
-        Task SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus);
+        Task<Trainer> SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus);
 
-        Task UpdateAboutAsync(long trainerId, string about);
+        Task<Trainer> UpdateAboutAsync(long trainerId, string about);
 
-        Task UpdateBackgroundImageAsync(long trainerId, StorageFile photo);
+        Task<Trainer> UpdateBackgroundImageAsync(long trainerId, StorageFile photo);
 
-        Task UpdatePriceAsync(long trainerId, double price);
+        Task<Trainer> UpdatePriceAsync(long trainerId, double price);
 
-        Task<IReadOnlyCollection<TraningItem>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate,
+        Task<IReadOnlyCollection<Training>> GetTrainingsAsync(long trainerId, DateTimeOffset fromDate,
             DateTimeOffset toDate);
 
-        Task AddTrainingAsync(long trainerId, long clientId, long sportId, DateTimeOffset fromDate);
+        Task<Training> AddTrainingAsync(long trainerId, long clientId, long sportId, DateTimeOffset fromDate);
     }
 }

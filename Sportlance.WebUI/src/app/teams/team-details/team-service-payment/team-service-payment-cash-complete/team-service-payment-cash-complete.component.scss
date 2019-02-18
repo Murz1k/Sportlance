@@ -1,0 +1,31 @@
+.complete-container {
+  width: 400px;
+
+  p {
+    margin-bottom: 20px;
+  }
+
+  .actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 24px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.air-card {
+  width: fit-content;
+  margin: 100px auto auto;
+  padding: 24px;
+}

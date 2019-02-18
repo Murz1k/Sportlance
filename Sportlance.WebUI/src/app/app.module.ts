@@ -1,4 +1,4 @@
-import {ErrorHandler, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
 import {RootComponent} from './root/root.component';
@@ -13,7 +13,12 @@ import {HeaderModule} from './core/header/header.module';
 import {MomentModule} from 'ngx-moment';
 import {BrowserModule} from '@angular/platform-browser';
 import {AboutComponent} from './about/about.component';
-import {SlButtonModule} from "./shared/button/button.module";
+import {SlButtonModule} from './shared/button/button.module';
+import {DeviceDetectorModule} from 'ngx-device-detector';
+import {SlInputModule} from './shared/input/input.module';
+import {SlSelectAddressModule} from './shared/select-address/select-address.module';
+import {SlSelectModule} from './shared/select/select.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,9 +31,14 @@ import {SlButtonModule} from "./shared/button/button.module";
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    SlInputModule,
     SlButtonModule,
+    SlSelectModule,
+    ReactiveFormsModule,
+    SlSelectAddressModule,
     MomentModule,
     HeaderModule,
+    DeviceDetectorModule.forRoot(),
     FooterModule,
     BrowserAnimationsModule
   ],

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Sportlance.WebAPI.Entities
 {
@@ -23,6 +22,14 @@ namespace Sportlance.WebAPI.Entities
         public string Country { get; set; }
 
         public string City { get; set; }
+
+        public string Address { get; set; }
+
+        public string Latitude { get; set; }
+
+        public string Longitude { get; set; }
+
+        public short Zoom { get; set; }
 
         public string About { get; set; }
 

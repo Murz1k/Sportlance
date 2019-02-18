@@ -1,35 +1,48 @@
-<div class="carousel">
-  <ul class="slides">
-    <!--<li *ngFor="let image of images">-->
-    <!--<img src="{{image.url}}" alt="">-->
-    <!--<div class="content">-->
-    <!--<div class="cta-container">-->
-    <!--<span class="cta-title">{{image.title}}</span>-->
-    <!--<span class="cta-descr">{{image.descr}}</span>-->
-    <!--<a routerLink="/{{image.btnLink}}" class="btn btn-primary">{{image.btnText}}</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</li>-->
-    <li style="height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(90deg, #4443438f 0%, #4443438f 100%) , url(https://static.timesofisrael.com/www/uploads/2016/06/Obit-Muhammad-Ali-_Horo-1-e1465015863137.jpg) no-repeat center;
-    background-size: cover;">
-      <div class="cta-container">
-        <span class="cta-title">Невозможно</span>
-        <span class="cta-descr">
-            - это всего лишь громкое слово, за которым прячутся маленькие люди. <br>
-            Им проще жить в привычном мире, чем найти в себе силы что-то изменить. <br>
-            Невозможное – это не факт. Это только мнение. <br>
-            Невозможное – это не приговор. Это вызов. <br>
-            Невозможное – это шанс проявить себя. Невозможно – это не навсегда. Невозможное возможно.
-          </span>
-        <span style="font-size: 16px;
-    text-align: right;
-    display: block;margin-bottom: 24px;">Мохаммед Али</span>
-        <a routerLink="/" sl-button slType="primary">Сделай невозможное</a>
+<!--<ng-container *ngIf="!isMobile">-->
+<!--<section>-->
+<!--<div class="main-container">-->
+<!--<div class="landing-image"></div>-->
+<!--<div class="overlay"></div>-->
+<!--<h2 class="main-title">Найдите подходящего тренера <br> и запишитесь на тренировку</h2>-->
+<!--<div class="search">-->
+<!--<input sl-input placeholder="Тренер, Команда, Спорт, Услуга"/>-->
+<!--<sl-select-address placeholder="Страна, город, адрес, метро или район"></sl-select-address>-->
+<!--<button sl-button slType="primary">Найти</button>-->
+<!--<button sl-button>Показать на карте</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</section>-->
+<!--</ng-container>-->
+<!--<ng-container *ngIf="isMobile">-->
+
+<!--</ng-container>-->
+
+<section>
+  <div class="main-container">
+    <div class="landing-image"></div>
+    <div class="overlay"></div>
+    <h2 class="main-title">Найдите подходящего тренера <br> и запишитесь на тренировку</h2>
+    <div class="search">
+      <form [formGroup]="form" class="search-container">
+        <sl-select class="search-type-select" formControlName="searchType">
+          <sl-option *ngFor="let item of searchTypes" [value]="item.value">{{item.selectLabel}}</sl-option>
+        </sl-select>
+        <sl-select class="search-target-select" formControlName="searchTarget">
+          <sl-option *ngFor="let item of targets" [value]="item.value">{{item.selectLabel}}</sl-option>
+        </sl-select>
+        <sl-select class="search-sport-type-select" formControlName="searchSportType">
+          <sl-option *ngFor="let item of sportTypes" [value]="item.value">{{item.selectLabel}}</sl-option>
+        </sl-select>
+        <input class="search-price-input" sl-input placeholder="от" formControlName="searchFromPrice"/>
+        <input class="search-price-input" sl-input placeholder="до" formControlName="searchToPrice"/>
+        <!--<input sl-input placeholder="Тренер, Команда, вид спорта, Услуга"/>-->
+        <!--<input sl-input placeholder="Тренер, Команда, вид спорта, Услуга"/>-->
+        <sl-select-address placeholder="Страна, город, адрес, метро или район"></sl-select-address>
+      </form>
+      <div class="search-action-container">
+        <button sl-button>Показать на карте</button>
+        <button sl-button slType="primary">Найти</button>
       </div>
-    </li>
-  </ul>
-</div>
+    </div>
+  </div>
+</section>

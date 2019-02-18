@@ -1,5 +1,209 @@
 section {
+  z-index: 1;
   height: 100vh;
+
+  /* Portrait tablets and medium desktops */
+  @media screen and (max-width: 1366px) {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.main-title {
+  font-size: 38px;
+  line-height: 44px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  z-index: 1;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+
+  /* Landscape phones and portrait tablets */
+  @media screen and (max-width: 767px) {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  //width: 1190px;
+  margin: auto;
+
+  .overlay {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.25);
+    height: 100%;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+}
+
+// url картинки https://akspic.ru/download/19831-sportsmen-otdyx-fitness_centr-beg-zanyatie_sportom/2560x1440
+
+.landing-image {
+  /* Large desktops and laptops */
+  @media screen and (min-width: 2000px) {
+    background: url("../../assets/images/landing-2560.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Large desktops and laptops */
+  @media screen and (min-width: 1366px) and (max-width: 2000px) {
+    background: url("../../assets/images/landing-1920.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Portrait tablets and medium desktops */
+  @media screen and (min-width: 992px) and (max-width: 1366px) {
+    background: url("../../assets/images/landing-1366.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Portrait tablets and small desktops */
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    background: url("../../assets/images/landing-1080.jpg") no-repeat;
+    background-size: cover;
+  }
+
+  /* Landscape phones and portrait tablets */
+  @media screen and (max-width: 767px) {
+    background: url("../../assets/images/landing-750.jpg") no-repeat;
+    background-size: cover;
+  }
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+}
+
+.search {
+  display: flex;
+  margin: 0 auto 200px;
+  z-index: 1;
+  flex-direction: column;
+
+  .search-container {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .search-action-container {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin-left: 10px;
+    }
+  }
+
+  .search-type-select {
+    min-width: 100px;
+
+    &::ng-deep .scroll-wrapper {
+      border-radius: 2px 0 0 2px;
+
+      .selected-item {
+        border-right: .5px solid #e0e0e0e0;
+      }
+    }
+  }
+
+  .search-target-select {
+    min-width: 170px;
+
+    &::ng-deep .scroll-wrapper {
+      border-radius: 0;
+
+      .selected-item {
+        border-right: .5px solid #e0e0e0e0;
+        border-left: .5px solid #e0e0e0e0;
+      }
+    }
+  }
+
+  .search-sport-type-select {
+    min-width: 180px;
+
+    &::ng-deep .scroll-wrapper {
+      border-radius: 0;
+
+      .selected-item {
+        border-right: .5px solid #e0e0e0e0;
+        border-left: .5px solid #e0e0e0e0;
+      }
+    }
+  }
+
+  sl-select-address {
+    max-width: 380px;
+    width: 100%;
+
+    &::ng-deep {
+      input {
+        border-left: .5px solid #e0e0e0e0;
+        border-radius: 0 2px 2px 0;
+      }
+    }
+  }
+
+  .search-price-input {
+    width: 100px;
+    margin: 0;
+    border-radius: 0;
+    border-right: .5px solid #e0e0e0e0;
+    border-left: .5px solid #e0e0e0e0;
+  }
+
+  input, sl-select-address, .sl-btn-primary {
+    //margin-right: 10px;
+  }
+
+  input {
+    width: 248px;
+  }
+
+  /* Portrait tablets and small desktops */
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: auto;
+    input {
+      //width: auto;
+    }
+
+    sl-select-address {
+      //width: auto;
+    }
+    .sl-btn-default {
+      display: none;
+    }
+  }
+
+  /* Landscape phones and portrait tablets */
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    flex-direction: column;
+    margin: initial;
+    input {
+      width: auto;
+    }
+
+    sl-select-address {
+      width: auto;
+    }
+    sl-select-address, input, button, button.sl-btn-primary {
+      margin-bottom: 10px;
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
 }
 
 .title-section {
@@ -28,9 +232,7 @@ section .title {
 }
 
 h2 {
-  margin-top: 2em;
   text-align: center;
-  margin-bottom: 2em;
   font-size: 30px;
   font-family: "Gotham Bold", Helvetica, Arial, sans-serif;
 }
@@ -81,17 +283,20 @@ h2 {
 
 .cta-container {
   color: white;
+
   .cta-title {
     font-size: 56px;
     font-weight: 600;
     display: block;
   }
+
   .cta-descr {
     font-size: 24px;
     font-weight: 600;
     display: block;
     margin-bottom: 24px;
   }
+
   a {
     font-size: 24px;
     padding: 24px;

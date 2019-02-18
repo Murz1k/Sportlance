@@ -21,6 +21,11 @@ namespace Sportlance.Common.Providers
 
         public async Task InitializeAsync()
         {
+            if(_queueName == null || _queueName == "")
+            {
+                throw new Exception("QueueName is required.");
+            }
+
             var sqsConfig = new AmazonSQSConfig { ServiceURL = "http://sqs.us-east-1.amazonaws.com" };
 
             _sqsClient = new AmazonSQSClient(sqsConfig);
@@ -28,16 +33,35 @@ namespace Sportlance.Common.Providers
             var url = await GetQueueUrlAsync();
             if (url == null)
             {
-                var createQueueRequest = new CreateQueueRequest { QueueName = _queueName };
-
-                var attrs = new Dictionary<string, string> { { QueueAttributeName.VisibilityTimeout, "10" } };
-                createQueueRequest.Attributes = attrs;
-                var createQueueResponse = await _sqsClient.CreateQueueAsync(createQueueRequest);
-                _queueUrl = createQueueResponse.QueueUrl;
+                var createQueueResponse = await CreateQueue();
+                _queueUrl = createQueueResponse?.QueueUrl;
             }
             else
             {
                 _queueUrl = url;
+            }
+        }
+
+        public async Task<CreateQueueResponse> CreateQueue()
+        {
+            var createQueueRequest = new CreateQueueRequest { QueueName = _queueName };
+
+            var attrs = new Dictionary<string, string> {
+                { QueueAttributeName.VisibilityTimeout, "10" },
+                // Long Polling
+                { QueueAttributeName.ReceiveMessageWaitTimeSeconds, "20" }
+            };
+            createQueueRequest.Attributes = attrs;
+
+            try
+            {
+                var createQueueResponse = await _sqsClient.CreateQueueAsync(createQueueRequest);
+
+                return await _sqsClient.CreateQueueAsync(createQueueRequest);
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
 
@@ -75,7 +99,12 @@ namespace Sportlance.Common.Providers
 
         public async Task<List<Message>> ReceiveMessagesAsync()
         {
-            var receiveMessageRequest = new ReceiveMessageRequest { QueueUrl = _queueUrl };
+            var receiveMessageRequest = new ReceiveMessageRequest {
+                QueueUrl = _queueUrl,
+                MaxNumberOfMessages = 10,
+                MessageAttributeNames = { "All"},
+                WaitTimeSeconds = 20
+            };
 
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             return receiveMessageResponse.Messages;

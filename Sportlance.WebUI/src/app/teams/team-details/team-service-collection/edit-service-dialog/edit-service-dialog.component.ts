@@ -49,8 +49,7 @@ export class EditServiceDialogComponent implements OnInit {
         .pipe(
           tap((response) => {
             if (!response) {
-              const result = {id: this.form.controls['id'].value, isDeleted: true};
-              this.dialogRef.close(true);
+              this.dialogRef.close({id: this.form.controls['id'].value, isDeleted: true});
             }
             this.isLoading = false;
           }),
@@ -85,6 +84,7 @@ export class EditServiceDialogComponent implements OnInit {
         .pipe(
           tap((response) => {
             if (!response.error) {
+              response.teamId = this.teamId;
               this.dialogRef.close(response);
             }
             this.isLoading = false;

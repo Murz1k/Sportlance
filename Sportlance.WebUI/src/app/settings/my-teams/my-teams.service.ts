@@ -15,24 +15,29 @@ export class MyTeamsService {
     return isNullOrUndefined(param) ? '' : param.toString();
   }
 
-  add(title: string, subtitle: string, phoneNumber: string, country: string, city: string, about: string, photo: Blob): Observable<Object> {
-    const data = new FormData();
-    data.append('title', title);
-    data.append('subtitle', subtitle);
-    data.append('phoneNumber', phoneNumber);
-    data.append('country', country);
-    data.append('city', city);
-    data.append('about', this.checkParam(about));
+  add(title: string, subtitle: string, phoneNumber: string, country: string, city: string, address: string, about: string, photo?: Blob, geo?: any): Observable<Object> {
     if (photo) {
+      const data = new FormData();
+      data.append('title', title);
+      data.append('subtitle', subtitle);
+      data.append('phoneNumber', phoneNumber);
+      data.append('country', country);
+      data.append('city', city);
+      data.append('about', this.checkParam(about));
       data.append('photo', photo);
+      if (geo) {
+        data.append('geo', JSON.stringify(geo));
+      }
+      return this.http.post(`/api/teams`, data);
+    } else {
+      return this.http.post(`/api/teams`, {title, subtitle, phoneNumber, country, city, about, geo, address});
     }
-    return this.http.post(`/teams`, data);
   }
 
   getSelf(query: GetTeamQuery): Observable<CollectionResponse<TeamResponse>> {
     const parameters = new HttpParams()
       .append('offset', this.checkParam(query.offset))
       .append('count', this.checkParam(query.count));
-    return this.http.get<CollectionResponse<TeamResponse>>(`/teams/self`, {params: parameters});
+    return this.http.get<CollectionResponse<TeamResponse>>(`/api/teams/self`, {params: parameters});
   }
 }

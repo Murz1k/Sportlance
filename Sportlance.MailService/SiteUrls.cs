@@ -23,5 +23,10 @@
         {
             return $"{_root}/account/updateemail/{token}";
         }
+
+        public string GetSettingsLink()
+        {
+            return $"{_root}/settings/security";
+        }
     }
 }

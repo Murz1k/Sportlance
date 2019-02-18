@@ -1,26 +1,30 @@
-<div class="air-card">
-  <div *ngIf="isLoadingPhotos" class="loading-container"></div>
+<div class="air-card" sl-spinner [slLoading]="isLoadingPhotos">
+  <div *ngIf="!photos.length && !isLoadingPhotos && authService.hasPermissions('teams:photos:add:' + team.id)"
+       class="empty-container">
+    <span>У команды пока нет фотографий</span>
+    <button sl-button slType="primary" (click)="showAddTeamPhotoDialog()">Добавить</button>
+  </div>
   <div class="air-card-header">
     <h3 class="pull-left">
       Галерея
     </h3>
-    <button  sl-button (click)="showAddTeamPhotoDialog()" class="btn-rnd">
+    <button *ngIf="photos.length && authService.hasPermissions('teams:photos:add:' + team.id)"
+            sl-button (click)="showAddTeamPhotoDialog()" class="btn-rnd">
       <i class="material-icons">add</i>
     </button>
   </div>
-  <section *ngIf="!photos" class="photo-collection">
-    <div class="photo-row">
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-      <div class="image-placeholder"></div>
-    </div>
+  <section *ngIf="isLoadingPhotos" class="photo-collection">
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
+    <div class="image-placeholder"></div>
   </section>
-  <section *ngIf="photos" class="photo-collection">
+  <section *ngIf="!isLoadingPhotos" class="photo-collection">
     <div class="photo-container" *ngFor="let photo of photos">
-      <button (click)="deletePhoto(photo.id)" class="remove-button">
+      <button *ngIf="authService.hasPermissions('teams:photos:add:' + team.id)"
+              (click)="deletePhoto(photo.id)" class="remove-button">
         <i class="material-icons">clear</i>
       </button>
       <img src="{{photo.photoUrl}}">

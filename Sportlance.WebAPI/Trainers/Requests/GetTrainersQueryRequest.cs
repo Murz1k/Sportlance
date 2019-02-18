@@ -15,7 +15,7 @@ namespace Sportlance.WebAPI.Trainers.Requests
 
         public double? MaxPrice { get; set; }
 
-        public string SearchString { get; set; }
+        public string Search { get; set; }
 
         public string Country { get; set; }
 
@@ -46,7 +46,7 @@ namespace Sportlance.WebAPI.Trainers.Requests
                 TeamId = TeamId,
                 MinPrice = MinPrice,
                 MaxPrice = MaxPrice,
-                SearchString = SearchString,
+                Search = Search,
                 TrainingsMinCount = TrainingsMinCount,
                 TrainingsMaxCount = TrainingsMaxCount,
                 FeedbacksMinCount = FeedbacksMinCount,

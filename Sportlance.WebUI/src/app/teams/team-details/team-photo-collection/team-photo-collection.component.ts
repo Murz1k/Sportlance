@@ -1,11 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TeamPhotoResponse} from "../../../shared/teams/responses/team-photo-response";
-import {TeamsService} from "../../teams.service";
-import {catchError, map} from "rxjs/operators";
-import {throwError} from "rxjs";
-import {AddTeamPhotoDialogComponent} from "./add-team-photo-dialog/add-team-photo-dialog.component";
-import {AddTeamPhotoDialogData} from "./add-team-photo-dialog/add-team-photo-dialog-data";
-import {MatDialog} from "@angular/material";
+import {TeamPhotoResponse} from '../../../shared/teams/responses/team-photo-response';
+import {TeamsService} from '../../teams.service';
+import {catchError, map, tap} from 'rxjs/operators';
+import {throwError} from 'rxjs';
+import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
+import {AddTeamPhotoDialogData} from './add-team-photo-dialog/add-team-photo-dialog-data';
+import {MatDialog} from '@angular/material';
+import {TeamServiceResponse} from '../../../shared/teams/responses/team-service-response';
+import {AuthService} from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'sl-team-photo-collection',
@@ -14,32 +16,43 @@ import {MatDialog} from "@angular/material";
 })
 export class TeamPhotoCollectionComponent implements OnInit {
 
-  @Input() teamId: number;
+  @Input() team: TeamServiceResponse;
 
   public isLoadingPhotos = false;
-  public photos: TeamPhotoResponse[];
+  public photos: TeamPhotoResponse[] = [];
 
   constructor(
     private dialog: MatDialog,
-    private teamService: TeamsService) { }
+    public authService: AuthService,
+    private teamService: TeamsService) {
+  }
 
   ngOnInit() {
-    this.updatePhotos(this.teamId);
+    this.authService.setPermissions(
+      `teams:photos:add:${this.team.id}`,
+      this.authService.isCurrentUser(this.team.authorId));
+    this.updatePhotos(this.team.id);
   }
 
   public showAddTeamPhotoDialog() {
-    this.dialog.open(AddTeamPhotoDialogComponent, {data: <AddTeamPhotoDialogData> {teamId: this.teamId}})
+    this.dialog.open(AddTeamPhotoDialogComponent, {data: <AddTeamPhotoDialogData>{teamId: this.team.id}})
       .afterClosed()
       .subscribe((result) => {
           if (result) {
-            this.updatePhotos(this.teamId);
+            this.updatePhotos(this.team.id);
           }
         }
       );
   }
 
   public deletePhoto(photoId: number) {
-    this.teamService.deletePhoto(this.teamId, photoId).subscribe(() => this.updatePhotos(this.teamId));
+    this.teamService.deletePhoto(this.team.id, photoId)
+      .pipe(tap((response) => {
+        if (!response) {
+          this.photos = this.photos.filter(i => i.id !== photoId);
+        }
+      }))
+      .subscribe();
   }
 
   private updatePhotos(teamId: number) {

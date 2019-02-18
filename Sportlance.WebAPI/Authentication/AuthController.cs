@@ -64,7 +64,6 @@ namespace Sportlance.WebAPI.Authentication
         public async Task<CheckUserResponse> CheckUser([FromBody] CheckUserRequest request)
         {
             var user = await _userService.GetByEmailAsync(request.Email);
-            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             return new CheckUserResponse
             {
@@ -77,7 +76,6 @@ namespace Sportlance.WebAPI.Authentication
         public async Task<LoginResponse> PutAsync([FromBody] UpdateAccountRequest request)
         {
             var user = await _userService.GetByIdAsync(UserId);
-            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             user.FirstName = request.FirstName;
             user.LastName = request.SecondName;
@@ -98,7 +96,6 @@ namespace Sportlance.WebAPI.Authentication
         public async Task<LoginResponse> UpdateTokenAsync([FromBody] UpdateAccountRequest request)
         {
             var user = await _userService.GetByIdAsync(UserId);
-            if (user == null) throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             return new LoginResponse
             {
@@ -128,33 +125,47 @@ namespace Sportlance.WebAPI.Authentication
         [Route("register")]
         public async Task<LoginResponse> RegistrationAsync([FromBody] RegistrationRequest request)
         {
-            var user = await _userService.GetByEmailAsync(request.Email);
+            User user = null;
 
-            if (user != null)
-                throw new AppErrorException(new AppError(ErrorCode.UserAlreadyExist));
-
-            user = new User
+            try
             {
-                Email = request.Email,
-                PasswordHash = HashUtils.CreateHash(request.Password),
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                InviteLink = CreateInviteLink(8)
-            };
+                user = await _userService.GetByEmailAsync(request.Email);
 
-            await _userService.AddAsync(user);
-
-            var token = _mailTokenService.EncryptToken(user.Email);
-
-            var model = new ConfirmRegisterEmailModel {UserId = user.Id, Email = user.Email, Token = token };
-
-            await _queueProvider.SendMessageAsync(model.ToJson());
-
-            return new LoginResponse
+                if (user != null)
+                    throw new AppErrorException(new AppError(ErrorCode.UserAlreadyExist));
+            }
+            catch(AppErrorException exception)
             {
-                AccessToken = _authService.GenerateAccessToken(user),
-                RefreshToken = _authService.GenerateRefreshToken(user)
-            };
+                if(exception.Error.Code == ErrorCode.UserNotFound.ToString())
+                {
+                    user = new User
+                    {
+                        Email = request.Email,
+                        PasswordHash = HashUtils.CreateHash(request.Password),
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        InviteLink = CreateInviteLink(8)
+                    };
+
+                    await _userService.AddAsync(user);
+
+                    var token = _mailTokenService.EncryptToken(user.Email);
+
+                    var model = new ConfirmRegisterEmailModel { UserId = user.Id, Email = user.Email, Token = token };
+
+                    await _queueProvider.SendMessageAsync(model.ToJson());
+
+                    return new LoginResponse
+                    {
+                        AccessToken = _authService.GenerateAccessToken(user),
+                        RefreshToken = _authService.GenerateRefreshToken(user)
+                    };
+                }
+
+                throw exception;
+            }
+
+            return null;
         }
 
         private static string CreateInviteLink(int length)
@@ -197,9 +208,6 @@ namespace Sportlance.WebAPI.Authentication
         {
             var userId = _authService.GetUserIdByToken(request.Token);
             var user = await _userService.GetByIdAsync(userId.Value);
-
-            if (user == null)
-                throw new AppErrorException(new AppError(ErrorCode.UserNotFound));
 
             if (user.IsEmailConfirm)
                 throw new AppErrorException(new AppError(ErrorCode.RegistrationIsAlreadyConfirmed));

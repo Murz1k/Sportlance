@@ -11,9 +11,13 @@ namespace Sportlance.WebAPI.Teams.Requests
         public string PhoneNumber { get; set; }
         
         public string About { get; set; }
-        
+
+        public CreateGeoRequest Geo { get; set; }
+
         public string City { get; set; }
-        
+
+        public string Address { get; set; }
+
         public string Country { get; set; }
         
         public IFormFile Photo { get; set; }

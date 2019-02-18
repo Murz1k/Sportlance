@@ -1,22 +1,21 @@
 {
   "name": "sportlance",
-  "version": "0.1.7",
+  "version": "0.2.8",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4900",
     "start-mobile": "ng serve --host 0.0.0.0",
-    "build": "ng build --prod",
-    "dev-deploy": "dev-aws-s3-deploy.bat",
-    "dev-invalidate": "dev-aws-cloudfrond-invalidate.bat",
-    "deploy-dev": "ng build --configuration=development & npm run dev-deploy rd /S /Q dist",
-    "deploy-prod": "npm run build & npm run prod-deploy & npm run prod-invalidate rd /S /Q dist",
+    "build": "ng build --prod && gzipper ./output/dist -r",
+    "zip-build": "cd output/ && bestzip ../output.zip * & cd ../",
+    "build-dev": "ng build --configuration=development && gzipper ./output/dist -r",
+    "deploy-prod": "npm run build & npm run prod-deploy & npm run prod-invalidate rd /S /Q output\\dist",
     "prod-deploy": "prod-aws-s3-deploy.bat",
     "prod-invalidate": "prod-aws-cloudfrond-invalidate.bat",
     "lint": "ng lint",
-    "preversion": "ng build --configuration=development",
-    "version": "npm run dev-deploy",
-    "postversion": "rd /S /Q dist"
+    "preversion": "npm run build-dev",
+    "version": "npm run zip-build",
+    "postversion": "rd /S /Q output\\dist"
   },
   "private": true,
   "dependencies": {
@@ -27,16 +26,19 @@
     "@angular/core": "^7.1.2",
     "@angular/forms": "^7.1.2",
     "@angular/http": "^7.1.2",
+    "@angular/material": "^7.1.1",
     "@angular/platform-browser": "^7.1.2",
     "@angular/platform-browser-dynamic": "^7.1.2",
     "@angular/platform-server": "^7.1.2",
-    "@angular/material": "^7.1.1",
     "@angular/router": "^7.1.2",
     "angular-moment": "^1.2.0",
     "core-js": "^2.6.0",
+    "gzipper": "^1.4.2",
     "jwt-decode": "latest",
+    "ngx-device-detector": "^1.3.5",
     "ngx-infinite-scroll": "^6.0.1",
     "ngx-moment": "^3.1.0",
+    "node-sass": "^4.11.0",
     "popper.js": "^1.14.3",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
@@ -66,6 +68,6 @@
     "rxjs-tslint": "^0.1.6",
     "ts-node": "~4.1.0",
     "tslint": "^5.11.0",
-    "typescript": "^3.1.6"
+    "typescript": "^3.2.4"
   }
 }

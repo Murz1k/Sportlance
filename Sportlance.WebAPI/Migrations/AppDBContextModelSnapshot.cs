@@ -99,6 +99,8 @@ namespace Sportlance.WebAPI.Migrations
 
                     b.Property<string>("About");
 
+                    b.Property<string>("Address");
+
                     b.Property<long>("AuthorId");
 
                     b.Property<string>("BackgroundUrl");
@@ -109,6 +111,10 @@ namespace Sportlance.WebAPI.Migrations
 
                     b.Property<DateTime>("CreateDateTime");
 
+                    b.Property<string>("Latitude");
+
+                    b.Property<string>("Longitude");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<string>("PhotoUrl");
@@ -118,6 +124,8 @@ namespace Sportlance.WebAPI.Migrations
                     b.Property<string>("SubTitle");
 
                     b.Property<string>("Title");
+
+                    b.Property<short>("Zoom");
 
                     b.HasKey("Id");
 

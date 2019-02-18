@@ -1,9 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AuthService} from "../../../../core/auth/auth.service";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {EditServiceDialogComponent} from "../edit-service-dialog/edit-service-dialog.component";
-import {map} from "rxjs/operators";
+import {tap} from "rxjs/operators";
 import {MatDialog} from "@angular/material";
-import {TeamsService} from "../../../teams.service";
 
 @Component({
   selector: 'sl-team-service-collection-item',
@@ -13,26 +11,26 @@ import {TeamsService} from "../../../teams.service";
 export class TeamServiceCollectionItemComponent implements OnInit {
 
   @Input() service;
-  @Input() teamId;
+  @Input() canEdit: boolean;
+  @Output() onDeleted: EventEmitter<any> = new EventEmitter<any>();
 
-  public currentId: number;
-
-  constructor(private dialog: MatDialog,
-              private authService: AuthService
+  constructor(private dialog: MatDialog
   ) {
-    this.currentId = this.authService.getCurrent().id;
   }
 
   ngOnInit() {
   }
 
   showModal() {
-    this.service.teamId = this.teamId;
     this.dialog.open(EditServiceDialogComponent, {data: this.service})
       .afterClosed()
-      .pipe((map((newService) => {
+      .pipe((tap((newService) => {
         if (newService) {
-          Object.assign(this.service, newService);
+          if (!newService.isDeleted) {
+            Object.assign(this.service, newService);
+          } else {
+            this.onDeleted.emit(newService.id);
+          }
         }
       })))
       .subscribe();

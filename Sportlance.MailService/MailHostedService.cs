@@ -18,6 +18,8 @@ namespace Sportlance.MailService
         private readonly IService _service;
         private readonly ILogger _logger;
 
+        private bool _isStarted = false;
+
         public MailHostedService(ILogger<MailHostedService> logger, IService service, IConfiguration configuration)
             : base($"sportlance-{AspNetCoreEnvironment.ShortEnvironment(configuration["SLEnvironment"])}-mail-queue")
         {
@@ -29,17 +31,19 @@ namespace Sportlance.MailService
         {
             await InitializeAsync();
             _logger.LogInformation($"Подключение к очереди {QueueName} успешно.");
+            _isStarted = true;
             await CheckMessagesAsync(cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            _isStarted = false;
+            return Task.CompletedTask;
         }
 
         private async Task CheckMessagesAsync(CancellationToken cancellationToken)
         {
-            while (true)
+            while (_isStarted)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -53,36 +57,38 @@ namespace Sportlance.MailService
                     if (messages.Count <= 0) continue;
                     DeleteDublicates(messages);
 
-                    foreach (var message in messages)
-                    {
-                        var jsonObject = QueueEmailModel.FromJson(message.Body);
-                        switch (jsonObject.Type)
-                        {
-                            case QueueEmailTypeEnum.ConfirmRegister:
-                                var model1 = (ConfirmRegisterEmailModel)jsonObject;
-                                await _service.SendConfirmRegistration(model1.UserId, model1.Email, model1.Token);
-                                break;
-                            case QueueEmailTypeEnum.ChangeEmail:
-                                var model2 = (ChangeEmailEmailModel)jsonObject;
-                                await _service.SendUpdateEmail(model2.OldEmail, model2.NewEmail, model2.Token);
-                                break;
-                            case QueueEmailTypeEnum.ChangePassword:
-                                var model3 = (ChangePasswordModel)jsonObject;
-                                await _service.SendChangePassword(model3.AccessToken, model3.RereshToken, model3.Email);
-                                break;
-                            default:
-                                model1 = (ConfirmRegisterEmailModel)jsonObject;
-                                await _service.SendConfirmRegistration(model1.UserId, model1.Email, model1.Token);
-                                break;
-                        }
+                    Task.WaitAll(messages.Select(message => SendMessageAsync(message)).ToArray());
 
-                        await DeleteMessageAsync(message);
-                    }
+                    Task.WaitAll(messages.Select(message => DeleteMessageAsync(message)).ToArray());
                 }
                 catch (Exception)
                 {
                     // ignored
                 }
+            }
+        }
+
+        private async Task SendMessageAsync(Message message)
+        {
+            var jsonObject = QueueEmailModel.FromJson(message.Body);
+            switch (jsonObject.Type)
+            {
+                case QueueEmailTypeEnum.ConfirmRegister:
+                    var model1 = (ConfirmRegisterEmailModel)jsonObject;
+                    await _service.SendConfirmRegistration(model1.UserId, model1.Email, model1.Token);
+                    break;
+                case QueueEmailTypeEnum.ChangeEmail:
+                    var model2 = (ChangeEmailEmailModel)jsonObject;
+                    await _service.SendUpdateEmail(model2.OldEmail, model2.NewEmail, model2.Token);
+                    break;
+                case QueueEmailTypeEnum.ChangePassword:
+                    var model3 = (ChangePasswordModel)jsonObject;
+                    await _service.SendChangePassword(model3.AccessToken, model3.RereshToken, model3.Email);
+                    break;
+                default:
+                    model1 = (ConfirmRegisterEmailModel)jsonObject;
+                    await _service.SendConfirmRegistration(model1.UserId, model1.Email, model1.Token);
+                    break;
             }
         }
 

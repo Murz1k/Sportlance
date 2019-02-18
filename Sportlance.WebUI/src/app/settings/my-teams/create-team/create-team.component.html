@@ -12,17 +12,22 @@
       <input type="tel" formControlName="phoneNumber" id="phone"
              slPhoneMask
              sl-input required>
+      <label for="address">Адрес</label>
+      <sl-select-address formControlName="address" type="text" id="address"
+                         placeholder="Введите адрес"></sl-select-address>
+      <div id="map" style="height: 200px;"></div>
       <!--<label for="country">Страна</label>-->
       <!--<input type="text" formControlName="country" id="country" name="country"-->
       <!--sl-input placeholder="Страна" required>-->
-      <label for="city">Город</label>
-      <sl-select-city formControlName="city" id="city" placeholder="Город" required></sl-select-city>
+      <!--<label for="city">Город</label>-->
+      <!--<sl-select-city formControlName="city" id="city" placeholder="Город" required></sl-select-city>-->
       <label for="about">О клубе</label>
       <textarea formControlName="about" id="about" name="about"
                 sl-input placeholder="О клубе"></textarea>
       <button sl-button slType="primary" (click)="submit()"
               [disabled]="isDisabled"
-              [slLoading]="isLoading">Сохранить</button>
+              [slLoading]="isLoading">Сохранить
+      </button>
     </section>
   </div>
 </form>
