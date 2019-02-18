@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TrainerInfoResponse} from '../../../shared/trainers/responses/trainer-info-response';
+import {TrainerResponse} from '../../../shared/trainers/responses/trainer-response';
 import {GetTrainersQuery} from '../../../shared/trainers/get-trainers-query';
 import {TrainersService} from '../../../trainers/trainers.service';
 import {TeamServiceResponse} from '../../../shared/teams/responses/team-service-response';
@@ -16,7 +16,7 @@ export class TeamMembersCollectionComponent implements OnInit {
 
   isLoading = false;
 
-  public teamMembers: TrainerInfoResponse[] = [];
+  public teamMembers: TrainerResponse[] = [];
 
   constructor(private trainersService: TrainersService, public authService: AuthService) {
   }

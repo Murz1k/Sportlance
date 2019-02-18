@@ -24,6 +24,7 @@ import {SlSelectCityModule} from '../shared/select-city/select-city.module';
 import {SlButtonModule} from '../shared/button/button.module';
 import {TeamsService} from '../teams/teams.service';
 import {SlSpinnerModule} from '../shared/spinner/spinner.module';
+import {TrainerSkillsCollectionModule} from './trainer-details/trainer-skills-collection/trainer-skills-collection.module';
 
 @NgModule({
   imports: [
@@ -45,6 +46,8 @@ import {SlSpinnerModule} from '../shared/spinner/spinner.module';
     SlSpinnerModule,
 
     SlSelectCityModule,
+
+    TrainerSkillsCollectionModule,
 
     FeedbackModule,
     FormatDateModule

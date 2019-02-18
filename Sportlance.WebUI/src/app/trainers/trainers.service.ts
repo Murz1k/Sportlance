@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {TrainerInfoResponse} from '../shared/trainers/responses/trainer-info-response';
+import {TrainerResponse} from '../shared/trainers/responses/trainer-response';
 import {TrainerProfileResponse} from '../shared/trainers/responses/trainer-profile-response';
 import {CollectionResponse} from '../core/collection-response';
 import {GetTrainersQuery} from '../shared/trainers/get-trainers-query';
@@ -27,9 +27,9 @@ export class TrainersService {
   }
 
   trainersGetQuery: GetTrainersQuery;
-  trainersCollection: CollectionResponse<TrainerInfoResponse> & ErrorResponse;
+  trainersCollection: CollectionResponse<TrainerResponse> & ErrorResponse;
 
-  get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerInfoResponse> & ErrorResponse> {
+  get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerResponse> & ErrorResponse> {
 
     if (this.trainersCollection && this.trainersCollection.items.length > 0 && deepEqual(this.trainersGetQuery, query)) {
       return of(this.trainersCollection);
@@ -50,7 +50,7 @@ export class TrainersService {
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
 
-    return this.http.get<CollectionResponse<TrainerInfoResponse> & ErrorResponse>(`/api/trainers`, {params: parameters})
+    return this.http.get<CollectionResponse<TrainerResponse> & ErrorResponse>(`/api/trainers`, {params: parameters})
       .pipe(tap((response) => {
         if (!response.error) {
           this.trainersGetQuery = query;
