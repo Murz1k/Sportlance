@@ -1,4 +1,8 @@
-﻿namespace Sportlance.WebAPI.Entities
+﻿using Sportlance.WebAPI.Trainers.Responses;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Sportlance.WebAPI.Entities
 {
     public class TrainerResponse
     {
@@ -21,10 +25,12 @@
         public string Title { get; set; }
 
         public int TrainingsCount { get; set; }
-        
+
         public string PhotoUrl { get; set; }
-        
+
         public string BackgroundUrl { get; set; }
+
+        public IEnumerable<SkillResponse> Skills { get; set; }
 
         public TrainerResponse()
         {
@@ -42,6 +48,7 @@
             About = trainer.About;
             PhotoUrl = trainer.User.PhotoUrl;
             BackgroundUrl = trainer.BackgroundUrl;
+            Skills = trainer.TrainerSports.Select(i => new SkillResponse(i.Sport));
         }
     }
 }

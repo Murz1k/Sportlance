@@ -22,23 +22,23 @@ export class AddSkillsDialogComponent {
   }
 
   public submit() {
-    this.dialogRef.close(this.skills);
+    // this.dialogRef.close(this.skills);
 
-    // this.isLoading = true;
-    // this.trainersService.updateSkills(this.skills)
-    //   .pipe(
-    //     tap((response) => {
-    //       if (!response.error) {
-    //         this.dialogRef.close(response);
-    //       }
-    //       this.isLoading = false;
-    //     }),
-    //     catchError((error) => {
-    //       this.isLoading = false;
-    //       return throwError(error);
-    //     })
-    //   )
-    //   .subscribe();
+    this.isLoading = true;
+    this.trainersService.updateSkills(this.skills)
+      .pipe(
+        tap((response) => {
+          if (!response.error) {
+            this.dialogRef.close(response);
+          }
+          this.isLoading = false;
+        }),
+        catchError((error) => {
+          this.isLoading = false;
+          return throwError(error);
+        })
+      )
+      .subscribe();
   }
 
   deleteSkill(skill: any) {
@@ -47,7 +47,7 @@ export class AddSkillsDialogComponent {
 
   onKeyEnter(event: KeyboardEvent) {
     if (event.keyCode === 13) {
-      this.skills.push(this.inputString);
+      this.skills.push({name: this.inputString});
       this.inputString = undefined;
     }
   }

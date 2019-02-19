@@ -123,6 +123,16 @@ namespace Sportlance.WebAPI.Trainers
 
         [HttpPut]
         [Authorize]
+        [Route("skills")]
+        public async Task<TrainerResponse> UpdateSkillsAsync([FromBody] UpdateSkillsRequest request)
+        {
+            var trainer = await _service.UpdateSkillsAsync(User.GetUserId(), request.Skills.Select(i=>i.ToBLE()).ToArray());
+
+            return new TrainerResponse(trainer);
+        }
+
+        [HttpPut]
+        [Authorize]
         [Route("price")]
         public async Task<IActionResult> UpdatePriceAsync([FromBody] UpdatePriceRequest request)
         {

@@ -13,7 +13,6 @@ export class TrainerSkillsCollectionComponent implements OnInit {
 
   @Input() trainer: TrainerResponse;
 
-  tempSkills = [];
   isLoading = false;
 
   constructor(public authService: AuthService,
@@ -21,34 +20,15 @@ export class TrainerSkillsCollectionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tempSkills = [
-      'Плавание',
-      'Кикбоксинг',
-      'Качалка',
-      'Восстановление',
-      'Тренировки',
-      'Борьба',
-      'Айкидо',
-      'Карате',
-      'Вольная стрельба',
-      'Баскетбол',
-      'Волейбол',
-      'Плавание',
-      'Плавание',
-      'Плавание',
-      'Плавание',
-      'Плавание'
-    ];
     this.authService.setPermissions(`trainer:edit:${this.trainer.id}`, this.authService.isCurrentUser(this.trainer.id));
   }
 
   showAddSkillsDialog() {
-    this.dialog.open(AddSkillsDialogComponent, {data: this.tempSkills})
+    this.dialog.open(AddSkillsDialogComponent, {data: this.trainer.skills})
       .afterClosed()
       .subscribe((result) => {
           if (result) {
-            this.tempSkills = result;
-            this.trainer.skills = result;
+            this.trainer = result;
           }
         }
       );

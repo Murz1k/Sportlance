@@ -491,10 +491,9 @@
             </div>
             <p class="info-description info-section">{{trainer.about}}</p>
             <div class="info-services">
-              <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
+              <div class="o-tag-skill" *ngFor="let sport of trainer.skills">
                 {{sport.name}}
-              </a>
-              <a title="6 more" routerLink="{{'/' + Paths.Trainers + '/' + trainer.id}}">6 more</a>
+              </div>
             </div>
             <div class="position-container" *ngIf="trainer.country && trainer.city">
               <i class="material-icons position-icon text-muted">place</i>

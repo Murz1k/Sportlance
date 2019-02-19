@@ -11,6 +11,7 @@ import {LoginResponse} from '../core/auth/responses/login-response';
 import {ErrorResponse} from '../core/error-response';
 import {of} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {TeamResponse} from '../shared/teams/requests/team-response';
 
 
 function deepEqual(x, y) {
@@ -28,6 +29,7 @@ export class TrainersService {
 
   trainersGetQuery: GetTrainersQuery;
   trainersCollection: CollectionResponse<TrainerResponse> & ErrorResponse;
+  selectedTrainer: TrainerResponse & ErrorResponse;
 
   get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerResponse> & ErrorResponse> {
 
@@ -59,34 +61,77 @@ export class TrainersService {
       }));
   }
 
-  getById(trainerId: number): Observable<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`/api/trainers/${trainerId}`);
+  getById(trainerId: number): Observable<TrainerResponse & ErrorResponse> {
+
+    if (trainerId === undefined || trainerId === null) {
+      throw new Error('Param "trainerId" is required');
+    }
+
+    if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +trainerId)) {
+      this.selectedTrainer = <TrainerResponse & ErrorResponse>this.trainersCollection.items.find(trainer => trainer.id === +trainerId);
+    }
+
+    if (this.selectedTrainer && this.selectedTrainer.id === +trainerId) {
+      return of(this.selectedTrainer);
+    }
+
+    return this.http.get<TrainerResponse & ErrorResponse>(`/api/trainers/${trainerId}`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
-  getSelf(): Observable<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`/api/trainers/self`);
+  getSelf(): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.get<TrainerResponse & ErrorResponse>(`/api/trainers/self`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
-  uploadBackgorundImage(photo: Blob) {
+  uploadBackgorundImage(photo: Blob): Observable<TrainerResponse & ErrorResponse> {
     const data = new FormData();
     data.append('photo', photo);
-    return this.http.put(`/api/trainers/background`, data);
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/background`, data)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
   beTrainer(): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`/api/trainers`, {});
   }
 
-  setAvailability(isAvailable: boolean) {
-    return this.http.post(`/api/trainers/availability`, {isAvailable: isAvailable});
+  setAvailability(isAvailable: boolean): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.post<TrainerResponse & ErrorResponse>(`/api/trainers/availability`, {isAvailable: isAvailable})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
-  updateAbout(about: string) {
-    return this.http.put(`/api/trainers/about`, {about: about});
+  updateAbout(about: string): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/about`, {about: about})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
-  updatePaid(price: number) {
-    return this.http.put(`/api/trainers/price`, {price: price});
+  updatePaid(price: number): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/price`, {price: price})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
   getTrainings(trainerId: number, startDate: string, endDate: string): Observable<CollectionResponse<TrainingResponse>> {
@@ -104,7 +149,12 @@ export class TrainersService {
     });
   }
 
-  updateSkills(skills: any[]): Observable<ErrorResponse & any> {
-    return this.http.put<ErrorResponse & any>(`/api/trainers/skills`, {skills: skills});
+  updateSkills(skills: any[]): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/skills`, {skills: skills})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 }
