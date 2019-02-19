@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {TrainerResponse} from '../shared/trainers/responses/trainer-response';
-import {TrainerProfileResponse} from '../shared/trainers/responses/trainer-profile-response';
 import {CollectionResponse} from '../core/collection-response';
 import {GetTrainersQuery} from '../shared/trainers/get-trainers-query';
 import {isNullOrUndefined} from 'util';
@@ -11,7 +10,6 @@ import {LoginResponse} from '../core/auth/responses/login-response';
 import {ErrorResponse} from '../core/error-response';
 import {of} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {TeamResponse} from '../shared/teams/requests/team-response';
 
 
 function deepEqual(x, y) {
@@ -99,6 +97,11 @@ export class TrainersService {
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
         }
       }));
   }
@@ -112,6 +115,11 @@ export class TrainersService {
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
         }
       }));
   }
@@ -121,6 +129,11 @@ export class TrainersService {
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
         }
       }));
   }
@@ -130,6 +143,11 @@ export class TrainersService {
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
         }
       }));
   }
@@ -154,6 +172,11 @@ export class TrainersService {
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
         }
       }));
   }

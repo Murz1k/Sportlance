@@ -13,9 +13,6 @@
     "prod-deploy": "prod-aws-s3-deploy.bat",
     "prod-invalidate": "prod-aws-cloudfrond-invalidate.bat",
     "lint": "ng lint",
-    "major": "node scripts/auto-versions.js major",
-    "minor": "node scripts/auto-versions.js minor",
-    "patch": "node scripts/auto-versions.js patch",
     "preversion": "npm run build-dev",
     "version": "npm run zip-build",
     "postversion": "rd /S /Q output\\dist"
