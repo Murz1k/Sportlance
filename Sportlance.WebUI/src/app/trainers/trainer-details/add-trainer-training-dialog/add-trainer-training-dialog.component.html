@@ -6,7 +6,7 @@
   <div class="dialog-content">
     <label>Вид спорта (Чем ты хочешь заняться?)</label>
     <sl-select class="input-component" formControlName="sportId" placeholder="Вид спорта">
-      <sl-option *ngFor="let sport of trainerSports" [value]="sport.value">{{sport.label}}</sl-option>
+      <sl-option *ngFor="let sport of trainerskills" [value]="sport.value">{{sport.label}}</sl-option>
     </sl-select>
     <label for="startDate">Дата тренировки (Когда?)</label>
     <div style="position:relative; width: 180px; display: inline-block;">
