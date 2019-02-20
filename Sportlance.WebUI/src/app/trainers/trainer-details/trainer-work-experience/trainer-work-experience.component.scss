@@ -24,6 +24,37 @@
   }
 }
 
+section.no-padding {
+  padding: 0;
+
+  .work-list-item {
+    transition: background-color .3s;
+    padding: 20px 24px;
+
+    .btn-rnd {
+      opacity: 0;
+      background: transparent;
+      transition: opacity .3s;
+
+      i {
+        font-size: 20px;
+      }
+    }
+
+    &:hover {
+      background-color: #f2f2f2;
+
+      .btn-rnd {
+        opacity: 1;
+      }
+    }
+
+    &:last-of-type {
+      padding-bottom: 24px;
+    }
+  }
+}
+
 .total-summ {
   display: inline-block;
   padding-left: 24px;
@@ -35,7 +66,7 @@
   grid-template-columns: 20% 80%;
 
   &:not(:last-of-type) {
-    margin-bottom: 40px;
+    padding-bottom: 40px;
   }
 
   .period-column {
@@ -64,17 +95,21 @@
       font-size: 18px;
       font-weight: bold;
       line-height: 28px;
+      display: flex;
+      justify-content: space-between;
     }
 
     .company-title {
       font-size: 14px;
       font-weight: bold;
       margin-bottom: 4px;
+      padding-right: 30px;
     }
 
     .description {
       margin-bottom: 12px;
       margin-top: 6px;
+      padding-right: 30px;
     }
   }
 }
@@ -84,6 +119,7 @@
   flex-wrap: wrap;
   margin-left: -10px;
   margin-top: -10px;
+  padding-right: 30px;
 
   .skills-collection-item {
     margin-left: 10px;
