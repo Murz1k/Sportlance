@@ -1,0 +1,35 @@
+<div class="air-card"
+     *ngIf="authService.hasPermissions('trainer:work:edit:' + trainer.id) || workExperience.length > 0"
+     [class.empty]="!workExperience.length && authService.hasPermissions('trainer:edit:' + trainer.id)"
+>
+  <div *ngIf="!workExperience.length && authService.hasPermissions('trainer:edit:' + trainer.id)"
+       class="empty-container">
+    <span>Вы еще не добавили опыт работы</span>
+    <button sl-button slType="primary">Добавить</button>
+  </div>
+  <div class="air-card-header">
+    <h3 class="pull-left">
+      Опыт работы
+    </h3>
+    <button *ngIf="workExperience.length && authService.hasPermissions('trainer:edit:' + trainer.id)"
+            sl-button class="btn-rnd">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+  <section>
+    <div *ngFor="let exp of workExperience" class="work-list-item">
+      <div class="period-column">
+        <div class="period-dates">{{exp.fromDate | workDate}} — <br> {{exp.toDate | workDate}}</div>
+        <div class="period-summ">{{getSummOfDate(exp.fromDate, exp.toDate)}}</div>
+      </div>
+      <div class="info-column">
+        <div class="position-title">{{exp.position}}</div>
+        <div class="company-title">{{exp.company}}</div>
+        <div class="description">{{exp.description}}</div>
+        <div class="skills-collection">
+          <div *ngFor="let skill of exp.skills" class="skills-collection-item">{{skill}}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

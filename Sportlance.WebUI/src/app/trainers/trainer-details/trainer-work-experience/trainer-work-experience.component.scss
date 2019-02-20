@@ -1,0 +1,90 @@
+.air-card {
+  margin-bottom: 24px;
+
+  &.empty {
+    min-height: 200px;
+  }
+}
+
+.empty-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+
+  button {
+    margin-top: 10px;
+  }
+}
+
+.work-list-item {
+  display: grid;
+  grid-template-columns: 20% 80%;
+
+  &:not(:last-of-type) {
+    margin-bottom: 40px;
+  }
+
+  .period-column {
+    display: flex;
+    grid-column: 1;
+    flex-direction: column;
+
+    .period-dates {
+      font-size: 14px;
+      line-height: 24px;
+    }
+
+    .period-summ {
+      line-height: 24px;
+      color: #9e9e9e;
+      font-weight: bold;
+    }
+  }
+
+  .info-column {
+    display: flex;
+    grid-column: 2;
+    flex-direction: column;
+
+    .position-title {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 28px;
+    }
+
+    .company-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .description {
+      margin-bottom: 12px;
+      margin-top: 6px;
+    }
+  }
+}
+
+.skills-collection {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -10px;
+  margin-top: -10px;
+
+  .skills-collection-item {
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #e7e7e7;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: default;
+  }
+}

@@ -1,16 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ReviewInfo} from '../../trainers/trainer-details/review-info';
-import {Star} from '../../trainers/trainer-list/star';
-import {FeedbacksService} from '../feedbacks/feedbacks.service';
+import {ReviewInfo} from '../review-info';
+import {Star} from '../../trainer-list/star';
+import {FeedbacksService} from '../../../shared/feedbacks/feedbacks.service';
+import {TrainerResponse} from '../../../shared/trainers/responses/trainer-response';
+import {AuthService} from '../../../core/auth/auth.service';
 
 @Component({
-  selector: 'sl-feedback',
-  templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss']
+  selector: 'sl-trainer-feedback',
+  templateUrl: './trainer-feedback.component.html',
+  styleUrls: ['./trainer-feedback.component.scss']
 })
-export class FeedbackComponent implements OnInit {
+export class TrainerFeedbackComponent implements OnInit {
 
-  @Input() objectId: number;
+  @Input() trainer: TrainerResponse;
 
   private offset = 0;
   private count = 10;
@@ -20,12 +22,15 @@ export class FeedbackComponent implements OnInit {
 
   public feedbacks: Array<ReviewInfo> = [];
   public finished = false;
+  isLoading = false;
 
-  constructor(private feedbackService: FeedbacksService) {
+  constructor(public authService: AuthService,
+              private feedbackService: FeedbacksService) {
   }
 
   ngOnInit() {
-    this.updateFeedbacks(this.objectId);
+    this.authService.setPermissions(`trainer:feedback:edit:${this.trainer.id}`, this.authService.isCurrentUser(this.trainer.id));
+    this.updateFeedbacks(this.trainer.id);
   }
 
   private updateFeedbacks(trainerId: number) {
@@ -78,7 +83,7 @@ export class FeedbackComponent implements OnInit {
       return;
     }
     this.offset = this.count + this.offset;
-    this.feedbackService.getTrainerFeedbacks(this.objectId, this.offset, this.count)
+    this.feedbackService.getTrainerFeedbacks(this.trainer.id, this.offset, this.count)
       .subscribe((response) => {
         this.totalCount = response.totalCount;
         this.finished = this.offset + this.count >= this.totalCount;

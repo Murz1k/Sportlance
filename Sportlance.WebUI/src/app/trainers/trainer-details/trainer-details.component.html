@@ -53,7 +53,8 @@
       </button>
     </div>
     <sl-trainer-skills-collection [trainer]="trainer"></sl-trainer-skills-collection>
-    <sl-feedback *ngIf="trainerId" [objectId]="trainerId"></sl-feedback>
+    <sl-trainer-work-experience [trainer]="trainer"></sl-trainer-work-experience>
+    <sl-trainer-feedback [trainer]="trainer"></sl-trainer-feedback>
   </div>
   <div class="side-bar">
     <div *ngIf="teams.length > 0" class="side-bar-item">
