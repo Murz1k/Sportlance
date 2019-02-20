@@ -30,6 +30,8 @@ namespace Sportlance.WebAPI.Entities
 
         public ICollection<TrainerSport> TrainerSports { get; set; }
 
+        public ICollection<TrainerWorkExperience> WorkExperience { get; set; }
+
         public ICollection<TrainerTeam> TrainerTeams { get; set; }
     }
 }

@@ -12,6 +12,8 @@ namespace Sportlance.WebAPI.Trainers
 
         Task<Trainer> GetByIdAsync(long trainerId);
 
+        Task<TrainerWorkExperience[]> GetWorkExperienceByTrainerId(long trainerId);
+
         Task<Trainer> AddAsync(User user);
         
         Task<Trainer> SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus);

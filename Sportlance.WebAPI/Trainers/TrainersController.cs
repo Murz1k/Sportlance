@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,7 @@ using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Trainers.Requests;
+using Sportlance.WebAPI.Trainers.Responses;
 using Sportlance.WebAPI.Users;
 
 namespace Sportlance.WebAPI.Trainers
@@ -79,6 +81,14 @@ namespace Sportlance.WebAPI.Trainers
             {
                 Items = trainings
             };
+        }
+
+        [HttpGet("{trainerId}/experience")]
+        public async Task<IEnumerable<WorkExperienceResponse>> GetWorkExperience(long trainerId)
+        {
+            var trainings = await _service.GetWorkExperienceByTrainerId(trainerId);
+
+            return trainings.Select(i => new WorkExperienceResponse(i));
         }
 
         [Authorize]

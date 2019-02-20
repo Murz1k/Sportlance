@@ -34,6 +34,21 @@ namespace Sportlance.WebAPI.Trainers
                 .FirstOrDefaultAsync(i => i.UserId == trainerId);
         }
 
+        public async Task<TrainerWorkExperience[]> GetWorkExperienceByTrainerId(long trainerId)
+        {
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
+            return await (from exp in _appContext.TrainerWorkExperience.Include(i => i.Skills).ThenInclude(i => i.Sport)
+                          where exp.TrainerId == trainerId
+                          select exp).ToArrayAsync();
+        }
+
+
         public async Task<PagingCollection<Trainer>> GetAsync(TrainersQuery query)
         {
             var collection = await (from trainer in _appContext.Trainers
@@ -187,7 +202,7 @@ namespace Sportlance.WebAPI.Trainers
             // Удалить все существующие навыки, которых нет в новых
             var deletes = trainer.TrainerSports.Where(i => !skills.Any(j => j.Id == i.SportId)).ToArray();
 
-            foreach(var sport in deletes)
+            foreach (var sport in deletes)
             {
                 trainer.TrainerSports.Remove(sport);
             }
