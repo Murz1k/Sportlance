@@ -25,22 +25,31 @@ namespace Sportlance.WebAPI.Trainers
             _trainerStorageProvider = trainerStorageProvider;
         }
 
+        private Task<Trainer> GetTrainerWithIncludesById(long trainerId)
+        {
+            return _appContext.Trainers
+                .Include(t => t.User)
+                .Include(i => i.TrainerSports)
+                .ThenInclude(i => i.Sport)
+                .FirstOrDefaultAsync(i => i.UserId == trainerId);
+        }
+
         public async Task<PagingCollection<Trainer>> GetAsync(TrainersQuery query)
         {
             var collection = await (from trainer in _appContext.Trainers
                     .Include(t => t.User)
-                    //.Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
-                    //.Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
-                    //.Include(i => i.TrainerTeams)
-                where trainer.Status == TrainerStatus.Available
-                      && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
-                      && (query.MaxPrice == null || trainer.Price <= query.MaxPrice.Value)
-                      && (query.Search == null || trainer.Title.ToLower().Contains(query.Search.ToLower()) ||
-                          trainer.TrainerSports.Any(i => i.Sport.Name.ToLower().Contains(query.Search.ToLower())) ||
-                          trainer.User.FirstName.ToLower().Contains(query.Search.ToLower()) ||
-                          trainer.User.LastName.ToLower().Contains(query.Search.ToLower()))
-                      && (query.Country == null || trainer.Country.Contains(query.Country))
-                      && (query.City == null || trainer.City.Contains(query.City))
+                                        //.Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
+                                        .Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
+                                        //.Include(i => i.TrainerTeams)
+                                    where trainer.Status == TrainerStatus.Available
+                                          && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
+                                          && (query.MaxPrice == null || trainer.Price <= query.MaxPrice.Value)
+                                          && (query.Search == null || trainer.Title.ToLower().Contains(query.Search.ToLower()) ||
+                                              trainer.TrainerSports.Any(i => i.Sport.Name.ToLower().Contains(query.Search.ToLower())) ||
+                                              trainer.User.FirstName.ToLower().Contains(query.Search.ToLower()) ||
+                                              trainer.User.LastName.ToLower().Contains(query.Search.ToLower()))
+                                          && (query.Country == null || trainer.Country.Contains(query.Country))
+                                          && (query.City == null || trainer.City.Contains(query.City))
                                     //&& (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <=
                                     //    trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
                                     //&& (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >=
@@ -76,9 +85,8 @@ namespace Sportlance.WebAPI.Trainers
 
         public async Task<Trainer> GetByIdAsync(long trainerId)
         {
-            var trainer = await _appContext.Trainers
-                .Include(t => t.User)
-                .FirstOrDefaultAsync(i => i.UserId == trainerId);
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
             if (trainer == null)
             {
                 throw new AppErrorException(ErrorCode.TrainerNotFound);
@@ -132,7 +140,8 @@ namespace Sportlance.WebAPI.Trainers
 
         public async Task<Trainer> SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus)
         {
-            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
             if (trainer == null)
             {
                 throw new AppErrorException(ErrorCode.TrainerNotFound);
@@ -145,9 +154,53 @@ namespace Sportlance.WebAPI.Trainers
             return trainer;
         }
 
+        public async Task<Trainer> UpdateSkillsAsync(long trainerId, IList<Sport> skills)
+        {
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
+            for (int i = 0; i < skills.Count; i++)
+            {
+                // Если у тренера уже есть такой навык
+                if (trainer.TrainerSports.Any(j => j.SportId == skills[i].Id))
+                {
+                    continue;
+                }
+                else // Если навык новый
+                {
+                    if (skills[i].Id == default(long))
+                    {
+                        skills[i] = new Sport { Name = skills[i].Name };
+
+                        await _appContext.Sports.AddAsync(skills[i]);
+
+                        await _appContext.SaveChangesAsync();
+                    }
+
+                    trainer.TrainerSports.Add(new TrainerSport { TrainerId = trainerId, SportId = skills[i].Id });
+                }
+            }
+            // Удалить все существующие навыки, которых нет в новых
+            var deletes = trainer.TrainerSports.Where(i => !skills.Any(j => j.Id == i.SportId)).ToArray();
+
+            foreach(var sport in deletes)
+            {
+                trainer.TrainerSports.Remove(sport);
+            }
+
+            await _appContext.SaveChangesAsync();
+
+            return trainer;
+        }
+
         public async Task<Trainer> UpdateAboutAsync(long trainerId, string about)
         {
-            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
             if (trainer == null)
             {
                 throw new AppErrorException(ErrorCode.TrainerNotFound);
@@ -162,7 +215,8 @@ namespace Sportlance.WebAPI.Trainers
 
         public async Task<Trainer> UpdatePriceAsync(long trainerId, double price)
         {
-            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
             if (trainer == null)
             {
                 throw new AppErrorException(ErrorCode.TrainerNotFound);
@@ -177,7 +231,8 @@ namespace Sportlance.WebAPI.Trainers
 
         public async Task<Trainer> UpdateBackgroundImageAsync(long trainerId, StorageFile photo)
         {
-            var trainer = await _appContext.Trainers.FirstOrDefaultAsync(i => i.UserId == trainerId);
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
             if (trainer == null)
             {
                 throw new AppErrorException(ErrorCode.TrainerNotFound);
@@ -197,14 +252,14 @@ namespace Sportlance.WebAPI.Trainers
             DateTimeOffset toDate)
         {
             return await (from trainer in _appContext.Trainers
-                where trainer.UserId == trainerId
-                join trainingSport in _appContext.TrainerSports on trainer.UserId equals trainingSport.TrainerId
-                join training in _appContext.Trainings.Include(i => i.Client).Include(i => i.TrainerSport)
-                        .ThenInclude(i => i.Sport)
-                    on trainingSport.Id equals training.TrainerSportId
-                where training.StartDate >= fromDate
-                      && (!training.EndDate.HasValue || training.EndDate.Value <= toDate)
-                select training).ToArrayAsync();
+                          where trainer.UserId == trainerId
+                          join trainingSport in _appContext.TrainerSports on trainer.UserId equals trainingSport.TrainerId
+                          join training in _appContext.Trainings.Include(i => i.Client).Include(i => i.TrainerSport)
+                                  .ThenInclude(i => i.Sport)
+                              on trainingSport.Id equals training.TrainerSportId
+                          where training.StartDate >= fromDate
+                                && (!training.EndDate.HasValue || training.EndDate.Value <= toDate)
+                          select training).ToArrayAsync();
         }
 
         public async Task<Training> AddTrainingAsync(long trainerId, long clientId, long sportId, DateTimeOffset fromDate)

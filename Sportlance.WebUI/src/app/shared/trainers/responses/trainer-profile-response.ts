@@ -1,4 +1,3 @@
-import {ReviewInfoResponse} from '../../feedbacks/responses/review-info-response';
 import {SportResponse} from './sport-response';
 import {TrainerStatus} from '../trainer-status';
 
@@ -14,7 +13,7 @@ export interface TrainerProfileResponse {
   title: string;
   status: TrainerStatus;
   trainingsCount: number;
-  sports: Array<SportResponse>;
+  skills: Array<SportResponse>;
   photoUrl: string;
   backgroundUrl: string;
 }

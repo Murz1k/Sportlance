@@ -6,8 +6,8 @@ import {throwError} from 'rxjs';
 import {AddTeamPhotoDialogComponent} from './add-team-photo-dialog/add-team-photo-dialog.component';
 import {AddTeamPhotoDialogData} from './add-team-photo-dialog/add-team-photo-dialog-data';
 import {MatDialog} from '@angular/material';
-import {TeamServiceResponse} from '../../../shared/teams/responses/team-service-response';
 import {AuthService} from '../../../core/auth/auth.service';
+import {TeamResponse} from '../../../shared/teams/requests/team-response';
 
 @Component({
   selector: 'sl-team-photo-collection',
@@ -16,7 +16,7 @@ import {AuthService} from '../../../core/auth/auth.service';
 })
 export class TeamPhotoCollectionComponent implements OnInit {
 
-  @Input() team: TeamServiceResponse;
+  @Input() team: TeamResponse;
 
   public isLoadingPhotos = false;
   public photos: TeamPhotoResponse[] = [];

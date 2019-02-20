@@ -1,6 +1,7 @@
 import {SportResponse} from './sport-response';
+import {TrainerStatus} from '../trainer-status';
 
-export interface TrainerInfoResponse {
+export interface TrainerResponse {
   id: number;
   firstName: string;
   secondName: string;
@@ -13,5 +14,7 @@ export interface TrainerInfoResponse {
   trainingsCount: number;
   photoUrl: string;
   about: string;
-  sports: Array<SportResponse>;
+  status: TrainerStatus;
+  skills: Array<SportResponse>;
+  backgroundUrl: string;
 }

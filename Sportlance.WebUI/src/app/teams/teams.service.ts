@@ -24,15 +24,18 @@ function deepEqual(x, y) {
 
 @Injectable()
 export class TeamsService {
+
+  teamsGetQuery: GetTeamQuery;
+  teamsCollection: CollectionResponse<TeamResponse> & ErrorResponse;
+  selectedTeam: TeamResponse & ErrorResponse;
+  teamPhotoCollection: CollectionResponse<TeamPhotoResponse> & ErrorResponse;
+
   constructor(private http: HttpClient) {
   }
 
   private checkParam(param): string {
     return isNullOrUndefined(param) ? '' : param.toString();
   }
-
-  teamsGetQuery: GetTeamQuery;
-  teamsCollection: CollectionResponse<TeamResponse> & ErrorResponse;
 
   get(query: GetTeamQuery): Observable<CollectionResponse<TeamResponse> & ErrorResponse> {
 
@@ -81,8 +84,6 @@ export class TeamsService {
       }));
   }
 
-  selectedTeam: TeamResponse & ErrorResponse;
-
   getById(teamId: number): Observable<TeamResponse & ErrorResponse> {
 
     if (teamId === undefined || teamId === null) {
@@ -114,8 +115,6 @@ export class TeamsService {
     }
     return this.http.get<boolean>(`/api/teams/${teamId}/trainers/${trainerId}/canInvite`);
   }
-
-  teamPhotoCollection: CollectionResponse<TeamPhotoResponse> & ErrorResponse;
 
   getPhotosByTeamId(teamId: number): Observable<CollectionResponse<TeamPhotoResponse> & ErrorResponse> {
 

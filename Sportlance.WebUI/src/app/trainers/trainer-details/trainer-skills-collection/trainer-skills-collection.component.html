@@ -1,0 +1,26 @@
+<div class="air-card"
+     *ngIf="authService.hasPermissions('trainer:edit:' + trainer.id) || trainer.skills.length > 0"
+     [class.empty]="!trainer.skills.length && !isLoading && authService.hasPermissions('trainer:edit:' + trainer.id)"
+>
+  <div *ngIf="!trainer.skills.length && !isLoading && authService.hasPermissions('trainer:edit:' + trainer.id)"
+       class="empty-container">
+    <span>Вы еще не добавили навыки</span>
+    <button sl-button slType="primary" (click)="showAddSkillsDialog()">Добавить</button>
+  </div>
+  <div class="air-card-header">
+    <h3 class="pull-left">
+      Навыки
+    </h3>
+    <button *ngIf="trainer.skills.length && authService.hasPermissions('trainer:edit:' + trainer.id)"
+            sl-button (click)="showAddSkillsDialog()" class="btn-rnd">
+      <i class="material-icons">add</i>
+    </button>
+  </div>
+    <section>
+      <div class="skills-collection">
+        <div *ngFor="let sport of trainer.skills" class="skills-collection-item">
+          {{sport.name}}
+        </div>
+      </div>
+    </section>
+</div>

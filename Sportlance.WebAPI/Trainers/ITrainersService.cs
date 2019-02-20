@@ -16,6 +16,8 @@ namespace Sportlance.WebAPI.Trainers
         
         Task<Trainer> SetAvailabilityAsync(long trainerId, TrainerStatus trainerStatus);
 
+        Task<Trainer> UpdateSkillsAsync(long trainerId, IList<Sport> skills);
+
         Task<Trainer> UpdateAboutAsync(long trainerId, string about);
 
         Task<Trainer> UpdateBackgroundImageAsync(long trainerId, StorageFile photo);

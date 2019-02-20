@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {TrainerInfoResponse} from '../shared/trainers/responses/trainer-info-response';
-import {TrainerProfileResponse} from '../shared/trainers/responses/trainer-profile-response';
+import {TrainerResponse} from '../shared/trainers/responses/trainer-response';
 import {CollectionResponse} from '../core/collection-response';
 import {GetTrainersQuery} from '../shared/trainers/get-trainers-query';
 import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from '../shared/trainers/responses/training-response';
 import {LoginResponse} from '../core/auth/responses/login-response';
-import {ErrorResponse} from "../core/error-response";
-import {of} from "rxjs";
-import {tap} from "rxjs/operators";
+import {ErrorResponse} from '../core/error-response';
+import {of} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 
 function deepEqual(x, y) {
@@ -27,9 +26,10 @@ export class TrainersService {
   }
 
   trainersGetQuery: GetTrainersQuery;
-  trainersCollection: CollectionResponse<TrainerInfoResponse> & ErrorResponse;
+  trainersCollection: CollectionResponse<TrainerResponse> & ErrorResponse;
+  selectedTrainer: TrainerResponse & ErrorResponse;
 
-  get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerInfoResponse> & ErrorResponse> {
+  get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerResponse> & ErrorResponse> {
 
     if (this.trainersCollection && this.trainersCollection.items.length > 0 && deepEqual(this.trainersGetQuery, query)) {
       return of(this.trainersCollection);
@@ -50,7 +50,7 @@ export class TrainersService {
       .append('trainingsMinCount', checkParam(query.trainingsMinCount))
       .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
 
-    return this.http.get<CollectionResponse<TrainerInfoResponse> & ErrorResponse>(`/api/trainers`, {params: parameters})
+    return this.http.get<CollectionResponse<TrainerResponse> & ErrorResponse>(`/api/trainers`, {params: parameters})
       .pipe(tap((response) => {
         if (!response.error) {
           this.trainersGetQuery = query;
@@ -59,34 +59,97 @@ export class TrainersService {
       }));
   }
 
-  getById(trainerId: number): Observable<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`/api/trainers/${trainerId}`);
+  getById(trainerId: number): Observable<TrainerResponse & ErrorResponse> {
+
+    if (trainerId === undefined || trainerId === null) {
+      throw new Error('Param "trainerId" is required');
+    }
+
+    if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +trainerId)) {
+      this.selectedTrainer = <TrainerResponse & ErrorResponse>this.trainersCollection.items.find(trainer => trainer.id === +trainerId);
+    }
+
+    if (this.selectedTrainer && this.selectedTrainer.id === +trainerId) {
+      return of(this.selectedTrainer);
+    }
+
+    return this.http.get<TrainerResponse & ErrorResponse>(`/api/trainers/${trainerId}`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
-  getSelf(): Observable<TrainerProfileResponse> {
-    return this.http.get<TrainerProfileResponse>(`/api/trainers/self`);
+  getSelf(): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.get<TrainerResponse & ErrorResponse>(`/api/trainers/self`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+        }
+      }));
   }
 
-  uploadBackgorundImage(photo: Blob) {
+  uploadBackgorundImage(photo: Blob): Observable<TrainerResponse & ErrorResponse> {
     const data = new FormData();
     data.append('photo', photo);
-    return this.http.put(`/api/trainers/background`, data);
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/background`, data)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
+        }
+      }));
   }
 
   beTrainer(): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`/api/trainers`, {});
   }
 
-  setAvailability(isAvailable: boolean) {
-    return this.http.post(`/api/trainers/availability`, {isAvailable: isAvailable});
+  setAvailability(isAvailable: boolean): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.post<TrainerResponse & ErrorResponse>(`/api/trainers/availability`, {isAvailable: isAvailable})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
+        }
+      }));
   }
 
-  updateAbout(about: string) {
-    return this.http.put(`/api/trainers/about`, {about: about});
+  updateAbout(about: string): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/about`, {about: about})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
+        }
+      }));
   }
 
-  updatePaid(price: number) {
-    return this.http.put(`/api/trainers/price`, {price: price});
+  updatePaid(price: number): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/price`, {price: price})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
+        }
+      }));
   }
 
   getTrainings(trainerId: number, startDate: string, endDate: string): Observable<CollectionResponse<TrainingResponse>> {
@@ -102,5 +165,19 @@ export class TrainersService {
       startDate: startDate,
       sportId: sportId
     });
+  }
+
+  updateSkills(skills: any[]): Observable<TrainerResponse & ErrorResponse> {
+    return this.http.put<TrainerResponse & ErrorResponse>(`/api/trainers/skills`, {skills: skills})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.selectedTrainer = response;
+
+          if (this.trainersCollection && this.trainersCollection.items.some(trainer => trainer.id === +this.selectedTrainer.id)) {
+            const trainer = this.trainersCollection.items.find(s => s.id === this.selectedTrainer.id);
+            Object.assign(trainer, response);
+          }
+        }
+      }));
   }
 }

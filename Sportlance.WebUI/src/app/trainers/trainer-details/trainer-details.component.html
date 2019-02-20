@@ -52,18 +52,7 @@
         <i *ngIf="isShowAbout" class="material-icons">expand_less</i>
       </button>
     </div>
-    <div class="air-card">
-      <div class="air-card-header">
-        <h3 class="pull-left">
-          Навыки
-        </h3>
-      </div>
-      <section>
-        <a class="o-tag-skill" *ngFor="let sport of trainer.sports">
-          {{sport.name}}
-        </a>
-      </section>
-    </div>
+    <sl-trainer-skills-collection [trainer]="trainer"></sl-trainer-skills-collection>
     <sl-feedback *ngIf="trainerId" [objectId]="trainerId"></sl-feedback>
   </div>
   <div class="side-bar">

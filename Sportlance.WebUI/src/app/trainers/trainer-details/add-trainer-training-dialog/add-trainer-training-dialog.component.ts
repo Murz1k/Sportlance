@@ -14,14 +14,14 @@ import * as moment from 'moment';
 export class AddTrainerTrainingDialogComponent implements OnInit {
 
   public form: FormGroup;
-  public trainerSports: SelectItem[] = [];
+  public trainerskills: SelectItem[] = [];
   @ViewChild('dp') datePicker: MatDatepicker<any>;
 
   private readonly currentDate = new Date().getDate();
 
   filter = (d: Date): boolean => {
     return d.getDate() >= this.currentDate;
-  }
+  };
 
   constructor(private formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: AddTrainerTrainingDialogData,
@@ -46,14 +46,10 @@ export class AddTrainerTrainingDialogComponent implements OnInit {
       const date = this.form.controls.startDate.value.split('/').reverse().join('-');
       this.form.controls.hiddenDate.setValue(new Date(date));
     });
-    this.trainerSports = this.data.sports.map(i => <SelectItem>{label: i.name, value: i.id});
+    this.trainerskills = this.data.skills.map(i => <SelectItem>{label: i.name, value: i.id});
   }
 
-  private
-
-  validateForm()
-    :
-    boolean {
+  private validateForm(): boolean {
     const form = this.form;
     form.controls.sportId.markAsDirty();
     form.controls.startDate.markAsDirty();
@@ -61,9 +57,7 @@ export class AddTrainerTrainingDialogComponent implements OnInit {
     return form.controls.sportId.valid && form.controls.startDate.valid && form.controls.time.valid;
   }
 
-  public
-
-  submit() {
+  public submit() {
     if (!this.validateForm()) {
       this.form.controls.sportId.markAsDirty();
       return;
