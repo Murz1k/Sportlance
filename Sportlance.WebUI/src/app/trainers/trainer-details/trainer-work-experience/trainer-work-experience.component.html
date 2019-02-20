@@ -10,6 +10,7 @@
   <div class="air-card-header">
     <h3 class="pull-left">
       Опыт работы
+      <div class="total-summ">{{totalSumm}}</div>
     </h3>
     <button *ngIf="workExperience.length && authService.hasPermissions('trainer:edit:' + trainer.id)"
             sl-button class="btn-rnd">

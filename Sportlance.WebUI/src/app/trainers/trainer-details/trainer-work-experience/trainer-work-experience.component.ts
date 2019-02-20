@@ -13,6 +13,8 @@ export class TrainerWorkExperienceComponent implements OnInit {
 
   workExperience = [];
 
+  totalSumm: string;
+
   constructor(public authService: AuthService) {
   }
 
@@ -88,9 +90,37 @@ export class TrainerWorkExperienceComponent implements OnInit {
         skills: ['Качалочка', 'навыки', 'набор массы', 'сжигание жира', 'прочее дерьмо']
       }
     ];
+
+    this.totalSumm = this.calculateMonthsTotal();
   }
 
-  getSummOfDate(from: Date, to: Date) {
+  calculateMonthsTotal() {
+    let monthsCount = 0;
+    for (let i = 0; i < this.workExperience.length; i++) {
+      monthsCount += this.calculateMonthsCount(this.workExperience[i].fromDate, this.workExperience[i].toDate);
+    }
+
+    if (monthsCount === 0) {
+      return '';
+    }
+    if (monthsCount < 12) {
+      return `${monthsCount} ${this.convertMonthsToTitle(monthsCount)}`;
+    }
+    if (monthsCount === 12) {
+      return `1 ${this.convertYearsToTitle(1)}`;
+    }
+    if (monthsCount > 12) {
+      const yearsCount = Math.floor(monthsCount / 12);
+      monthsCount = monthsCount % 12;
+      if (monthsCount === 0) {
+        return `${yearsCount} ${this.convertYearsToTitle(yearsCount)}`;
+      } else {
+        return `${yearsCount} ${this.convertYearsToTitle(yearsCount)} ${monthsCount} ${this.convertMonthsToTitle(monthsCount)}`;
+      }
+    }
+  }
+
+  calculateMonthsCount(from: Date, to: Date) {
     let d1: Date;
     let d2: Date;
     if (from instanceof Date) {
@@ -114,7 +144,11 @@ export class TrainerWorkExperienceComponent implements OnInit {
     months -= d1.getMonth() + 1;
     months += d2.getMonth() + 1;
 
-    let monthsCount = months <= 0 ? 0 : months;
+    return months <= 0 ? 0 : months;
+  }
+
+  getSummOfDate(from: Date, to: Date) {
+    let monthsCount = this.calculateMonthsCount(from, to);
     if (monthsCount === 0) {
       return '';
     }
