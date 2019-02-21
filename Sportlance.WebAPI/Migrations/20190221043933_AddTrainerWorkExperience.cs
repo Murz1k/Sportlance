@@ -19,7 +19,7 @@ namespace Sportlance.WebAPI.Migrations
                     Description = table.Column<string>(nullable: true),
                     FromDate = table.Column<DateTime>(nullable: false),
                     Position = table.Column<string>(nullable: false),
-                    ToDate = table.Column<DateTime>(nullable: false),
+                    ToDate = table.Column<DateTime>(nullable: true),
                     TrainerId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>

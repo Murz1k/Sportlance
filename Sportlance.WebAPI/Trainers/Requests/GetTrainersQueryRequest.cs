@@ -28,7 +28,12 @@ namespace Sportlance.WebAPI.Trainers.Requests
         public ushort? FeedbacksMinCount { get; set; }
 
         public ushort? FeedbacksMaxCount { get; set; }
+
+        public ushort? WorkExperienceFrom { get; set; }
+
+        public ushort? WorkExperienceTo { get; set; }
         
+
         public long? TeamId { get; set; }
 
         public int Offset { get; set; }
@@ -50,7 +55,9 @@ namespace Sportlance.WebAPI.Trainers.Requests
                 TrainingsMinCount = TrainingsMinCount,
                 TrainingsMaxCount = TrainingsMaxCount,
                 FeedbacksMinCount = FeedbacksMinCount,
-                FeedbacksMaxCount = FeedbacksMaxCount
+                FeedbacksMaxCount = FeedbacksMaxCount,
+                WorkExperienceFrom = WorkExperienceFrom,
+                WorkExperienceTo = WorkExperienceTo
             };
         }
     }

@@ -12,7 +12,7 @@ using System;
 namespace Sportlance.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190220063617_AddTrainerWorkExperience")]
+    [Migration("20190221043933_AddTrainerWorkExperience")]
     partial class AddTrainerWorkExperience
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -249,7 +249,7 @@ namespace Sportlance.WebAPI.Migrations
                     b.Property<string>("Position")
                         .IsRequired();
 
-                    b.Property<DateTime>("ToDate");
+                    b.Property<DateTime?>("ToDate");
 
                     b.Property<long>("TrainerId");
 
@@ -437,7 +437,7 @@ namespace Sportlance.WebAPI.Migrations
 
             modelBuilder.Entity("Sportlance.WebAPI.Entities.TrainerWorkExperience", b =>
                 {
-                    b.HasOne("Sportlance.WebAPI.Entities.Trainer")
+                    b.HasOne("Sportlance.WebAPI.Entities.Trainer", "Trainer")
                         .WithMany("WorkExperience")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade);

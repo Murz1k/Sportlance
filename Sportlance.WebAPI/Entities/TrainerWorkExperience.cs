@@ -17,10 +17,12 @@ namespace Sportlance.WebAPI.Entities
 
         public DateTime FromDate { get; set; }
 
-        public DateTime ToDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
         public string Description { get; set; }
 
         public ICollection<TrainerWorkExperienceSport> Skills { get; set; }
+
+        public Trainer Trainer { get; set; }
     }
 }

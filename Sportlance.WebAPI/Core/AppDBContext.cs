@@ -66,7 +66,9 @@ namespace Sportlance.WebAPI.Core
                 .HasMany(r => r.TrainerSports);
 
             modelBuilder.Entity<Trainer>()
-                .HasMany(r => r.WorkExperience);
+                .HasMany(r => r.WorkExperience)
+                .WithOne(i=>i.Trainer)
+                .HasForeignKey(i=>i.TrainerId);
 
             modelBuilder.Entity<TrainerWorkExperience>()
                 .HasMany(c => c.Skills);

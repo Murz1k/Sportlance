@@ -248,7 +248,7 @@ namespace Sportlance.WebAPI.Migrations
                     b.Property<string>("Position")
                         .IsRequired();
 
-                    b.Property<DateTime>("ToDate");
+                    b.Property<DateTime?>("ToDate");
 
                     b.Property<long>("TrainerId");
 
@@ -436,7 +436,7 @@ namespace Sportlance.WebAPI.Migrations
 
             modelBuilder.Entity("Sportlance.WebAPI.Entities.TrainerWorkExperience", b =>
                 {
-                    b.HasOne("Sportlance.WebAPI.Entities.Trainer")
+                    b.HasOne("Sportlance.WebAPI.Entities.Trainer", "Trainer")
                         .WithMany("WorkExperience")
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade);

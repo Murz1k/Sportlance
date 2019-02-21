@@ -48,6 +48,22 @@ namespace Sportlance.WebAPI.Trainers
                           select exp).ToArrayAsync();
         }
 
+        private double CalculateYearsCount(DateTime d1, DateTime? d2)
+        {
+            double months;
+
+            if (!d2.HasValue)
+            {
+                d2 = new DateTime();
+            }
+
+            months = (d2.Value.Year - d1.Year) * 12;
+            months -= d1.Month + 1;
+            months += d2.Value.Month + 1;
+
+            return months <= 0 ? 0 : months / 12;
+        }
+
 
         public async Task<PagingCollection<Trainer>> GetAsync(TrainersQuery query)
         {
@@ -55,6 +71,7 @@ namespace Sportlance.WebAPI.Trainers
                     .Include(t => t.User)
                                         //.Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
                                         .Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
+                                        .Include(i=>i.WorkExperience)
                                         //.Include(i => i.TrainerTeams)
                                     where trainer.Status == TrainerStatus.Available
                                           && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
@@ -65,6 +82,8 @@ namespace Sportlance.WebAPI.Trainers
                                               trainer.User.LastName.ToLower().Contains(query.Search.ToLower()))
                                           && (query.Country == null || trainer.Country.Contains(query.Country))
                                           && (query.City == null || trainer.City.Contains(query.City))
+                                          && (query.WorkExperienceFrom == null || trainer.WorkExperience.Sum(i => CalculateYearsCount(i.FromDate, i.ToDate)) >= query.WorkExperienceFrom)
+                                          && (query.WorkExperienceTo == null || trainer.WorkExperience.Sum(i => CalculateYearsCount(i.FromDate, i.ToDate)) <= query.WorkExperienceTo)
                                     //&& (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <=
                                     //    trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
                                     //&& (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >=

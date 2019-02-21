@@ -28,6 +28,10 @@
 
         public ushort? FeedbacksMaxCount { get; set; }
 
+        public ushort? WorkExperienceFrom { get; set; }
+
+        public ushort? WorkExperienceTo { get; set; }
+
         public int Offset { get; set; }
 
         public int Count { get; set; }
