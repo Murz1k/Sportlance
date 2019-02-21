@@ -9,6 +9,7 @@ import {LoginResponse} from '../core/auth/responses/login-response';
 import {ErrorResponse} from '../core/error-response';
 import {of} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {TrainerWorkExperienceResponse} from '../shared/trainers/responses/trainer-work-experience-response';
 
 
 function deepEqual(x, y) {
@@ -28,7 +29,9 @@ export class TrainersService {
 
   trainersGetQuery: GetTrainersQuery;
   trainersCollection: CollectionResponse<TrainerResponse> & ErrorResponse;
+  trainerWorkExperienceList: TrainerWorkExperienceResponse[] & ErrorResponse;
   selectedTrainer: TrainerResponse & ErrorResponse;
+  trainerId: number;
 
   get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerResponse> & ErrorResponse> {
 
@@ -107,6 +110,25 @@ export class TrainersService {
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTrainer = response;
+        }
+      }));
+  }
+
+  getWorkExperienceByTrainerId(trainerId: number): Observable<TrainerWorkExperienceResponse[] & ErrorResponse> {
+
+    if (trainerId === undefined || trainerId === null) {
+      throw new Error('Param "trainerId" is required');
+    }
+
+    if (this.trainerWorkExperienceList && this.trainerWorkExperienceList.length > 0 && this.trainerId === +trainerId) {
+      return of(this.trainerWorkExperienceList);
+    }
+
+    return this.http.get<TrainerWorkExperienceResponse[] & ErrorResponse>(`/api/trainers/${trainerId}/experience`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.trainerId = +trainerId;
+          this.trainerWorkExperienceList = response;
         }
       }));
   }
