@@ -48,6 +48,47 @@ namespace Sportlance.WebAPI.Trainers
                           select exp).ToArrayAsync();
         }
 
+        public async Task<ICollection<TrainerWorkExperience>> UpdateWorkExperienceByTrainerId(long trainerId, IList<TrainerWorkExperience> workExperiences)
+        {
+            var trainer = await _appContext.Trainers.Include(i => i.WorkExperience)
+                                                    .ThenInclude(i => i.Skills)
+                                                    .ThenInclude(i => i.Sport)
+                                                    .FirstOrDefaultAsync(i => i.UserId == trainerId);
+
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
+            for (int i = 0; i < workExperiences.Count; i++)
+            {
+                if (workExperiences[i].Id == default(long))
+                {
+                    trainer.WorkExperience.Add(workExperiences[i]);
+                }
+                else
+                {
+                    var existExperience = trainer.WorkExperience.FirstOrDefault(j => j.Id == workExperiences[i].Id);
+                    existExperience.Company = workExperiences[i].Company;
+                    existExperience.Description = workExperiences[i].Description;
+                    existExperience.FromDate = workExperiences[i].FromDate;
+                    existExperience.Position = workExperiences[i].Position;
+                    existExperience.ToDate = workExperiences[i].ToDate;
+                }
+            }
+            // Удалить все существующие навыки, которых нет в новых
+            var deletes = trainer.WorkExperience.Where(i => !workExperiences.Any(j => j.Id == i.Id)).ToArray();
+
+            foreach (var item in deletes)
+            {
+                trainer.WorkExperience.Remove(item);
+            }
+
+            await _appContext.SaveChangesAsync();
+
+            return trainer.WorkExperience;
+        }
+
         private double CalculateYearsCount(DateTime d1, DateTime? d2)
         {
             double months;
@@ -71,7 +112,7 @@ namespace Sportlance.WebAPI.Trainers
                     .Include(t => t.User)
                                         //.Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
                                         .Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
-                                        .Include(i=>i.WorkExperience)
+                                        .Include(i => i.WorkExperience)
                                         //.Include(i => i.TrainerTeams)
                                     where trainer.Status == TrainerStatus.Available
                                           && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)

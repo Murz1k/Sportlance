@@ -1,0 +1,34 @@
+<div class="content page">
+  <div class="main-bar">
+    <h1>Опыт работы</h1>
+    <form [formGroup]="form" class="air-card">
+      <ng-container formArrayName="workPlaces">
+        <section *ngFor="let place of workPlaces.controls; let i = index;" [formGroupName]="i">
+          <label for="company{{i}}">Компания</label>
+          <input id="company{{i}}" sl-input formControlName="company"/>
+          <label for="position{{i}}">Должность</label>
+          <input id="position{{i}}" sl-input formControlName="position"/>
+          <label for="description{{i}}">Описание</label>
+          <textarea id="description{{i}}" sl-input formControlName="description"></textarea>
+          <label for="skills{{i}}">Навыки</label>
+          <textarea id="skills{{i}}" sl-input formControlName="skills"></textarea>
+        </section>
+      </ng-container>
+      <div style="    display: grid;
+    grid-template-columns: 320px auto;
+    padding: 20px 24px;">
+        <button class="btn-link" style="grid-column: 2;
+    text-align: left;" (click)="addWorkExperience()">Добавить место работы
+        </button>
+      </div>
+      <div class="action-container">
+        <button sl-button slType="primary" [slLoading]="isSaving" [disabled]="isSaving" (click)="saveChanges()">
+          Сохранить
+        </button>
+        <button sl-button (click)="cancel()">Отменить</button>
+      </div>
+    </form>
+  </div>
+  <div class="side-bar">
+  </div>
+</div>

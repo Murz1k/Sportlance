@@ -35,7 +35,21 @@ namespace Sportlance.WebAPI.Trainers.Responses
             FromDate = entity.FromDate;
             ToDate = entity.ToDate;
             Description = entity.Description;
-            Skills = entity.Skills.Select(i => new SkillResponse(i.Sport));
+            Skills = entity.Skills?.Select(i => new SkillResponse(i.Sport));
+        }
+
+        public TrainerWorkExperience toBLE()
+        {
+            return new TrainerWorkExperience
+            {
+                Id = Id,
+                Position = Position,
+                Company = Company,
+                FromDate = FromDate,
+                ToDate = ToDate,
+                Description = Description,
+                Skills = Skills?.Select(i => new TrainerWorkExperienceSport { TrainerWorkExperienceId = Id, Sport = i.ToBLE() }).ToArray()
+            };
         }
     }
 }

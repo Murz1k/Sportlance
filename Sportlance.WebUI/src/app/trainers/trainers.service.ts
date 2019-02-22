@@ -133,6 +133,21 @@ export class TrainersService {
       }));
   }
 
+  updateWorkExperienceByTrainerId(trainerId: number, workExperience: any[]): Observable<TrainerWorkExperienceResponse[] & ErrorResponse> {
+
+    if (trainerId === undefined || trainerId === null) {
+      throw new Error('Param "trainerId" is required');
+    }
+
+    return this.http.put<TrainerWorkExperienceResponse[] & ErrorResponse>(`/api/trainers/${trainerId}/experience`, {workExperience: workExperience})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.trainerId = +trainerId;
+          this.trainerWorkExperienceList = response;
+        }
+      }));
+  }
+
   getSelf(): Observable<TrainerResponse & ErrorResponse> {
     return this.http.get<TrainerResponse & ErrorResponse>(`/api/trainers/self`)
       .pipe(tap((response) => {

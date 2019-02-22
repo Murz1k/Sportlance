@@ -10,7 +10,8 @@ const routes: Routes = [
   {path: '', component: TrainerListComponent},
   {path: 'about', component: TrainersAboutComponent},
   {path: ':id', component: TrainerDetailsComponent, resolve: {profile: RedirectTrainerProfileResolver}},
-  {path: ':id/appointment', component: AppointmentComponent}
+  {path: ':id/appointment', component: AppointmentComponent},
+  {path: ':id/experience/edit', loadChildren: './trainer-details/trainer-work-experience-edit/trainer-work-experience-edit.module#TrainerWorkExperienceEditModule'}
 ];
 
 @NgModule({

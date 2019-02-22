@@ -22,7 +22,7 @@ export class TrainerFeedbackComponent implements OnInit {
 
   public feedbacks: Array<ReviewInfo> = [];
   public finished = false;
-  isLoading = false;
+  isLoading = true;
 
   constructor(public authService: AuthService,
               private feedbackService: FeedbacksService) {
@@ -34,6 +34,7 @@ export class TrainerFeedbackComponent implements OnInit {
   }
 
   private updateFeedbacks(trainerId: number) {
+    this.isLoading = true;
     this.feedbackService.getTrainerFeedbacks(trainerId, this.offset, this.count)
       .subscribe((response) => {
         if (!response.error) {
@@ -46,6 +47,7 @@ export class TrainerFeedbackComponent implements OnInit {
             photoUrl: i.photoUrl
           }).forEach(item => this.feedbacks.push(item));
         }
+        this.isLoading = false;
       });
   }
 

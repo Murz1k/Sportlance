@@ -1,6 +1,6 @@
-<div class="air-card"
+<div class="air-card" sl-spinner [slLoading]="isLoading"
      *ngIf="authService.hasPermissions('trainer:feedback:edit:' + trainer.id) || feedbacks.length > 0"
-     [class.empty]="!feedbacks.length && !isLoading && authService.hasPermissions('trainer:edit:' + trainer.id)"
+     [class.empty]="!feedbacks.length && isLoading && authService.hasPermissions('trainer:edit:' + trainer.id)"
 >
   <div class="air-card-header">
     <h3 class="pull-left">

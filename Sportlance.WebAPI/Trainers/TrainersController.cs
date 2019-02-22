@@ -91,6 +91,14 @@ namespace Sportlance.WebAPI.Trainers
             return trainings.Select(i => new WorkExperienceResponse(i));
         }
 
+        [HttpPut("{trainerId}/experience")]
+        public async Task<IEnumerable<WorkExperienceResponse>> UpdateWorkExperience(long trainerId, [FromBody] UpdateWorkExperienceRequest request)
+        {
+            var trainings = await _service.UpdateWorkExperienceByTrainerId(trainerId, request.WorkExperience.Select(i=>i.toBLE()).ToArray());
+
+            return trainings.Select(i => new WorkExperienceResponse(i));
+        }
+
         [Authorize]
         [HttpPost("{trainerId}/trainings")]
         public async Task<Training> AddTraining(long trainerId, [FromBody] AddTrainingRequest request)
