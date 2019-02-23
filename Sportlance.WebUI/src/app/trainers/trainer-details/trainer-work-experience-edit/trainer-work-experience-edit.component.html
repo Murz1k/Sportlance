@@ -4,6 +4,10 @@
     <form [formGroup]="form" class="air-card">
       <ng-container formArrayName="workPlaces">
         <section *ngFor="let place of workPlaces.controls; let i = index;" [formGroupName]="i">
+          <label for="fromDate{{i}}">Начало работы</label>
+          <sl-select-short-date id="fromDate{{i}}" formControlName="fromDate"></sl-select-short-date>
+          <label for="toDate{{i}}">Конец работы</label>
+          <sl-select-short-date id="toDate{{i}}" formControlName="toDate"></sl-select-short-date>
           <label for="company{{i}}">Компания</label>
           <input id="company{{i}}" sl-input formControlName="company"/>
           <label for="position{{i}}">Должность</label>

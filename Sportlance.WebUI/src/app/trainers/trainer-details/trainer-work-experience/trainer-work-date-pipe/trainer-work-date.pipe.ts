@@ -10,6 +10,6 @@ export class TrainerWorkDatePipe implements PipeTransform {
     if (!value) {
       return 'настоящее время';
     }
-    return moment(value).format('D MMM Y');
+    return moment(value).format('MMMM Y');
   }
 }

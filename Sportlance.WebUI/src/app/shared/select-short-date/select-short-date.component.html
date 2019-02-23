@@ -1,0 +1,6 @@
+<div class="select-short-date-container">
+  <sl-select [(ngModel)]="_selectedMonth" (ngModelChange)="onSelect($event)">
+    <sl-option *ngFor="let item of items" [value]="item">{{item.label}}</sl-option>
+  </sl-select>
+  <input #input [(ngModel)]="_currentYear" (ngModelChange)="onInput($event)" class="sl-input"/>
+</div>

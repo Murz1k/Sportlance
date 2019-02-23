@@ -5,6 +5,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {SlInputModule} from '../../../shared/input/input.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SlButtonModule} from '../../../shared/button/button.module';
+import {SlSelectShortDateModule} from '../../../shared/select-short-date/select-short-date.module';
 
 const routes: Routes = [
   {path: '', component: TrainerWorkExperienceEditComponent}
@@ -17,6 +18,7 @@ const routes: Routes = [
     CommonModule,
     SlInputModule,
     SlButtonModule,
+    SlSelectShortDateModule,
     ReactiveFormsModule
   ]
 })
