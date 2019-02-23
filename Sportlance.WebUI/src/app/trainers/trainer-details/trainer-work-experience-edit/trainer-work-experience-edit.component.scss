@@ -6,6 +6,8 @@ section {
   display: grid;
   grid-template-columns: 300px auto;
   grid-gap: 20px;
+  position: relative;
+  padding-right: 36px;
 
   label {
     grid-column: 1;
@@ -38,6 +40,40 @@ h1 {
 
     &:nth-child(2) {
       grid-column: 3;
+    }
+  }
+}
+
+.workplace-remove-item {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 24px;
+    right: 17px;
+    bottom: 24px;
+    border-left: 1px dashed #cbd1d4;
+  }
+
+  button {
+    border: none;
+    background-color: #fff;
+    position: absolute;
+    right: 8px;
+    top: 36px;
+    height: 18px;
+    color: #ababab;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+
+    i {
+      font-size: 18px;
     }
   }
 }

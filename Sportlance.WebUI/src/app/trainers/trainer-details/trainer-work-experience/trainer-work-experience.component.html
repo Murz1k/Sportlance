@@ -1,11 +1,11 @@
 <div class="air-card" sl-spinner [slLoading]="isLoading"
      *ngIf="authService.hasPermissions('trainer:work:edit:' + trainer.id) || workExperience.length > 0"
-     [class.empty]="!workExperience.length && isLoading && authService.hasPermissions('trainer:edit:' + trainer.id)"
+     [class.empty]="!workExperience.length && authService.hasPermissions('trainer:edit:' + trainer.id)"
 >
   <div *ngIf="!workExperience.length && !isLoading && authService.hasPermissions('trainer:edit:' + trainer.id)"
        class="empty-container">
     <span>Вы еще не добавили опыт работы</span>
-    <button sl-button slType="primary">Добавить</button>
+    <a [routerLink]="['experience', 'edit']" sl-button slType="primary">Добавить</a>
   </div>
   <div class="air-card-header">
     <h3 class="pull-left">

@@ -12,6 +12,11 @@
           <textarea id="description{{i}}" sl-input formControlName="description"></textarea>
           <label for="skills{{i}}">Навыки</label>
           <textarea id="skills{{i}}" sl-input formControlName="skills"></textarea>
+          <div class="workplace-remove-item">
+            <button (click)="deleteWorkExperience(i)">
+              <i class="material-icons">close</i>
+            </button>
+          </div>
         </section>
       </ng-container>
       <div style="    display: grid;
