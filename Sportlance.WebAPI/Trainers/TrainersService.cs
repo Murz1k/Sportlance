@@ -74,6 +74,29 @@ namespace Sportlance.WebAPI.Trainers
                     existExperience.FromDate = workExperiences[i].FromDate;
                     existExperience.Position = workExperiences[i].Position;
                     existExperience.ToDate = workExperiences[i].ToDate;
+
+                    for (int j = 0; j < workExperiences[i].Skills?.Count; j++)
+                    {
+                        if (existExperience.Skills.Any(k => k.Sport.Name == workExperiences[i].Skills[j].Sport.Name))
+                        {
+                            continue;
+                        }
+
+                        if (workExperiences[i].Skills[j].SportId == default(long))
+                        {
+                            workExperiences[i].Skills[j].Sport = new Sport { Name = workExperiences[i].Skills[j].Sport.Name };
+                        }
+
+                        existExperience.Skills.Add(workExperiences[i].Skills[j]);
+                    }
+
+                    // Удалить все существующие навыки, которых нет в новых
+                    var deleteSports = existExperience.Skills.Where(k => !workExperiences[i].Skills.Any(a => a.Sport.Name == k.Sport.Name)).ToArray();
+
+                    foreach (var sport in deleteSports)
+                    {
+                        existExperience.Skills.Remove(sport);
+                    }
                 }
             }
             // Удалить все существующие навыки, которых нет в новых

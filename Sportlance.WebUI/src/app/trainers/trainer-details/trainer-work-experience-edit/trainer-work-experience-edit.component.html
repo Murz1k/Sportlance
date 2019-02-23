@@ -15,7 +15,7 @@
           <label for="description{{i}}">Описание</label>
           <textarea id="description{{i}}" sl-input formControlName="description"></textarea>
           <label for="skills{{i}}">Навыки</label>
-          <textarea id="skills{{i}}" sl-input formControlName="skills"></textarea>
+          <sl-skills-editor id="skills{{i}}" formControlName="skills"></sl-skills-editor>
           <div class="workplace-remove-item">
             <button (click)="deleteWorkExperience(i)">
               <i class="material-icons">close</i>

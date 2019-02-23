@@ -6,6 +6,7 @@ import {SlInputModule} from '../../../shared/input/input.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {SlButtonModule} from '../../../shared/button/button.module';
 import {SlSelectShortDateModule} from '../../../shared/select-short-date/select-short-date.module';
+import {SlSkillsEditorModule} from '../../../shared/skills-editor/skills-editor.module';
 
 const routes: Routes = [
   {path: '', component: TrainerWorkExperienceEditComponent}
@@ -19,6 +20,7 @@ const routes: Routes = [
     SlInputModule,
     SlButtonModule,
     SlSelectShortDateModule,
+    SlSkillsEditorModule,
     ReactiveFormsModule
   ]
 })

@@ -5,6 +5,7 @@ import {SlButtonModule} from '../../../shared/button/button.module';
 import {AddSkillsDialogComponent} from './add-skills-dialog/add-skills-dialog.component';
 import {SlInputModule} from '../../../shared/input/input.module';
 import {FormsModule} from '@angular/forms';
+import {SlSkillsEditorModule} from '../../../shared/skills-editor/skills-editor.module';
 
 @NgModule({
   declarations: [TrainerSkillsCollectionComponent, AddSkillsDialogComponent],
@@ -12,7 +13,8 @@ import {FormsModule} from '@angular/forms';
     CommonModule,
     SlButtonModule,
     FormsModule,
-    SlInputModule
+    SlInputModule,
+    SlSkillsEditorModule
   ],
   exports: [TrainerSkillsCollectionComponent],
   entryComponents: [AddSkillsDialogComponent]

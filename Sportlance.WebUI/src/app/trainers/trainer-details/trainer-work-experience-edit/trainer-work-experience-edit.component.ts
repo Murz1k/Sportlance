@@ -41,7 +41,7 @@ export class TrainerWorkExperienceEditComponent implements OnInit {
         company: [experience.company, [Validators.required]],
         position: [experience.position, [Validators.required]],
         description: [experience.description, [Validators.required]],
-        skills: [undefined]
+        skills: [experience.skills]
       });
     } else {
       place = this.formBuilder.group({
@@ -52,7 +52,7 @@ export class TrainerWorkExperienceEditComponent implements OnInit {
         company: ['', [Validators.required]],
         position: ['', [Validators.required]],
         description: ['', [Validators.required]],
-        skills: [undefined]
+        skills: [[]]
       });
     }
 

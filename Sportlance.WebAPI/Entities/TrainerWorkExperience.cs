@@ -21,7 +21,7 @@ namespace Sportlance.WebAPI.Entities
 
         public string Description { get; set; }
 
-        public ICollection<TrainerWorkExperienceSport> Skills { get; set; }
+        public IList<TrainerWorkExperienceSport> Skills { get; set; }
 
         public Trainer Trainer { get; set; }
     }

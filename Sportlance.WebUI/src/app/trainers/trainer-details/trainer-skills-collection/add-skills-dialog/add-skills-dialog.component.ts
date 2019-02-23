@@ -14,8 +14,6 @@ export class AddSkillsDialogComponent {
 
   public isLoading: boolean;
 
-  inputString: string;
-
   constructor(@Inject(MAT_DIALOG_DATA) public skills: any[],
               private dialogRef: MatDialogRef<EditPhotoDialogComponent>,
               private trainersService: TrainersService) {
@@ -39,16 +37,5 @@ export class AddSkillsDialogComponent {
         })
       )
       .subscribe();
-  }
-
-  deleteSkill(skill: any) {
-    this.skills = this.skills.filter(i => i !== skill);
-  }
-
-  onKeyEnter(event: KeyboardEvent) {
-    if (event.keyCode === 13) {
-      this.skills.push({name: this.inputString});
-      this.inputString = undefined;
-    }
   }
 }
