@@ -11,6 +11,10 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import {AuthService} from '../../core/auth/auth.service';
 import {Meta} from '@angular/platform-browser';
 
+const checkNumber = (param) => param === null || param === undefined || param === '' || param === 0 ? null : +param;
+const checkString = (param) => param === null || param === undefined || param === '' ? null : '' + param;
+
+
 @Component({
   selector: 'sl-trainer-list',
   templateUrl: './trainer-list.component.html',
@@ -40,7 +44,11 @@ export class TrainerListComponent implements OnInit {
   public minFeedbacksCount?: number;
   public maxFeedbacksCount?: number;
 
+  public workExperience: number;
+
   public subscription: Subscription;
+
+  options = [];
 
   constructor(private meta: Meta,
               private router: Router,
@@ -52,6 +60,13 @@ export class TrainerListComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle(`Тренеры | Sportlance`);
+
+    this.options = [
+      {label: 'Меньше года', value: 1, from: 0, to: 1},
+      {label: '1 - 3 года', value: 2, from: 1, to: 3},
+      {label: '3 - 6 лет', value: 3, from: 3, to: 6},
+      {label: 'более 6 лет', value: 4, from: 6}
+    ];
 
     // this.meta.addTags([
     //   {name: 'description', content: 'Поиск тренеров Sportlance - Поиск тренеров, запись на тренировку'},
@@ -79,6 +94,7 @@ export class TrainerListComponent implements OnInit {
       this.maxPrice = params['maxPrice'];
       this.minFeedbacksCount = params['minFeedbacksCount'];
       this.maxFeedbacksCount = params['maxFeedbacksCount'];
+      this.workExperience = +params['workExperience'];
 
       this.updateData();
     });
@@ -99,7 +115,9 @@ export class TrainerListComponent implements OnInit {
       city: this.city,
       country: this.country,
       feedbacksMinCount: this.minFeedbacksCount,
-      feedbacksMaxCount: this.maxFeedbacksCount
+      feedbacksMaxCount: this.maxFeedbacksCount,
+      workExperienceFrom: this.workExperience ? this.options.find(i => i.value === this.workExperience).from : undefined,
+      workExperienceTo: this.workExperience ? this.options.find(i => i.value === this.workExperience).to : undefined
     }).subscribe(response => {
       response.items.map(i => <TrainerInfo>{
         id: i.id,
@@ -137,7 +155,9 @@ export class TrainerListComponent implements OnInit {
       country: this.country,
       city: this.city,
       feedbacksMinCount: this.minFeedbacksCount,
-      feedbacksMaxCount: this.maxFeedbacksCount
+      feedbacksMaxCount: this.maxFeedbacksCount,
+      workExperienceFrom: this.workExperience ? this.options.find(i => i.value === this.workExperience).from : undefined,
+      workExperienceTo: this.workExperience ? this.options.find(i => i.value === this.workExperience).to : undefined
     }).subscribe(response => {
       if (response.items) {
         this.trainers = response.items.map(i => <TrainerInfo>{
@@ -165,8 +185,6 @@ export class TrainerListComponent implements OnInit {
   }
 
   changeParams() {
-    const checkNumber = (param) => isNullOrUndefined(param) || param === '' || param === 0 ? null : +param;
-    const checkString = (param) => isNullOrUndefined(param) || param === '' ? null : '' + param;
     this.router.navigate([Paths.Trainers], {
       queryParams: {
         q: checkString(this.search),
@@ -175,7 +193,8 @@ export class TrainerListComponent implements OnInit {
         minPrice: checkNumber(this.minPrice),
         maxPrice: checkNumber(this.maxPrice),
         minFeedbacksCount: checkNumber(this.minFeedbacksCount),
-        maxFeedbacksCount: checkNumber(this.maxFeedbacksCount)
+        maxFeedbacksCount: checkNumber(this.maxFeedbacksCount),
+        workExperience: checkNumber(this.workExperience),
       }
     });
   }
@@ -271,6 +290,7 @@ export class TrainerListComponent implements OnInit {
     this.maxPrice = undefined;
     this.minFeedbacksCount = undefined;
     this.maxFeedbacksCount = undefined;
+    this.workExperience = undefined;
 
     this.changeParams();
   }

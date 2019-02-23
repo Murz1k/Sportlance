@@ -288,6 +288,8 @@ body {
 
   .air-card-header {
     padding: 24px 24px 0;
+    display: flex;
+    justify-content: space-between;
   }
 
   .air-card-footer {
@@ -311,8 +313,6 @@ body {
   }
 
   > .btn-rnd {
-    float: right;
-
     > i {
       font-size: 20px;
     }

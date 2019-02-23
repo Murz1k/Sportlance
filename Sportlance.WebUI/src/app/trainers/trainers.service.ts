@@ -3,13 +3,13 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {TrainerResponse} from '../shared/trainers/responses/trainer-response';
 import {CollectionResponse} from '../core/collection-response';
 import {GetTrainersQuery} from '../shared/trainers/get-trainers-query';
-import {isNullOrUndefined} from 'util';
 import {Observable} from 'rxjs/internal/Observable';
 import {TrainingResponse} from '../shared/trainers/responses/training-response';
 import {LoginResponse} from '../core/auth/responses/login-response';
 import {ErrorResponse} from '../core/error-response';
 import {of} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {TrainerWorkExperienceResponse} from '../shared/trainers/responses/trainer-work-experience-response';
 
 
 function deepEqual(x, y) {
@@ -20,6 +20,8 @@ function deepEqual(x, y) {
   ) : (x === y);
 }
 
+const checkParam = (param) => param === null || param === undefined ? '' : param.toString();
+
 @Injectable()
 export class TrainersService {
   constructor(private http: HttpClient) {
@@ -27,28 +29,59 @@ export class TrainersService {
 
   trainersGetQuery: GetTrainersQuery;
   trainersCollection: CollectionResponse<TrainerResponse> & ErrorResponse;
+  trainerWorkExperienceList: TrainerWorkExperienceResponse[] & ErrorResponse;
   selectedTrainer: TrainerResponse & ErrorResponse;
+  trainerId: number;
 
   get(query: GetTrainersQuery): Observable<CollectionResponse<TrainerResponse> & ErrorResponse> {
 
     if (this.trainersCollection && this.trainersCollection.items.length > 0 && deepEqual(this.trainersGetQuery, query)) {
       return of(this.trainersCollection);
     }
+    let parameters = new HttpParams();
 
-    const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
-    const parameters = new HttpParams()
-      .append('feedbacksMinCount', checkParam(query.feedbacksMinCount))
-      .append('maxPrice', checkParam(query.maxPrice))
-      .append('minPrice', checkParam(query.minPrice))
-      .append('trainingsMaxCount', checkParam(query.trainingsMaxCount))
-      .append('search', checkParam(query.search))
-      .append('offset', checkParam(query.offset))
-      .append('count', checkParam(query.count))
-      .append('country', checkParam(query.country))
-      .append('city', checkParam(query.city))
-      .append('teamId', checkParam(query.teamId))
-      .append('trainingsMinCount', checkParam(query.trainingsMinCount))
-      .append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
+    if (query.feedbacksMinCount) {
+      parameters = parameters.append('feedbacksMinCount', checkParam(query.feedbacksMinCount));
+    }
+    if (query.maxPrice) {
+      parameters = parameters.append('maxPrice', checkParam(query.maxPrice));
+    }
+    if (query.minPrice) {
+      parameters = parameters.append('minPrice', checkParam(query.minPrice));
+    }
+    if (query.trainingsMaxCount) {
+      parameters = parameters.append('trainingsMaxCount', checkParam(query.trainingsMaxCount));
+    }
+    if (query.search) {
+      parameters = parameters.append('search', checkParam(query.search));
+    }
+    if (query.offset) {
+      parameters = parameters.append('offset', checkParam(query.offset));
+    }
+    if (query.count) {
+      parameters = parameters.append('count', checkParam(query.count));
+    }
+    if (query.country) {
+      parameters = parameters.append('country', checkParam(query.country));
+    }
+    if (query.city) {
+      parameters = parameters.append('city', checkParam(query.city));
+    }
+    if (query.teamId) {
+      parameters = parameters.append('teamId', checkParam(query.teamId));
+    }
+    if (query.trainingsMinCount) {
+      parameters = parameters.append('trainingsMinCount', checkParam(query.trainingsMinCount));
+    }
+    if (query.feedbacksMaxCount) {
+      parameters = parameters.append('feedbacksMaxCount', checkParam(query.feedbacksMaxCount));
+    }
+    if (query.workExperienceFrom) {
+      parameters = parameters.append('workExperienceFrom', checkParam(query.workExperienceFrom));
+    }
+    if (query.workExperienceTo) {
+      parameters = parameters.append('workExperienceTo', checkParam(query.workExperienceTo));
+    }
 
     return this.http.get<CollectionResponse<TrainerResponse> & ErrorResponse>(`/api/trainers`, {params: parameters})
       .pipe(tap((response) => {
@@ -77,6 +110,40 @@ export class TrainersService {
       .pipe(tap((response) => {
         if (!response.error) {
           this.selectedTrainer = response;
+        }
+      }));
+  }
+
+  getWorkExperienceByTrainerId(trainerId: number): Observable<TrainerWorkExperienceResponse[] & ErrorResponse> {
+
+    if (trainerId === undefined || trainerId === null) {
+      throw new Error('Param "trainerId" is required');
+    }
+
+    if (this.trainerWorkExperienceList && this.trainerWorkExperienceList.length > 0 && this.trainerId === +trainerId) {
+      return of(this.trainerWorkExperienceList);
+    }
+
+    return this.http.get<TrainerWorkExperienceResponse[] & ErrorResponse>(`/api/trainers/${trainerId}/experience`)
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.trainerId = +trainerId;
+          this.trainerWorkExperienceList = response;
+        }
+      }));
+  }
+
+  updateWorkExperienceByTrainerId(trainerId: number, workExperience: any[]): Observable<TrainerWorkExperienceResponse[] & ErrorResponse> {
+
+    if (trainerId === undefined || trainerId === null) {
+      throw new Error('Param "trainerId" is required');
+    }
+
+    return this.http.put<TrainerWorkExperienceResponse[] & ErrorResponse>(`/api/trainers/${trainerId}/experience`, {workExperience: workExperience})
+      .pipe(tap((response) => {
+        if (!response.error) {
+          this.trainerId = +trainerId;
+          this.trainerWorkExperienceList = response;
         }
       }));
   }
@@ -153,7 +220,6 @@ export class TrainersService {
   }
 
   getTrainings(trainerId: number, startDate: string, endDate: string): Observable<CollectionResponse<TrainingResponse>> {
-    const checkParam = (param) => isNullOrUndefined(param) ? '' : param.toString();
     const parameters = new HttpParams()
       .append('startDate', checkParam(startDate))
       .append('endDate', checkParam(endDate));

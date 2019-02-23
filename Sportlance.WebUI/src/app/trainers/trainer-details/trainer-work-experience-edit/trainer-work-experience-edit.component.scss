@@ -1,0 +1,79 @@
+.air-card {
+  min-height: 400px;
+}
+
+section {
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-gap: 20px;
+  position: relative;
+  padding-right: 36px;
+
+  label {
+    grid-column: 1;
+  }
+
+  input {
+    grid-column: 2;
+  }
+
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+  margin-bottom: 24px;
+}
+
+.action-container {
+  display: grid;
+  grid-template-columns: 320px max-content;
+  padding: 0 24px 20px;
+
+  button {
+    margin-right: 20px;
+    grid-row: 1;
+    width: max-content;
+
+    &:nth-child(1) {
+      grid-column: 2;
+    }
+
+    &:nth-child(2) {
+      grid-column: 3;
+    }
+  }
+}
+
+.workplace-remove-item {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 24px;
+    right: 17px;
+    bottom: 24px;
+    border-left: 1px dashed #cbd1d4;
+  }
+
+  button {
+    border: none;
+    background-color: #fff;
+    position: absolute;
+    right: 8px;
+    top: 36px;
+    height: 18px;
+    color: #ababab;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+
+    i {
+      font-size: 18px;
+    }
+  }
+}

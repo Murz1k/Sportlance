@@ -551,6 +551,12 @@
               </div>
             </div>
             <div class="filter-column">
+              <label>Опыт работы</label>
+              <sl-select placeholder="Выберете опыт работы" [(ngModel)]="workExperience" (ngModelChange)="changeParams()">
+                <sl-option *ngFor="let option of options" [value]="option.value">{{option.label}}</sl-option>
+              </sl-select>
+            </div>
+            <div class="filter-column">
               <label>Количество отзывов</label>
               <div style="display: flex;
     justify-content: space-between;">

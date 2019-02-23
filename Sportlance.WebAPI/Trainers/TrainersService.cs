@@ -34,12 +34,108 @@ namespace Sportlance.WebAPI.Trainers
                 .FirstOrDefaultAsync(i => i.UserId == trainerId);
         }
 
+        public async Task<TrainerWorkExperience[]> GetWorkExperienceByTrainerId(long trainerId)
+        {
+            var trainer = await GetTrainerWithIncludesById(trainerId);
+
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
+            return await (from exp in _appContext.TrainerWorkExperience.Include(i => i.Skills).ThenInclude(i => i.Sport)
+                          where exp.TrainerId == trainerId
+                          select exp).ToArrayAsync();
+        }
+
+        public async Task<ICollection<TrainerWorkExperience>> UpdateWorkExperienceByTrainerId(long trainerId, IList<TrainerWorkExperience> workExperiences)
+        {
+            var trainer = await _appContext.Trainers.Include(i => i.WorkExperience)
+                                                    .ThenInclude(i => i.Skills)
+                                                    .ThenInclude(i => i.Sport)
+                                                    .FirstOrDefaultAsync(i => i.UserId == trainerId);
+
+            if (trainer == null)
+            {
+                throw new AppErrorException(ErrorCode.TrainerNotFound);
+            }
+
+            for (int i = 0; i < workExperiences.Count; i++)
+            {
+                if (workExperiences[i].Id == default(long))
+                {
+                    trainer.WorkExperience.Add(workExperiences[i]);
+                }
+                else
+                {
+                    var existExperience = trainer.WorkExperience.FirstOrDefault(j => j.Id == workExperiences[i].Id);
+                    existExperience.Company = workExperiences[i].Company;
+                    existExperience.Description = workExperiences[i].Description;
+                    existExperience.FromDate = workExperiences[i].FromDate;
+                    existExperience.Position = workExperiences[i].Position;
+                    existExperience.ToDate = workExperiences[i].ToDate;
+
+                    for (int j = 0; j < workExperiences[i].Skills?.Count; j++)
+                    {
+                        if (existExperience.Skills.Any(k => k.Sport.Name == workExperiences[i].Skills[j].Sport.Name))
+                        {
+                            continue;
+                        }
+
+                        if (workExperiences[i].Skills[j].SportId == default(long))
+                        {
+                            workExperiences[i].Skills[j].Sport = new Sport { Name = workExperiences[i].Skills[j].Sport.Name };
+                        }
+
+                        existExperience.Skills.Add(workExperiences[i].Skills[j]);
+                    }
+
+                    // Удалить все существующие навыки, которых нет в новых
+                    var deleteSports = existExperience.Skills.Where(k => !workExperiences[i].Skills.Any(a => a.Sport.Name == k.Sport.Name)).ToArray();
+
+                    foreach (var sport in deleteSports)
+                    {
+                        existExperience.Skills.Remove(sport);
+                    }
+                }
+            }
+            // Удалить все существующие навыки, которых нет в новых
+            var deletes = trainer.WorkExperience.Where(i => !workExperiences.Any(j => j.Id == i.Id)).ToArray();
+
+            foreach (var item in deletes)
+            {
+                trainer.WorkExperience.Remove(item);
+            }
+
+            await _appContext.SaveChangesAsync();
+
+            return trainer.WorkExperience;
+        }
+
+        private double CalculateYearsCount(DateTime d1, DateTime? d2)
+        {
+            double months;
+
+            if (!d2.HasValue)
+            {
+                d2 = new DateTime();
+            }
+
+            months = (d2.Value.Year - d1.Year) * 12;
+            months -= d1.Month + 1;
+            months += d2.Value.Month + 1;
+
+            return months <= 0 ? 0 : months / 12;
+        }
+
+
         public async Task<PagingCollection<Trainer>> GetAsync(TrainersQuery query)
         {
             var collection = await (from trainer in _appContext.Trainers
                     .Include(t => t.User)
                                         //.Include(i => i.TrainerSports).ThenInclude(i => i.Trainings).ThenInclude(i => i.Feedback)
                                         .Include(i => i.TrainerSports).ThenInclude(i => i.Sport)
+                                        .Include(i => i.WorkExperience)
                                         //.Include(i => i.TrainerTeams)
                                     where trainer.Status == TrainerStatus.Available
                                           && (query.MinPrice == null || trainer.Price >= query.MinPrice.Value)
@@ -50,6 +146,8 @@ namespace Sportlance.WebAPI.Trainers
                                               trainer.User.LastName.ToLower().Contains(query.Search.ToLower()))
                                           && (query.Country == null || trainer.Country.Contains(query.Country))
                                           && (query.City == null || trainer.City.Contains(query.City))
+                                          && (query.WorkExperienceFrom == null || trainer.WorkExperience.Sum(i => CalculateYearsCount(i.FromDate, i.ToDate)) >= query.WorkExperienceFrom)
+                                          && (query.WorkExperienceTo == null || trainer.WorkExperience.Sum(i => CalculateYearsCount(i.FromDate, i.ToDate)) <= query.WorkExperienceTo)
                                     //&& (!query.FeedbacksMinCount.HasValue || query.FeedbacksMinCount <=
                                     //    trainer.TrainerSports.SelectMany(i => i.Trainings).Count(i => i.Feedback != null))
                                     //&& (!query.FeedbacksMaxCount.HasValue || query.FeedbacksMaxCount >=
@@ -187,7 +285,7 @@ namespace Sportlance.WebAPI.Trainers
             // Удалить все существующие навыки, которых нет в новых
             var deletes = trainer.TrainerSports.Where(i => !skills.Any(j => j.Id == i.SportId)).ToArray();
 
-            foreach(var sport in deletes)
+            foreach (var sport in deletes)
             {
                 trainer.TrainerSports.Remove(sport);
             }

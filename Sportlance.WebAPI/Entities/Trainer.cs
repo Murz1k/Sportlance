@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sportlance.WebAPI.Entities
 {
@@ -8,6 +10,7 @@ namespace Sportlance.WebAPI.Entities
         {
             TrainerSports = new List<TrainerSport>();
             TrainerTeams = new List<TrainerTeam>();
+            WorkExperience = new List<TrainerWorkExperience>();
         }
 
         public long UserId { get; set; }
@@ -29,6 +32,8 @@ namespace Sportlance.WebAPI.Entities
         public TrainerStatus Status { get; set; }
 
         public ICollection<TrainerSport> TrainerSports { get; set; }
+
+        public ICollection<TrainerWorkExperience> WorkExperience { get; set; }
 
         public ICollection<TrainerTeam> TrainerTeams { get; set; }
     }

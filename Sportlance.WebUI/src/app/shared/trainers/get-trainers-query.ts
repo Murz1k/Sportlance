@@ -11,4 +11,6 @@ export interface GetTrainersQuery {
   offset?: number;
   count?: number;
   teamId?: number;
+  workExperienceFrom?: number;
+  workExperienceTo?: number;
 }

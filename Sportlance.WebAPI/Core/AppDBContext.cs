@@ -22,9 +22,11 @@ namespace Sportlance.WebAPI.Core
 
         public DbSet<Feedback> Feedbacks { get; set; }
 
+        public DbSet<Team> Teams { get; set; }
+
         public DbSet<Trainer> Trainers { get; set; }
 
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<TrainerWorkExperience> TrainerWorkExperience { get; set; }
 
         public DbSet<TrainerSport> TrainerSports { get; set; }
 
@@ -56,12 +58,31 @@ namespace Sportlance.WebAPI.Core
 
             modelBuilder.Entity<Trainer>()
                 .HasMany(i => i.TrainerTeams);
-            
+
             modelBuilder.Entity<Team>()
                 .HasMany(i => i.TrainerTeams);
 
             modelBuilder.Entity<Trainer>()
                 .HasMany(r => r.TrainerSports);
+
+            modelBuilder.Entity<Trainer>()
+                .HasMany(r => r.WorkExperience)
+                .WithOne(i=>i.Trainer)
+                .HasForeignKey(i=>i.TrainerId);
+
+            modelBuilder.Entity<TrainerWorkExperience>()
+                .HasMany(c => c.Skills);
+
+            modelBuilder.Entity<Sport>()
+                .HasMany(c => c.Skills);
+
+            modelBuilder.Entity<TrainerWorkExperience>()
+                .Property(i => i.Position)
+                .IsRequired();
+
+            modelBuilder.Entity<TrainerWorkExperience>()
+                .Property(i => i.Company)
+                .IsRequired();
 
             modelBuilder.Entity<TrainerSport>()
                 .HasMany(r => r.Trainings);

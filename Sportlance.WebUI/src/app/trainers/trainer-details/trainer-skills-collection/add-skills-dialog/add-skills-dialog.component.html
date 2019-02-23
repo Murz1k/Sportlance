@@ -8,18 +8,7 @@
     margin-bottom: 10px;">
     Введите навыки
   </div>
-  <div class="skills-wrapper">
-    <div class="skills-collection">
-      <div class="skills-collection-item" *ngFor="let skill of skills">{{skill.name}}
-        <button (click)="deleteSkill(skill)" class="delete-btn">
-          <i class="material-icons">clear</i>
-        </button>
-      </div>
-    </div>
-    <div class="input-wrapper" *ngIf="skills.length < 10">
-      <input sl-input placeholder="Введите навык здесь" [(ngModel)]="inputString" (keydown)="onKeyEnter($event)"/>
-    </div>
-  </div>
+  <sl-skills-editor [(ngModel)]="skills"></sl-skills-editor>
   <div style="margin-left: 0;
     margin-bottom: 24px;">
     Добавьте до 10 навыков

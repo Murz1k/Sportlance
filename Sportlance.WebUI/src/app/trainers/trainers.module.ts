@@ -17,7 +17,7 @@ import {InviteTrainerDialogComponent} from './trainer-details/invite-trainer-dia
 import {MyDateAdapter} from '../core/my-date-adapter';
 import {FormatDateModule} from '../shared/format-date-pipe/format-date.module';
 import {RedirectTrainerProfileResolver} from './trainer-details/redirect-trainer-profile.resolver';
-import {FeedbackModule} from '../shared/feedback/feedback.module';
+import {TrainerFeedbackModule} from './trainer-details/trainer-feedbacks/trainer-feedback.module';
 import {SlInputModule} from '../shared/input/input.module';
 import {TrainersAboutComponent} from './trainers-about/trainers-about.component';
 import {SlSelectCityModule} from '../shared/select-city/select-city.module';
@@ -25,6 +25,7 @@ import {SlButtonModule} from '../shared/button/button.module';
 import {TeamsService} from '../teams/teams.service';
 import {SlSpinnerModule} from '../shared/spinner/spinner.module';
 import {TrainerSkillsCollectionModule} from './trainer-details/trainer-skills-collection/trainer-skills-collection.module';
+import {TrainerWorkExperienceModule} from './trainer-details/trainer-work-experience/trainer-work-experience.module';
 
 @NgModule({
   imports: [
@@ -48,8 +49,9 @@ import {TrainerSkillsCollectionModule} from './trainer-details/trainer-skills-co
     SlSelectCityModule,
 
     TrainerSkillsCollectionModule,
+    TrainerWorkExperienceModule,
 
-    FeedbackModule,
+    TrainerFeedbackModule,
     FormatDateModule
   ],
   entryComponents: [
