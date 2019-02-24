@@ -48,7 +48,6 @@ export class CreateTeamComponent implements OnInit {
         [mapContainer.clientWidth, mapContainer.clientHeight]
       );
       this.form.controls['geo'].setValue({longitude: geo.center[0], latitude: geo.center[1], zoom: geo.zoom});
-      console.log(this.form.controls['geo'].value);
       this.showResult(value);
     });
   }
