@@ -16,7 +16,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 export class SelectAddressComponent implements OnInit, ControlValueAccessor {
 
   suggestView;
-  _selectedAddressLabel;
+  @Input() defaultValue;
 
   _value;
 
@@ -26,14 +26,18 @@ export class SelectAddressComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    window.onload = () => ymaps.ready(() => this.init());
+    if (ymaps) {
+      ymaps.ready(() => this.init());
+    } else {
+      window.onload = () => ymaps.ready(() => this.init());
+    }
   }
 
   private init() {
     // Подключаем поисковые подсказки к полю ввода.
     this.suggestView = new ymaps.SuggestView('suggest');
 
-    this.suggestView.events.add(['select'], (event) => {
+    this.suggestView.events.add(['select'], () => {
       this.geocode();
     });
   }
@@ -43,7 +47,7 @@ export class SelectAddressComponent implements OnInit, ControlValueAccessor {
 
   private geocode() {
     // Забираем запрос из поля ввода.
-    let request = (document.getElementById('suggest') as HTMLInputElement).value;
+    const request = (document.getElementById('suggest') as HTMLInputElement).value;
     // Геокодируем введённые данные.
     ymaps.geocode(request).then((res) => {
       let obj = res.geoObjects.get(0),
@@ -99,5 +103,6 @@ export class SelectAddressComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
+    this.defaultValue = obj;
   }
 }

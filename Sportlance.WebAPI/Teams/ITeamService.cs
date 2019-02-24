@@ -14,6 +14,8 @@ namespace Sportlance.WebAPI.Teams
 
         Task<Team> UpdateAboutAsync(long teamId, string about);
 
+        Task<Team> UpdateAddressAsync(long teamId, string country, string city, string address, string latitude, string longitude, short zoom);
+
         Task<Team> GetById(long teamId);
 
         Task<Team> GetByAuthorId(long userId);

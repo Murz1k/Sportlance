@@ -57,6 +57,23 @@ namespace Sportlance.WebAPI.Teams
             return new TeamResponse(team);
         }
 
+        [HttpPut("{teamId}/address")]
+        [Authorize]
+        public async Task<TeamResponse> UpdateAddressAsync(long teamId, [FromBody] UpdateTeamAddressRequest request)
+        {
+            var team = await _service.UpdateAddressAsync(
+                teamId,
+                request.Country,
+                request.City,
+                request.Address,
+                request.Geo.Latitude,
+                request.Geo.Longitude,
+                request.Geo.Zoom
+                );
+
+            return new TeamResponse(team);
+        }
+
         [HttpGet]
         [Authorize]
         [Route("self")]

@@ -19,6 +19,8 @@ import {EditTeamPhotoDialogComponent} from "./edit-team-photo-dialog/edit-team-p
 import {EditTeamBackgroundDialogComponent} from "./edit-team-background-dialog/edit-team-background-dialog.component";
 import {EditTeamAboutDialogComponent} from "./edit-team-about-dialog/edit-team-about-dialog.component";
 import {SlSpinnerModule} from 'app/shared/spinner/spinner.module';
+import {TeamLocationEditDialogComponent} from './team-location/team-location-edit-dialog/team-location-edit-dialog.component';
+import {SlSelectAddressModule} from '../../shared/select-address/select-address.module';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: TeamDetailsComponent},
@@ -39,6 +41,7 @@ const routes: Routes = [
     MatDialogModule,
     SlInputModule,
     PhoneMaskPipeModule,
+    SlSelectAddressModule,
     SlButtonModule,
     SlSpinnerModule
   ],
@@ -47,7 +50,8 @@ const routes: Routes = [
     EditServiceDialogComponent,
     EditTeamPhotoDialogComponent,
     EditTeamBackgroundDialogComponent,
-    EditTeamAboutDialogComponent
+    EditTeamAboutDialogComponent,
+    TeamLocationEditDialogComponent
   ],
   declarations: [
     AddTeamPhotoDialogComponent,
@@ -58,6 +62,7 @@ const routes: Routes = [
     EditServiceDialogComponent,
     EditTeamPhotoDialogComponent,
     EditTeamBackgroundDialogComponent,
+    TeamLocationEditDialogComponent,
     EditTeamAboutDialogComponent,
     TeamServiceCollectionItemComponent,
     TeamLocationComponent

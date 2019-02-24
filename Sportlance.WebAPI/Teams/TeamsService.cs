@@ -78,6 +78,25 @@ namespace Sportlance.WebAPI.Teams
             );
         }
 
+        public async Task<Team> UpdateAddressAsync(long teamId, string country, string city, string address, string latitude, string longitude, short zoom)
+        {
+            var team = await _appContext.Teams.FirstOrDefaultAsync(i => i.Id == teamId);
+            if (team == null)
+            {
+                throw new AppErrorException(ErrorCode.TeamNotFound);
+            }
+
+            team.Address = address;
+            team.City = city;
+            team.Country = country;
+            team.Latitude = latitude;
+            team.Longitude = longitude;
+            team.Zoom = zoom;
+
+            await _appContext.SaveChangesAsync();
+
+            return team;
+        }
 
         public async Task<Team> AddAsync(long authorId, string title, string subTitle, string country, string city, string address,
             string about, string phoneNumber, string latitude, string longitude, short zoom, StorageFile photo = null)

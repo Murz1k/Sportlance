@@ -106,6 +106,18 @@ export class TeamsService {
       }));
   }
 
+  updateLocation(teamId: number, country: string, city: string, address: string, geo: any): Observable<TeamResponse & ErrorResponse> {
+    if (teamId === undefined || teamId === null) {
+      throw new Error('Param "teamId" is required');
+    }
+    return this.http.put<TeamResponse & ErrorResponse>(`/api/teams/${teamId}/address`, {
+      country: country,
+      city: city,
+      address: address,
+      geo: geo
+    });
+  }
+
   canInviteTrainer(teamId: number, trainerId: number): Observable<boolean> {
     if (teamId === undefined || teamId === null) {
       throw new Error('Param "teamId" is required');
