@@ -26,7 +26,7 @@ export class SelectAddressComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    if (ymaps) {
+    if (typeof ymaps !== 'undefined') {
       ymaps.ready(() => this.init());
     } else {
       window.onload = () => ymaps.ready(() => this.init());

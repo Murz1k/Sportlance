@@ -103,7 +103,7 @@ export class TeamLocationEditDialogComponent implements OnInit {
     // Функция ymaps.ready() будет вызвана, когда
     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
 
-    if (ymaps) {
+    if (typeof ymaps !== 'undefined') {
       ymaps.ready(() => {
         this.map = new ymaps.Map('edit-address-map', {
             center: [+geo.longitude, +geo.latitude],

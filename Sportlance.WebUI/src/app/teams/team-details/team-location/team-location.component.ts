@@ -45,7 +45,7 @@ export class TeamLocationComponent implements OnInit {
     // Функция ymaps.ready() будет вызвана, когда
     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
 
-    if (ymaps) {
+    if (typeof ymaps !== 'undefined') {
       ymaps.ready(() => {
         this.myMap = new ymaps.Map('map', {
             center: [+geo.longitude, +geo.latitude],
