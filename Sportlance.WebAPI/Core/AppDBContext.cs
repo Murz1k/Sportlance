@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Sportlance.WebAPI.Entities;
-using System;
 using System.IO;
 
 namespace Sportlance.WebAPI.Core
@@ -21,6 +20,8 @@ namespace Sportlance.WebAPI.Core
         public DbSet<UserRole> UserRoles { get; set; }
 
         public DbSet<Feedback> Feedbacks { get; set; }
+
+        public DbSet<TrainerFeedback> TrainerFeedback { get; set; }
 
         public DbSet<Team> Teams { get; set; }
 
@@ -67,8 +68,8 @@ namespace Sportlance.WebAPI.Core
 
             modelBuilder.Entity<Trainer>()
                 .HasMany(r => r.WorkExperience)
-                .WithOne(i=>i.Trainer)
-                .HasForeignKey(i=>i.TrainerId);
+                .WithOne(i => i.Trainer)
+                .HasForeignKey(i => i.TrainerId);
 
             modelBuilder.Entity<TrainerWorkExperience>()
                 .HasMany(c => c.Skills);
@@ -99,6 +100,9 @@ namespace Sportlance.WebAPI.Core
                 .HasForeignKey<Trainer>(c => c.UserId);
 
             modelBuilder.Entity<Feedback>()
+                .HasOne(r => r.User);
+
+            modelBuilder.Entity<TrainerFeedback>()
                 .HasKey(r => r.TrainingId);
 
             modelBuilder.Entity<TeamService>()

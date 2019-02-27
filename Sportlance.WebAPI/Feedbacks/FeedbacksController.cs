@@ -44,15 +44,12 @@ namespace Sportlance.WebAPI.Feedbacks
             return feedbacks.ToPartialCollectionResponse();
         }
 
-        [HttpPost]
-        [Authorize]
-        public Task<IActionResult> Post(FeedbackRequest request)
+        [HttpPost("feedback")]
+        public async Task<IActionResult> Post(FeedbackRequest request)
         {
-            //Проверить может ли клиент оставить отзыв тренеру
+            await _service.AddMainFeedbackAsync(request.UserId, request.FirstName, request.Email, request.Comment);
 
-            //если может - оставляет
-
-            return null;
+            return NoContent();
         }
 
         [HttpPut("{id}")]

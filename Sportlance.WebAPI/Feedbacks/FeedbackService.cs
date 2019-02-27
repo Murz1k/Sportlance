@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sportlance.Common.Errors;
+using Sportlance.Common.Exceptions;
 using Sportlance.Common.Models;
 using Sportlance.WebAPI.Core;
 using Sportlance.WebAPI.Entities;
@@ -39,6 +42,29 @@ namespace Sportlance.WebAPI.Feedbacks
                     Description = i.Feedback.Description,
                     CreateDate = i.Feedback.CreateDate
                 }).ToArray(), totalCount, offset);
+        }
+
+        public async Task AddMainFeedbackAsync(long userId, string firstName, string email, string comment)
+        {
+            var user = await _appContext.Users.FirstOrDefaultAsync(i => i.Id == userId);
+
+            if(user == null)
+            {
+                throw new AppErrorException(ErrorCode.UserNotFound);
+            }
+
+            var newFeedback = new Feedback
+            {
+                UserId = userId,
+                FirstName = firstName,
+                Comment = comment,
+                CreateDate = DateTime.Now,
+                Email = email
+            };
+
+            _appContext.Feedbacks.AddAsync(newFeedback);
+
+            await _appContext.SaveChangesAsync();
         }
     }
 }

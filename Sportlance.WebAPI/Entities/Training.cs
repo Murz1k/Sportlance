@@ -18,6 +18,6 @@ namespace Sportlance.WebAPI.Entities
 
         public User Client { get; set; }
 
-        public Feedback Feedback { get; set; }
+        public TrainerFeedback Feedback { get; set; }
     }
 }

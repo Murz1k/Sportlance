@@ -1,20 +1,21 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Sportlance.WebAPI.Entities
 {
     public class Feedback
     {
-        public long TrainingId { get; set; }
+        public long Id { get; set; }
 
-        [MinLength(20)]
-        [MaxLength(500)]
-        [Required]
-        public string Description { get; set; }
-
-        public byte? Score { get; set; }
-
-        [Required]
         public DateTime CreateDate { get; set; }
+
+        public long UserId { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string Email { get; set; }
+
+        public string Comment { get; set; }
+
+        public User User { get; set; }
     }
 }
