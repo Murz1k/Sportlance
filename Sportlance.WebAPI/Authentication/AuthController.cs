@@ -3,7 +3,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.KeyVault.Models;
 using Sportlance.Common.Errors;
 using Sportlance.Common.Exceptions;
 using Sportlance.Common.Extensions;
@@ -13,7 +12,6 @@ using Sportlance.WebAPI.Authentication.Requests;
 using Sportlance.WebAPI.Authentication.Responses;
 using Sportlance.WebAPI.Core.Utilities;
 using Sportlance.WebAPI.Core.Validation;
-using Sportlance.WebAPI.Requests;
 using Sportlance.WebAPI.Entities;
 using Sportlance.WebAPI.Users;
 

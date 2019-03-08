@@ -28,6 +28,8 @@ using Sportlance.WebAPI.Users;
 using Sportlance.Common.Providers;
 using Sportlance.Common;
 using Sportlance.WebAPI.Orders;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Sportlance.WebAPI
 {
@@ -36,20 +38,24 @@ namespace Sportlance.WebAPI
         private const string CorsPolicyName = "SportlancePolicy";
         private readonly IHostingEnvironment _currentEnvironment;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<Startup> _logger;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment currentEnvironment)
+        public Startup(ILogger<Startup> logger, IConfiguration configuration, IHostingEnvironment currentEnvironment)
         {
             _configuration = configuration;
             _currentEnvironment = currentEnvironment;
+            _logger = logger;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureOptions(_configuration, 
-                typeof(AuthenticationOptions), 
-                typeof(SiteOptions), 
+            services.ConfigureOptions(_configuration,
+                typeof(AuthenticationOptions),
+                typeof(SiteOptions),
                 typeof(JwtIssuerOptions)
                 );
+
+            services.Configure<SiteOptions>(_configuration.GetSection(nameof(SiteOptions)));
 
             services.AddAuthorization(options =>
             {
@@ -62,7 +68,10 @@ namespace Sportlance.WebAPI
                 options.Filters.Add(new AuthenticationFilterFactory());
                 options.Filters.Add(new AppErrorsExceptionFilter());
                 options.Filters.Add(new ModelStateFilter());
-            });
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+        .AddXmlSerializerFormatters()
+        .AddXmlDataContractSerializerFormatters();
 
             ConfigureJwt(services);
 
@@ -76,37 +85,56 @@ namespace Sportlance.WebAPI
 
             ConfigureAmazonServices(services);
 
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ISportService, SportService>();
-            services.AddTransient<ITrainersService, TrainersService>();
-            services.AddTransient<IFeedbackService, FeedbackService>();
-            services.AddTransient<ITeamService, TeamsService>();
-            services.AddTransient<IOrdersService, OrdersService>();
-            services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<MailTokenService, MailTokenService>();
+            ConfigureBusinessServices(services);
+        }
+
+        private void ConfigureBusinessServices(IServiceCollection services)
+        {
+            try
+            {
+                services.AddTransient<IUserService, UserService>();
+                services.AddTransient<ISportService, SportService>();
+                services.AddTransient<ITrainersService, TrainersService>();
+                services.AddTransient<IFeedbackService, FeedbackService>();
+                services.AddTransient<ITeamService, TeamsService>();
+                services.AddTransient<IOrdersService, OrdersService>();
+                services.AddTransient<IAuthService, AuthService>();
+                services.AddTransient<MailTokenService, MailTokenService>();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка при конфигурации сервисов Sportlance");
+            }
         }
 
         private void ConfigureAmazonServices(IServiceCollection services)
         {
-            var awsOptions = _configuration.GetAWSOptions();
-
-            // Это нужно для амазона, потому что там нельзя прописать дефолтный профиль
-            // В амазоне нужно в environments добавить эти ключи и значения
-            if (!AspNetCoreEnvironment.IsLocal())
+            try
             {
-                awsOptions.Credentials =
-                    new BasicAWSCredentials(_configuration["AWS:AccessKey"], _configuration["AWS:SecretKey"]);
+                var awsOptions = _configuration.GetAWSOptions();
+
+                // Это нужно для амазона, потому что там нельзя прописать дефолтный профиль
+                // В амазоне нужно в environments добавить эти ключи и значения
+                if (!AspNetCoreEnvironment.IsLocal())
+                {
+                    awsOptions.Credentials =
+                        new BasicAWSCredentials(_configuration["AWS:AccessKey"], _configuration["AWS:SecretKey"]);
+                }
+
+                services.AddDefaultAWSOptions(awsOptions);
+                services.AddAWSService<IAmazonS3>();
+
+                services.AddSingleton(InitializeTrainersStorageProvider);
+                services.AddSingleton(InitializeTeamsStorageProvider);
+                services.AddSingleton(InitializeTeamPhotosStorageProvider);
+                services.AddSingleton(InitializeUsersStorageProvider);
+
+                services.AddSingleton(InitializeAmazonQueueProvider);
             }
-
-            services.AddDefaultAWSOptions(awsOptions);
-            services.AddAWSService<IAmazonS3>();
-
-            services.AddSingleton(InitializeTrainersStorageProvider);
-            services.AddSingleton(InitializeTeamsStorageProvider);
-            services.AddSingleton(InitializeTeamPhotosStorageProvider);
-            services.AddSingleton(InitializeUsersStorageProvider);
-
-            services.AddSingleton(InitializeAmazonQueueProvider);
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка при конфигурации сервисов Amazon");
+            }
         }
 
         private void ConfigureCorsPolicy(IServiceCollection services)
@@ -134,11 +162,15 @@ namespace Sportlance.WebAPI
             services.AddCors(options => { options.AddPolicy(CorsPolicyName, corsPolicyBuilder.Build()); });
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             if (_currentEnvironment.IsLocal())
             {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                loggerFactory.AddAWSProvider(_configuration.GetAWSLoggingConfigSection());
             }
 
             app.UseCors(CorsPolicyName);
@@ -175,6 +207,7 @@ namespace Sportlance.WebAPI
             var storageProvider =
                 new UsersStorageProvider(serviceProvider.GetService<IAmazonS3>(), _currentEnvironment);
             storageProvider.InitializeAsync().Wait();
+
             return storageProvider;
         }
 
@@ -183,6 +216,7 @@ namespace Sportlance.WebAPI
             var storageProvider =
                 new AmazonQueueProvider($"sportlance-{AspNetCoreEnvironment.ShortEnvironment(_configuration["SLEnvironment"])}-mail-queue");
             storageProvider.InitializeAsync().Wait();
+
             return storageProvider;
         }
 

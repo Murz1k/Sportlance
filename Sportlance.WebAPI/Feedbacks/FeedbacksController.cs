@@ -45,7 +45,7 @@ namespace Sportlance.WebAPI.Feedbacks
         }
 
         [HttpPost("feedback")]
-        public async Task<IActionResult> Post(FeedbackRequest request)
+        public async Task<IActionResult> Post([FromBody] FeedbackRequest request)
         {
             await _service.AddMainFeedbackAsync(request.UserId, request.FirstName, request.Email, request.Comment);
 

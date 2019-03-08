@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -23,8 +25,8 @@ namespace Sportlance.Common.Extensions
             var ebEnv =
                 configuration.GetSection("iis:env")
                     .GetChildren()
-                    .Select(pair => pair.Value.Split(new[] {'='}, 2))
-                    .ToDictionary(keypair => keypair[0], keypair => keypair[1]);
+                    .Select(pair => pair.Value.Split(new[] { '=' }, 2))
+                    .ToDictionary(keypair => keypair.Length > 0 ? keypair[0] : "", keypair => keypair.Length > 1 ? keypair[1] : "");
 
             foreach (var keyVal in ebEnv)
             {
@@ -33,13 +35,14 @@ namespace Sportlance.Common.Extensions
 
             return builder;
         }
-        
+
         // Получение доступа к файлам appsettings.{environment}.json
         public static IWebHostBuilder AddAppSettings(this IWebHostBuilder builder)
         {
             builder.ConfigureAppConfiguration((hostingContext, config) =>
             {
-                config.SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
+                var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                config.SetBasePath(currentDirectory)
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true)
                     .AddEnvironmentVariables();

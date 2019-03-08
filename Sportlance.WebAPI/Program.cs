@@ -30,8 +30,7 @@ namespace Sportlance.WebAPI
                 builder.CaptureStartupErrors(true);
             }
 
-            return builder.UseStartup<Startup>()
-                .Build();
+            return builder.UseStartup<Startup>().Build();
         }
     }
 }

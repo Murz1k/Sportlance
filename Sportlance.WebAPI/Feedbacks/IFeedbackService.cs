@@ -8,6 +8,6 @@ namespace Sportlance.WebAPI.Feedbacks
     {
         Task<PagingCollection<ReviewInfo>> GetTrainerFeedbacksAsync(long trainerId, int offset, int count);
 
-        Task AddMainFeedbackAsync(long userId, string firstName, string email, string comment);
+        Task AddMainFeedbackAsync(long? userId, string firstName, string email, string comment);
     }
 }

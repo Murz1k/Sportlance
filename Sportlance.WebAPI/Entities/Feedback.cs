@@ -8,7 +8,7 @@ namespace Sportlance.WebAPI.Entities
 
         public DateTime CreateDate { get; set; }
 
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
 
         public string FirstName { get; set; }
 

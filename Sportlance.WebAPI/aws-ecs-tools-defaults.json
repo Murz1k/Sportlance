@@ -1,0 +1,8 @@
+
+{
+    "region" : "us-east-1",
+    "profile" : "admin",
+    "configuration" : "Release",
+    "tag"           : "sportlance-api-gateway:latest",
+    "docker-build-working-dir" : ""
+}

@@ -3,15 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Sportlance.WebAPI.Core;
+using Sportlance.WebAPI.Entities;
 using System;
 
 namespace Sportlance.WebAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190228031939_FeedbackUserIdIsNullable")]
+    partial class FeedbackUserIdIsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
