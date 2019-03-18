@@ -24,7 +24,7 @@ namespace Sportlance.WebAPI.Teams
 
         Task<Team> UpdateBackgroundImageAsync(long teamId, StorageFile photo);
         
-        Task<PagingCollection<TeamPhoto>> GetPhotosAsync(int offset, int count, long teamId);
+        Task<ICollection<TeamPhoto>> GetPhotosAsync(long teamId);
 
         Task<TeamPhoto> AddPhotoAsync(long teamId, StorageFile photo);
 

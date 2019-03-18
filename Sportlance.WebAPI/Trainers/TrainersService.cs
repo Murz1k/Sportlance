@@ -336,7 +336,7 @@ namespace Sportlance.WebAPI.Trainers
                 throw new AppErrorException(ErrorCode.TrainerNotFound);
             }
 
-            var photoName = $"trainer-{trainerId}/background";
+            var photoName = $"trainer-{trainerId}/background-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
             var link = await _trainerStorageProvider.UploadAndGetUriAsync(photoName, photo);
 
             trainer.BackgroundUrl = link;

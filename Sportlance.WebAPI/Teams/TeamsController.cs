@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -141,11 +142,11 @@ namespace Sportlance.WebAPI.Teams
         }
 
         [HttpGet("{teamId}/photos")]
-        public async Task<PartialCollectionResponse<TeamPhotoResponse>> GetPhotoCollection(long teamId)
+        public async Task<IEnumerable<TeamPhotoResponse>> GetPhotoCollection(long teamId)
         {
-            var photos = await _service.GetPhotosAsync(0, 10, teamId);
+            var photos = await _service.GetPhotosAsync(teamId);
 
-            return new PartialCollectionResponse<TeamPhotoResponse>(photos.Select(i => new TeamPhotoResponse(i)), photos.Offset, photos.TotalCount);
+            return photos.Select(i => new TeamPhotoResponse(i));
         }
 
         [Authorize]
@@ -208,9 +209,9 @@ namespace Sportlance.WebAPI.Teams
         [HttpGet("{teamId}/members")]
         public async Task<PartialCollectionResponse<TeamPhoto>> GetMembersCollection(long teamId)
         {
-            var trainers = await _service.GetPhotosAsync(0, 10, teamId);
+            //var trainers = await _service.GetPhotosAsync(0, 10, teamId);
 
-            return trainers.ToPartialCollectionResponse();
+            return null;// trainers.ToPartialCollectionResponse();
         }
 
         [HttpPost("{teamId}/members")]

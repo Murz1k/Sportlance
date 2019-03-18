@@ -64,7 +64,7 @@ namespace Sportlance.WebAPI.Teams
             return !team.TrainerTeams.Any(i => i.TrainerId == trainerId);
         }
 
-        public async Task<PagingCollection<TeamPhoto>> GetPhotosAsync(int offset, int count, long teamId)
+        public async Task<ICollection<TeamPhoto>> GetPhotosAsync(long teamId)
         {
             var team = await _appContext.Teams.Include(i => i.TeamPhotos).FirstOrDefaultAsync(i => i.Id == teamId);
             if (team == null)
@@ -72,10 +72,7 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.TeamNotFound);
             }
 
-            return new PagingCollection<TeamPhoto>(team.TeamPhotos.Skip(offset).Take(count),
-                team.TeamPhotos.Count,
-                offset
-            );
+            return team.TeamPhotos;
         }
 
         public async Task<Team> UpdateAddressAsync(long teamId, string country, string city, string address, string latitude, string longitude, short zoom)
@@ -230,7 +227,7 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.TeamNotFound);
             }
 
-            var photoName = $"team-{teamId}/main";
+            var photoName = $"team-{teamId}/main-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
             var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);
 
             team.PhotoUrl = link;
@@ -248,7 +245,7 @@ namespace Sportlance.WebAPI.Teams
                 throw new AppErrorException(ErrorCode.TeamNotFound);
             }
 
-            var photoName = $"team-{teamId}/background";
+            var photoName = $"team-{teamId}/background-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
             var link = await _teamsStorageProvider.UploadAndGetUriAsync(photoName, photo);
 
             team.BackgroundUrl = link;

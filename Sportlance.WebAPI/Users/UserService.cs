@@ -102,7 +102,7 @@ namespace Sportlance.WebAPI.Users
                 throw new AppErrorException(ErrorCode.UserNotFound);
             }
 
-            var photoName = $"user-{userId}/main";
+            var photoName = $"user-{userId}/main-{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}";
             var link = await _usersStorageProvider.UploadAndGetUriAsync(photoName, photo);
 
             user.PhotoUrl = link;
