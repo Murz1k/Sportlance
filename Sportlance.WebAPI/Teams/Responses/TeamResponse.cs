@@ -1,4 +1,6 @@
 ﻿using Sportlance.WebAPI.Teams.Responses;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sportlance.WebAPI.Entities
 {
@@ -30,6 +32,8 @@ namespace Sportlance.WebAPI.Entities
 
         public GetGeoResponse Geo { get; set; }
 
+        public IEnumerable<TeamServiceResponse> Services { get; set; }
+
         public TeamResponse()
         {
 
@@ -48,6 +52,7 @@ namespace Sportlance.WebAPI.Entities
             Address = team.Address;
             About = team.About;
             PhoneNumber = team.PhoneNumber;
+            Services = team.Services.Select(i => new TeamServiceResponse(i));
             Geo = new GetGeoResponse
             {
                 Latitude = team.Latitude,

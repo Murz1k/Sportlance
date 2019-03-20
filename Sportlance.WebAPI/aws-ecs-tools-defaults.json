@@ -4,5 +4,6 @@
     "profile" : "admin",
     "configuration" : "Release",
     "tag"           : "sportlance-api-gateway:latest",
-    "docker-build-working-dir" : ""
+    "docker-build-working-dir" : "",
+    "vstoolkit-deployment-mode" : "PushOnly"
 }

@@ -1,8 +1,0 @@
-<div class="air-card service-item">
-  <div class="title">{{service.name}}</div>
-  <p>{{service.description}}</p>
-  <div class="duration">Длительность: <strong>{{service.duration}}</strong></div>
-  <div class="price">Стоимость: <strong>{{service.price}} руб.</strong></div>
-  <a sl-button slType="primary" *ngIf="!canEdit" [routerLink]="['services',service.id,'payments']">Купить</a>
-  <button sl-button slType="primary" *ngIf="canEdit" (click)="showModal()">Изменить</button>
-</div>

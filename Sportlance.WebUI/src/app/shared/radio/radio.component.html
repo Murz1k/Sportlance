@@ -1,9 +1,0 @@
-<div class="radio" [class.inline]="isInline">
-  <label (click)="selectValue(item.value, $event)" [class.checked]="_value === item.value" *ngFor="let item of _items">
-    <div class="sl-radio-button-circle">
-      <div class="sl-radio-button-circle__inner"></div>
-    </div>
-    <input type="radio" value="{{item.value}}"/>
-    <div class="sl-radio-label-content">{{item.label}}</div>
-  </label>
-</div>
